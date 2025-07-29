@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff1436b0-ce4f-41b1-92bf-d5bbf218093c" name="Changes" comment="" />
+    <list default="true" id="ff1436b0-ce4f-41b1-92bf-d5bbf218093c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/eventory-server/src/main/java/com/eventory/EventoryApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/eventory-server/src/main/java/com/eventory/EventoryApplication.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,6 +37,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.EventoryApplication.executor": "Run",
     "git-widget-placeholder": "main",
@@ -51,6 +57,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/eventory-server/src/main/java/com/eventory" />
+      <recent name="$PROJECT_DIR$/eventory-server/src/main/java" />
       <recent name="$PROJECT_DIR$/eventory-server/src" />
       <recent name="$PROJECT_DIR$/eventory-server" />
     </key>
