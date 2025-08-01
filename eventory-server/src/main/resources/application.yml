@@ -8,7 +8,7 @@ spring:
       max-request-size: 2GB
 
   datasource:
-    url: jdbc:mysql://localhost:3306
+    url: jdbc:mysql://127.0.0.1:3307/Eventory
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: EventoryUser
     password: 1234

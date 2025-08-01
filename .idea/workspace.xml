@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff1436b0-ce4f-41b1-92bf-d5bbf218093c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/eventory-server/src/main/java/com/eventory/EventoryApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/eventory-server/src/main/java/com/eventory/EventoryApplication.java" afterDir="false" />
-    </list>
+    <list default="true" id="ff1436b0-ce4f-41b1-92bf-d5bbf218093c" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,6 +13,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "HyungJun-An"
+  }
+}]]></component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/HyungJun-An/Eventory.git&quot;,
@@ -45,11 +49,15 @@
     "Spring Boot.EventoryApplication.executor": "Run",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/anhyeongjun/Desktop/Projects/Eventory",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "Errors",
     "ts.external.directory.path": "/Users/anhyeongjun/Desktop/Projects/Eventory/eventory-client/eventory/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
@@ -57,14 +65,15 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/eventory-server/src/main/java/com/eventory" />
+      <recent name="$PROJECT_DIR$/eventory-server/target/test-classes/com" />
       <recent name="$PROJECT_DIR$/eventory-server/src/main/java" />
-      <recent name="$PROJECT_DIR$/eventory-server/src" />
+      <recent name="$PROJECT_DIR$/eventory-server/src/main/com" />
       <recent name="$PROJECT_DIR$/eventory-server" />
+      <recent name="$PROJECT_DIR$/eventory-server/src/main/java/com/eventory" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="EventoryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+  <component name="RunManager" selected="Spring Boot.EventoryApplication">
+    <configuration name="EventoryApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="Eventory" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.sweetme.eventory.EventoryApplication" />
@@ -72,6 +81,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="EventoryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="Eventory" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.eventory.EventoryApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Spring Boot.EventoryApplication (1)" />
+      <item itemvalue="Spring Boot.EventoryApplication" />
+    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -91,6 +112,7 @@
       <updated>1729504085665</updated>
       <workItem from="1729504088411" duration="54000" />
       <workItem from="1753424982555" duration="575000" />
+      <workItem from="1754036378003" duration="3208000" />
     </task>
     <servers />
   </component>
