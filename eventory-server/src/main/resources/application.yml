@@ -1,6 +1,15 @@
 server:
   port: 8080
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,prometheus,metrics"
+  endpoint:
+    health:
+      show-details: always
+
 spring:
   servlet:
     multipart:
@@ -24,5 +33,6 @@ spring:
 
 logging:
   level:
+    org.springframework.boot.actuate.endpoint: TRACE
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
