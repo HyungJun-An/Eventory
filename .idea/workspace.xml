@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff1436b0-ce4f-41b1-92bf-d5bbf218093c" name="Changes" comment="" />
+    <list default="true" id="ff1436b0-ce4f-41b1-92bf-d5bbf218093c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,6 +47,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Docker.docker-compose.yml.eventory-server: Compose Deployment.executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
@@ -76,7 +79,7 @@
       <recent name="$PROJECT_DIR$/eventory-server/src/main/java/com/eventory" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.EventoryApplication">
+  <component name="RunManager" selected="Docker.docker-compose.yml.eventory-server: Compose Deployment">
     <configuration name="EventoryApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="Eventory" />
@@ -93,10 +96,34 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml" />
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.eventory-server: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="envFilePath" value="" />
+          <option name="services">
+            <list>
+              <option value="eventory-server" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
     <list>
+      <item itemvalue="Docker.docker-compose.yml.eventory-server: Compose Deployment" />
       <item itemvalue="Spring Boot.EventoryApplication (1)" />
       <item itemvalue="Spring Boot.EventoryApplication" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.docker-compose.yml.eventory-server: Compose Deployment" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -116,7 +143,7 @@
       <updated>1729504085665</updated>
       <workItem from="1729504088411" duration="54000" />
       <workItem from="1753424982555" duration="575000" />
-      <workItem from="1754036378003" duration="22818000" />
+      <workItem from="1754036378003" duration="32416000" />
     </task>
     <servers />
   </component>
