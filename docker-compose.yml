@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  eventory-server:
+    build:
+      context: ./eventory-server
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    depends_on:
+      - db
+
+  eventory-client:
+    build:
+      context: ./eventory-client
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    restart: always
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: 'C0mpl3x!P@ssw0rd#2025'
+      MYSQL_DATABASE: Eventory
+      MYSQL_USER: EventoryUser
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
