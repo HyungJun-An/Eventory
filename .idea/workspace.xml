@@ -25,6 +25,10 @@
     &quot;accountId&quot;: &quot;c1edd65d-e12c-4a1b-86e2-8992b446e725&quot;
   }
 }</component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -65,10 +69,10 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/eventory-server" />
       <recent name="$PROJECT_DIR$/eventory-server/target/test-classes/com" />
       <recent name="$PROJECT_DIR$/eventory-server/src/main/java" />
       <recent name="$PROJECT_DIR$/eventory-server/src/main/com" />
-      <recent name="$PROJECT_DIR$/eventory-server" />
       <recent name="$PROJECT_DIR$/eventory-server/src/main/java/com/eventory" />
     </key>
   </component>
@@ -112,7 +116,7 @@
       <updated>1729504085665</updated>
       <workItem from="1729504088411" duration="54000" />
       <workItem from="1753424982555" duration="575000" />
-      <workItem from="1754036378003" duration="8922000" />
+      <workItem from="1754036378003" duration="22818000" />
     </task>
     <servers />
   </component>
