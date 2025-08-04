@@ -7,7 +7,7 @@ const Header = () => {
     <header className="header">
       <div className="overlap">
         <div className="group-2">
-          <div className="group-3">
+          <div className="div-wrapper">
             <div className="text-wrapper-7">대시보드</div>
           </div>
 
@@ -22,7 +22,7 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="group-4">
+        <div className="group-3">
           <div className="overlap-group-wrapper">
             <div className="overlap-group">
               <div className="text-wrapper-8">로그아웃</div>
@@ -34,7 +34,7 @@ const Header = () => {
               <img
                 className="vector"
                 alt="Vector"
-                src="https://c.animaapp.com/mdwp8vqiW7o1mV/img/vector.svg"
+                src="https://c.animaapp.com/mdwrr278Hhu1fG/img/vector.svg"
               />
 
               <div className="text-wrapper-9">박람회 선택</div>
