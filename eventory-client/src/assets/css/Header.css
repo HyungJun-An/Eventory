@@ -1,4 +1,13 @@
 .header {
+  background-color: transparent;
+  height: 101px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1440px;
+}
+
+.header .overlap {
   background-color: #ffffff;
   height: 100px;
   left: 0;
@@ -7,48 +16,24 @@
   width: 1440px;
 }
 
-.header .group-31 {
-  height: 60px;
-  left: 44px;
-  position: relative;
-  top: 20px;
-  width: 1356px;
+.header .group-2 {
+  height: 36px;
+  left: 43px;
+  position: absolute;
+  top: 33px;
+  width: 351px;
 }
 
-.header .group-32 {
-  height: 60px;
-  left: 246px;
+.header .group-3 {
+  height: 34px;
+  left: 247px;
   position: absolute;
   top: 0;
-  width: 1112px;
+  width: 106px;
 }
 
-.header .mask-group {
-  height: 60px;
-  left: 1050px;
-  position: absolute;
-  top: 0;
-  width: 60px;
-}
-
-.header .group-33 {
-  height: 50px;
-  left: 885px;
-  position: absolute;
-  top: 5px;
-  width: 50px;
-}
-
-.header .group-34 {
-  height: 50px;
-  left: 965px;
-  position: absolute;
-  top: 5px;
-  width: 50px;
-}
-
-.header .text-wrapper-35 {
-  color: #343a40;
+.header .text-wrapper-7 {
+  color: #007bff;
   font-family: "Inter", Helvetica;
   font-size: 28px;
   font-weight: 600;
@@ -56,73 +41,114 @@
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  top: 13px;
-}
-
-.header .overlap-group-wrapper {
-  height: 50px;
-  left: 600px;
-  position: absolute;
-  top: 5px;
-  width: 257px;
-}
-
-.header .overlap-group-3 {
-  background-color: #343a400d;
-  border-radius: 40px;
-  height: 50px;
-  position: relative;
-  width: 255px;
-}
-
-.header .magnifying-glass {
-  height: 20px;
-  left: 25px;
-  position: absolute;
-  top: 15px;
-  width: 20px;
-}
-
-.header .text-wrapper-36 {
-  color: #343a40;
-  font-family: "Inter", Helvetica;
-  font-size: 15px;
-  font-weight: 400;
-  left: 60px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 16px;
-  white-space: nowrap;
+  top: 0;
 }
 
 .header .logo {
   height: 36px;
   left: 0;
   position: absolute;
-  top: 12px;
-  width: 158px;
+  top: 0;
+  width: 157px;
 }
 
-.header .iconfinder-vector {
-  background: url(https://c.animaapp.com/mdvjmhhqHfUAE6/img/iconfinder-vector-65-09-473792-1.png)
-    50% 50% / cover;
-  height: 36px;
-  left: 0;
+.header .website-logos-instance {
+  gap: 9.81px !important;
+  height: 36px !important;
+  width: 157px !important;
+}
+
+.header .design-component-instance-node {
+  height: 27.44px !important;
+  width: 30.66px !important;
+}
+
+.header .website-logos-2 {
+  height: 24.84px !important;
+  width: 110.39px !important;
+}
+
+.header .group-4 {
+  height: 46px;
+  left: 1027px;
+  position: absolute;
+  top: 28px;
+  width: 375px;
+}
+
+.header .overlap-group-wrapper {
+  height: 46px;
+  left: 227px;
   position: absolute;
   top: 0;
-  width: 36px;
+  width: 150px;
 }
 
-.header .text-wrapper-37 {
-  color: var(--primary-2);
+.header .overlap-group {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: #007bff;
+  border-radius: 9px;
+  height: 46px;
+  position: relative;
+  width: 148px;
+}
+
+.header .text-wrapper-8 {
+  color: #007bff;
   font-family: "Inter", Helvetica;
-  font-size: 25px;
-  font-weight: 700;
-  left: 45px;
+  font-size: 18px;
+  font-weight: 500;
+  left: 38px;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  top: 4px;
-  white-space: nowrap;
+  top: 11px;
+  width: 70px;
+}
+
+.header .overlap-wrapper {
+  height: 46px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 191px;
+}
+
+.header .overlap-2 {
+  background-color: #f8f9fa;
+  border-radius: 9px;
+  height: 46px;
+  position: relative;
+  width: 189px;
+}
+
+.header .vector {
+  height: 5px;
+  left: 158px;
+  position: absolute;
+  top: 22px;
+  width: 11px;
+}
+
+.header .text-wrapper-9 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 50px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 12px;
+  width: 89px;
+}
+
+.header .rectangle-2 {
+  background-color: #e5eef4;
+  height: 1px;
+  left: 250px;
+  position: absolute;
+  top: 100px;
+  width: 1190px;
 }

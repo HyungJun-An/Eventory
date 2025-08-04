@@ -1,50 +1,49 @@
 import React from "react";
+import WebsiteLogos from "../../components/WebsiteLogos";
 import "../../assets/css/Header.css";
 
 const Header = () => {
   return (
     <header className="header">
-      <div className="group-31">
-        <div className="group-32">
-          <img
-            className="mask-group"
-            alt="Mask group"
-            src="https://c.animaapp.com/mdvjmhhqHfUAE6/img/mask-group.png"
-          />
+      <div className="overlap">
+        <div className="group-2">
+          <div className="group-3">
+            <div className="text-wrapper-7">대시보드</div>
+          </div>
 
-          <img
-            className="group-33"
-            alt="Group"
-            src="https://c.animaapp.com/mdvjmhhqHfUAE6/img/group-4.png"
-          />
-
-          <img
-            className="group-34"
-            alt="Group"
-            src="https://c.animaapp.com/mdvjmhhqHfUAE6/img/group-3.png"
-          />
-
-          <div className="text-wrapper-35">매출분석</div>
-
-          <div className="overlap-group-wrapper">
-            <div className="overlap-group-3">
-              <img
-                className="magnifying-glass"
-                alt="Magnifying glass"
-                src="https://c.animaapp.com/mdvjmhhqHfUAE6/img/magnifying-glass-1.svg"
-              />
-
-              <div className="text-wrapper-36">Search for something</div>
-            </div>
+          <div className="logo">
+            <WebsiteLogos
+              className="website-logos-instance"
+              color="primary"
+              removebgPreviewClassName="design-component-instance-node"
+              removebgPreviewClassNameOverride="website-logos-2"
+              size="small"
+            />
           </div>
         </div>
 
-        <div className="logo">
-          <div className="iconfinder-vector" />
+        <div className="group-4">
+          <div className="overlap-group-wrapper">
+            <div className="overlap-group">
+              <div className="text-wrapper-8">로그아웃</div>
+            </div>
+          </div>
 
-          <div className="text-wrapper-37">Eventory</div>
+          <div className="overlap-wrapper">
+            <div className="overlap-2">
+              <img
+                className="vector"
+                alt="Vector"
+                src="https://c.animaapp.com/mdwp8vqiW7o1mV/img/vector.svg"
+              />
+
+              <div className="text-wrapper-9">박람회 선택</div>
+            </div>
+          </div>
         </div>
       </div>
+
+      <div className="rectangle-2" />
     </header>
   );
 };

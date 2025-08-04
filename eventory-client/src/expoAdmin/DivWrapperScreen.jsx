@@ -9,20 +9,21 @@ import "../assets/css/DivWrapperScreen.css";
 const DivWrapperScreen = () => {
   return (
     <div className="div-wrapper-screen" data-model-id="11057:3338">
-      <div className="overlap-wrapper">
-        <div className="overlap">
+      <div className="overlap-wrapper-2">
+        <div className="overlap-3">
           <Group />
-          <div className="rectangle-23" />
+          <div className="overlap-4">
+            <div className="rectangle-24" />
 
-          <div className="overlap-2">
+            <div className="rectangle-25" />
+
+            <Header />
+          </div>
+
+          <div className="overlap-5">
             <GroupWrapper />
             <DivWrapper />
             <Div />
-          </div>
-
-          <div className="overlap-3">
-            <Header />
-            <div className="rectangle-24" />
           </div>
         </div>
       </div>

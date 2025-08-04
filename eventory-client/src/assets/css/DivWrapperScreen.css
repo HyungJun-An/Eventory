@@ -6,36 +6,18 @@
   width: 100%;
 }
 
-.div-wrapper-screen .overlap-wrapper {
+.div-wrapper-screen .overlap-wrapper-2 {
   background-color: #ffffff;
   height: 1024px;
   width: 1440px;
 }
 
-.div-wrapper-screen .overlap {
+.div-wrapper-screen .overlap-3 {
   height: 1024px;
   position: relative;
 }
 
-.div-wrapper-screen .rectangle-23 {
-  background-color: #e6eff5;
-  height: 1px;
-  left: 250px;
-  position: absolute;
-  top: 100px;
-  width: 1190px;
-}
-
-.div-wrapper-screen .overlap-2 {
-  background-color: #f4f6f9;
-  height: 923px;
-  left: 250px;
-  position: absolute;
-  top: 101px;
-  width: 1190px;
-}
-
-.div-wrapper-screen .overlap-3 {
+.div-wrapper-screen .overlap-4 {
   height: 999px;
   left: 0;
   position: absolute;
@@ -45,9 +27,27 @@
 
 .div-wrapper-screen .rectangle-24 {
   background-color: #e6eff5;
+  height: 1px;
+  left: 250px;
+  position: absolute;
+  top: 100px;
+  width: 1190px;
+}
+
+.div-wrapper-screen .rectangle-25 {
+  background-color: #e6eff5;
   height: 999px;
   left: 249px;
   position: absolute;
   top: 0;
   width: 1px;
+}
+
+.div-wrapper-screen .overlap-5 {
+  background-color: #f4f6f9;
+  height: 923px;
+  left: 250px;
+  position: absolute;
+  top: 101px;
+  width: 1190px;
 }

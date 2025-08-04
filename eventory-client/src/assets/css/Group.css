@@ -3,43 +3,44 @@
   left: 0;
   position: absolute;
   top: 131px;
-  width: 195px;
-}
-
-.group .overlap-group {
-  height: 299px;
-  left: 0;
-  position: absolute;
-  top: 0;
   width: 183px;
 }
 
-.group .text-wrapper {
-  color: #343a4080;
-  font-family: "Inter", Helvetica;
-  font-size: 18px;
-  font-weight: 500;
-  left: 95px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 195px;
-}
-
-.group .credit-card {
-  height: 26px;
-  left: 43px;
-  position: absolute;
-  top: 195px;
-  width: 26px;
-}
-
-.group .transfer {
+.group .div-2 {
   height: 25px;
   left: 44px;
   position: absolute;
   top: 64px;
+  width: 124px;
+}
+
+.group .img {
+  height: 25px;
+  left: 0;
+  position: absolute;
+  top: 0;
   width: 25px;
+}
+
+.group .text-wrapper {
+  color: #343a4080;
+  font-family: var(--heading-three-medium-18p-font-family);
+  font-size: var(--heading-three-medium-18p-font-size);
+  font-style: var(--heading-three-medium-18p-font-style);
+  font-weight: var(--heading-three-medium-18p-font-weight);
+  left: 51px;
+  letter-spacing: var(--heading-three-medium-18p-letter-spacing);
+  line-height: var(--heading-three-medium-18p-line-height);
+  position: absolute;
+  top: 2px;
+}
+
+.group .div-3 {
+  height: 25px;
+  left: 44px;
+  position: absolute;
+  top: 192px;
+  width: 124px;
 }
 
 .group .text-wrapper-2 {
@@ -47,59 +48,67 @@
   font-family: "Inter", Helvetica;
   font-size: 18px;
   font-weight: 500;
-  left: 95px;
+  left: 51px;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  top: 66px;
+  top: 2px;
+}
+
+.group .div-4 {
+  height: 26px;
+  left: 43px;
+  position: absolute;
+  top: 256px;
+  width: 125px;
+}
+
+.group .credit-card {
+  height: 26px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 26px;
 }
 
 .group .text-wrapper-3 {
-  color: #343a4080;
-  font-family: "Inter", Helvetica;
-  font-size: 18px;
-  font-weight: 500;
-  left: 95px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 130px;
-}
-
-.group .text-wrapper-4 {
   color: #007bff;
   font-family: "Inter", Helvetica;
   font-size: 18px;
   font-weight: 500;
-  left: 95px;
+  left: 52px;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  top: 256px;
+  top: 2px;
 }
 
-.group .user {
+.group .div-5 {
   height: 25px;
-  left: 44px;
+  left: 43px;
   position: absolute;
-  top: 129px;
-  width: 25px;
+  top: 321px;
+  width: 125px;
 }
 
-.group .div-2 {
-  height: 299px;
-  left: 0;
+.group .text-wrapper-4 {
+  color: #343a4080;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 52px;
+  letter-spacing: 0;
+  line-height: normal;
   position: absolute;
-  top: 0;
-  width: 164px;
+  top: 1px;
 }
 
-.group .home {
+.group .div-6 {
   height: 25px;
-  left: 44px;
+  left: 43px;
   position: absolute;
-  top: 0;
-  width: 25px;
+  top: 384px;
+  width: 125px;
 }
 
 .group .text-wrapper-5 {
@@ -107,11 +116,40 @@
   font-family: "Inter", Helvetica;
   font-size: 18px;
   font-weight: 500;
-  left: 95px;
+  left: 52px;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
   top: 2px;
+  width: 71px;
+}
+
+.group .div-7 {
+  height: 25px;
+  left: 44px;
+  position: absolute;
+  top: 129px;
+  width: 141px;
+}
+
+.group .text-wrapper-6 {
+  color: #343a4080;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 51px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 1px;
+}
+
+.group .div-8 {
+  height: 25px;
+  left: 44px;
+  position: absolute;
+  top: 0;
+  width: 120px;
 }
 
 .group .rectangle {
@@ -122,52 +160,4 @@
   position: absolute;
   top: 239px;
   width: 6px;
-}
-
-.group .economic-investment {
-  height: 25px;
-  left: 44px;
-  position: absolute;
-  top: 256px;
-  width: 25px;
-}
-
-.group .service {
-  height: 25px;
-  left: 43px;
-  position: absolute;
-  top: 384px;
-  width: 25px;
-}
-
-.group .loan {
-  height: 25px;
-  left: 43px;
-  position: absolute;
-  top: 320px;
-  width: 25px;
-}
-
-.group .text-wrapper-6 {
-  color: #343a4080;
-  font-family: "Inter", Helvetica;
-  font-size: 18px;
-  font-weight: 500;
-  left: 95px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 322px;
-}
-
-.group .text-wrapper-7 {
-  color: #343a4080;
-  font-family: "Inter", Helvetica;
-  font-size: 18px;
-  font-weight: 500;
-  left: 95px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 386px;
 }
