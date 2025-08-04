@@ -14,7 +14,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=1234
     depends_on:
       - db
-
+    restart: unless-stopped
 
   eventory-client:
     build:
@@ -22,7 +22,14 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"
+      - "443:443"
     restart: always
+    volumes:
+      - ./eventory-client/dist:/usr/share/nginx/html:ro
+      # 실제 인증서 경로로 바꿔야 함. 예: Let's Encrypt 발급된 파일
+      - /etc/letsencrypt/live/www.eventory.kro.kr/fullchain.pem:/etc/ssl/certificate.crt:ro
+      - /etc/letsencrypt/live/www.eventory.kro.kr/privkey.pem:/etc/ssl/private.key:ro
+      - ./eventory-client/nginx.conf:/etc/nginx/conf.d/default.conf:ro
 
   db:
     image: mysql:8.0
@@ -35,6 +42,7 @@ services:
       - "3306:3306"
     volumes:
       - db-data:/var/lib/mysql
+    restart: unless-stopped
 
 volumes:
   db-data:
