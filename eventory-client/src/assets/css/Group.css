@@ -1,0 +1,173 @@
+.group {
+  height: 409px;
+  left: 0;
+  position: absolute;
+  top: 131px;
+  width: 195px;
+}
+
+.group .overlap-group {
+  height: 299px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 183px;
+}
+
+.group .text-wrapper {
+  color: #343a4080;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 95px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 195px;
+}
+
+.group .credit-card {
+  height: 26px;
+  left: 43px;
+  position: absolute;
+  top: 195px;
+  width: 26px;
+}
+
+.group .transfer {
+  height: 25px;
+  left: 44px;
+  position: absolute;
+  top: 64px;
+  width: 25px;
+}
+
+.group .text-wrapper-2 {
+  color: #343a4080;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 95px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 66px;
+}
+
+.group .text-wrapper-3 {
+  color: #343a4080;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 95px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 130px;
+}
+
+.group .text-wrapper-4 {
+  color: #007bff;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 95px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 256px;
+}
+
+.group .user {
+  height: 25px;
+  left: 44px;
+  position: absolute;
+  top: 129px;
+  width: 25px;
+}
+
+.group .div-2 {
+  height: 299px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 164px;
+}
+
+.group .home {
+  height: 25px;
+  left: 44px;
+  position: absolute;
+  top: 0;
+  width: 25px;
+}
+
+.group .text-wrapper-5 {
+  color: #343a4080;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 95px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 2px;
+}
+
+.group .rectangle {
+  background-color: #007bff;
+  border-radius: 0px 10px 10px 0px;
+  height: 60px;
+  left: 0;
+  position: absolute;
+  top: 239px;
+  width: 6px;
+}
+
+.group .economic-investment {
+  height: 25px;
+  left: 44px;
+  position: absolute;
+  top: 256px;
+  width: 25px;
+}
+
+.group .service {
+  height: 25px;
+  left: 43px;
+  position: absolute;
+  top: 384px;
+  width: 25px;
+}
+
+.group .loan {
+  height: 25px;
+  left: 43px;
+  position: absolute;
+  top: 320px;
+  width: 25px;
+}
+
+.group .text-wrapper-6 {
+  color: #343a4080;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 95px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 322px;
+}
+
+.group .text-wrapper-7 {
+  color: #343a4080;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 95px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 386px;
+}
