@@ -1,5 +1,5 @@
 import React from "react";
-import { WebsiteLogos } from "../../components/WebsiteLogos";
+import WebsiteLogos from "../../components/WebsiteLogos";
 import "../../assets/css/Dashboard.css";
 
 const Dashboard = () => {
