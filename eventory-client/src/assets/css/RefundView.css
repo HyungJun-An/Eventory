@@ -1,0 +1,125 @@
+.div-wrapper {
+  height: 120px;
+  left: 40px;
+  position: absolute;
+  top: 32px;
+  width: 1110px;
+}
+
+.div-wrapper .group-14 {
+  background-color: #ffffff;
+  border-radius: 25px;
+  height: 120px;
+  left: 760px;
+  position: absolute;
+  top: 0;
+  width: 350px;
+}
+
+.div-wrapper .group-15 {
+  height: 70px;
+  left: 78px;
+  position: relative;
+  top: 25px;
+  width: 168px;
+}
+
+.div-wrapper .group-16 {
+  height: 51px;
+  left: 85px;
+  position: absolute;
+  top: 10px;
+  width: 87px;
+}
+
+.div-wrapper .text-wrapper-29 {
+  color: #343a40;
+  font-family: var(--heading-four-semibold-20p-font-family);
+  font-size: var(--heading-four-semibold-20p-font-size);
+  font-style: var(--heading-four-semibold-20p-font-style);
+  font-weight: var(--heading-four-semibold-20p-font-weight);
+  left: 0;
+  letter-spacing: var(--heading-four-semibold-20p-letter-spacing);
+  line-height: var(--heading-four-semibold-20p-line-height);
+  position: absolute;
+  top: 27px;
+  white-space: nowrap;
+}
+
+.div-wrapper .text-wrapper-30 {
+  color: #343a40b2;
+  font-family: "Inter", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+}
+
+.div-wrapper .group-17 {
+  height: 70px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 70px;
+}
+
+.div-wrapper .group-18 {
+  background-color: #ffffff;
+  border-radius: 25px;
+  height: 120px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 350px;
+}
+
+.div-wrapper .group-19 {
+  height: 70px;
+  left: 48px;
+  position: relative;
+  top: 25px;
+  width: 179px;
+}
+
+.div-wrapper .group-20 {
+  height: 51px;
+  left: 85px;
+  position: absolute;
+  top: 10px;
+  width: 98px;
+}
+
+.div-wrapper .text-wrapper-31 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 20px;
+  font-weight: 600;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 27px;
+  white-space: nowrap;
+}
+
+.div-wrapper .group-21 {
+  background-color: #ffffff;
+  border-radius: 25px;
+  height: 120px;
+  left: 380px;
+  position: absolute;
+  top: 0;
+  width: 350px;
+}
+
+.div-wrapper .group-22 {
+  height: 70px;
+  left: 44px;
+  position: relative;
+  top: 25px;
+  width: 168px;
+}
