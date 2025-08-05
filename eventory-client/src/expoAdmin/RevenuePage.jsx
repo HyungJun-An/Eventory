@@ -4,9 +4,9 @@ import DivWrapper from "./sections/DivWrapper";
 import Group from "./sections/Group";
 import GroupWrapper from "./sections/GroupWrapper";
 import Header from "./sections/Header";
-import "../assets/css/DivWrapperScreen.css";
+import "../assets/css/RevenuePage.css";
 
-const DivWrapperScreen = () => {
+const RevenuePage = () => {
   return (
     <div className="div-wrapper-screen" data-model-id="11057:3338">
       <div className="overlap-wrapper-2">
@@ -31,4 +31,4 @@ const DivWrapperScreen = () => {
   );
 };
 
-export default DivWrapperScreen;
+export default RevenuePage;

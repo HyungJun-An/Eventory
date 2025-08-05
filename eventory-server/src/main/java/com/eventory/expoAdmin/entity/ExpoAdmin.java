@@ -22,7 +22,7 @@ public class ExpoAdmin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long expoAdminId;
 
-    @Column(name = "type_id", length = 255, nullable = false)
+    @Column(name = "type_id", nullable = false)
     private Long typeId;
 
     @Column(name = "customer_id", length = 255, nullable = false)

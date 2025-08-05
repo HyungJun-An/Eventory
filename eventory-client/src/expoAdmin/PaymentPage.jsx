@@ -4,9 +4,9 @@ import Group from "./sections/Group";
 import GroupWrapper from "./sections/PaymentGroupWrapper";
 import Header from "./sections/Header";
 import View from "./sections/PaymentView";
-import "../assets/css/PaymentScreen.css";
+import "../assets/css/PaymentPage.css";
 
-const PaymentScreen = () => {
+const PaymentPage = () => {
   return (
     <div className="screen" data-model-id="11051:2424">
       <div className="overlap-wrapper-2">
@@ -65,4 +65,4 @@ const PaymentScreen = () => {
   );
 };
 
-export default PaymentScreen;
+export default PaymentPage;
