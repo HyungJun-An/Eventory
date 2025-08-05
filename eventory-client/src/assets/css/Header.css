@@ -1,0 +1,154 @@
+.header {
+  background-color: transparent;
+  height: 101px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1440px;
+}
+
+.header .overlap {
+  background-color: #ffffff;
+  height: 100px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1440px;
+}
+
+.header .group-2 {
+  height: 36px;
+  left: 43px;
+  position: absolute;
+  top: 33px;
+  width: 351px;
+}
+
+.header .div-wrapper {
+  height: 34px;
+  left: 247px;
+  position: absolute;
+  top: 0;
+  width: 106px;
+}
+
+.header .text-wrapper-7 {
+  color: #007bff;
+  font-family: "Inter", Helvetica;
+  font-size: 28px;
+  font-weight: 600;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+}
+
+.header .logo {
+  height: 36px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 157px;
+}
+
+.header .website-logos-instance {
+  gap: 9.81px !important;
+  height: 36px !important;
+  width: 157px !important;
+}
+
+.header .design-component-instance-node {
+  height: 27.44px !important;
+  width: 30.66px !important;
+}
+
+.header .website-logos-2 {
+  height: 24.84px !important;
+  width: 110.39px !important;
+}
+
+.header .group-3 {
+  height: 46px;
+  left: 1027px;
+  position: absolute;
+  top: 28px;
+  width: 375px;
+}
+
+.header .overlap-group-wrapper {
+  height: 46px;
+  left: 227px;
+  position: absolute;
+  top: 0;
+  width: 150px;
+}
+
+.header .overlap-group {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: #007bff;
+  border-radius: 9px;
+  height: 46px;
+  position: relative;
+  width: 148px;
+}
+
+.header .text-wrapper-8 {
+  color: #007bff;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 38px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 11px;
+  width: 70px;
+}
+
+.header .overlap-wrapper {
+  height: 46px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 191px;
+}
+
+.header .overlap-2 {
+  background-color: #f8f9fa;
+  border-radius: 9px;
+  height: 46px;
+  position: relative;
+  width: 189px;
+}
+
+.header .vector {
+  height: 5px;
+  left: 158px;
+  position: absolute;
+  top: 22px;
+  width: 11px;
+}
+
+.header .text-wrapper-9 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 50px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 12px;
+  width: 89px;
+}
+
+.header .rectangle-2 {
+  background-color: #e5eef4;
+  height: 1px;
+  left: 250px;
+  position: absolute;
+  top: 100px;
+  width: 1190px;
+}
