@@ -1,0 +1,115 @@
+.group-wrapper {
+  height: 50px;
+  left: 40px;
+  position: absolute;
+  top: 217px;
+  width: 1110px;
+}
+
+.group-wrapper .group-13 {
+  height: 50px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 257px;
+}
+
+.group-wrapper .overlap-group-2 {
+  background-color: #343a400d;
+  border-radius: 40px;
+  height: 50px;
+  position: relative;
+  width: 255px;
+}
+
+.group-wrapper .magnifying-glass {
+  height: 20px;
+  left: 25px;
+  position: absolute;
+  top: 15px;
+  width: 20px;
+}
+
+.group-wrapper .text-wrapper-29 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  left: 60px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 16px;
+  white-space: nowrap;
+}
+
+.group-wrapper .button {
+  all: unset;
+  align-items: center;
+  border: 1px solid;
+  border-color: #007bff;
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: flex;
+  gap: 10px;
+  height: 50px;
+  justify-content: center;
+  left: 802px;
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  width: 117px;
+}
+
+.group-wrapper .huge-icon-device {
+  height: 24px;
+  margin-bottom: -7.00px;
+  margin-top: -7.00px;
+  position: relative;
+  width: 24px;
+}
+
+.group-wrapper .button-2 {
+  all: unset;
+  box-sizing: border-box;
+  color: #007bff;
+  font-family: var(--body-1-regular-font-family);
+  font-size: var(--body-1-regular-font-size);
+  font-style: var(--body-1-regular-font-style);
+  font-weight: var(--body-1-regular-font-weight);
+  letter-spacing: var(--body-1-regular-letter-spacing);
+  line-height: var(--body-1-regular-line-height);
+  margin-bottom: -6.00px;
+  margin-top: -8.00px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.group-wrapper .group-14 {
+  height: 50px;
+  left: 950px;
+  position: absolute;
+  top: 0;
+  width: 162px;
+}
+
+.group-wrapper .overlap-3 {
+  background-color: #007bff;
+  border-radius: 9px;
+  height: 50px;
+  position: relative;
+  width: 160px;
+}
+
+.group-wrapper .text-wrapper-30 {
+  color: #ffffff;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 52px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 14px;
+}

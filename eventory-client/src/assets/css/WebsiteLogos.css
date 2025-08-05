@@ -1,0 +1,23 @@
+.website-logos {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  height: 24px;
+  justify-content: center;
+  position: relative;
+  width: 128px;
+}
+
+.website-logos .removebg-preview {
+  height: 22px;
+  object-fit: cover;
+  position: relative;
+  width: 25px;
+}
+
+.website-logos .removebg-preview-2 {
+  height: 20px;
+  object-fit: cover;
+  position: relative;
+  width: 90px;
+}
