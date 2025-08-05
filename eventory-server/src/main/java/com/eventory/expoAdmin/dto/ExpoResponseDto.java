@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Getter
 @Builder
@@ -16,8 +16,8 @@ public class ExpoResponseDto {
     private Long expoAdminId;
     private String title;
     private String description;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String location;
     private Boolean visibility;
 

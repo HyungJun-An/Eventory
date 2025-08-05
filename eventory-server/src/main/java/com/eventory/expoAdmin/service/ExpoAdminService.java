@@ -5,5 +5,5 @@ import com.eventory.expoAdmin.dto.ExpoResponseDto;
 import java.util.List;
 
 public interface ExpoAdminService {
-    List<ExpoResponseDto> findAllExpos();
+    List<ExpoResponseDto> findAllExpos(Long expoAdminId);
 }
