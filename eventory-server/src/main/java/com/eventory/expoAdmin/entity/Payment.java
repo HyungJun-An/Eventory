@@ -34,6 +34,6 @@ public class Payment {
     private PaymentStatus status;
 
     @CreationTimestamp
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
+    @Column(name = "paid_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
     private LocalDateTime paidAt;
 }
