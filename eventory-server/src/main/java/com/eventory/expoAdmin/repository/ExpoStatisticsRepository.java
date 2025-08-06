@@ -1,6 +1,6 @@
 package com.eventory.expoAdmin.repository;
 
-import com.eventory.expoAdmin.entity.ExpoStatistics;
+import com.eventory.common.entity.ExpoStatistics;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

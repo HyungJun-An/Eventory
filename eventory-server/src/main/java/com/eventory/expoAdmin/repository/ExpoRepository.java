@@ -1,6 +1,6 @@
 package com.eventory.expoAdmin.repository;
 
-import com.eventory.expoAdmin.entity.Expo;
+import com.eventory.common.entity.Expo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

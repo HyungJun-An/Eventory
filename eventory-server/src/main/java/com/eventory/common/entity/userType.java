@@ -1,4 +1,4 @@
-package com.eventory.expoAdmin.entity;
+package com.eventory.common.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "user_type")
+@Entity(name = "userType")
 @Table(name = "user_type")
 public class userType {
 

@@ -1,6 +1,6 @@
 package com.eventory.expoAdmin.repository;
 
-import com.eventory.expoAdmin.entity.Refund;
+import com.eventory.common.entity.Refund;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

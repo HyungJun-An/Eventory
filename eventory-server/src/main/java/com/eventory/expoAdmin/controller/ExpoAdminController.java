@@ -2,7 +2,6 @@ package com.eventory.expoAdmin.controller;
 
 import com.eventory.expoAdmin.dto.ExpoResponseDto;
 import com.eventory.expoAdmin.dto.SalesResponseDto;
-import com.eventory.expoAdmin.dto.YearlySalesResponseDto;
 import com.eventory.expoAdmin.service.ExpoAdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

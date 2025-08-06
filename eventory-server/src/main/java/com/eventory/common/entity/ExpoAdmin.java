@@ -1,4 +1,4 @@
-package com.eventory.expoAdmin.entity;
+package com.eventory.common.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,37 +13,34 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "reservation")
-@Table(name = "reservation")
+@Entity(name = "expoAdmin")
+@Table(name = "expo_admin")
 @EntityListeners(AuditingEntityListener.class)
-public class Reservation {
+public class ExpoAdmin {
 
     @Id
-    @Column(name = "reservation_id")
+    @Column(name = "expo_admin_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reservationId;
+    private Long expoAdminId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "type_id", nullable = false)
+    private userType type;
 
-    @ManyToOne
-    @JoinColumn(name = "expo_id", nullable = false)
-    private Expo expo;
+    @Column(name = "customer_id", length = 255, nullable = false)
+    private String customerId;
 
-    @OneToOne
-    @JoinColumn(name = "payment_id", nullable = false)
-    private Payment payment;
+    @Column(name = "password", length = 255, nullable = false)
+    private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false, length = 255)
-    private ReservationStatus status;
+    @Column(name = "name", length = 255, nullable = false)
+    private String name;
 
-    @Column(name = "code", length = 255, nullable = false)
-    private String code;
+    @Column(name = "email", length = 255, nullable = false)
+    private String email;
 
-    @Column(name = "people", nullable = false)
-    private Integer people;
+    @Column(name = "phone", length = 255, nullable = false)
+    private String phone;
 
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)

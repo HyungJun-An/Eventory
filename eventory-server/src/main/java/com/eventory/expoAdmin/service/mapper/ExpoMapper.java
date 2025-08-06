@@ -1,7 +1,7 @@
 package com.eventory.expoAdmin.service.mapper;
 
 import com.eventory.expoAdmin.dto.ExpoResponseDto;
-import com.eventory.expoAdmin.entity.Expo;
+import com.eventory.common.entity.Expo;
 import org.springframework.stereotype.Component;
 
 @Component

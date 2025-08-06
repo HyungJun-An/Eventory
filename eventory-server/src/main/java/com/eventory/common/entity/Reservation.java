@@ -1,4 +1,4 @@
-package com.eventory.expoAdmin.entity;
+package com.eventory.common.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,31 +13,43 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "refund")
-@Table(name = "refund")
+@Entity(name = "reservation")
+@Table(name = "reservation")
 @EntityListeners(AuditingEntityListener.class)
-public class Refund {
+public class Reservation {
 
     @Id
-    @Column(name = "refund_id")
+    @Column(name = "reservation_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long refundId;
+    private Long reservationId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "expo_id", nullable = false)
+    private Expo expo;
+
+    @OneToOne
     @JoinColumn(name = "payment_id", nullable = false)
     private Payment payment;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 255)
-    private RefundStatus status;
+    private ReservationStatus status;
 
-    @Column(name = "reason", length = 255, nullable = false)
-    private String reason;
+    @Column(name = "code", length = 255, nullable = false)
+    private String code;
+
+    @Column(name = "people", nullable = false)
+    private Integer people;
 
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "approved_at", columnDefinition = "TIMESTAMP", nullable = true)
-    private LocalDateTime approvedAt;
+    @UpdateTimestamp
+    @Column(name = "updated_at", columnDefinition = "TIMESTAMP", nullable = false)
+    private LocalDateTime updatedAt;
 }

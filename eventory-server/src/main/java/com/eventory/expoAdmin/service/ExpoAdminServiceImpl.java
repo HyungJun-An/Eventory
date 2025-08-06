@@ -2,9 +2,8 @@ package com.eventory.expoAdmin.service;
 
 import com.eventory.expoAdmin.dto.ExpoResponseDto;
 import com.eventory.expoAdmin.dto.SalesResponseDto;
-import com.eventory.expoAdmin.dto.YearlySalesResponseDto;
-import com.eventory.expoAdmin.entity.Expo;
-import com.eventory.expoAdmin.entity.ExpoStatistics;
+import com.eventory.common.entity.Expo;
+import com.eventory.common.entity.ExpoStatistics;
 import com.eventory.expoAdmin.repository.*;
 import com.eventory.expoAdmin.service.mapper.ExpoMapper;
 import lombok.RequiredArgsConstructor;

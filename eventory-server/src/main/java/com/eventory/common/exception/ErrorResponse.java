@@ -1,4 +1,4 @@
-package com.eventory.exception;
+package com.eventory.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.eventory.expoAdmin.entity;
+package com.eventory.common.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -46,7 +46,7 @@ public class Expo {
     @Column(name = "location", length = 255, nullable = false)
     private String location;
 
-    @Column(name = "visibility", nullable = false)
+    @Column(name = "visibility")
     private Boolean visibility;
 
     @CreationTimestamp
