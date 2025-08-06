@@ -1,12 +1,22 @@
 package com.eventory.expoAdmin.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity(name = "user")
+@Table(name = "user")
+@EntityListeners(AuditingEntityListener.class)
 public class User {
 
     @Id

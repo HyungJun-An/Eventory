@@ -36,11 +36,4 @@ public class ExpoAdminController {
         SalesResponseDto salesResponseDto = expoAdminService.findSalesStatistics(expoId);
         return ResponseEntity.ok(salesResponseDto);
     }
-
-    // 연간 매출
-    @GetMapping("/{expoId}/yearly")
-    public ResponseEntity<List<YearlySalesResponseDto>> findYearlySales(@PathVariable Long expoId) {
-        List<YearlySalesResponseDto> yearlySalesResponseDto = expoAdminService.findYearlySales(expoId);
-        return ResponseEntity.ok(yearlySalesResponseDto);
-    }
 }

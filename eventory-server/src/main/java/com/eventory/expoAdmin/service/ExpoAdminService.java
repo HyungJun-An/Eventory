@@ -9,5 +9,4 @@ import java.util.List;
 public interface ExpoAdminService {
     List<ExpoResponseDto> findAllExpos(Long expoAdminId);
     SalesResponseDto findSalesStatistics(Long expoId);
-    List<YearlySalesResponseDto> findYearlySales(Long expoId);
 }

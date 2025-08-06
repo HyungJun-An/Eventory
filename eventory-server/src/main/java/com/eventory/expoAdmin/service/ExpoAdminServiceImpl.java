@@ -27,7 +27,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     @Override
     public List<ExpoResponseDto> findAllExpos(Long expoAdminId) {
-        List<Expo> expos = expoRepository.findByExpoAdminIdOrderByTitleAsc(expoAdminId);
+        List<Expo> expos = expoRepository.findByExpoAdmin_ExpoAdminIdOrderByTitleAsc(expoAdminId);
         return expos.stream()
                 .map(expoMapper::toDto)
                 .collect(Collectors.toList());
@@ -37,7 +37,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     public SalesResponseDto findSalesStatistics(Long expoId) {
         Optional<ExpoStatistics> expoStatistics = expoStatisticsRepository.findById(expoId);
         ExpoStatistics statistics = expoStatistics.get();
-        long refundCount = refundRepository.countRefundsByExpoId(expoId);
+        long refundCount = 0;
         return SalesResponseDto.builder()
                 .expoId(expoId)
                 .viewCount(statistics.getViewCount())
@@ -45,12 +45,5 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
                 .paymentTotal(statistics.getPaymentTotal())
                 .refundCount(refundCount)
                 .build();
-    }
-
-    @Override
-    public List<YearlySalesResponseDto> findYearlySales(Long expoId) {
-        List<YearlySalesResponseDto> yearlySalesResponseDto = reservationRepository.findYearlySalesByExpoId(expoId);
-
-        return yearlySalesResponseDto;
     }
 }
