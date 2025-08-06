@@ -2,12 +2,10 @@ package com.eventory.expoAdmin.service;
 
 import com.eventory.expoAdmin.dto.ExpoResponseDto;
 import com.eventory.expoAdmin.dto.SalesResponseDto;
+import com.eventory.expoAdmin.dto.YearlySalesResponseDto;
 import com.eventory.expoAdmin.entity.Expo;
 import com.eventory.expoAdmin.entity.ExpoStatistics;
-import com.eventory.expoAdmin.repository.ExpoAdminRepository;
-import com.eventory.expoAdmin.repository.ExpoRepository;
-import com.eventory.expoAdmin.repository.ExpoStatisticsRepository;
-import com.eventory.expoAdmin.repository.RefundRepository;
+import com.eventory.expoAdmin.repository.*;
 import com.eventory.expoAdmin.service.mapper.ExpoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +22,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     private final ExpoRepository expoRepository;
     private final ExpoStatisticsRepository expoStatisticsRepository;
     private final RefundRepository refundRepository;
+    private final ReservationRepository reservationRepository;
     private final ExpoMapper expoMapper;
 
     @Override
@@ -46,5 +45,12 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
                 .paymentTotal(statistics.getPaymentTotal())
                 .refundCount(refundCount)
                 .build();
+    }
+
+    @Override
+    public List<YearlySalesResponseDto> findYearlySales(Long expoId) {
+        List<YearlySalesResponseDto> yearlySalesResponseDto = reservationRepository.findYearlySalesByExpoId(expoId);
+
+        return yearlySalesResponseDto;
     }
 }
