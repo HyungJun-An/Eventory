@@ -23,8 +23,9 @@ public class ExpoAdmin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long expoAdminId;
 
-    @Column(name = "type_id", nullable = false)
-    private Long typeId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "type_id", nullable = false)
+    private userType type;
 
     @Column(name = "customer_id", length = 255, nullable = false)
     private String customerId;

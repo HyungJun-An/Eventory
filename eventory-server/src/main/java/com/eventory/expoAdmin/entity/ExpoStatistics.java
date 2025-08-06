@@ -1,9 +1,6 @@
 package com.eventory.expoAdmin.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +17,11 @@ public class ExpoStatistics {
     @Id
     @Column(name = "expo_id")
     private Long expoId;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "expo_id")
+    private Expo expo;
 
     @Column(name = "view_count", nullable = false)
     private Long viewCount;

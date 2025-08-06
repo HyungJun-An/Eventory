@@ -24,8 +24,9 @@ public class Expo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long expoId;
 
-    @Column(name = "expoAdmin_id", nullable = false)
-    private Long expoAdminId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "expoAdmin_id", nullable = false)
+    private ExpoAdmin expoAdmin;
 
     @Column(name = "title", length = 255, nullable = false)
     private String title;
