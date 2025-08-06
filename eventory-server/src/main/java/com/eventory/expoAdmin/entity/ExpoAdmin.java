@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public class ExpoAdmin {
 
     @Id
-    @Column(name = "expoAdmin_id")
+    @Column(name = "expo_admin_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long expoAdminId;
 

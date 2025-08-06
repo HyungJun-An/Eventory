@@ -37,7 +37,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     public SalesResponseDto findSalesStatistics(Long expoId) {
         Optional<ExpoStatistics> expoStatistics = expoStatisticsRepository.findById(expoId);
         ExpoStatistics statistics = expoStatistics.get();
-        long refundCount = 0;
+        long refundCount = refundRepository.;
         return SalesResponseDto.builder()
                 .expoId(expoId)
                 .viewCount(statistics.getViewCount())

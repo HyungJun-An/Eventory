@@ -25,7 +25,7 @@ public class Expo {
     private Long expoId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "expoAdmin_id", nullable = false)
+    @JoinColumn(name = "expo_admin_id", nullable = false)
     private ExpoAdmin expoAdmin;
 
     @Column(name = "title", length = 255, nullable = false)
