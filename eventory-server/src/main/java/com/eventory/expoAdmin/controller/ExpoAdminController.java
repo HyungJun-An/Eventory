@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -35,5 +36,12 @@ public class ExpoAdminController {
     public ResponseEntity<SalesResponseDto> findSalesStatistics(@PathVariable Long expoId) {
         SalesResponseDto salesResponseDto = expoAdminService.findSalesStatistics(expoId);
         return ResponseEntity.ok(salesResponseDto);
+    }
+
+    // 연간 매출
+    @GetMapping("/{expoId}/yearly")
+    public ResponseEntity<List<Map<String, Object>>> findYearlySales(@PathVariable Long expoId) {
+        List<Map<String, Object>> yearlySales = expoAdminService.findYearlySales(expoId);
+        return ResponseEntity.ok(yearlySales);
     }
 }
