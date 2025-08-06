@@ -13,17 +13,19 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "expoAdmin")
-@Table(name = "expoAdmin")
+@Entity(name = "expo_admin")
+@Table(name = "expo_admin")
 @EntityListeners(AuditingEntityListener.class)
 public class ExpoAdmin {
+
     @Id
     @Column(name = "expoAdmin_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long expoAdminId;
 
-    @Column(name = "type_id", nullable = false)
-    private Long typeId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "type_id", nullable = false)
+    private userType type;
 
     @Column(name = "customer_id", length = 255, nullable = false)
     private String customerId;
@@ -41,7 +43,7 @@ public class ExpoAdmin {
     private String phone;
 
     @CreationTimestamp
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false) // updatable = false 추가
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
