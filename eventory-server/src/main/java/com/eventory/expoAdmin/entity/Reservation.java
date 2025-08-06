@@ -13,34 +13,37 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "expo_admin")
-@Table(name = "expo_admin")
+@Entity(name = "reservation")
+@Table(name = "reservation")
 @EntityListeners(AuditingEntityListener.class)
-public class ExpoAdmin {
+public class Reservation {
 
     @Id
-    @Column(name = "expo_admin_id")
+    @Column(name = "reservation_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long expoAdminId;
+    private Long reservationId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "type_id", nullable = false)
-    private userType type;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(name = "customer_id", length = 255, nullable = false)
-    private String customerId;
+    @ManyToOne
+    @JoinColumn(name = "expo_id", nullable = false)
+    private Expo expo;
 
-    @Column(name = "password", length = 255, nullable = false)
-    private String password;
+    @OneToOne
+    @JoinColumn(name = "payment_id", nullable = false)
+    private Payment payment;
 
-    @Column(name = "name", length = 255, nullable = false)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 255)
+    private ReservationStatus status;
 
-    @Column(name = "email", length = 255, nullable = false)
-    private String email;
+    @Column(name = "code", length = 255, nullable = false)
+    private String code;
 
-    @Column(name = "phone", length = 255, nullable = false)
-    private String phone;
+    @Column(name = "people", nullable = false)
+    private Integer people;
 
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)

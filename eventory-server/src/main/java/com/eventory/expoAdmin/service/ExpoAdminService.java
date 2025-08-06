@@ -2,6 +2,7 @@ package com.eventory.expoAdmin.service;
 
 import com.eventory.expoAdmin.dto.ExpoResponseDto;
 import com.eventory.expoAdmin.dto.SalesResponseDto;
+import com.eventory.expoAdmin.dto.YearlySalesResponseDto;
 
 import java.util.List;
 

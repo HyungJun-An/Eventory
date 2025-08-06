@@ -7,13 +7,11 @@ import org.springframework.data.repository.query.Param;
 
 public interface RefundRepository extends JpaRepository<Refund, Long> {
     @Query("""
-    SELECT COUNT(rf)
-    FROM Refund rf
-    WHERE rf.paymentId IN (
-        SELECT r.payment.id
-        FROM Reservation r
-        WHERE r.expo.id = :expoId
-    )
+    SELECT COUNT(r)
+    FROM refund r
+    JOIN r.payment p
+    JOIN reservation res ON p = res.payment
+    WHERE res.expo.id = :expoId
     """)
     long countRefundsByExpoId(@Param("expoId") Long expoId);
 }

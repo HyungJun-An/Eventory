@@ -9,7 +9,7 @@ public class ExpoMapper {
     public ExpoResponseDto toDto(Expo expo) {
         return ExpoResponseDto.builder()
                 .expoId(expo.getExpoId())
-                .expoAdminId(expo.getExpoAdminId())
+                .expoAdminId(expo.getExpoAdmin().getExpoAdminId())
                 .title(expo.getTitle())
                 .description(expo.getDescription())
                 .startDate(expo.getStartDate())
