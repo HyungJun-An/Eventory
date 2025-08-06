@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "expoAdmin")
-@Table(name = "expoAdmin")
+@Entity(name = "expo_admin")
+@Table(name = "expo_admin")
 @EntityListeners(AuditingEntityListener.class)
 public class ExpoAdmin {
 

@@ -10,8 +10,8 @@ import java.math.BigDecimal;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "expoStatistics")
-@Table(name = "expoStatistics")
+@Entity(name = "expo_statistics")
+@Table(name = "expo_statistics")
 public class ExpoStatistics {
 
     @Id
