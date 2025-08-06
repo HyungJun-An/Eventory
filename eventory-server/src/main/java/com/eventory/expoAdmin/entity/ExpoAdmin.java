@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @Table(name = "expoAdmin")
 @EntityListeners(AuditingEntityListener.class)
 public class ExpoAdmin {
+
     @Id
     @Column(name = "expoAdmin_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +42,7 @@ public class ExpoAdmin {
     private String phone;
 
     @CreationTimestamp
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false) // updatable = false 추가
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
