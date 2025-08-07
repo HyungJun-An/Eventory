@@ -1,6 +1,8 @@
 package com.eventory.expoAdmin.service;
 
+import com.eventory.common.entity.Refund;
 import com.eventory.expoAdmin.dto.ExpoResponseDto;
+import com.eventory.expoAdmin.dto.RefundResponseDto;
 import com.eventory.expoAdmin.dto.SalesResponseDto;
 import com.eventory.common.entity.Expo;
 import com.eventory.common.entity.ExpoStatistics;
@@ -31,7 +33,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     public List<ExpoResponseDto> findAllExpos(Long expoAdminId) {
         List<Expo> expos = expoRepository.findByExpoAdmin_ExpoAdminIdOrderByTitleAsc(expoAdminId);
         return expos.stream()
-                .map(expoMapper::toDto)
+                .map(expoMapper::toExpoResponseDto)
                 .collect(Collectors.toList());
     }
 
@@ -103,5 +105,21 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
             dailySales.add(map);
         }
         return dailySales;
+    }
+
+    // 환불 요청 관리
+    @Override
+    public List<RefundResponseDto> findAllRefunds(Long expoId) {
+        List<Long> paymentIds = reservationRepository.findPaymentIdsByExpoId(expoId);
+
+        if(paymentIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Refund> refunds = refundRepository.findByPaymentIdIn(paymentIds);
+
+        return refunds.stream()
+                .map(expoMapper::toRefundResponseDto)
+                .collect(Collectors.toList());
     }
 }

@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface RefundRepository extends JpaRepository<Refund, Long> {
     @Query("""
     SELECT COUNT(r)
@@ -14,4 +16,6 @@ public interface RefundRepository extends JpaRepository<Refund, Long> {
     WHERE res.expo.id = :expoId
     """)
     long countRefundsByExpoId(@Param("expoId") Long expoId);
+
+    List<Refund> findByPaymentIdIn(List<Long> paymentIds);
 }

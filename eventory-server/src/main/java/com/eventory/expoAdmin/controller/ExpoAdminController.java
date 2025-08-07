@@ -2,6 +2,7 @@ package com.eventory.expoAdmin.controller;
 
 import com.eventory.common.entity.User;
 import com.eventory.expoAdmin.dto.ExpoResponseDto;
+import com.eventory.expoAdmin.dto.RefundResponseDto;
 import com.eventory.expoAdmin.dto.SalesResponseDto;
 import com.eventory.expoAdmin.service.ExpoAdminService;
 import lombok.RequiredArgsConstructor;
@@ -56,5 +57,12 @@ public class ExpoAdminController {
     public ResponseEntity<List<Map<String, Object>>> findDailySales(@PathVariable Long expoId) {
         List<Map<String, Object>> dailySales = expoAdminService.findDailySales(expoId);
         return ResponseEntity.ok(dailySales);
+    }
+
+    // 환불 요청 관리
+    @GetMapping("/{expoId}/refund")
+    public ResponseEntity<List<RefundResponseDto>> findAllRefunds(@PathVariable Long expoId) {
+        List<RefundResponseDto> refundResponseDto = expoAdminService.findAllRefunds(expoId);
+        return ResponseEntity.ok(refundResponseDto);
     }
 }

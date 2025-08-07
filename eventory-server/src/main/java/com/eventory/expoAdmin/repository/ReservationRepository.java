@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     @Query("""
@@ -43,4 +44,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Object[]> findDailySalesLast7Days(@Param("expoId") Long expoId,
                                            @Param("startDate") LocalDateTime startDate,
                                            @Param("endDate") LocalDateTime endDate);
+
+    @Query("SELECT r.paymentId FROM Reservation r WHERE r.expoId = :expoId")
+    List<Long> findPaymentIdsByExpoId(@Param("expoId") Long expoId);
+
+    Optional<Reservation> findByPayment_PaymentId(Long paymentId);
 }
