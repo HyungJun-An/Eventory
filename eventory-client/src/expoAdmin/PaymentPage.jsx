@@ -14,9 +14,7 @@ const PaymentPage = () => {
           <SideBar />
           <div className="overlap-5">
             <div className="rectangle-10" />
-
             <div className="rectangle-11" />
-
             <Header />
           </div>
 
@@ -26,7 +24,6 @@ const PaymentPage = () => {
             <div className="view-2">
               <div className="group-15">
                 <div className="text-wrapper-32">Next</div>
-
                 <img
                   className="vector-2"
                   alt="Vector"
@@ -36,7 +33,6 @@ const PaymentPage = () => {
 
               <div className="group-16">
                 <div className="text-wrapper-33">Previous</div>
-
                 <img
                   className="vector-3"
                   alt="Vector"
@@ -45,13 +41,10 @@ const PaymentPage = () => {
               </div>
 
               <div className="text-wrapper-34">3</div>
-
               <div className="text-wrapper-35">4</div>
-
               <div className="overlap-group-3">
                 <div className="text-wrapper-36">1</div>
               </div>
-
               <div className="text-wrapper-37">2</div>
             </div>
 

@@ -14,9 +14,7 @@ const RefundPage = () => {
           <SideBar />
           <div className="overlap-5">
             <div className="rectangle-14" />
-
             <div className="rectangle-15" />
-
             <Header />
           </div>
 
@@ -29,7 +27,6 @@ const RefundPage = () => {
             <div className="view-2">
               <div className="group-23">
                 <div className="text-wrapper-33">Next</div>
-
                 <img
                   className="vector-2"
                   alt="Vector"
@@ -39,7 +36,6 @@ const RefundPage = () => {
 
               <div className="group-24">
                 <div className="text-wrapper-34">Previous</div>
-
                 <img
                   className="vector-3"
                   alt="Vector"
@@ -48,13 +44,10 @@ const RefundPage = () => {
               </div>
 
               <div className="text-wrapper-35">3</div>
-
               <div className="text-wrapper-36">4</div>
-
               <div className="overlap-7">
                 <div className="text-wrapper-37">1</div>
               </div>
-
               <div className="text-wrapper-38">2</div>
             </div>
           </div>
