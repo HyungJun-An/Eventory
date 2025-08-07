@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8090
 
 management:
   endpoints:
@@ -36,3 +36,14 @@ logging:
     org.springframework.boot.actuate.endpoint: TRACE
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+jwt:
+  secret: F4y6UozXgQIUW0NmQ2DI71Zbr1FQnFFu
+  expiration: 3600000 # 1시간
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
