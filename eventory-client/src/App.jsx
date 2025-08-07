@@ -10,9 +10,9 @@ function App() {
   return (
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
-        <Route path="/hi" element={<RevenuePage />} />
-        <Route path="/hello" element={<PaymentPage />} />
-        <Route path="/refund" element={<RefundPage />} />
+        <Route path="/admin/sales" element={<RevenuePage />} />
+        <Route path="/admin/payment" element={<PaymentPage />} />
+        <Route path="/admin/refund" element={<RefundPage />} />
       </Routes>
     </BrowserRouter>
   )
