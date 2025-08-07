@@ -27,12 +27,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-        return path.startsWith("/swagger") ||
-                path.startsWith("/v3/api-docs") ||
-                path.startsWith("/webjars") ||
+
+        return path.equals("/v3/api-docs") ||
+                path.equals("/v3/api-docs.yaml") ||
                 path.startsWith("/swagger-ui") ||
-                path.startsWith("/swagger-resources");
+                path.startsWith("/swagger-resources") ||
+                path.startsWith("/webjars") ||
+                path.equals("/favicon.ico") ||
+                path.equals("/error");
     }
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
