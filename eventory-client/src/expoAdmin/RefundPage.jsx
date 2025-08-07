@@ -1,12 +1,10 @@
 import React from "react";
 import Element from "./sections/RefundElement";
-import SideBar from "./sections/SideBar";
 import Group from "./sections/RefundGroup";
-import Header from "./sections/Header";
 import SalesStats from "./sections/RefundSalesStats";
 import "../assets/css/RefundPage.css";
 
-const RefundPage = () => {
+const RefundPage = ({expoId}) => {
   return (
     <div className="screen" data-model-id="11051:3062">
       <div className="overlap-wrapper-2">
@@ -19,9 +17,13 @@ const RefundPage = () => {
           <div className="overlap-6">
             <div className="text-wrapper-32">환불 요청 관리</div>
 
-            <SalesStats />
-            <Group />
-            <Element />
+            {expoId && (
+              <>
+                <SalesStats expoId={expoId} />
+                <Group expoId={expoId} />
+                <Element expoId={expoId} />
+              </>
+            )}
             <div className="view-2">
               <div className="group-23">
                 <div className="text-wrapper-33">Next</div>

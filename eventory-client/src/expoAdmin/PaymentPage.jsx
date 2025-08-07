@@ -1,12 +1,10 @@
 import React from "react";
 import Element from "./sections/PaymentElement";
-import SideBar from "./sections/SideBar";
 import Group from "./sections/PaymentGroup";
-import Header from "./sections/Header";
 import SalesStats from "./sections/PaymentSalesStats";
 import "../assets/css/PaymentPage.css";
 
-const PaymentPage = () => {
+const PaymentPage = ({expoId}) => {
   return (
     <div className="screen" data-model-id="11051:2424">
       <div className="overlap-wrapper-2">
@@ -46,9 +44,13 @@ const PaymentPage = () => {
               <div className="text-wrapper-37">2</div>
             </div>
 
-            <SalesStats />
-            <Group />
-            <Element />
+            {expoId && (
+              <>
+                <SalesStats expoId={expoId} />
+                <Group expoId={expoId} />
+                <Element expoId={expoId} />
+              </>
+            )}
           </div>
         </div>
       </div>

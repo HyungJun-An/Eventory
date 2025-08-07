@@ -1,14 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import SalesChart from "./sections/RevenueSalesChart";
 import SalesStats from "./sections/RevenueSalesStats";
-import SideBar from "./sections/SideBar";
 import SeriesChart from "./sections/RevenueSeriesChart";
-import Header from "./sections/Header";
 import "../assets/css/RevenuePage.css";
 
-const RevenuePage = () => {
-  const [expoId, setExpoId] = useState(null);
-
+const RevenuePage = ({expoId}) => {
   return (
     <div className="div-wrapper-screen" data-model-id="11057:3338">
       <div className="overlap-wrapper-2">
