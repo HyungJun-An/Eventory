@@ -1,4 +1,4 @@
-package com.eventory.expoAdmin.entity;
+package com.eventory.common.entity;
 
 public enum RefundStatus {
     PENDING, // 처리 대기

@@ -1,4 +1,4 @@
-package com.eventory.expoAdmin.entity;
+package com.eventory.common.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "user_type")
-@Table(name = "user_type")
-public class userType {
+@Entity(name = "category")
+@Table(name = "category")
+public class Category {
 
     @Id
-    @Column(name = "type_id")
+    @Column(name = "category_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long typeId;
+    private Long categoryId;
 
     @Column(name = "name", length = 255, nullable = false)
     private String name;
