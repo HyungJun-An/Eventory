@@ -11,11 +11,9 @@ const RefundPage = () => {
     <div className="screen" data-model-id="11051:3062">
       <div className="overlap-wrapper-2">
         <div className="overlap-4">
-          <SideBar />
           <div className="overlap-5">
             <div className="rectangle-14" />
             <div className="rectangle-15" />
-            <Header />
           </div>
 
           <div className="overlap-6">

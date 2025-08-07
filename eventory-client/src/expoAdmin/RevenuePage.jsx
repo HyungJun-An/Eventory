@@ -13,11 +13,9 @@ const RevenuePage = () => {
     <div className="div-wrapper-screen" data-model-id="11057:3338">
       <div className="overlap-wrapper-2">
         <div className="overlap-3">
-          <SideBar />
           <div className="overlap-4">
             <div className="rectangle-24" />
             <div className="rectangle-25" />
-            <Header expoId={expoId} setExpoId={setExpoId} />
           </div>
 
           <div className="overlap-5">
