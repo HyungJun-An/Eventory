@@ -11,4 +11,6 @@ public interface ExpoAdminService {
     List<ExpoResponseDto> findAllExpos(Long expoAdminId);
     SalesResponseDto findSalesStatistics(Long expoId);
     List<Map<String, Object>> findYearlySales(Long expoId);
+    List<Map<String, Object>> findMonthlySales(Long expoId);
+    List<Map<String, Object>> findDailySales(Long expoId);
 }

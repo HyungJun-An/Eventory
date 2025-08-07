@@ -9,10 +9,10 @@ import com.eventory.expoAdmin.service.mapper.ExpoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Year;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,5 +60,48 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
             map.put("totalAmount", row[1]);
             return map;
         }).collect(Collectors.toList());
+    }
+
+    // 월간 매출
+    @Override
+    public List<Map<String, Object>> findMonthlySales(Long expoId) {
+        int currentYear = Year.now().getValue();
+
+        List<Object[]> monthlySales = reservationRepository.findMonthySalesByExpoId(expoId, currentYear);
+
+        return monthlySales.stream().map(row -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("month", row[0]);
+            map.put("totalAmount", row[1]);
+            return map;
+        }).collect(Collectors.toList());
+    }
+
+    // 지난 일주일간 매출
+    @Override
+    public List<Map<String, Object>> findDailySales(Long expoId) {
+        LocalDate today = LocalDate.now();
+        LocalDateTime start = today.minusDays(6).atStartOfDay();
+        LocalDateTime end = today.plusDays(1).atStartOfDay();
+
+        List<Object[]> result = reservationRepository.findDailySalesLast7Days(expoId, start, end);
+
+        Map<String, Long> salesMap = result.stream().collect(Collectors.toMap(
+                row -> row[0].toString(),
+                row -> ((Number) row[1]).longValue()
+        ));
+
+        List<Map<String, Object>> dailySales = new ArrayList<>();
+        for (int i=0; i<7; i++) {
+            LocalDate date = today.minusDays(6-i);
+            String dateStr = date.toString();
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("date", dateStr);
+            map.put("totalAmount", salesMap.getOrDefault(dateStr, 0L));
+
+            dailySales.add(map);
+        }
+        return dailySales;
     }
 }
