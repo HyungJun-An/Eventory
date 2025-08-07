@@ -1,6 +1,8 @@
 package com.eventory.expoAdmin.controller;
 
 import com.eventory.common.entity.User;
+import com.eventory.common.exception.CustomErrorCode;
+import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.dto.ExpoResponseDto;
 import com.eventory.expoAdmin.dto.RefundResponseDto;
 import com.eventory.expoAdmin.dto.SalesResponseDto;
@@ -8,10 +10,7 @@ import com.eventory.expoAdmin.service.ExpoAdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -38,31 +37,35 @@ public class ExpoAdminController {
         return ResponseEntity.ok(salesResponseDto);
     }
 
-    // 연간 매출
-    @GetMapping("/{expoId}/yearly")
-    public ResponseEntity<List<Map<String, Object>>> findYearlySales(@PathVariable Long expoId) {
-        List<Map<String, Object>> yearlySales = expoAdminService.findYearlySales(expoId);
-        return ResponseEntity.ok(yearlySales);
+    // 연간 매출, 월간 매출, 일주일간 매출
+    @GetMapping("/{expoId}/stats")
+    public ResponseEntity<List<Map<String, Object>>> findYearlySales(@PathVariable Long expoId, @RequestParam String range) {
+        List<Map<String, Object>> sales;
+        switch (range.toLowerCase()) {
+            case "daily":
+                sales = expoAdminService.findDailySales(expoId);
+                break;
+            case "monthly":
+                sales = expoAdminService.findMonthlySales(expoId);
+                break;
+            case "yearly":
+                sales = expoAdminService.findYearlySales(expoId);
+                break;
+            default:
+                throw new CustomException(CustomErrorCode.NOT_FOUNT_RANGE);
+        }
+        return ResponseEntity.ok(sales);
     }
 
-    // 월간 매출
-    @GetMapping("/{expoId}/monthly")
-    public ResponseEntity<List<Map<String, Object>>> findMonthlySales(@PathVariable Long expoId) {
-        List<Map<String, Object>> monthlySales = expoAdminService.findMonthlySales(expoId);
-        return ResponseEntity.ok(monthlySales);
-    }
-
-    // 일주일간 매출
-    @GetMapping("/{expoId}/daily")
-    public ResponseEntity<List<Map<String, Object>>> findDailySales(@PathVariable Long expoId) {
-        List<Map<String, Object>> dailySales = expoAdminService.findDailySales(expoId);
-        return ResponseEntity.ok(dailySales);
-    }
-
-    // 환불 요청 관리
+    // 환불 요청 관리, 환불 대기 관리, 환불 승인 관리
     @GetMapping("/{expoId}/refund")
-    public ResponseEntity<List<RefundResponseDto>> findAllRefunds(@PathVariable Long expoId) {
-        List<RefundResponseDto> refundResponseDto = expoAdminService.findAllRefunds(expoId);
+    public ResponseEntity<List<RefundResponseDto>> findAllRefunds(@PathVariable Long expoId, @RequestParam(required = false) String status) {
+        List<RefundResponseDto> refundResponseDto;
+        if (status == null) {
+            refundResponseDto = expoAdminService.findAllRefunds(expoId);
+        } else {
+            refundResponseDto = expoAdminService.findRefundsByStatus(expoId, status);
+        }
         return ResponseEntity.ok(refundResponseDto);
     }
 }

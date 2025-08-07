@@ -122,4 +122,12 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
                 .map(expoMapper::toRefundResponseDto)
                 .collect(Collectors.toList());
     }
+
+    // 환불 
+    @Override
+    public List<RefundResponseDto> findRefundsByStatus(Long expoId, String status) {
+        return null;
+    }
+
+
 }
