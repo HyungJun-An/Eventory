@@ -3,7 +3,7 @@ import "../../assets/css/RefundElement.css";
 
 const RefundElement = () => {
   return (
-    <div className="group-wrapper">
+    <div className="refund-element">
       <div className="navbar">
         <div className="text-wrapper-10">예약 번호</div>
 
