@@ -22,28 +22,31 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                // 로그인 없이 접근 가능한 경로: /api/auth/**, Swagger
-                // 나머지는 JWT 없으면 401 Unauthorized
+        http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,
-                                "/api/auth/**",
+                        // 인증 없이 접근 허용
+                        .requestMatchers(
+                                "/api/auth/**", // 로그인/회원가입/토큰 재발급 등
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/swagger-resources/**",
                                 "/v3/api-docs/**",
                                 "/v3/api-docs.yaml",
-                                "/webjars/**", // JS,CSS
+                                "/webjars/**",
                                 "/favicon.ico",
                                 "/error",
-                                "/actuator/**").permitAll()
+                                "/actuator/**"
+                        ).permitAll()
+
+                        // 그 외 모든 요청은 인증 필요
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                // JWT 필터 등록
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
 
     @Bean
@@ -52,8 +55,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 }

@@ -8,4 +8,5 @@ import com.eventory.auth.dto.SignupResponse;
 public interface AuthService {
     SignupResponse signup(SignupRequest request);
     LoginResponse login(LoginRequest request);
+    void logout(String accessToken);
 }

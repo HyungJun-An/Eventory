@@ -37,4 +37,16 @@ public class AuthController {
         LoginResponse response = authService.login(request);
         return ResponseEntity.ok(response);
     }
+
+    /**
+     * 사용자 로그아웃 요청을 처리
+     * @param authHeader Authorization 헤더 (Bearer 토큰)
+     * @return 로그아웃 완료 메시지
+     */
+//    @PostMapping("/logout")
+//    public ResponseEntity<String> logout(@RequestHeader("Authorization") String authHeader) {
+//        String accessToken = authHeader.replace("Bearer ", "");
+//        authService.logout(accessToken);
+//        return ResponseEntity.ok("로그아웃 완료");
+//    }
 }

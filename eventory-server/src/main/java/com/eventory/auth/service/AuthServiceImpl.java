@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
+//    private final RedisTemplate<String, String> redisTemplate;
     private final UserRepository userRepository;
     private final UserTypeRepository userTypeRepository;
     private final PasswordEncoder passwordEncoder;
@@ -89,7 +90,24 @@ public class AuthServiceImpl implements AuthService {
             throw new CustomException(CustomErrorCode.INVALID_PASSWORD);
         }
 
-        String token = jwtTokenProvider.generateToken(user);
-        return new LoginResponse(token);
+//        String accessToken = jwtTokenProvider.createAccessToken(user.getUserId());
+//        String refreshToken = jwtTokenProvider.createRefreshToken();
+//
+//        redisTemplate.opsForValue()
+//                .set("refresh:" + user.getUserId(), refreshToken, Duration.ofDays(7));
+
+//        return new LoginResponse(accessToken, refreshToken);
+        return new LoginResponse("","");
+    }
+
+    @Override
+    public void logout(String accessToken) {
+//        Long userId = jwtTokenProvider.getUserIdFromToken(accessToken);
+//
+//        long expiration = jwtTokenProvider.getExpiration(accessToken);
+//        redisTemplate.opsForValue()
+//                .set("blacklist:" + accessToken, "logout", Duration.ofMillis(expiration));
+//
+//        redisTemplate.delete("refresh:" + userId);
     }
 }
