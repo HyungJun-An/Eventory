@@ -1,8 +1,8 @@
 import React from "react";
-import Div from "./sections/Div";
-import DivWrapper from "./sections/DivWrapper";
-import Group from "./sections/Group";
-import GroupWrapper from "./sections/GroupWrapper";
+import SalesChart from "./sections/RevenueSalesChart";
+import SalesStats from "./sections/RevenueSalesStats";
+import SideBar from "./sections/SideBar";
+import SeriesChart from "./sections/RevenueSeriesChart";
 import Header from "./sections/Header";
 import "../assets/css/RevenuePage.css";
 
@@ -11,7 +11,7 @@ const RevenuePage = () => {
     <div className="div-wrapper-screen" data-model-id="11057:3338">
       <div className="overlap-wrapper-2">
         <div className="overlap-3">
-          <Group />
+          <SideBar />
           <div className="overlap-4">
             <div className="rectangle-24" />
 
@@ -21,9 +21,9 @@ const RevenuePage = () => {
           </div>
 
           <div className="overlap-5">
-            <GroupWrapper />
-            <DivWrapper />
-            <Div />
+            <SalesStats />
+            <SeriesChart />
+            <SalesChart />
           </div>
         </div>
       </div>

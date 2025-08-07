@@ -1,9 +1,9 @@
 import React from "react";
-import "../../assets/css/Div.css";
+import "../../assets/css/RevenueSalesChart.css";
 
-const Div = () => {
+const RevenueSalesChart = () => {
   return (
-    <div className="div">
+    <div className="sales-chart">
       <div className="group-19">
         <div className="text-wrapper-25">환불 비율</div>
 
@@ -105,4 +105,4 @@ const Div = () => {
   );
 };
 
-export default Div;
+export default RevenueSalesChart;

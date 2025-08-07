@@ -1,4 +1,4 @@
-.view {
+.sales-stats {
   height: 120px;
   left: 40px;
   position: absolute;
@@ -6,7 +6,7 @@
   width: 1110px;
 }
 
-.view .group-4 {
+.sales-stats .group-10 {
   background-color: #ffffff;
   border-radius: 25px;
   height: 120px;
@@ -16,7 +16,7 @@
   width: 350px;
 }
 
-.view .group-5 {
+.sales-stats .group-11 {
   height: 70px;
   left: 78px;
   position: relative;
@@ -24,7 +24,7 @@
   width: 168px;
 }
 
-.view .group-6 {
+.sales-stats .group-12 {
   height: 51px;
   left: 85px;
   position: absolute;
@@ -32,7 +32,7 @@
   width: 87px;
 }
 
-.view .text-wrapper-26 {
+.sales-stats .text-wrapper-22 {
   color: #343a40;
   font-family: var(--heading-four-semibold-20p-font-family);
   font-size: var(--heading-four-semibold-20p-font-size);
@@ -46,7 +46,7 @@
   white-space: nowrap;
 }
 
-.view .text-wrapper-27 {
+.sales-stats .text-wrapper-23 {
   color: #343a40b2;
   font-family: "Inter", Helvetica;
   font-size: 16px;
@@ -59,7 +59,7 @@
   white-space: nowrap;
 }
 
-.view .group-7 {
+.sales-stats .group-13 {
   height: 70px;
   left: 0;
   position: absolute;
@@ -67,7 +67,7 @@
   width: 70px;
 }
 
-.view .group-8 {
+.sales-stats .group-14 {
   background-color: #ffffff;
   border-radius: 25px;
   height: 120px;
@@ -77,7 +77,7 @@
   width: 350px;
 }
 
-.view .group-9 {
+.sales-stats .group-15 {
   height: 70px;
   left: 48px;
   position: relative;
@@ -85,7 +85,7 @@
   width: 179px;
 }
 
-.view .group-10 {
+.sales-stats .group-16 {
   height: 51px;
   left: 85px;
   position: absolute;
@@ -93,7 +93,7 @@
   width: 98px;
 }
 
-.view .text-wrapper-28 {
+.sales-stats .text-wrapper-24 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 20px;
@@ -106,7 +106,7 @@
   white-space: nowrap;
 }
 
-.view .group-11 {
+.sales-stats .group-17 {
   background-color: #ffffff;
   border-radius: 25px;
   height: 120px;
@@ -116,7 +116,7 @@
   width: 350px;
 }
 
-.view .group-12 {
+.sales-stats .group-18 {
   height: 70px;
   left: 44px;
   position: relative;

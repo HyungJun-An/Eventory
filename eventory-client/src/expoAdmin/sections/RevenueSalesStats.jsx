@@ -1,9 +1,9 @@
 import React from "react";
-import "../../assets/css/DivWrapper.css";
+import "../../assets/css/RevenueSalesStats.css";
 
-const DivWrapper = () => {
+const RevenueSalesStats = () => {
   return (
-    <div className="div-wrapper">
+    <div className="sales-stats">
       <div className="group-10">
         <div className="group-11">
           <div className="group-12">
@@ -55,4 +55,4 @@ const DivWrapper = () => {
   );
 };
 
-export default DivWrapper;
+export default RevenueSalesStats;

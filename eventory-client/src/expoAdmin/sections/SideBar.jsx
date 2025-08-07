@@ -1,9 +1,9 @@
 import React from "react";
-import "../../assets/css/Group.css";
+import "../../assets/css/SideBar.css";
 
-const Group = () => {
+const SideBar = () => {
   return (
-    <div className="group">
+    <div className="sideBar">
       <div className="div-2">
         <img
           className="img"
@@ -79,4 +79,4 @@ const Group = () => {
   );
 };
 
-export default Group;
+export default SideBar;

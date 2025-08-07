@@ -1,4 +1,4 @@
-.div {
+.sales-chart {
   height: 357px;
   left: 40px;
   position: absolute;
@@ -6,7 +6,7 @@
   width: 1110px;
 }
 
-.div .group-19 {
+.sales-chart .group-19 {
   height: 357px;
   left: 760px;
   position: absolute;
@@ -14,7 +14,7 @@
   width: 352px;
 }
 
-.div .text-wrapper-25 {
+.sales-chart .text-wrapper-25 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 22px;
@@ -26,7 +26,7 @@
   top: 0;
 }
 
-.div .group-20 {
+.sales-chart .group-20 {
   height: 310px;
   left: 0;
   position: absolute;
@@ -34,7 +34,7 @@
   width: 350px;
 }
 
-.div .group-21 {
+.sales-chart .group-21 {
   height: 357px;
   left: 0;
   position: absolute;
@@ -42,7 +42,7 @@
   width: 732px;
 }
 
-.div .group-22 {
+.sales-chart .group-22 {
   background-color: #ffffff;
   border-radius: 25px;
   height: 316px;
@@ -52,7 +52,7 @@
   width: 730px;
 }
 
-.div .group-23 {
+.sales-chart .group-23 {
   height: 269px;
   left: 30px;
   position: relative;
@@ -60,7 +60,7 @@
   width: 672px;
 }
 
-.div .element {
+.sales-chart .element {
   color: transparent;
   font-family: "Inter", Helvetica;
   font-size: 16px;
@@ -74,15 +74,15 @@
   width: 355px;
 }
 
-.div .span {
+.sales-chart .span {
   color: #343a40b2;
 }
 
-.div .text-wrapper-26 {
+.sales-chart .text-wrapper-26 {
   color: #343a40;
 }
 
-.div .group-24 {
+.sales-chart .group-24 {
   height: 228px;
   left: 0;
   position: absolute;
@@ -90,7 +90,7 @@
   width: 684px;
 }
 
-.div .group-25 {
+.sales-chart .group-25 {
   height: 203px;
   left: 0;
   position: absolute;
@@ -98,7 +98,7 @@
   width: 70px;
 }
 
-.div .rectangle-8 {
+.sales-chart .rectangle-8 {
   background-color: #007bff;
   border-radius: 10px;
   height: 117px;
@@ -108,7 +108,7 @@
   width: 30px;
 }
 
-.div .rectangle-9 {
+.sales-chart .rectangle-9 {
   background-color: #ffc107;
   border-radius: 10px;
   height: 203px;
@@ -118,7 +118,7 @@
   width: 30px;
 }
 
-.div .group-26 {
+.sales-chart .group-26 {
   height: 162px;
   left: 100px;
   position: absolute;
@@ -126,7 +126,7 @@
   width: 70px;
 }
 
-.div .rectangle-10 {
+.sales-chart .rectangle-10 {
   background-color: #007bff;
   border-radius: 10px;
   height: 92px;
@@ -136,7 +136,7 @@
   width: 30px;
 }
 
-.div .rectangle-11 {
+.sales-chart .rectangle-11 {
   background-color: #ffc107;
   border-radius: 10px;
   height: 162px;
@@ -146,7 +146,7 @@
   width: 30px;
 }
 
-.div .group-27 {
+.sales-chart .group-27 {
   height: 121px;
   left: 200px;
   position: absolute;
@@ -154,7 +154,7 @@
   width: 70px;
 }
 
-.div .rectangle-12 {
+.sales-chart .rectangle-12 {
   background-color: #007bff;
   border-radius: 10px;
   height: 89px;
@@ -164,7 +164,7 @@
   width: 30px;
 }
 
-.div .rectangle-13 {
+.sales-chart .rectangle-13 {
   background-color: #ffc107;
   border-radius: 10px;
   height: 121px;
@@ -174,7 +174,7 @@
   width: 30px;
 }
 
-.div .group-28 {
+.sales-chart .group-28 {
   height: 184px;
   left: 300px;
   position: absolute;
@@ -182,7 +182,7 @@
   width: 70px;
 }
 
-.div .rectangle-14 {
+.sales-chart .rectangle-14 {
   background-color: #007bff;
   border-radius: 10px;
   height: 184px;
@@ -192,7 +192,7 @@
   width: 30px;
 }
 
-.div .rectangle-15 {
+.sales-chart .rectangle-15 {
   background-color: #ffc107;
   border-radius: 10px;
   height: 107px;
@@ -202,7 +202,7 @@
   width: 30px;
 }
 
-.div .group-29 {
+.sales-chart .group-29 {
   height: 186px;
   left: 400px;
   position: absolute;
@@ -210,7 +210,7 @@
   width: 70px;
 }
 
-.div .rectangle-16 {
+.sales-chart .rectangle-16 {
   background-color: #007bff;
   border-radius: 10px;
   height: 130px;
@@ -220,7 +220,7 @@
   width: 30px;
 }
 
-.div .rectangle-17 {
+.sales-chart .rectangle-17 {
   background-color: #ffc107;
   border-radius: 10px;
   height: 186px;
@@ -230,7 +230,7 @@
   width: 30px;
 }
 
-.div .group-30 {
+.sales-chart .group-30 {
   height: 137px;
   left: 500px;
   position: absolute;
@@ -238,7 +238,7 @@
   width: 70px;
 }
 
-.div .rectangle-18 {
+.sales-chart .rectangle-18 {
   background-color: #007bff;
   border-radius: 10px;
   height: 137px;
@@ -248,7 +248,7 @@
   width: 30px;
 }
 
-.div .rectangle-19 {
+.sales-chart .rectangle-19 {
   background-color: #ffc107;
   border-radius: 10px;
   height: 91px;
@@ -258,7 +258,7 @@
   width: 30px;
 }
 
-.div .group-31 {
+.sales-chart .group-31 {
   height: 188px;
   left: 600px;
   position: absolute;
@@ -266,7 +266,7 @@
   width: 70px;
 }
 
-.div .rectangle-20 {
+.sales-chart .rectangle-20 {
   background-color: #007bff;
   border-radius: 10px;
   height: 155px;
@@ -276,7 +276,7 @@
   width: 30px;
 }
 
-.div .rectangle-21 {
+.sales-chart .rectangle-21 {
   background-color: #ffc107;
   border-radius: 10px;
   height: 188px;
@@ -286,7 +286,7 @@
   width: 30px;
 }
 
-.div .text-wrapper-27 {
+.sales-chart .text-wrapper-27 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 14px;
@@ -301,7 +301,7 @@
   width: 22px;
 }
 
-.div .text-wrapper-28 {
+.sales-chart .text-wrapper-28 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 14px;
@@ -316,7 +316,7 @@
   width: 26px;
 }
 
-.div .text-wrapper-29 {
+.sales-chart .text-wrapper-29 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 14px;
@@ -331,7 +331,7 @@
   width: 29px;
 }
 
-.div .text-wrapper-30 {
+.sales-chart .text-wrapper-30 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 14px;
@@ -346,7 +346,7 @@
   width: 25px;
 }
 
-.div .text-wrapper-31 {
+.sales-chart .text-wrapper-31 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 14px;
@@ -361,7 +361,7 @@
   width: 26px;
 }
 
-.div .text-wrapper-32 {
+.sales-chart .text-wrapper-32 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 14px;
@@ -376,7 +376,7 @@
   width: 17px;
 }
 
-.div .text-wrapper-33 {
+.sales-chart .text-wrapper-33 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 14px;
@@ -391,7 +391,7 @@
   width: 30px;
 }
 
-.div .group-32 {
+.sales-chart .group-32 {
   height: 17px;
   left: 507px;
   position: absolute;
@@ -399,7 +399,7 @@
   width: 163px;
 }
 
-.div .group-33 {
+.sales-chart .group-33 {
   height: 17px;
   left: 0;
   position: absolute;
@@ -407,7 +407,7 @@
   width: 73px;
 }
 
-.div .rectangle-22 {
+.sales-chart .rectangle-22 {
   background-color: #007bff;
   border-radius: 5px;
   box-shadow: inset 0px 0px 15px #11338480;
@@ -418,7 +418,7 @@
   width: 15px;
 }
 
-.div .text-wrapper-34 {
+.sales-chart .text-wrapper-34 {
   color: #343a40b2;
   font-family: "Inter", Helvetica;
   font-size: 16px;
@@ -432,7 +432,7 @@
   width: 46px;
 }
 
-.div .group-34 {
+.sales-chart .group-34 {
   height: 17px;
   left: 91px;
   position: absolute;
@@ -440,7 +440,7 @@
   width: 74px;
 }
 
-.div .rectangle-23 {
+.sales-chart .rectangle-23 {
   background-color: #ffc107;
   border-radius: 5px;
   box-shadow: inset 0px 0px 15px #ac0c6b80;
@@ -451,7 +451,7 @@
   width: 15px;
 }
 
-.div .text-wrapper-35 {
+.sales-chart .text-wrapper-35 {
   color: #343a40b2;
   font-family: "Inter", Helvetica;
   font-size: 16px;
@@ -465,7 +465,7 @@
   width: 47px;
 }
 
-.div .text-wrapper-36 {
+.sales-chart .text-wrapper-36 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 22px;

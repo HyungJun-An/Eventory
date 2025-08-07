@@ -1,9 +1,9 @@
 import React from "react";
 import Element from "./sections/PaymentElement";
-import Group from "./sections/Group";
-import GroupWrapper from "./sections/PaymentGroupWrapper";
+import SideBar from "./sections/SideBar";
+import Group from "./sections/PaymentGroup";
 import Header from "./sections/Header";
-import View from "./sections/PaymentView";
+import SalesStats from "./sections/PaymentSalesStats";
 import "../assets/css/PaymentPage.css";
 
 const PaymentPage = () => {
@@ -11,7 +11,7 @@ const PaymentPage = () => {
     <div className="screen" data-model-id="11051:2424">
       <div className="overlap-wrapper-2">
         <div className="overlap-4">
-          <Group />
+          <SideBar />
           <div className="overlap-5">
             <div className="rectangle-10" />
 
@@ -55,9 +55,9 @@ const PaymentPage = () => {
               <div className="text-wrapper-37">2</div>
             </div>
 
+            <SalesStats />
+            <Group />
             <Element />
-            <View />
-            <GroupWrapper />
           </div>
         </div>
       </div>

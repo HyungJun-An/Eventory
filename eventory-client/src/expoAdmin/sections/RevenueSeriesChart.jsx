@@ -1,9 +1,9 @@
 import React from "react";
-import "../../assets/css/GroupWrapper.css";
+import "../../assets/css/RevenueSeriesChart.css";
 
-const GroupWrapper = () => {
+const RevenueSeriesChart = () => {
   return (
-    <div className="group-wrapper">
+    <div className="series-chart">
       <div className="group-5">
         <div className="text-wrapper-10">연간 매출</div>
 
@@ -71,4 +71,4 @@ const GroupWrapper = () => {
   );
 };
 
-export default GroupWrapper;
+export default RevenueSeriesChart;

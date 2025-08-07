@@ -3,7 +3,7 @@ import "../../assets/css/PaymentElement.css";
 
 const PaymentElement = () => {
   return (
-    <div className="element">
+    <div className="payment-element">
       <div className="SL-no">
         <div className="text-wrapper-10">14 Jan, 10.40 PM</div>
 

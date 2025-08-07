@@ -1,9 +1,9 @@
 import React from "react";
-import "../../assets/css/PaymentView.css";
+import "../../assets/css/PaymentSalesStats.css";
 
- const PaymentView = () => {
+ const PaymentSalesStats = () => {
   return (
-    <div className="view">
+    <div className="payment-sales-stats">
       <div className="group-4">
         <div className="group-5">
           <div className="group-6">
@@ -55,4 +55,4 @@ import "../../assets/css/PaymentView.css";
   );
 };
 
-export default PaymentView;
+export default PaymentSalesStats;

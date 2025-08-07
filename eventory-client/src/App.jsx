@@ -3,6 +3,7 @@ import './assets/css/App.css'
 
 import RevenuePage from './expoAdmin/RevenuePage';
 import PaymentPage from './expoAdmin/PaymentPage';
+import RefundPage from './expoAdmin/RefundPage';
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/hi" element={<RevenuePage />} />
         <Route path="/hello" element={<PaymentPage />} />
+        <Route path="/refund" element={<RefundPage />} />
       </Routes>
     </BrowserRouter>
   )

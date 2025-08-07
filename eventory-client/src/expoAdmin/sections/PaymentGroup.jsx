@@ -1,9 +1,9 @@
 import React from "react";
-import "../../assets/css/PaymentGroupWrapper.css";
+import "../../assets/css/PaymentGroup.css";
 
-const PaymentGroupWrapper = () => {
+const PaymentGroup = () => {
   return (
-    <div className="group-wrapper">
+    <div className="payment-group">
       <div className="group-13">
         <div className="overlap-group-2">
           <img
@@ -35,4 +35,4 @@ const PaymentGroupWrapper = () => {
   );
 };
 
-export default PaymentGroupWrapper;
+export default PaymentGroup;
