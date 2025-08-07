@@ -1,5 +1,6 @@
 package com.eventory.expoAdmin.service;
 
+import com.eventory.expoAdmin.dto.DashboardResponseDto;
 import com.eventory.expoAdmin.dto.ExpoResponseDto;
 import com.eventory.expoAdmin.dto.SalesResponseDto;
 import com.eventory.common.entity.Expo;
@@ -24,6 +25,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     private final ExpoStatisticsRepository expoStatisticsRepository;
     private final RefundRepository refundRepository;
     private final ReservationRepository reservationRepository;
+    private final CheckInLogRepository checkInLogRepository;
     private final ExpoMapper expoMapper;
 
     // 해당 박람회 관리자에 속하는 전체 박람회 목록
@@ -103,5 +105,26 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
             dailySales.add(map);
         }
         return dailySales;
+    }
+
+    // 대시보드 카드
+    @Override
+    public DashboardResponseDto getDashboardSummary(Long expoId) {
+        // 페이지 조회 수
+        Long viewCount = expoStatisticsRepository.findById(expoId)
+                .map(stat -> stat.getViewCount())
+                .orElse(0L);
+
+        // 총 예약 인원 수 (status = RESERVED)
+        Long totalReservedPeople = reservationRepository.countReservedPeopleByExpoId(expoId);
+
+        // 입장한 티켓 수
+        Long checkedIn = checkInLogRepository.countCheckedInByExpoId(expoId);
+
+        // 입장률 계산
+        double checkInRate = (totalReservedPeople == 0) ? 0.0 :
+                ((double) checkedIn / totalReservedPeople) * 100;
+
+        return new DashboardResponseDto(viewCount, totalReservedPeople, checkInRate);
     }
 }

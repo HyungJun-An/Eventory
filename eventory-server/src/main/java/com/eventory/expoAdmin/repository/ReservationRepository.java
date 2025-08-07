@@ -43,4 +43,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Object[]> findDailySalesLast7Days(@Param("expoId") Long expoId,
                                            @Param("startDate") LocalDateTime startDate,
                                            @Param("endDate") LocalDateTime endDate);
+
+    // RESERVED 상태인 총 인원 수
+    @Query("SELECT COALESCE(SUM(r.people), 0) FROM reservation r WHERE r.expo.expoId = :expoId AND r.status = 'RESERVED'")
+    Long countReservedPeopleByExpoId(@Param("expoId") Long expoId);
 }

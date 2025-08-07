@@ -1,6 +1,7 @@
 package com.eventory.expoAdmin.controller;
 
 import com.eventory.common.entity.User;
+import com.eventory.expoAdmin.dto.DashboardResponseDto;
 import com.eventory.expoAdmin.dto.ExpoResponseDto;
 import com.eventory.expoAdmin.dto.SalesResponseDto;
 import com.eventory.expoAdmin.service.ExpoAdminService;
@@ -56,5 +57,12 @@ public class ExpoAdminController {
     public ResponseEntity<List<Map<String, Object>>> findDailySales(@PathVariable Long expoId) {
         List<Map<String, Object>> dailySales = expoAdminService.findDailySales(expoId);
         return ResponseEntity.ok(dailySales);
+    }
+
+    // 대시보드 카드 조회
+    @GetMapping("/expos/{expoId}/dashboard/summary")
+    public ResponseEntity<DashboardResponseDto> getDashboardSummary(@PathVariable Long expoId) {
+        DashboardResponseDto summary = expoAdminService.getDashboardSummary(expoId);
+        return ResponseEntity.ok(summary);
     }
 }
