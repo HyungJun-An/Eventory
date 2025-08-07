@@ -14,7 +14,8 @@ public enum CustomErrorCode {
 
     // 회계 관리자 R
     NOT_FOUND_RESERVATION(HttpStatus.NOT_FOUND, "R001", "예약 정보가 없습니다."),
-    NOT_FOUNT_RANGE(HttpStatus.NOT_FOUND, "R002", "지원하지 않는 range 값입니다.");
+    NOT_FOUNT_STATISTICS(HttpStatus.NOT_FOUND, "R002", "지원하지 않는 range 값입니다."),
+    NOT_FOUNT_RANGE(HttpStatus.NOT_FOUND, "R003", "지원하지 않는 range 값입니다.");
 
 
     private final HttpStatus status;

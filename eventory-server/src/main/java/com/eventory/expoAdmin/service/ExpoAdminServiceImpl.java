@@ -1,6 +1,9 @@
 package com.eventory.expoAdmin.service;
 
 import com.eventory.common.entity.Refund;
+import com.eventory.common.entity.RefundStatus;
+import com.eventory.common.exception.CustomErrorCode;
+import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.dto.ExpoResponseDto;
 import com.eventory.expoAdmin.dto.RefundResponseDto;
 import com.eventory.expoAdmin.dto.SalesResponseDto;
@@ -31,7 +34,11 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     // 해당 박람회 관리자에 속하는 전체 박람회 목록
     @Override
     public List<ExpoResponseDto> findAllExpos(Long expoAdminId) {
+
+        // 연관관계 ExpoAdmin의 기본키(expoAdminId)로 Expo 조회 및 제목(title) 오름차순 정렬
         List<Expo> expos = expoRepository.findByExpoAdmin_ExpoAdminIdOrderByTitleAsc(expoAdminId);
+
+        // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
         return expos.stream()
                 .map(expoMapper::toExpoResponseDto)
                 .collect(Collectors.toList());
@@ -40,22 +47,26 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     // 누적 매출, 총 결제 건수, 총 환불 건수
     @Override
     public SalesResponseDto findSalesStatistics(Long expoId) {
-        Optional<ExpoStatistics> expoStatistics = expoStatisticsRepository.findById(expoId);
-        ExpoStatistics statistics = expoStatistics.get();
+
+        // 기본키(expoId)로 ExpoStatistics 조회
+        ExpoStatistics expoStatistics = expoStatisticsRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUNT_STATISTICS));
+
+        // 특정 박람회(expoId)에 해당하는 환불 데이터 개수 조회
         long refundCount = refundRepository.countRefundsByExpoId(expoId);
-        return SalesResponseDto.builder()
-                .expoId(expoId)
-                .viewCount(statistics.getViewCount())
-                .reservationCount(statistics.getReservationCount())
-                .paymentTotal(statistics.getPaymentTotal())
-                .refundCount(refundCount)
-                .build();
+
+        // dto객체로 변환 및 반환
+        return expoMapper.toSalesResponseDto(expoId, expoStatistics, refundCount);
     }
 
     // 연간 매출
     @Override
     public List<Map<String, Object>> findYearlySales(Long expoId) {
+
+        
         List<Object[]> yearlySales = reservationRepository.findYearlySalesByExpoId(expoId);
+
+        // 스트림 각 요소를 List<Map<String, Object>>로 변환 및 반환
         return yearlySales.stream().map(row -> {
             Map<String, Object> map = new HashMap<>();
             map.put("year", row[0]);
@@ -67,10 +78,13 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     // 월간 매출
     @Override
     public List<Map<String, Object>> findMonthlySales(Long expoId) {
+
+        // 현재 연도 조회
         int currentYear = Year.now().getValue();
 
         List<Object[]> monthlySales = reservationRepository.findMonthySalesByExpoId(expoId, currentYear);
 
+        // 스트림 각 요소를 List<Map<String, Object>>로 변환 및 반환
         return monthlySales.stream().map(row -> {
             Map<String, Object> map = new HashMap<>();
             map.put("month", row[0]);
@@ -82,7 +96,10 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     // 지난 일주일간 매출
     @Override
     public List<Map<String, Object>> findDailySales(Long expoId) {
+
+        // 오늘 날짜 조회
         LocalDate today = LocalDate.now();
+
         LocalDateTime start = today.minusDays(6).atStartOfDay();
         LocalDateTime end = today.plusDays(1).atStartOfDay();
 
@@ -118,15 +135,37 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
         List<Refund> refunds = refundRepository.findByPaymentIdIn(paymentIds);
 
+        // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
         return refunds.stream()
                 .map(expoMapper::toRefundResponseDto)
                 .collect(Collectors.toList());
     }
 
-    // 환불 
+    // 환불 대기, 환불 완료
     @Override
     public List<RefundResponseDto> findRefundsByStatus(Long expoId, String status) {
-        return null;
+        List<Long> paymentIds = reservationRepository.findPaymentIdsByExpoId(expoId);
+
+        if(paymentIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Refund> refunds = refundRepository.findByPaymentIdIn(paymentIds);
+
+        RefundStatus targetStatus;
+        try {
+            targetStatus = RefundStatus.valueOf(status.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return Collections.emptyList();
+        }
+
+        List<Refund> filteredRefunds = refunds.stream()
+                .filter(refund -> refund.getStatus() == targetStatus).toList();
+
+        // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
+        return filteredRefunds.stream()
+                .map(expoMapper::toRefundResponseDto)
+                .collect(Collectors.toList());
     }
 
 

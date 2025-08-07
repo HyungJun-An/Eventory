@@ -1,13 +1,11 @@
 package com.eventory.expoAdmin.service.mapper;
 
-import com.eventory.common.entity.Payment;
-import com.eventory.common.entity.Refund;
-import com.eventory.common.entity.Reservation;
+import com.eventory.common.entity.*;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.dto.ExpoResponseDto;
-import com.eventory.common.entity.Expo;
 import com.eventory.expoAdmin.dto.RefundResponseDto;
+import com.eventory.expoAdmin.dto.SalesResponseDto;
 import com.eventory.expoAdmin.repository.ReservationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -28,6 +26,16 @@ public class ExpoMapper {
                 .endDate(expo.getEndDate())
                 .location(expo.getLocation())
                 .visibility(expo.getVisibility())
+                .build();
+    }
+
+    public SalesResponseDto toSalesResponseDto(Long expoId, ExpoStatistics statistics, long refundCount) {
+        return SalesResponseDto.builder()
+                .expoId(expoId)
+                .viewCount(statistics.getViewCount())
+                .reservationCount(statistics.getReservationCount())
+                .paymentTotal(statistics.getPaymentTotal())
+                .refundCount(refundCount)
                 .build();
     }
 
