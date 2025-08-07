@@ -1,9 +1,6 @@
 package com.eventory.expoAdmin.service;
 
-import com.eventory.expoAdmin.dto.DashboardResponseDto;
-import com.eventory.expoAdmin.dto.ExpoResponseDto;
-import com.eventory.expoAdmin.dto.SalesResponseDto;
-import com.eventory.expoAdmin.dto.YearlySalesResponseDto;
+import com.eventory.expoAdmin.dto.*;
 
 import java.util.List;
 import java.util.Map;
@@ -16,4 +13,8 @@ public interface ExpoAdminService {
     List<Map<String, Object>> findDailySales(Long expoId);
 
     DashboardResponseDto getDashboardSummary(Long expoId);
+
+    List<ReservationStatResponseDto> getDailyReservationStats(Long expoId);
+    List<ReservationStatResponseDto> getWeeklyReservationStats(Long expoId);
+    List<ReservationStatResponseDto> getMonthlyReservationStats(Long expoId);
 }

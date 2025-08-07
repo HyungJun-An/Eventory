@@ -3,6 +3,7 @@ package com.eventory.expoAdmin.controller;
 import com.eventory.common.entity.User;
 import com.eventory.expoAdmin.dto.DashboardResponseDto;
 import com.eventory.expoAdmin.dto.ExpoResponseDto;
+import com.eventory.expoAdmin.dto.ReservationStatResponseDto;
 import com.eventory.expoAdmin.dto.SalesResponseDto;
 import com.eventory.expoAdmin.service.ExpoAdminService;
 import lombok.RequiredArgsConstructor;
@@ -64,5 +65,26 @@ public class ExpoAdminController {
     public ResponseEntity<DashboardResponseDto> getDashboardSummary(@PathVariable Long expoId) {
         DashboardResponseDto summary = expoAdminService.getDashboardSummary(expoId);
         return ResponseEntity.ok(summary);
+    }
+
+    // 일별 예약 수 (이번 주 월~일 요일별 예약 수 (오늘이 포함된 월~일까지 7일간))
+    @GetMapping("/expos/{expoId}/dashboard/daily")
+    public ResponseEntity<List<ReservationStatResponseDto>> getDailyReservationStats(@PathVariable Long expoId) {
+        List<ReservationStatResponseDto>  dailyReservationStats = expoAdminService.getDailyReservationStats(expoId);
+        return ResponseEntity.ok(dailyReservationStats);
+    }
+
+    // 주별 예약 수 (최근 4주간 주차별 예약 수 (오늘 기준 최근 4주 (주 단위 구간)))
+    @GetMapping("/expos/{expoId}/dashboard/weekly")
+    public ResponseEntity<List<ReservationStatResponseDto>> getWeeklyReservationStats(@PathVariable Long expoId) {
+        List<ReservationStatResponseDto> weeklyReservationStats = expoAdminService.getWeeklyReservationStats(expoId);
+        return ResponseEntity.ok(weeklyReservationStats);
+    }
+
+    // 월별 예약 수 (최근 4개월 간 월별 예약 수 (오늘 기준 최근 4개월 (월 단위))
+    @GetMapping("/expos/{expoId}/dashboard/monthly")
+    public ResponseEntity<List<ReservationStatResponseDto>> getMonthlyReservationStats(@PathVariable Long expoId) {
+        List<ReservationStatResponseDto> monthlyReservationStats = expoAdminService.getMonthlyReservationStats(expoId);
+        return ResponseEntity.ok(monthlyReservationStats);
     }
 }
