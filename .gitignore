@@ -3,13 +3,12 @@ target/
 
 ### IntelliJ IDEA ###
 **/.idea/
+eventory-client/.idea/*
+eventory-server/.idea/*
 *.iws
 *.iml
 *.ipr
-lectory-client/.screen-graph.json
-lectory-server/pom.xml
-lectory-server/src/main/resources/application.properties
-lectory-server/src/main/resources/application.yml
+eventory-client/.screen-graph.json
 ### Eclipse ###
 .apt_generated
 .classpath
@@ -18,6 +17,9 @@ lectory-server/src/main/resources/application.yml
 .settings
 .springBeans
 .sts4-cache
+### ssl 파일 ###
+/eventory-client/ssl/certificate.crt
+/eventory-client/ssl/private.key
 
 ### NetBeans ###
 /nbproject/private/
