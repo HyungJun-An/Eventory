@@ -25,7 +25,7 @@ public class ExpoAdmin {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id", nullable = false)
-    private userType type;
+    private UserType type;
 
     @Column(name = "customer_id", length = 255, nullable = false)
     private String customerId;

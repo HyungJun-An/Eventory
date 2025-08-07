@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity(name = "userType")
 @Table(name = "user_type")
-public class userType {
+public class UserType {
 
     @Id
     @Column(name = "type_id")

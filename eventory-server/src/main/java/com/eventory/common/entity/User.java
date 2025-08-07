@@ -26,7 +26,7 @@ public class User {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id", nullable = false)
-    private userType userType;
+    private UserType userType;
 
     @Column(name = "customer_id", length = 255, nullable = false)
     private String customerId;
