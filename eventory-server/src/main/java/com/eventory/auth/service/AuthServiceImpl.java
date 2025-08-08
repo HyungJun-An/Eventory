@@ -39,7 +39,7 @@ public class AuthServiceImpl implements AuthService {
 
 
         // 1-시스템 관리자 2-박람회 관리자 3-참가업체 4-참관객
-        /*if (request.getTypeId() == 4L) {
+        if (request.getTypeId() == 4L) {
             if (request.getBirth() == null || request.getGender() == null || request.getPhone() == null) {
                 throw new CustomException(CustomErrorCode.USER_REQUIRED_FIELDS_MISSING);
             }
@@ -51,7 +51,7 @@ public class AuthServiceImpl implements AuthService {
             }
         } else {
             throw new CustomException(CustomErrorCode.UNSUPPORTED_USER_TYPE);
-        }*/
+        }
 
         UserType userType = userTypeRepository.findById(request.getTypeId())
                 .orElseThrow(() -> new CustomException(CustomErrorCode.USER_TYPE_NOT_FOUND));

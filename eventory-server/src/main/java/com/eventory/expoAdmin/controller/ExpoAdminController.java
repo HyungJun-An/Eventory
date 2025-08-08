@@ -57,6 +57,11 @@ public class ExpoAdminController {
         return ResponseEntity.ok(sales);
     }
 
+    @GetMapping("/{expoId}/payment")
+    public ResponseEntity<List<>> findAllPayments() {
+
+    }
+
     // 환불 요청 관리, 환불 대기 관리, 환불 승인 관리
     @GetMapping("/{expoId}/refund")
     public ResponseEntity<List<RefundResponseDto>> findAllRefunds(@PathVariable Long expoId, @RequestParam(required = false) String status) {
