@@ -65,7 +65,7 @@ public class Expo {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 255)
-    private ReservationStatus status;
+    private ExpoStatus status;
 
     @Column(name = "reason", length = 255, nullable = true)
     private String reason;
