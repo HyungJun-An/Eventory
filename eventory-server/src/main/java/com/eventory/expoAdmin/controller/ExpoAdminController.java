@@ -39,7 +39,7 @@ public class ExpoAdminController {
 
     // 연간 매출, 월간 매출, 일주일간 매출
     @GetMapping("/{expoId}/stats")
-    public ResponseEntity<List<Map<String, Object>>> findYearlySales(@PathVariable Long expoId, @RequestParam String range) {
+    public ResponseEntity<List<Map<String, Object>>> findSales(@PathVariable Long expoId, @RequestParam String range) {
         List<Map<String, Object>> sales;
         switch (range.toLowerCase()) {
             case "daily":
