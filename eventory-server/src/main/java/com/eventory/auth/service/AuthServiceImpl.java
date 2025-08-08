@@ -34,28 +34,27 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public SignupResponse signup(SignupRequest request) {
         if (userRepository.existsByCustomerId(request.getCustomerId())) {
-            throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
+            throw  new CustomException(CustomErrorCode.DUPLICATE_USER_ID);
         }
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new IllegalArgumentException("이미 등록된 이메일입니다.");
-        }
+
+
         // 1-시스템 관리자 2-박람회 관리자 3-참가업체 4-참관객
         if (request.getTypeId() == 4L) {
             if (request.getBirth() == null || request.getGender() == null || request.getPhone() == null) {
-                throw new IllegalArgumentException("필수 항목이 누락되었습니다. (참관객)");
+                throw new CustomException(CustomErrorCode.USER_REQUIRED_FIELDS_MISSING);
             }
         } else if (request.getTypeId() == 3L) {
             if (request.getCompanyNameKr() == null || request.getCompanyNameEng() == null ||
                     request.getCeoNameKr() == null || request.getCeoNameEng() == null ||
                     request.getCompanyAddress() == null || request.getRegistrationNum() == null) {
-                throw new IllegalArgumentException("필수 항목이 누락되었습니다. (참가업체)");
+                throw new CustomException(CustomErrorCode.COMPANY_REQUIRED_FIELDS_MISSING);
             }
         } else {
-            throw new IllegalArgumentException("지원하지 않는 사용자 유형입니다.");
+            throw new CustomException(CustomErrorCode.UNSUPPORTED_USER_TYPE);
         }
 
         UserType userType = userTypeRepository.findById(request.getTypeId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자 유형입니다."));
+                .orElseThrow(() -> new CustomException(CustomErrorCode.USER_TYPE_NOT_FOUND));
 
         User user = User.builder()
                 .customerId(request.getCustomerId())
