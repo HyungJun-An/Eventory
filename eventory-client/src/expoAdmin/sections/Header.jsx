@@ -1,8 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import api from "../../api/axiosInstance";
 import WebsiteLogos from "../../components/WebsiteLogos";
 import "../../assets/css/Header.css";
 
-const Header = () => {
+const Header = ({ expoId, setExpoId }) => {
+  const [expos, setExpos] = useState([]);
+
+  useEffect(() => {
+    const fetchExpos = async () => {
+      try {
+        const response = await api.get("/admin/expos");
+        setExpos(response.data);
+      } catch (error) {
+        console.error("박람회 목록 불러오기 실패", error);
+      }
+    };
+
+    fetchExpos();
+  }, []);
+
+  const handleChange = (e) => {
+    const selectedExpoId = Number(e.target.value);
+    setExpoId(selectedExpoId); // 부모로 전달
+  };
+
   return (
     <header className="header">
       <div className="overlap">
@@ -36,8 +57,14 @@ const Header = () => {
                 alt="Vector"
                 src="https://c.animaapp.com/mdwrr278Hhu1fG/img/vector.svg"
               />
-
-              <div className="text-wrapper-9">박람회 선택</div>
+              <select className="text-wrapper-9" onChange={handleChange} value={expoId || ""}>
+                <option value="">박람회 선택</option>
+                {expos.map((expo) => (
+                  <option key={expo.expoId} value={expo.expoId}>
+                    {expo.title}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
         </div>

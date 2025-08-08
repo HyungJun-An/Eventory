@@ -1,4 +1,4 @@
-.group-wrapper {
+.series-chart {
   height: 329px;
   left: 40px;
   position: absolute;
@@ -6,7 +6,7 @@
   width: 1110px;
 }
 
-.group-wrapper .group-5 {
+.series-chart .group-5 {
   height: 329px;
   left: 0;
   position: absolute;
@@ -14,7 +14,7 @@
   width: 542px;
 }
 
-.group-wrapper .text-wrapper-10 {
+.series-chart .text-wrapper-10 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 22px;
@@ -26,7 +26,7 @@
   top: 0;
 }
 
-.group-wrapper .group-6 {
+.series-chart .group-6 {
   background-color: #ffffff;
   border-radius: 25px;
   height: 282px;
@@ -36,7 +36,7 @@
   width: 540px;
 }
 
-.group-wrapper .group-7 {
+.series-chart .group-7 {
   height: 228px;
   left: 29px;
   position: relative;
@@ -44,7 +44,7 @@
   width: 481px;
 }
 
-.group-wrapper .year {
+.series-chart .year {
   height: 16px;
   left: 65px;
   position: absolute;
@@ -52,7 +52,7 @@
   width: 413px;
 }
 
-.group-wrapper .text-wrapper-11 {
+.series-chart .text-wrapper-11 {
   color: #343a40b2;
   font-family: "Inter", Helvetica;
   font-size: 13px;
@@ -66,7 +66,7 @@
   width: 31px;
 }
 
-.group-wrapper .text-wrapper-12 {
+.series-chart .text-wrapper-12 {
   color: #343a40b2;
   font-family: "Inter", Helvetica;
   font-size: 13px;
@@ -80,7 +80,7 @@
   width: 30px;
 }
 
-.group-wrapper .text-wrapper-13 {
+.series-chart .text-wrapper-13 {
   color: #343a40b2;
   font-family: "Inter", Helvetica;
   font-size: 13px;
@@ -94,7 +94,7 @@
   width: 31px;
 }
 
-.group-wrapper .text-wrapper-14 {
+.series-chart .text-wrapper-14 {
   color: #343a40b2;
   font-family: "Inter", Helvetica;
   font-size: 13px;
@@ -108,7 +108,7 @@
   width: 31px;
 }
 
-.group-wrapper .text-wrapper-15 {
+.series-chart .text-wrapper-15 {
   color: #343a40b2;
   font-family: "Inter", Helvetica;
   font-size: 13px;
@@ -121,7 +121,7 @@
   top: 0;
 }
 
-.group-wrapper .text-wrapper-16 {
+.series-chart .text-wrapper-16 {
   color: #343a40b2;
   font-family: "Inter", Helvetica;
   font-size: 13px;
@@ -134,7 +134,7 @@
   top: 0;
 }
 
-.group-wrapper .overlap-group-2 {
+.series-chart .overlap-group-2 {
   height: 208px;
   left: 0;
   position: absolute;
@@ -142,7 +142,7 @@
   width: 481px;
 }
 
-.group-wrapper .amount {
+.series-chart .amount {
   height: 208px;
   left: 0;
   position: absolute;
@@ -150,7 +150,7 @@
   width: 62px;
 }
 
-.group-wrapper .text-wrapper-17 {
+.series-chart .text-wrapper-17 {
   color: #343a40b2;
   font-family: "Inter", Helvetica;
   font-size: 13px;
@@ -163,7 +163,7 @@
   top: 144px;
 }
 
-.group-wrapper .text-wrapper-18 {
+.series-chart .text-wrapper-18 {
   color: #343a40b2;
   font-family: "Inter", Helvetica;
   font-size: 13px;
@@ -176,7 +176,7 @@
   top: 96px;
 }
 
-.group-wrapper .text-wrapper-19 {
+.series-chart .text-wrapper-19 {
   color: #343a40b2;
   font-family: "Inter", Helvetica;
   font-size: 13px;
@@ -190,7 +190,7 @@
   width: 52px;
 }
 
-.group-wrapper .text-wrapper-20 {
+.series-chart .text-wrapper-20 {
   color: #343a40b2;
   font-family: "Inter", Helvetica;
   font-size: 13px;
@@ -204,7 +204,7 @@
   width: 52px;
 }
 
-.group-wrapper .text-wrapper-21 {
+.series-chart .text-wrapper-21 {
   color: #343a40b2;
   font-family: "Inter", Helvetica;
   font-size: 13px;
@@ -218,7 +218,7 @@
   width: 17px;
 }
 
-.group-wrapper .line {
+.series-chart .line {
   height: 191px;
   left: 61px;
   position: absolute;
@@ -226,7 +226,7 @@
   width: 420px;
 }
 
-.group-wrapper .rectangle-3 {
+.series-chart .rectangle-3 {
   border: 1px dashed;
   border-color: #dfe5ee;
   height: 1px;
@@ -236,7 +236,7 @@
   width: 420px;
 }
 
-.group-wrapper .rectangle-4 {
+.series-chart .rectangle-4 {
   border: 1px dashed;
   border-color: #dfe5ee;
   height: 1px;
@@ -246,7 +246,7 @@
   width: 420px;
 }
 
-.group-wrapper .rectangle-5 {
+.series-chart .rectangle-5 {
   border: 1px dashed;
   border-color: #dfe5ee;
   height: 1px;
@@ -256,7 +256,7 @@
   width: 420px;
 }
 
-.group-wrapper .rectangle-6 {
+.series-chart .rectangle-6 {
   border: 1px dashed;
   border-color: #dfe5ee;
   height: 1px;
@@ -266,7 +266,7 @@
   width: 420px;
 }
 
-.group-wrapper .rectangle-7 {
+.series-chart .rectangle-7 {
   border: 1px dashed;
   border-color: #dfe5ee;
   height: 1px;
@@ -276,7 +276,7 @@
   width: 420px;
 }
 
-.group-wrapper .statistics {
+.series-chart .statistics {
   height: 161px;
   left: 74px;
   position: absolute;
@@ -284,7 +284,7 @@
   width: 386px;
 }
 
-.group-wrapper .group-8 {
+.series-chart .group-8 {
   height: 329px;
   left: 570px;
   position: absolute;
@@ -292,7 +292,7 @@
   width: 542px;
 }
 
-.group-wrapper .group-9 {
+.series-chart .group-9 {
   height: 282px;
   left: 0;
   position: absolute;

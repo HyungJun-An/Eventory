@@ -1,4 +1,4 @@
-.group-wrapper {
+.payment-group {
   height: 50px;
   left: 40px;
   position: absolute;
@@ -6,7 +6,7 @@
   width: 1110px;
 }
 
-.group-wrapper .group-13 {
+.payment-group .group-13 {
   height: 50px;
   left: 0;
   position: absolute;
@@ -14,7 +14,7 @@
   width: 257px;
 }
 
-.group-wrapper .overlap-group-2 {
+.payment-group .overlap-group-2 {
   background-color: #343a400d;
   border-radius: 40px;
   height: 50px;
@@ -22,7 +22,7 @@
   width: 255px;
 }
 
-.group-wrapper .magnifying-glass {
+.payment-group .magnifying-glass {
   height: 20px;
   left: 25px;
   position: absolute;
@@ -30,7 +30,7 @@
   width: 20px;
 }
 
-.group-wrapper .text-wrapper-29 {
+.payment-group .text-wrapper-29 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 15px;
@@ -43,7 +43,7 @@
   white-space: nowrap;
 }
 
-.group-wrapper .button {
+.payment-group .button {
   all: unset;
   align-items: center;
   border: 1px solid;
@@ -61,7 +61,7 @@
   width: 117px;
 }
 
-.group-wrapper .huge-icon-device {
+.payment-group .huge-icon-device {
   height: 24px;
   margin-bottom: -7.00px;
   margin-top: -7.00px;
@@ -69,7 +69,7 @@
   width: 24px;
 }
 
-.group-wrapper .button-2 {
+.payment-group .button-2 {
   all: unset;
   box-sizing: border-box;
   color: #007bff;
@@ -86,7 +86,7 @@
   width: fit-content;
 }
 
-.group-wrapper .group-14 {
+.payment-group .group-14 {
   height: 50px;
   left: 950px;
   position: absolute;
@@ -94,7 +94,7 @@
   width: 162px;
 }
 
-.group-wrapper .overlap-3 {
+.payment-group .overlap-3 {
   background-color: #007bff;
   border-radius: 9px;
   height: 50px;
@@ -102,7 +102,7 @@
   width: 160px;
 }
 
-.group-wrapper .text-wrapper-30 {
+.payment-group .text-wrapper-30 {
   color: #ffffff;
   font-family: "Inter", Helvetica;
   font-size: 18px;
