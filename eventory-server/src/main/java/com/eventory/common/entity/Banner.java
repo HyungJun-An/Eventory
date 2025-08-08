@@ -52,4 +52,7 @@ public class Banner {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 255)
     private BannerStatus status;
+
+    @Column(name = "reason", length = 255, nullable = true)
+    private String reason;
 }
