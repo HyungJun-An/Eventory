@@ -2,6 +2,7 @@ package com.eventory.common.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity(name = "userType")
 @Table(name = "user_type")
+@Builder
 public class UserType {
 
     @Id
