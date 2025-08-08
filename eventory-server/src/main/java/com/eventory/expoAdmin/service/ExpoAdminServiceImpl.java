@@ -9,7 +9,7 @@ import com.eventory.expoAdmin.dto.RefundResponseDto;
 import com.eventory.expoAdmin.dto.SalesResponseDto;
 import com.eventory.common.entity.Expo;
 import com.eventory.common.entity.ExpoStatistics;
-import com.eventory.expoAdmin.repository.*;
+import com.eventory.common.repository.*;
 import com.eventory.expoAdmin.service.mapper.ExpoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
