@@ -10,12 +10,6 @@ const Header = ({ expoId, setExpoId }) => {
     const fetchExpos = async () => {
       try {
         const response = await api.get("/admin/expos");
-        console.log("응답 데이터:", response.data); 
-        /*const response = await api.get("/expos", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        });*/
         setExpos(response.data);
       } catch (error) {
         console.error("박람회 목록 불러오기 실패", error);
