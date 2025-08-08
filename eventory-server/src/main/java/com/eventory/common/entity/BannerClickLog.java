@@ -21,6 +21,6 @@ public class BannerClickLog {
     @JoinColumn(name = "banner_id")
     private Banner banner;
 
-    @Column(name = "click_at", nullable = false)
-    private Long clickAt;
+    @Column(name = "click_count", nullable = false)
+    private Long clickCount;
 }
