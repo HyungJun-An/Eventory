@@ -1,4 +1,4 @@
-package com.eventory.expoAdmin.repository;
+package com.eventory.common.repository;
 
 import com.eventory.common.entity.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
