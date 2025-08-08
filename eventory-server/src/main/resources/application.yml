@@ -1,5 +1,5 @@
 server:
-  port: 8090
+  port: 8080
 
 management:
   endpoints:
@@ -17,7 +17,7 @@ spring:
       max-request-size: 2GB
   redis:
     host: 124.62.17.42
-    port: 6379
+    port: 6380
 #    password:
 
   datasource:
