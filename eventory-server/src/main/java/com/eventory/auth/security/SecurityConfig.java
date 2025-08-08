@@ -37,6 +37,7 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/favicon.ico",
                                 "/error",
+                                "/session/**",
                                 "/actuator/**"
                         ).permitAll()
 

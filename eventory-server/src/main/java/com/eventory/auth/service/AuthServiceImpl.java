@@ -14,14 +14,17 @@ import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-//    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
     private final UserRepository userRepository;
     private final UserTypeRepository userTypeRepository;
     private final PasswordEncoder passwordEncoder;
@@ -90,14 +93,13 @@ public class AuthServiceImpl implements AuthService {
             throw new CustomException(CustomErrorCode.INVALID_PASSWORD);
         }
 
-//        String accessToken = jwtTokenProvider.createAccessToken(user.getUserId());
-//        String refreshToken = jwtTokenProvider.createRefreshToken();
-//
-//        redisTemplate.opsForValue()
-//                .set("refresh:" + user.getUserId(), refreshToken, Duration.ofDays(7));
+        String accessToken = jwtTokenProvider.createAccessToken(user.getUserId());
+        String refreshToken = jwtTokenProvider.createRefreshToken();
 
-//        return new LoginResponse(accessToken, refreshToken);
-        return new LoginResponse("","");
+        redisTemplate.opsForValue()
+                .set("refresh:" + user.getUserId(), refreshToken, Duration.ofDays(7));
+
+        return new LoginResponse(accessToken, refreshToken);
     }
 
     @Override
