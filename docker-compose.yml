@@ -25,7 +25,15 @@ services:
       - "443:443"
     restart: always
 
-
+  redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    container_name: redis-server
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    
   db:
     image: mysql:8.0
     environment:

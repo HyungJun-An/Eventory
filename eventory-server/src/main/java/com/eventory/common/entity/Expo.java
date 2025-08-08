@@ -46,7 +46,7 @@ public class Expo {
     @Column(name = "location", length = 255, nullable = false)
     private String location;
 
-    @Column(name = "visibility")
+    @Column(name = "visibility", nullable = false)
     private Boolean visibility;
 
     @CreationTimestamp
@@ -57,9 +57,16 @@ public class Expo {
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime updatedAt;
 
-    @Column(name = "display_start_date",  columnDefinition = "TIMESTAMP", nullable = false)
+    @Column(name = "display_start_date", columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime displayStartDate;
 
-    @Column(name = "display_update_date",  columnDefinition = "TIMESTAMP", nullable = false)
+    @Column(name = "display_update_date", columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime displayUpdateDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 255)
+    private ExpoStatus status;
+
+    @Column(name = "reason", length = 255, nullable = true)
+    private String reason;
 }
