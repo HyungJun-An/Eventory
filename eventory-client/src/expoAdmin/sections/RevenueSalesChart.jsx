@@ -7,7 +7,7 @@ const RevenueSalesChart = ({ expoId }) => {
   const [dailyData, setDailyData] = useState([]);
 
   useEffect(() => {
-    api.get(`/admin/${expoId}/daily`)
+    api.get(`/admin/${expoId}/stats?range=daily`)
       .then((res) => {
         const sorted = res.data.sort((a, b) => a.date - b.date);
         setDailyData(sorted);

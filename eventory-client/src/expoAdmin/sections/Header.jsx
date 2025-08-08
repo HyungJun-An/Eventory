@@ -9,7 +9,7 @@ const Header = ({ expoId, setExpoId }) => {
   useEffect(() => {
     const fetchExpos = async () => {
       try {
-        const response = await api.get("/expos");
+        const response = await api.get("/admin/expos");
         console.log("응답 데이터:", response.data); 
         /*const response = await api.get("/expos", {
           headers: {
