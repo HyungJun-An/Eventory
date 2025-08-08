@@ -10,7 +10,7 @@ import com.eventory.common.entity.ExpoCategory;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.common.repository.ExpoCategoryRepository;
-import com.eventory.expoAdmin.repository.ExpoRepository;
+import com.eventory.common.repository.ExpoRepository;
 import com.eventory.systemAdmin.dto.SysExpoResponseDto;
 
 import lombok.RequiredArgsConstructor;
