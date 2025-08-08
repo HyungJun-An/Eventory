@@ -63,7 +63,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     @Override
     public List<Map<String, Object>> findYearlySales(Long expoId) {
 
-        
+        // 특정 박람회(expoId)의 연도별 매출 합계 조회
         List<Object[]> yearlySales = reservationRepository.findYearlySalesByExpoId(expoId);
 
         // 스트림 각 요소를 List<Map<String, Object>>로 변환 및 반환
@@ -82,6 +82,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         // 현재 연도 조회
         int currentYear = Year.now().getValue();
 
+        // 특정 박람회(expoId)의 특정 연도의 월별 매출 합계 조회
         List<Object[]> monthlySales = reservationRepository.findMonthySalesByExpoId(expoId, currentYear);
 
         // 스트림 각 요소를 List<Map<String, Object>>로 변환 및 반환
@@ -100,16 +101,20 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         // 오늘 날짜 조회
         LocalDate today = LocalDate.now();
 
+        // 오늘 포함 최근 7일
         LocalDateTime start = today.minusDays(6).atStartOfDay();
         LocalDateTime end = today.plusDays(1).atStartOfDay();
 
+        // 특정 박람회(expoId)의 최근 7일 일별 매출 합계 조회
         List<Object[]> result = reservationRepository.findDailySalesLast7Days(expoId, start, end);
 
+        // 스트림 각 요소 Map으로 변환
         Map<String, Long> salesMap = result.stream().collect(Collectors.toMap(
                 row -> row[0].toString(),
                 row -> ((Number) row[1]).longValue()
         ));
 
+        // 매출 없는 null값을 0으로 교체
         List<Map<String, Object>> dailySales = new ArrayList<>();
         for (int i=0; i<7; i++) {
             LocalDate date = today.minusDays(6-i);
@@ -121,19 +126,24 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
             dailySales.add(map);
         }
+
         return dailySales;
     }
 
     // 환불 요청 관리
     @Override
     public List<RefundResponseDto> findAllRefunds(Long expoId) {
+
+        // 특정 박람회(expoId)에 해당하는 결제 조회
         List<Long> paymentIds = reservationRepository.findPaymentIdsByExpoId(expoId);
 
+        // 비어있으면 빈 리스트 반환
         if(paymentIds.isEmpty()) {
             return Collections.emptyList();
         }
 
-        List<Refund> refunds = refundRepository.findByPaymentIdIn(paymentIds);
+        // 특정 박람회(expoId)에 해당하는 환불 조회
+        List<Refund> refunds = refundRepository.findByPayment_PaymentIdIn(paymentIds);
 
         // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
         return refunds.stream()
@@ -144,13 +154,17 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     // 환불 대기, 환불 완료
     @Override
     public List<RefundResponseDto> findRefundsByStatus(Long expoId, String status) {
+
+        // 특정 박람회(expoId)에 해당하는 결제 조회
         List<Long> paymentIds = reservationRepository.findPaymentIdsByExpoId(expoId);
 
+        // 비어있으면 빈 리스트 반환
         if(paymentIds.isEmpty()) {
             return Collections.emptyList();
         }
 
-        List<Refund> refunds = refundRepository.findByPaymentIdIn(paymentIds);
+        // 특정 박람회(expoId)에 해당하는 환불 조회
+        List<Refund> refunds = refundRepository.findByPayment_PaymentIdIn(paymentIds);
 
         RefundStatus targetStatus;
         try {

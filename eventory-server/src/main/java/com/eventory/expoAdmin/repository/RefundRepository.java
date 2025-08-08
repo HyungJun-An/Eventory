@@ -17,5 +17,5 @@ public interface RefundRepository extends JpaRepository<Refund, Long> {
     """)
     long countRefundsByExpoId(@Param("expoId") Long expoId);
 
-    List<Refund> findByPaymentIdIn(List<Long> paymentIds);
+    List<Refund> findByPayment_PaymentIdIn(List<Long> paymentIds);
 }

@@ -45,7 +45,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
                                            @Param("startDate") LocalDateTime startDate,
                                            @Param("endDate") LocalDateTime endDate);
 
-    @Query("SELECT r.paymentId FROM Reservation r WHERE r.expoId = :expoId")
+    @Query("SELECT r.payment.paymentId FROM reservation r WHERE r.expo.expoId = :expoId")
     List<Long> findPaymentIdsByExpoId(@Param("expoId") Long expoId);
 
     Optional<Reservation> findByPayment_PaymentId(Long paymentId);
