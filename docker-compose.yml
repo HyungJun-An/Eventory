@@ -31,7 +31,7 @@ services:
       dockerfile: Dockerfile
     container_name: redis-server
     ports:
-      - "6379:6379"
+      - "6380:6379"
     restart: unless-stopped
     
   db:

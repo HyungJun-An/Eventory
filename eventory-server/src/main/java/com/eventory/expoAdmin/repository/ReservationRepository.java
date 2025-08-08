@@ -4,12 +4,15 @@ import com.eventory.common.entity.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
+@Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     @Query("""
     SELECT YEAR(p.paidAt), SUM(p.amount)
@@ -45,6 +48,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Object[]> findDailySalesLast7Days(@Param("expoId") Long expoId,
                                            @Param("startDate") LocalDateTime startDate,
                                            @Param("endDate") LocalDateTime endDate);
+
+    @Query("SELECT r.payment.paymentId FROM reservation r WHERE r.expo.expoId = :expoId")
+    List<Long> findPaymentIdsByExpoId(@Param("expoId") Long expoId);
+
+    Optional<Reservation> findByPayment_PaymentId(Long paymentId);
 
     // RESERVED 상태인 총 인원 수
     @Query("""
