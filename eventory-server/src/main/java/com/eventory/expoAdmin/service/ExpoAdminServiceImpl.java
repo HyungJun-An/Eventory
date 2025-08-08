@@ -1,16 +1,15 @@
 package com.eventory.expoAdmin.service;
 
-import com.eventory.expoAdmin.dto.DashboardResponseDto;
-import com.eventory.expoAdmin.dto.ExpoResponseDto;
-import com.eventory.expoAdmin.dto.ReservationStatResponseDto;
-import com.eventory.expoAdmin.dto.SalesResponseDto;
+import com.eventory.expoAdmin.dto.*;
 import com.eventory.common.entity.Expo;
 import com.eventory.common.entity.ExpoStatistics;
 import com.eventory.expoAdmin.repository.*;
 import com.eventory.expoAdmin.service.mapper.ExpoMapper;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
@@ -143,7 +142,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
                     Long count = reservationRepository.countByExpoIdAndCreatedDate(expoId, date);
 
                     // 각 날짜에 예약된 인원 수 (people 합계 or count)
-                    return new ReservationStatResponseDto(date.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN), count);
+                    return new ReservationStatResponseDto(date.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN), count); // 예: 월, 화
                 })
                 .collect(Collectors.toList());
     }
@@ -168,7 +167,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     // 월별 예약 수 (최근 4개월 간 월별 예약 수 (오늘 기준 최근 4개월 (월 단위))
     @Override
     public List<ReservationStatResponseDto> getMonthlyReservationStats(Long expoId) {
-        YearMonth currentMonth = YearMonth.now(); // 지금이 몇 년 몇 월인지
+        YearMonth currentMonth = YearMonth.now(); // 기준: 현재 월
         List<ReservationStatResponseDto> result = new ArrayList<>();
 
         for (int i = 3; i >= 0; i--) {
@@ -181,5 +180,75 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         }
         return result;
     }
+
+    // 공통 통계 생성기 (지정된 기간의 통계를 조회해 DTO로 변환)
+    @Override
+    public StatReportRowResponseDto buildStatDto(Long expoId, LocalDate start, LocalDate end, String label) {
+        Long reservedCount = reservationRepository.countReservations(expoId, start, end); // 해당 기간 내 예약 건 수
+        Long people = reservationRepository.sumPeople(expoId, start, end); // 총 예약 인원 수
+        BigDecimal total = reservationRepository.sumPayments(expoId, start, end); // 총 결제 금액
+        Long cancelled = reservationRepository.countCancelled(expoId, start, end); // 예약 취소 건 수
+        double avg = (reservedCount == 0) ? 0 : (double) people / reservedCount; // 예약 건당 평균 인원 수 계산 (단체/개별 관람 비율 파악)
+
+        return new StatReportRowResponseDto(label, reservedCount, people, total, avg, cancelled);
+    }
+
+    // 일간 통계 리포트 (이번 주 월~일요일까지 하루 단위로 7개의 통계 리포트 생성)
+    @Override
+    public List<StatReportRowResponseDto> getDailyReportData(Long expoId) {
+        LocalDate today = LocalDate.now(); // 오늘 날짜
+        LocalDate monday = today.with(DayOfWeek.MONDAY); // 이번 주의 월요일
+        return IntStream.range(0, 7)
+                .mapToObj(i -> {
+                    LocalDate date = monday.plusDays(i); // 월요일부터 일요일까지 하루씩 증가
+                    // 같은 날짜로 start, end 지정해서 하루치 통계 계산 // label 예 : "월요일", "화요일"
+                    return buildStatDto(expoId, date, date, date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.KOREAN));
+                })
+                .toList();
+    }
+
+    // 주간 통계 리포트 (최근 4주 간, 주 단위(월~일) 통계 리포트 생성)
+    @Override
+    public List<StatReportRowResponseDto> getWeeklyReportData(Long expoId) {
+        LocalDate today = LocalDate.now(); // 오늘 날짜
+        LocalDate base = today.with(DayOfWeek.SUNDAY); // 오늘이 포함된 주의 일요일을 기준
+        return IntStream.rangeClosed(0, 3) // 가장 최근 주부터 역으로 4주치 계산, i = 0 → 이번주, i = 1 → 저번주,,, 각 주는 월~일로 구성
+                .mapToObj(i -> {
+                    LocalDate start = base.minusWeeks(i).with(DayOfWeek.MONDAY);
+                    LocalDate end = start.plusDays(6);
+                    // label 예 : "7/22 ~ 28"
+                    String label = start.format(DateTimeFormatter.ofPattern("M/d")) + " ~ " + end.format(DateTimeFormatter.ofPattern("d"));
+                    return buildStatDto(expoId, start, end, label);
+                })
+                .toList();
+    }
+
+    // 월간 통계 리포트 (최근 4개월 간, 월 단위 통계 리포트 생성)
+    @Override
+    public List<StatReportRowResponseDto> getMonthlyReportData(Long expoId) {
+        YearMonth currentMonth = YearMonth.now(); // 기준: 현재 월
+        return IntStream.rangeClosed(0, 3) // i=0 → 3개월 전, i=1 → 2개월 전,,,
+                .mapToObj(i -> {
+                    YearMonth month = currentMonth.minusMonths(3 - i);
+                    LocalDate start = month.atDay(1);
+                    LocalDate end = month.atEndOfMonth();
+                    // label 예 : "2025년 6월"
+                    String label = month.format(DateTimeFormatter.ofPattern("yyyy년 M월"));
+                    return buildStatDto(expoId, start, end, label);
+                })
+                .toList();
+    }
+
+    // 내부 헬퍼 메서드
+    // period(daily/weekly/monthly)에 따라 실제 통계 데이터 조회
+    // private List<StatReportRowResponseDto> getReportData(Long expoId, String period) {}
+
+    // 통계 데이터를 .csv 형식으로 응답 (텍스트 기반)
+    // @Override
+    // public void exportCsvReport(Long expoId, String period, HttpServletResponse response) {}
+
+    // 통계 데이터를 .xlsx 형식으로 응답 (엑셀 전용 포맷)
+    // @Override
+    // public void exportExcelReport(Long expoId, String period, HttpServletResponse response) {}
 
 }
