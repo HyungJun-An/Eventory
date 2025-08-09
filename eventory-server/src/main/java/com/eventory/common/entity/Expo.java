@@ -8,6 +8,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.List;
+import java.util.ArrayList; // 필드에 new ArrayList<>()
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -69,4 +72,14 @@ public class Expo {
 
     @Column(name = "reason", length = 255, nullable = true)
     private String reason;
+
+    @OneToMany(mappedBy = "expo", fetch = FetchType.LAZY)
+    private List<ExpoCategory> expoCategories = new ArrayList<>();
+
+    // 호환용: 1:N 코드 getCategory() 유지
+    @Transient
+    public Category getCategory() {
+        return expoCategories.isEmpty() ? null : expoCategories.get(0).getCategory();
+    }
+
 }
