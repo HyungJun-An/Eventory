@@ -25,8 +25,14 @@ public enum CustomErrorCode {
     // 회계 관리자 R
     NOT_FOUND_RESERVATION(HttpStatus.NOT_FOUND, "R001", "예약 정보가 없습니다."),
     NOT_FOUNT_STATISTICS(HttpStatus.NOT_FOUND, "R002", "지원하지 않는 range 값입니다."),
-    NOT_FOUNT_RANGE(HttpStatus.NOT_FOUND, "R003", "지원하지 않는 range 값입니다.");
+    NOT_FOUNT_RANGE(HttpStatus.NOT_FOUND, "R003", "지원하지 않는 range 값입니다."),
 
+    // 대시보드/리포트 D
+    INVALID_PERIOD(HttpStatus.BAD_REQUEST, "D001", "유효하지 않은 통계 기간입니다."),
+    EXPO_NOT_FOUND(HttpStatus.NOT_FOUND, "D002", "해당 박람회를 찾을 수 없습니다."),
+    INVALID_ID(HttpStatus.BAD_REQUEST, "D003", "유효하지 않은 식별자입니다."),
+    INVALID_DATE_RANGE(HttpStatus.BAD_REQUEST, "D004", "유효하지 않은 날짜 구간입니다."),
+    REPORT_EXPORT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "D005", "리포트 내보내기에 실패했습니다.");
 
 
     private final HttpStatus status;

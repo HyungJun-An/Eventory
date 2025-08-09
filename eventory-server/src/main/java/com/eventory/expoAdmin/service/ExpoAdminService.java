@@ -6,6 +6,7 @@ import com.eventory.expoAdmin.dto.SalesResponseDto;
 import com.eventory.expoAdmin.dto.*;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,6 @@ public interface ExpoAdminService {
     List<StatReportRowResponseDto> getWeeklyReportData(Long expoId);
     List<StatReportRowResponseDto> getMonthlyReportData(Long expoId);
 
-    // void exportCsvReport(Long expoId, String period, HttpServletResponse response);
-    // void exportExcelReport(Long expoId, String period, HttpServletResponse response);
+    void exportCsvReport(Long expoId, String period, HttpServletResponse response) throws IOException;
+    void exportExcelReport(Long expoId, String period, HttpServletResponse response) throws IOException;
 }
