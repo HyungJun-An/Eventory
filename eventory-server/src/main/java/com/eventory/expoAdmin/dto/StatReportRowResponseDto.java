@@ -1,11 +1,13 @@
 package com.eventory.expoAdmin.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Builder
 @AllArgsConstructor
 // 일별, 주별, 월별 예약 수 통계 리포트
 public class StatReportRowResponseDto {

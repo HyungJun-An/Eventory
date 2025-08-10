@@ -228,7 +228,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         double checkInRate = (totalReservedPeople == 0) ? 0.0 :
                 ((double) checkedIn / totalReservedPeople) * 100;
 
-        return new DashboardResponseDto(viewCount, totalReservedPeople, checkInRate);
+        return expoMapper.toDashboardResponseDto(viewCount, totalReservedPeople, checkInRate);
     }
 
     // 날짜 포맷터 상수
@@ -268,7 +268,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
                     Long count = reservationRepository.countByExpoIdAndCreatedDate(expoId, date);
 
                     // 각 날짜에 예약된 인원 수
-                    return new ReservationStatResponseDto(labelDaily(date), count);
+                    return expoMapper.toReservationStatResponseDto(labelDaily(date), count);
                 })
                 .toList();
     }
@@ -288,7 +288,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
             assertValidRange(start, end);
             Long count = reservationRepository.countByExpoIdAndDateRange(expoId, start, end);
 
-            result.add(new ReservationStatResponseDto(labelWeek(start, end), count));
+            result.add(expoMapper.toReservationStatResponseDto(labelWeek(start, end), count));
         }
         return result;
     }
@@ -307,7 +307,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
             assertValidRange(start, end);
             Long count = reservationRepository.countByExpoIdAndDateRange(expoId, start, end);
 
-            result.add(new ReservationStatResponseDto(labelMonth(month), count));
+            result.add(expoMapper.toReservationStatResponseDto(labelMonth(month), count));
         }
         return result;
     }
@@ -323,7 +323,14 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         Long cancelled = reservationRepository.countCancelled(expoId, start, end); // 예약 취소 건 수
         double avg = (reservedCount == 0) ? 0 : (double) people / reservedCount; // 예약 건당 평균 인원 수 계산 (단체/개별 관람 비율 파악)
 
-        return new StatReportRowResponseDto(label, reservedCount, people, total, avg, cancelled);
+        return expoMapper.toStatReportRowResponseDto(
+                label,
+                reservedCount,
+                people,
+                total,
+                avg,
+                cancelled
+        );
     }
 
     // 일간 통계 리포트 (이번 주 월~일요일까지 하루 단위로 7개의 통계 리포트 생성)
