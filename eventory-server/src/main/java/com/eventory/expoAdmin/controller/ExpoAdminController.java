@@ -3,11 +3,7 @@ package com.eventory.expoAdmin.controller;
 import com.eventory.common.entity.User;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
-import com.eventory.expoAdmin.dto.DashboardResponseDto;
-import com.eventory.expoAdmin.dto.ExpoResponseDto;
-import com.eventory.expoAdmin.dto.RefundResponseDto;
-import com.eventory.expoAdmin.dto.ReservationStatResponseDto;
-import com.eventory.expoAdmin.dto.SalesResponseDto;
+import com.eventory.expoAdmin.dto.*;
 import com.eventory.expoAdmin.service.ExpoAdminService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -82,6 +78,7 @@ public class ExpoAdminController {
         return ResponseEntity.ok(summary);
     }
 
+    // 일별, 주별, 월별 예약 수 (막대그래프)
     @GetMapping("/expos/{expoId}/dashboard/stats")
     public ResponseEntity<List<ReservationStatResponseDto>> getReservationStats(@PathVariable Long expoId,
                                                                      @RequestParam String period // "daily" | "weekly" | "monthly"
@@ -110,6 +107,13 @@ public class ExpoAdminController {
                               HttpServletResponse response) throws IOException {
         expoAdminService.exportExcelReport(expoId, period, response);
         return ResponseEntity.ok().build();
+    }
+
+    // 티켓 종류별(무료/유료) 예약 비율 (파이차트)
+    @GetMapping("/expos/{expoId}/dashboard/ticket-types")
+    public ResponseEntity<List<TicketTypeRatioResponseDto>> getTicketTypeRatios(@PathVariable Long expoId) {
+        List<TicketTypeRatioResponseDto> ratios = expoAdminService.getTicketTypeRatios(expoId);
+        return ResponseEntity.ok(ratios);
     }
 
 }

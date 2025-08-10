@@ -35,4 +35,6 @@ public interface ExpoAdminService {
 
     void exportCsvReport(Long expoId, String period, HttpServletResponse response) throws IOException;
     void exportExcelReport(Long expoId, String period, HttpServletResponse response) throws IOException;
+
+    List<TicketTypeRatioResponseDto> getTicketTypeRatios(Long expoId);
 }

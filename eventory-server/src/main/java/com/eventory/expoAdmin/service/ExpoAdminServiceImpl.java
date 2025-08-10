@@ -541,4 +541,64 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     }
 
+    // 티켓 종류별(FREE/PAID) 예약 비율 조회 (RESERVED 상태만 집계)
+    @Override
+    public List<TicketTypeRatioResponseDto> getTicketTypeRatios(Long expoId) {
+        assertValidExpoId(expoId);
+
+        try {
+            // 티켓 종류별 집계 (무료/유료)
+            // 결과: Object[] { type(String), reservationCount(Long), peopleCount(Long) }
+            List<Object[]> rows = reservationRepository.aggregateTicketTypeCountsReserved(expoId, BigDecimal.ZERO);
+
+            long totalReservations = 0L; // 총 예약 건수 (비율 계산용)
+            Map<String, TicketTypeRatioResponseDto> map = new HashMap<>();
+
+            for (Object[] row : rows) {
+                String type = (String) row[0];                  // "FREE" or "PAID"
+                Long reservationCount = ((Number) row[1]).longValue(); // 예약 건수
+                Long peopleCount = ((Number) row[2]).longValue(); // 예약 인원 수
+
+                // 일단 percentage = 0.0 으로 생성 후 아래에서 비율 계산
+                map.put(type, expoMapper.toTicketTypeRatioResponseDto(
+                        type, reservationCount, peopleCount, 0.0
+                ));
+
+                totalReservations += reservationCount;
+            }
+
+            // 누락된 타입(FREE/PAID) 보정 → 항상 두 개의 타입 반환
+            map.putIfAbsent("FREE", expoMapper.toTicketTypeRatioResponseDto(
+                    "FREE", 0L, 0L, 0.0
+            ));
+            map.putIfAbsent("PAID", expoMapper.toTicketTypeRatioResponseDto(
+                    "PAID", 0L, 0L, 0.0
+            ));
+
+            // 비율 계산 (총 예약 건수가 0인 경우 비율은 0) (소수점 둘째 자리까지 반올림)
+            if (totalReservations > 0) {
+                final long total = totalReservations;
+                map.replaceAll((key, dto) -> expoMapper.toTicketTypeRatioResponseDto(
+                        dto.getType(),
+                        dto.getReservationCount(),
+                        dto.getPeopleCount(),
+                        Math.round((dto.getReservationCount() * 100.0 / total) * 100) / 100.0
+                ));
+            }
+
+            // 결과 정렬 (FREE, PAID 순서)
+            List<TicketTypeRatioResponseDto> result = new ArrayList<>(map.values());
+            result.sort(Comparator.comparing(TicketTypeRatioResponseDto::getType));
+
+            return result;
+
+        } catch (CustomException e) {
+            // 이미 서비스 내부에서 의도적으로 던진 예외 → 그대로 다시 던져서 메시지/코드 유지
+            throw e;
+        } catch (Exception e) {
+            // 예상치 못한 모든 예외 → 공통 예외 코드(TICKET_TYPE_STATS_FAILED)로 감싸서 던짐
+            throw new CustomException(CustomErrorCode.TICKET_TYPE_STATS_FAILED);
+        }
+    }
+
 }
