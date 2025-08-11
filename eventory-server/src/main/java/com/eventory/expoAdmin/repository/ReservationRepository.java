@@ -59,7 +59,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
         SELECT COALESCE(SUM(r.people), 0)
         FROM reservation r
         WHERE r.expo.expoId = :expoId
-            AND r.status = 'RESERVED'
+            AND r.status = com.eventory.common.entity.ReservationStatus.RESERVED
     """)
     Long countReservedPeopleByExpoId(@Param("expoId") Long expoId);
 
@@ -68,7 +68,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
         SELECT COALESCE(SUM(r.people), 0)
         FROM reservation r
         WHERE r.expo.expoId = :expoId
-            AND r.status = 'RESERVED'
+            AND r.status = com.eventory.common.entity.ReservationStatus.RESERVED
             AND DATE(r.createdAt) = :date
     """)
     Long countByExpoIdAndCreatedDate(@Param("expoId") Long expoId, @Param("date") LocalDate date);
@@ -78,7 +78,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
         SELECT COALESCE(SUM(r.people), 0)
         FROM reservation r
         WHERE r.expo.expoId = :expoId
-            AND r.status = 'RESERVED'
+            AND r.status = com.eventory.common.entity.ReservationStatus.RESERVED
             AND r.createdAt
             BETWEEN :start AND :end
     """)
@@ -91,7 +91,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
         SELECT COUNT(r)
         FROM reservation r
         WHERE r.expo.expoId = :expoId
-            AND r.status = 'RESERVED'
+            AND r.status = com.eventory.common.entity.ReservationStatus.RESERVED
             AND r.createdAt
             BETWEEN :start AND :end
     """)
@@ -102,7 +102,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
         SELECT COALESCE(SUM(r.people), 0)
         FROM reservation r
         WHERE r.expo.expoId = :expoId
-            AND r.status = 'RESERVED'
+            AND r.status = com.eventory.common.entity.ReservationStatus.RESERVED
             AND r.createdAt
             BETWEEN :start AND :end
     """)
@@ -114,7 +114,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
         FROM reservation r
         JOIN r.payment p
         WHERE r.expo.expoId = :expoId
-            AND r.status = 'RESERVED'
+            AND r.status = com.eventory.common.entity.ReservationStatus.RESERVED
             AND r.createdAt
             BETWEEN :start AND :end
     """)
@@ -125,7 +125,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
         SELECT COUNT(r)
         FROM reservation r
         WHERE r.expo.expoId = :expoId
-            AND r.status = 'CANCELLED'
+            AND r.status = com.eventory.common.entity.ReservationStatus.CANCELLED
             AND r.createdAt
             BETWEEN :start AND :end
     """)

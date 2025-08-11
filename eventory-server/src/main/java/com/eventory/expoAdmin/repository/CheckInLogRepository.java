@@ -4,7 +4,9 @@ import com.eventory.common.entity.CheckInLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface CheckInLogRepository extends JpaRepository<CheckInLog, Long> {
     // 입장한 티켓 수
     @Query("""
