@@ -22,6 +22,12 @@ public enum CustomErrorCode {
     INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "M003", "아이디 또는 비밀번호가 틀렸습니다"),
     LOGIN_INPUT_INVALID(HttpStatus.BAD_REQUEST, "M004", "아이디와 비밀번호를 입력해주세요."),
 
+    // 리프레시 토큰 A
+    INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "A001", "유효하지 않은 RefreshToken입니다"),
+    REFRESH_TOKEN_MISMATCH(HttpStatus.UNAUTHORIZED, "A002", "RefreshToken이 서버와 일치하지 않습니다"),
+    INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "A003", "유효하지 않은 AccessToken입니다"),
+    LOGGED_OUT_TOKEN(HttpStatus.UNAUTHORIZED, "A004", "해당 토큰은 로그아웃 처리된 토큰입니다"),
+
     // 회계 관리자 R
     NOT_FOUND_RESERVATION(HttpStatus.NOT_FOUND, "R001", "예약 정보가 없습니다."),
     NOT_FOUNT_STATISTICS(HttpStatus.NOT_FOUND, "R002", "지원하지 않는 range 값입니다."),
