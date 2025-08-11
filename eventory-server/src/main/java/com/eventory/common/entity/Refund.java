@@ -39,4 +39,9 @@ public class Refund {
 
     @Column(name = "approved_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime approvedAt;
+
+    public void updateStatus(RefundStatus status, String reason) {
+        this.status = status;
+        this.reason = reason;
+    }
 }

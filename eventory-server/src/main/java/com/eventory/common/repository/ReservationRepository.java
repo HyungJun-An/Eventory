@@ -57,11 +57,13 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     Optional<Reservation> findByPayment_PaymentId(Long paymentId);
 
     @Query("""
-        SELECT r
-        FROM reservation r
-        JOIN FETCH r.user u
-        JOIN FETCH r.payment p
-        WHERE r.expo.expoId = :expoId
+    SELECT r
+    FROM reservation r
+    JOIN FETCH r.user u
+    JOIN FETCH r.payment p
+    WHERE r.expo.expoId = :expoId
+      AND (:code IS NULL OR r.code = :code)
     """)
-    List<Reservation> findByExpoIdWithUserAndPayment(@Param("expoId") Long expoId);
+    List<Reservation> findByExpoIdAndReservationCode(@Param("expoId") Long expoId,
+                                                     @Param("code") String code);
 }

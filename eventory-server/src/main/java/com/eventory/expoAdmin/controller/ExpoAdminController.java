@@ -3,10 +3,7 @@ package com.eventory.expoAdmin.controller;
 import com.eventory.common.entity.User;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
-import com.eventory.expoAdmin.dto.ExpoResponseDto;
-import com.eventory.expoAdmin.dto.PaymentResponseDto;
-import com.eventory.expoAdmin.dto.RefundResponseDto;
-import com.eventory.expoAdmin.dto.SalesResponseDto;
+import com.eventory.expoAdmin.dto.*;
 import com.eventory.expoAdmin.service.ExpoAdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -60,8 +57,8 @@ public class ExpoAdminController {
 
     // 결제 내역 관리
     @GetMapping("/{expoId}/payment")
-    public ResponseEntity<List<PaymentResponseDto>> findAllPayments(@PathVariable Long expoId) {
-        List<PaymentResponseDto> paymentResponseDto = expoAdminService.findAllPayments(expoId);
+    public ResponseEntity<List<PaymentResponseDto>> findAllPayments(@PathVariable Long expoId, @RequestParam(required = false) String code) {
+        List<PaymentResponseDto> paymentResponseDto = expoAdminService.findAllPayments(expoId, code);
         return ResponseEntity.ok(paymentResponseDto);
     }
 
@@ -75,5 +72,12 @@ public class ExpoAdminController {
             refundResponseDto = expoAdminService.findRefundsByStatus(expoId, status);
         }
         return ResponseEntity.ok(refundResponseDto);
+    }
+
+    // 환불 상태 변경
+    @PatchMapping("/refund/{refundId}/status")
+    public ResponseEntity<Void> updateRefundStatus(@PathVariable Long refundId, @RequestBody RefundRequestDto request) {
+        expoAdminService.updateRefundStatus(refundId, request);
+        return ResponseEntity.ok().build();
     }
 }
