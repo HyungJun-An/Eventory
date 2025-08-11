@@ -6,7 +6,7 @@ const RevenueSalesStats = ({ expoId }) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    api.get(`/admin/${expoId}/sales`)
+    api.get(`/admin/expos/${expoId}/sales`)
       .then((res) => {
         setData(res.data);
       })

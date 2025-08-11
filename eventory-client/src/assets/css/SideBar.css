@@ -32,7 +32,6 @@
   letter-spacing: var(--heading-three-medium-18p-letter-spacing);
   line-height: var(--heading-three-medium-18p-line-height);
   position: absolute;
-  top: 2px;
 }
 
 .sideBar .div-3 {
@@ -49,10 +48,7 @@
   font-size: 18px;
   font-weight: 500;
   left: 51px;
-  letter-spacing: 0;
-  line-height: normal;
   position: absolute;
-  top: 2px;
 }
 
 .sideBar .div-4 {
@@ -77,10 +73,7 @@
   font-size: 18px;
   font-weight: 500;
   left: 52px;
-  letter-spacing: 0;
-  line-height: normal;
   position: absolute;
-  top: 2px;
 }
 
 .sideBar .div-5 {
@@ -98,9 +91,7 @@
   font-weight: 500;
   left: 52px;
   letter-spacing: 0;
-  line-height: normal;
   position: absolute;
-  top: 1px;
 }
 
 .sideBar .div-6 {
@@ -118,10 +109,10 @@
   font-weight: 500;
   left: 52px;
   letter-spacing: 0;
-  line-height: normal;
   position: absolute;
-  top: 2px;
   width: 71px;
+  white-space: nowrap;
+  overflow: hidden; 
 }
 
 .sideBar .div-7 {
@@ -139,16 +130,13 @@
   font-weight: 500;
   left: 51px;
   letter-spacing: 0;
-  line-height: normal;
   position: absolute;
-  top: 1px;
 }
 
 .sideBar .div-8 {
   height: 25px;
   left: 44px;
   position: absolute;
-  top: 0;
   width: 120px;
 }
 

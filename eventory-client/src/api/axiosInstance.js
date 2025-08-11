@@ -20,7 +20,7 @@ const api = axios.create({
 /* ----- 요청 인터셉터 : 토큰 주입 (옵션) ---------------------------- */
 api.interceptors.request.use((config) => {
     // 토큰 안 붙일 경로 목록
-    const skipAuthUrls = ['/auth/login', '/users/signup'];
+    const skipAuthUrls = ['/auth/login', '/auth/signup'];
 
     // 요청 URL 가져오기 (baseURL 포함 여부 고려)
     const url = config.url || '';
