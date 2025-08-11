@@ -92,13 +92,40 @@ public class AuthServiceImpl implements AuthService {
             throw new CustomException(CustomErrorCode.INVALID_PASSWORD);
         }
 
+        // AccessToken, RefreshToken 생성 후
         String accessToken = jwtTokenProvider.createAccessToken(user.getUserId());
         String refreshToken = jwtTokenProvider.createRefreshToken();
 
+        // Redis 저장
         redisTemplate.opsForValue()
                 .set("refresh:" + user.getUserId(), refreshToken, Duration.ofDays(7));
 
         return new LoginResponse(accessToken, refreshToken);
+    }
+
+    // 토큰 재발급
+    @Override
+    public LoginResponse refreshAccessToken(String refreshToken) {
+        // 1. 토큰 유효성 확인
+        if (!jwtTokenProvider.validateToken(refreshToken)) {
+            throw new CustomException(CustomErrorCode.INVALID_REFRESH_TOKEN);
+        }
+
+        // 2. userId 추출
+        Long userId = Long.parseLong(jwtTokenProvider.getSubject(refreshToken));
+
+        // 3. Redis에 저장된 RefreshToken 확인
+        String redisKey = "refresh:" + userId;
+        String savedToken = redisTemplate.opsForValue().get(redisKey);
+
+        // Redis에 저장된 refresh:{userId}가 있을 때만 재발급 허용
+        if (!refreshToken.equals(savedToken)) {
+            throw new CustomException(CustomErrorCode.REFRESH_TOKEN_MISMATCH);
+        }
+
+        // 4. 새로운 AccessToken 발급
+        String newAccessToken = jwtTokenProvider.createAccessToken(userId);
+        return new LoginResponse(newAccessToken, refreshToken); // RefreshToken은 그대로 전달
     }
 
     @Override
@@ -110,5 +137,20 @@ public class AuthServiceImpl implements AuthService {
 //                .set("blacklist:" + accessToken, "logout", Duration.ofMillis(expiration));
 //
 //        redisTemplate.delete("refresh:" + userId);
+        // 1. AccessToken 유효성 확인
+        if (!jwtTokenProvider.validateToken(accessToken)) {
+            throw new CustomException(CustomErrorCode.INVALID_ACCESS_TOKEN);
+        }
+
+        // 2. AccessToken 남은 유효 시간 계산
+        long expiration = jwtTokenProvider.getRemainingValidity(accessToken);
+
+        // 3. 블랙리스트 저장
+        redisTemplate.opsForValue()
+                .set("blacklist:" + accessToken, "logout", Duration.ofMillis(expiration));
+
+        // 4. RefreshToken 삭제
+        long userId = Long.parseLong(jwtTokenProvider.getSubject(accessToken));
+        redisTemplate.delete("refresh:" + userId);
     }
 }
