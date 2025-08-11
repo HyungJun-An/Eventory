@@ -25,8 +25,10 @@ public enum CustomErrorCode {
     // 회계 관리자 R
     NOT_FOUND_RESERVATION(HttpStatus.NOT_FOUND, "R001", "예약 정보가 없습니다."),
     NOT_FOUNT_STATISTICS(HttpStatus.NOT_FOUND, "R002", "지원하지 않는 range 값입니다."),
-    NOT_FOUNT_RANGE(HttpStatus.NOT_FOUND, "R003", "지원하지 않는 range 값입니다.");
+    NOT_FOUNT_RANGE(HttpStatus.NOT_FOUND, "R003", "지원하지 않는 range 값입니다."),
 
+	// 박람회 E
+	CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "E001", "카테고리가 존재하지 않습니다");
 
 
     private final HttpStatus status;
