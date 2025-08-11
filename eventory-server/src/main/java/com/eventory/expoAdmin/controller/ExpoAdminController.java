@@ -5,8 +5,10 @@ import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.dto.*;
 import com.eventory.expoAdmin.service.ExpoAdminService;
+import com.eventory.expoAdmin.web.FileResponseUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -92,21 +94,28 @@ public class ExpoAdminController {
     }
 
     // 통계 리포트 .csv 형식으로 다운로드
-    @GetMapping("/expos/{expoId}/dashboard/{period}/csv")
-    public ResponseEntity<Void> downloadCsv(@PathVariable Long expoId,
-                            @PathVariable String period,
-                            HttpServletResponse response) throws IOException {
-        expoAdminService.exportCsvReport(expoId, period, response);
-        return ResponseEntity.ok().build();
+    @GetMapping(
+            value = "/expos/{expoId}/dashboard/{period}/csv",
+            produces = "text/csv"
+    )
+    public ResponseEntity<Resource> downloadCsv(@PathVariable Long expoId,
+                                                @PathVariable String period) {
+        return FileResponseUtils.toDownloadResponse(
+                expoAdminService.exportCsvReport(expoId, period), // byte[] + 파일명 + contentType
+                "text/csv; charset=UTF-8"                         // CSV는 명시적으로 강제
+        );
     }
 
     // 통계 리포트 .xlsx 형식으로 다운로드
-    @GetMapping("/expos/{expoId}/dashboard/{period}/excel")
-    public ResponseEntity<Void> downloadExcel(@PathVariable Long expoId,
-                              @PathVariable String period,
-                              HttpServletResponse response) throws IOException {
-        expoAdminService.exportExcelReport(expoId, period, response);
-        return ResponseEntity.ok().build();
+    @GetMapping(
+            value = "/expos/{expoId}/dashboard/{period}/excel",
+            produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    public ResponseEntity<Resource> downloadExcel(@PathVariable Long expoId,
+                                                  @PathVariable String period) {
+        return FileResponseUtils.toDownloadResponse(
+                expoAdminService.exportExcelReport(expoId, period)
+        );
     }
 
     // 티켓 종류별(무료/유료) 예약 비율 (파이차트)

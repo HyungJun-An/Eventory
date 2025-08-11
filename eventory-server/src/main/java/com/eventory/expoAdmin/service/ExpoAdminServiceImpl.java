@@ -9,18 +9,16 @@ import com.eventory.common.entity.Expo;
 import com.eventory.common.entity.ExpoStatistics;
 import com.eventory.expoAdmin.repository.*;
 import com.eventory.expoAdmin.service.mapper.ExpoMapper;
-import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+
+import java.io.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.*;
@@ -450,9 +448,18 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         return v == null ? 0L : v; // Long 래퍼(쿼리/집계 결과 등)가 null일 수 있으니 0L로 안전 변환 (숫자 필드에 바로 넣기 좋음)
     }
 
+    // CSV 값 이스케이프: 값에 쉼표/따옴표/개행이 있으면 따옴표로 감싸고 내부 따옴표는 ""로 이스케이프
+    private static String escapeCsv(String value) {
+        if (value == null) return "";
+        boolean needQuote = value.contains(",") || value.contains("\"") || value.contains("\n") || value.contains("\r");
+        if (!needQuote) return value;
+        String escaped = value.replace("\"", "\"\"");
+        return "\"" + escaped + "\"";
+    }
+
     // 통계 데이터를 .csv 형식으로 응답 (텍스트 기반)
     @Override
-    public void exportCsvReport(Long expoId, String period, HttpServletResponse response) throws IOException {
+    public FileDownloadDto exportCsvReport(Long expoId, String period) {
         String expoName = getExpoName(expoId); // 박람회명 조회
         List<StatReportRowResponseDto> data = getReportData(expoId, period); // 일/주/월 기준에 따라 통계 데이터를 조회
 
@@ -462,35 +469,59 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
         String headerLabel = resolvePeriodHeader(period);
 
-        // filename*로 UTF-8 안전 적용 + filename 폴백
-        response.setContentType("text/csv; charset=UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        String encoded = URLEncoder.encode(baseName, StandardCharsets.UTF_8).replace("+", "%20");
-        response.setHeader("Content-Disposition",
-                "attachment; filename=\"" + baseName + "\"; filename*=UTF-8''" + encoded);
-
-        try (OutputStream os = response.getOutputStream();
-             OutputStreamWriter osw = new OutputStreamWriter(os, StandardCharsets.UTF_8);
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             OutputStreamWriter osw = new OutputStreamWriter(bos, StandardCharsets.UTF_8);
              PrintWriter writer = new PrintWriter(osw, false)) {
 
-            // BOM (엑셀 한글깨짐 방지)
-            os.write(0xEF); os.write(0xBB); os.write(0xBF);
+            // UTF-8 BOM (엑셀에서 한글/UTF-8 인식)
+            bos.write(0xEF); bos.write(0xBB); bos.write(0xBF);
 
             // 헤더: 기간 라벨은 period에 따라 변경
-            writer.println(headerLabel + ",예약 건수,총 예약 인원,총 결제 금액,예약당 평균 인원 수,예약 취소 건수");
+            writer.println(String.join(",",
+                    headerLabel,
+                    "예약 건수",
+                    "총 예약 인원",
+                    "총 결제 금액(원)",
+                    "예약당 평균 인원 수(명)",
+                    "예약 취소 건수"
+            ));
 
-            // 데이터 (CSV 접미사 포함(원, 명, 건))
+            // 본문: CSV는 쉼표 분리, 줄바꿈으로 레코드 구분
             for (StatReportRowResponseDto row : data) {
-                writer.printf("%s,%d,%d,%,.0f원,%.2f명,%d건%n",
-                        row.getLabel(),
-                        row.getReservationCount(),
-                        row.getPeopleCount(),
-                        row.getPaymentTotal(),   // BigDecimal은 %f 지원됨
-                        row.getAvgPeoplePerResv(),
-                        row.getCancelledCount()
-                );
+                String label = escapeCsv(row.getLabel()); // 혹시 모를 쉼표/따옴표 대응
+
+                long reservationCount = row.getReservationCount() == null ? 0L : row.getReservationCount();
+                long peopleCount      = row.getPeopleCount() == null ? 0L : row.getPeopleCount();
+
+                // BigDecimal → 문자열(손실 없이)
+                String paymentTotal = (row.getPaymentTotal() == null)
+                        ? "0"
+                        : row.getPaymentTotal().setScale(0, RoundingMode.DOWN).toPlainString(); // 소수점 필요 없으면 0자리
+
+                // 평균은 소수 2자리
+                String avgPeople = (row.getAvgPeoplePerResv() == null)
+                        ? "0.00"
+                        : String.format(java.util.Locale.US, "%.2f", row.getAvgPeoplePerResv());
+
+                long cancelledCount  = row.getCancelledCount() == null ? 0L : row.getCancelledCount();
+
+                // 값 쪽에는 단위를 붙이지 않음(숫자로 인식되게)
+                writer.println(String.join(",",
+                        label,
+                        String.valueOf(reservationCount),
+                        String.valueOf(peopleCount),
+                        paymentTotal,
+                        avgPeople,
+                        String.valueOf(cancelledCount)
+                ));
             }
             writer.flush();
+
+            return new FileDownloadDto(
+                    bos.toByteArray(),
+                    baseName,
+                    "text/csv; charset=UTF-8"
+            );
         } catch (IOException e) {
             throw new CustomException(CustomErrorCode.REPORT_EXPORT_FAILED);
         }
@@ -498,21 +529,23 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 통계 데이터를 .xlsx 형식으로 응답 (엑셀 전용 포맷)
     @Override
-    public void exportExcelReport(Long expoId, String period, HttpServletResponse response) throws IOException {
+    public FileDownloadDto exportExcelReport(Long expoId, String period) {
         String expoName = getExpoName(expoId); // 박람회명 조회
-        List<StatReportRowResponseDto> data = getReportData(expoId, period); // 일/주/월 기준에 따라 통계 데이터를 조회
-
         String safeExpoName = sanitizeForFilename(expoName);
         String dateStr = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // 오늘 날짜 포맷팅
         String baseName = safeExpoName + "-" + period + "-dashboard-report-" + dateStr + ".xlsx"; // 박람회명-period-dashboard-report-2025-08-08
 
+        List<StatReportRowResponseDto> data = getReportData(expoId, period); // 일/주/월 기준에 따라 통계 데이터를 조회
         String headerLabel = resolvePeriodHeader(period);
 
-        try (Workbook workbook = new XSSFWorkbook()) { // 엑셀 새 워크북 생성
+        try (Workbook workbook = new XSSFWorkbook(); // 엑셀 새 워크북 생성
+             ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+
+            // 시트 생성/스타일
             // 시트명은 31자 제한(Excel 포맷 자체 제약)/엑셀 시트명 금지문자 처리
             String sheetName = (period + "-report").replaceAll("[\\\\/*?:\\[\\]]", "_");
             if (sheetName.length() > 31) sheetName = sheetName.substring(0, 31);
-            Sheet sheet = workbook.createSheet(sheetName); // 시트 생성
+            Sheet sheet = workbook.createSheet(sheetName);
 
             // 데이터 포맷/스타일
             DataFormat df = workbook.createDataFormat();
@@ -536,8 +569,8 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
             int rowNum = 1;
             for (StatReportRowResponseDto row : data) { // DTO 데이터를 Excel 각 셀에 삽입
                 Row excelRow = sheet.createRow(rowNum++);
-                // 기간(라벨)은 이미 서비스에서 포맷된 문자열로
-                excelRow.createCell(0).setCellValue(row.getLabel());
+
+                excelRow.createCell(0).setCellValue(row.getLabel()); // 기간 라벨
 
                 excelRow.createCell(1).setCellValue(safeLong(row.getReservationCount()));
                 excelRow.createCell(2).setCellValue(safeLong(row.getPeopleCount()));
@@ -558,16 +591,16 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
                 sheet.autoSizeColumn(i);
             }
 
-            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            String encoded = URLEncoder.encode(baseName, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
-            response.setHeader("Content-Disposition",
-                    "attachment; filename=\"" + baseName + "\"; filename*=UTF-8''" + encoded);
-
-            workbook.write(response.getOutputStream());
+            workbook.write(bos);
+            return new FileDownloadDto(
+                    bos.toByteArray(),
+                    baseName,
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            );
         } catch (IOException e) {
+            // 생성 중 I/O 문제 → 커스텀 예외로 래핑
             throw new CustomException(CustomErrorCode.REPORT_EXPORT_FAILED);
         }
-
     }
 
     // 티켓 종류별(FREE/PAID) 예약 비율 조회 (RESERVED 상태만 집계)

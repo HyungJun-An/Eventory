@@ -33,8 +33,8 @@ public interface ExpoAdminService {
     List<StatReportRowResponseDto> getWeeklyReportData(Long expoId);
     List<StatReportRowResponseDto> getMonthlyReportData(Long expoId);
 
-    void exportCsvReport(Long expoId, String period, HttpServletResponse response) throws IOException;
-    void exportExcelReport(Long expoId, String period, HttpServletResponse response) throws IOException;
+    FileDownloadDto exportCsvReport(Long expoId, String period);
+    FileDownloadDto exportExcelReport(Long expoId, String period);
 
     List<TicketTypeRatioResponseDto> getTicketTypeRatios(Long expoId);
 }
