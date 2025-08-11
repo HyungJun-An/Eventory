@@ -146,7 +146,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     }
 
     // 결제 내역 다운로드
-    @Override
+    /* @Override
     public Resource downloadPaymentsExcel(Long expoId) {
 
         // 엑셀 파일 생성 객체
@@ -163,7 +163,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
             cell.setCellValue(headers[i]);
         }
         return null;
-    }
+    }*/
 
     // 환불 요청 관리
     @Override

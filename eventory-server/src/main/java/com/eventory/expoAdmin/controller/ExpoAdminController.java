@@ -66,7 +66,7 @@ public class ExpoAdminController {
     }
 
     // 결제 내역 엑셀 다운로드
-    @PostMapping("/expos/{expoId}/payment/report")
+    /*@PostMapping("/expos/{expoId}/payment/report")
     public ResponseEntity<Resource> downloadPaymentsExcel(@PathVariable Long expoId) {
         Resource excel = expoAdminService.downloadPaymentsExcel(expoId);
 
@@ -74,7 +74,7 @@ public class ExpoAdminController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=payment.xlsx")
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(excel);
-    }
+    }*/
 
     // 환불 요청 관리, 환불 대기 관리, 환불 승인 관리
     @GetMapping("/expos/{expoId}/refund")

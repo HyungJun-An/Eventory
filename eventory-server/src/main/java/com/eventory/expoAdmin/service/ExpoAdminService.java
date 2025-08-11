@@ -19,5 +19,5 @@ public interface ExpoAdminService {
 
     void updateRefundStatus(Long refundId, RefundRequestDto request);
 
-    Resource downloadPaymentsExcel(Long expoId);
+    // Resource downloadPaymentsExcel(Long expoId);
 }
