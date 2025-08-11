@@ -1,8 +1,6 @@
 package com.eventory.expoAdmin.service;
 
-import com.eventory.expoAdmin.dto.ExpoResponseDto;
-import com.eventory.expoAdmin.dto.RefundResponseDto;
-import com.eventory.expoAdmin.dto.SalesResponseDto;
+import com.eventory.expoAdmin.dto.*;
 
 import java.util.List;
 import java.util.Map;
@@ -16,4 +14,7 @@ public interface ExpoAdminService {
     List<RefundResponseDto> findAllRefunds(Long expoId);
 
     List<RefundResponseDto> findRefundsByStatus(Long expoId, String status);
+    List<PaymentResponseDto> findAllPayments(Long expoId, String reservationCode);
+
+    void updateRefundStatus(Long refundId, RefundRequestDto request);
 }

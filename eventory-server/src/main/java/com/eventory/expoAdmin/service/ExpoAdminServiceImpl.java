@@ -1,16 +1,12 @@
 package com.eventory.expoAdmin.service;
 
-import com.eventory.common.entity.Refund;
-import com.eventory.common.entity.RefundStatus;
+import com.eventory.common.entity.*;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
-import com.eventory.expoAdmin.dto.ExpoResponseDto;
-import com.eventory.expoAdmin.dto.RefundResponseDto;
-import com.eventory.expoAdmin.dto.SalesResponseDto;
-import com.eventory.common.entity.Expo;
-import com.eventory.common.entity.ExpoStatistics;
+import com.eventory.expoAdmin.dto.*;
 import com.eventory.common.repository.*;
 import com.eventory.expoAdmin.service.mapper.ExpoMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -130,6 +126,19 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         return dailySales;
     }
 
+    // 결제 내역 관리
+    @Override
+    public List<PaymentResponseDto> findAllPayments(Long expoId, String code) {
+
+        // 특정 박람회(expoId)에 해당하는 예약 조회
+        List<Reservation> reservations = reservationRepository.findByExpoIdAndReservationCode(expoId, code);
+
+        // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
+        return reservations.stream()
+                .map(expoMapper::toPaymentResponseDto)
+                .collect(Collectors.toList());
+    }
+
     // 환불 요청 관리
     @Override
     public List<RefundResponseDto> findAllRefunds(Long expoId) {
@@ -180,6 +189,30 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         return filteredRefunds.stream()
                 .map(expoMapper::toRefundResponseDto)
                 .collect(Collectors.toList());
+    }
+
+    // 환불 상태 변경
+    @Transactional
+    @Override
+    public void updateRefundStatus(Long refundId, RefundRequestDto request) {
+
+        // 환불(refundId) 조회
+        Refund refund = refundRepository.findById(refundId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_REFUND));
+
+        // 요청됨 상태가 아니면 오류 발생
+        if (request.getStatus()!=RefundStatus.PENDING) {
+            throw new CustomException(CustomErrorCode.NOT_FOUND_REFUND);
+        }
+
+        // 환불 반려 시 반려 사유 없으면 오류 발생
+        if (request.getStatus() == RefundStatus.REJECTED && (request.getReason() == null || request.getReason().isBlank())) {
+            throw new CustomException(CustomErrorCode.NOT_FOUND_REASON);
+        }
+
+        // 환불 상태 변경 및 저장
+        refund.updateStatus(refund.getStatus(), refund.getReason());
+        refundRepository.save(refund);
     }
 
 
