@@ -1,0 +1,431 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.layout {
+  min-height: 100vh;
+  background-color: #f6f6f6;
+}
+
+.login-screen {
+  background-color: #f6f6f6;
+  min-height: 100vh;
+  width: 100%;
+  font-family: "Inter", Helvetica;
+}
+
+/* Header Styles */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 104px;
+  background-color: #f6f6f6;
+  min-height: 80px;
+  height: auto;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 10;
+}
+
+.header-menu {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.menu-item {
+  color: #222222;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 120%;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.website-logos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.logo-icon {
+  height: 40px;
+  width: 45px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  height: 40px;
+  width: 180px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+.shopping-icon {
+  height: 40px;
+  width: 40px;
+  flex-shrink: 0;
+}
+
+.login-register-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 8px 24px;
+  min-height: 40px;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.user-icon {
+  height: 16px;
+  width: 16px;
+}
+
+/* Main Content */
+.main-content {
+  display: flex;
+  margin: 56px 104px;
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 600px;
+  height: auto;
+  box-sizing: border-box;
+}
+
+.login-section {
+  background-color: white;
+  flex: 1;
+  min-width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  box-sizing: border-box;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  color: #222222;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid #6a6a6a;
+  border-radius: 16px;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.input-icon {
+  height: 20px;
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.form-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #505050;
+  background: transparent;
+  min-width: 0;
+}
+
+.form-input::placeholder {
+  color: #505050;
+}
+
+.input-icon-right {
+  height: 24px;
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #858585;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.remember-me input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox-custom {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #858585;
+  border-radius: 8px;
+  display: inline-block;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.remember-me input[type="checkbox"]:checked + .checkbox-custom {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.remember-me input[type="checkbox"]:checked + .checkbox-custom::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 10px;
+}
+
+.forgot-password {
+  color: #222222;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.form-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.login-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: white;
+  color: #505050;
+  border: 1px solid #6a6a6a;
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.google-icon {
+  height: 20px;
+  width: 20px;
+}
+
+.signup-link {
+  text-align: center;
+  font-size: 16px;
+  line-height: 16px;
+}
+
+.signup-text {
+  color: #4f4f4f;
+}
+
+.signup-link-text {
+  color: #212121;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.signup-link-text:hover {
+  text-decoration: underline;
+}
+
+/* Welcome Section */
+.welcome-section {
+  flex: 1;
+  min-width: 400px;
+  background: url('https://c.animaapp.com/me2azzmxxO3KsY/img/frame-1171279137.png') center/cover;
+  position: relative;
+}
+
+.welcome-overlay {
+  background-color: rgba(20, 22, 76, 0.51);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  box-sizing: border-box;
+}
+
+.welcome-content {
+  text-align: center;
+  color: white;
+}
+
+.welcome-title {
+  font-size: 32px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.welcome-subtitle {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .header {
+    padding: 40px 20px;
+  }
+  
+  .main-content {
+    margin: 56px 20px;
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .login-section,
+  .welcome-section {
+    width: 100%;
+    min-width: auto;
+    flex: none;
+  }
+  
+  .welcome-section {
+    min-height: 400px;
+  }
+  
+  .welcome-overlay {
+    padding: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 20px;
+    height: auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .header-menu {
+    gap: 16px;
+    justify-content: center;
+  }
+  
+  .header-actions {
+    justify-content: center;
+  }
+  
+  .login-section {
+    padding: 40px 20px;
+  }
+  
+  .login-form {
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .form-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .welcome-overlay {
+    padding: 30px 20px;
+  }
+  
+  .welcome-title {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 15px;
+  }
+  
+  .main-content {
+    margin: 20px 15px;
+  }
+  
+  .login-section {
+    padding: 30px 15px;
+  }
+  
+  .header-menu {
+    gap: 12px;
+  }
+  
+  .menu-item {
+    font-size: 14px;
+  }
+  
+  .login-register-btn {
+    padding: 6px 16px;
+    font-size: 12px;
+  }
+}

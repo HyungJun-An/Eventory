@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,9 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, String> redisTemplate;
+
+    private static final String BLACKLIST_KEY = "blacklist:access:";
+    private static final String REFRESH_KEY_FMT = "refresh:%s:%s";
 
     @Override
     public LoginResponse loginSystemAdmin(AdminLoginRequest request) {
@@ -51,5 +55,33 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         String refresh = jwtTokenProvider.createRefreshToken();
         redisTemplate.opsForValue().set("refresh:expoadmin:" + admin.getExpoAdminId(), refresh, Duration.ofDays(7));
         return new LoginResponse(access, refresh);
+    }
+
+    @Override
+    public void logoutSystemAdmin(String accessToken) {
+        logoutByType(accessToken, "1"); // 1 = systemAdmin
+    }
+
+    @Override
+    public void logoutExpoAdmin(String accessToken) {
+        logoutByType(accessToken, "2"); // 2 = expoAdmin
+    }
+
+    private void logoutByType(String accessToken, String requiredType) {
+        Map<String, Object> claims = jwtTokenProvider.parseClaims(accessToken);
+        String userType = String.valueOf(claims.getOrDefault("userType", ""));
+        String userId = String.valueOf(claims.getOrDefault("sub", ""));
+
+        if (!requiredType.equals(userType)) {
+            throw new IllegalStateException("해당 관리자 타입 전용 로그아웃 API임");
+        }
+
+        long remainingMs = jwtTokenProvider.getRemainingValidity(accessToken);
+        if (remainingMs > 0) {
+            redisTemplate.opsForValue().set(BLACKLIST_KEY + accessToken, "1", Duration.ofMillis(remainingMs));
+        }
+
+        String rtKey = String.format(REFRESH_KEY_FMT, userType, userId);
+        redisTemplate.delete(rtKey);
     }
 }

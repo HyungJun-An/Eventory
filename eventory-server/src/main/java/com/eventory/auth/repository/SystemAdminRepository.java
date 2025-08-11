@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface SystemAdminRepository extends JpaRepository<User, Long> {
+public interface SystemAdminRepository  extends JpaRepository<User, Long> {
     Optional<SystemAdmin> findByCustomerId(String customerId);
 }
