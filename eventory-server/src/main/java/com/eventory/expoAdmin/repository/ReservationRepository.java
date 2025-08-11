@@ -82,10 +82,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
         FROM reservation r
         WHERE r.expo.expoId = :expoId
             AND r.status = com.eventory.common.entity.ReservationStatus.RESERVED
-            AND r.createdAt
-            BETWEEN :start AND :end
+            AND r.createdAt >= :start
+            AND r.createdAt < :end
     """)
-    Long countReservations(Long expoId, LocalDate start, LocalDate end);
+    Long countReservations(@Param("expoId") Long expoId,
+                           @Param("start") LocalDateTime start,
+                           @Param("end") LocalDateTime end);
 
     // 예약된 인원 수 총합
     @Query("""
@@ -93,10 +95,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
         FROM reservation r
         WHERE r.expo.expoId = :expoId
             AND r.status = com.eventory.common.entity.ReservationStatus.RESERVED
-            AND r.createdAt
-            BETWEEN :start AND :end
+            AND r.createdAt >= :start
+            AND r.createdAt < :end
     """)
-    Long sumPeople(Long expoId, LocalDate start, LocalDate end);
+    Long sumPeople(@Param("expoId") Long expoId,
+                   @Param("start") LocalDateTime start,
+                   @Param("end") LocalDateTime end);
 
     // 결제된 금액 총합
     @Query("""
@@ -105,10 +109,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
         JOIN r.payment p
         WHERE r.expo.expoId = :expoId
             AND r.status = com.eventory.common.entity.ReservationStatus.RESERVED
-            AND r.createdAt
-            BETWEEN :start AND :end
+            AND r.createdAt >= :start
+            AND r.createdAt < :end
     """)
-    BigDecimal sumPayments(Long expoId, LocalDate start, LocalDate end);
+    BigDecimal sumPayments(@Param("expoId") Long expoId,
+                           @Param("start") LocalDateTime start,
+                           @Param("end") LocalDateTime end);
 
     // 취소된 예약 건수 (CANCELLED)
     @Query("""
@@ -116,10 +122,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
         FROM reservation r
         WHERE r.expo.expoId = :expoId
             AND r.status = com.eventory.common.entity.ReservationStatus.CANCELLED
-            AND r.createdAt
-            BETWEEN :start AND :end
+            AND r.createdAt >= :start
+            AND r.createdAt < :end
     """)
-    Long countCancelled(Long expoId, LocalDate start, LocalDate end);
+    Long countCancelled(@Param("expoId") Long expoId,
+                        @Param("start") LocalDateTime start,
+                        @Param("end") LocalDateTime end);
 
     /**
      * [목적]

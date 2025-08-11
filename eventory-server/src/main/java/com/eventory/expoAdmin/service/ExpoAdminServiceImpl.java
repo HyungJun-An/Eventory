@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
@@ -335,10 +336,15 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     public StatReportRowResponseDto buildStatDto(Long expoId, LocalDate start, LocalDate end, String label) {
         assertValidExpoId(expoId);
         assertValidRange(start, end);
-        Long reservedCount = reservationRepository.countReservations(expoId, start, end); // 해당 기간 내 예약 건 수
-        Long people = reservationRepository.sumPeople(expoId, start, end); // 총 예약 인원 수
-        BigDecimal total = reservationRepository.sumPayments(expoId, start, end); // 총 결제 금액
-        Long cancelled = reservationRepository.countCancelled(expoId, start, end); // 예약 취소 건 수
+
+        // [start 00:00, end 다음날 00:00) 반열림
+        LocalDateTime s = start.atStartOfDay();
+        LocalDateTime e = end.plusDays(1).atStartOfDay();
+
+        Long reservedCount = reservationRepository.countReservations(expoId, s, e); // 해당 기간 내 예약 건 수
+        Long people = reservationRepository.sumPeople(expoId, s, e); // 총 예약 인원 수
+        BigDecimal total = reservationRepository.sumPayments(expoId, s, e); // 총 결제 금액
+        Long cancelled = reservationRepository.countCancelled(expoId, s, e); // 예약 취소 건 수
         double avg = (reservedCount == 0) ? 0 : (double) people / reservedCount; // 예약 건당 평균 인원 수 계산 (단체/개별 관람 비율 파악)
 
         return expoMapper.toStatReportRowResponseDto(
@@ -351,16 +357,17 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         );
     }
 
-    // 일간 통계 리포트 (이번 주 월~일요일까지 하루 단위로 7개의 통계 리포트 생성)
+    // 일간 통계 리포트 (최근 7일간, 오늘 기준 지난 7일(6일 전 ~ 오늘까지 하루 단위로 7개의 통계 리포트 생성))
     @Override
     public List<StatReportRowResponseDto> getDailyReportData(Long expoId) {
         assertValidExpoId(expoId);
-        LocalDate monday = LocalDate.now().with(DayOfWeek.MONDAY); // 이번 주의 월요일
 
-        return IntStream.range(0, 7)
+        LocalDate today = LocalDate.now();
+        LocalDate startDate = today.minusDays(6); // 총 7일
+
+        return IntStream.rangeClosed(0, 6) // 0..6 (오름차순) => startDate -> today
                 .mapToObj(i -> {
-                    LocalDate date = monday.plusDays(i); // 월요일부터 일요일까지 하루씩 증가
-                    // 같은 날짜로 start, end 지정해서 하루치 통계 계산
+                    LocalDate date = startDate.plusDays(i);
                     return buildStatDto(expoId, date, date, labelDaily(date));
                 })
                 .toList();
@@ -372,15 +379,15 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         assertValidExpoId(expoId);
         LocalDate baseSunday = LocalDate.now().with(DayOfWeek.SUNDAY); // 오늘이 포함된 주의 일요일을 기준
 
-        // 최신주부터 쌓임(첫 행이 최신)
-        return IntStream.rangeClosed(0, 3) // 가장 최근 주부터 역으로 4주치 계산, i = 0 → 이번주, i = 1 → 저번주,,, 각 주는 월~일로 구성
-                .mapToObj(i -> {
-                    LocalDate start = baseSunday.minusWeeks(i).with(DayOfWeek.MONDAY);
-                    LocalDate end = start.plusDays(6);
+        List<StatReportRowResponseDto> result = new ArrayList<>();
 
-                    return buildStatDto(expoId, start, end, labelWeek(start, end));
-                })
-                .toList();
+        for (int i = 3; i >= 0; i--) { // 오래된 주부터
+            LocalDate start = baseSunday.minusWeeks(i).with(DayOfWeek.MONDAY);
+            LocalDate end   = start.plusDays(6);
+
+            result.add(buildStatDto(expoId, start, end, labelWeek(start, end)));
+        }
+        return result;
     }
 
     // 월간 통계 리포트 (최근 4개월 간, 월 단위 통계 리포트 생성)
@@ -389,15 +396,15 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         assertValidExpoId(expoId);
         YearMonth currentMonth = YearMonth.now(); // 기준: 현재 월
 
-        return IntStream.rangeClosed(0, 3) // i=0 → 3개월 전, i=1 → 2개월 전,,,
-                .mapToObj(i -> {
-                    YearMonth month = currentMonth.minusMonths(3 - i);
-                    LocalDate start = month.atDay(1);
-                    LocalDate end = month.atEndOfMonth();
+        List<StatReportRowResponseDto> result = new ArrayList<>();
 
-                    return buildStatDto(expoId, start, end, labelMonth(month));
-                })
-                .toList();
+        for (int i = 3; i >= 0; i--) { // 오래된 월부터
+            YearMonth ym   = currentMonth.minusMonths(i);
+            LocalDate start    = ym.atDay(1);
+            LocalDate end    = ym.atEndOfMonth();
+            result.add(buildStatDto(expoId, start, end, labelMonth(ym)));
+        }
+        return result;
     }
 
     // 내부 헬퍼 메서드
@@ -455,31 +462,35 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
         String headerLabel = resolvePeriodHeader(period);
 
+        // filename*로 UTF-8 안전 적용 + filename 폴백
         response.setContentType("text/csv; charset=UTF-8");
-        // RFC5987: filename*로 UTF-8 안전 적용 + filename 폴백
-        String encoded = URLEncoder.encode(baseName, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
+        response.setCharacterEncoding("UTF-8");
+        String encoded = URLEncoder.encode(baseName, StandardCharsets.UTF_8).replace("+", "%20");
         response.setHeader("Content-Disposition",
                 "attachment; filename=\"" + baseName + "\"; filename*=UTF-8''" + encoded);
 
-        ServletOutputStream os = response.getOutputStream();
-        // UTF-8 BOM (윈도우 엑셀 한글 깨짐 방지)
-        os.write(0xEF); os.write(0xBB); os.write(0xBF);
+        try (OutputStream os = response.getOutputStream();
+             OutputStreamWriter osw = new OutputStreamWriter(os, StandardCharsets.UTF_8);
+             PrintWriter writer = new PrintWriter(osw, false)) {
 
-        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(response.getOutputStream(), StandardCharsets.UTF_8), true)) {
+            // BOM (엑셀 한글깨짐 방지)
+            os.write(0xEF); os.write(0xBB); os.write(0xBF);
+
             // 헤더: 기간 라벨은 period에 따라 변경
             writer.println(headerLabel + ",예약 건수,총 예약 인원,총 결제 금액,예약당 평균 인원 수,예약 취소 건수");
 
-            // CSV 접미사 포함(원, 명, 건)
+            // 데이터 (CSV 접미사 포함(원, 명, 건))
             for (StatReportRowResponseDto row : data) {
-                writer.printf("%s,%d,%d,%,.0f원,%.2f명,%d건%n", // 각각의 통계 데이터를 줄 단위로 출력
+                writer.printf("%s,%d,%d,%,.0f원,%.2f명,%d건%n",
                         row.getLabel(),
                         row.getReservationCount(),
                         row.getPeopleCount(),
-                        row.getPaymentTotal(),
+                        row.getPaymentTotal(),   // BigDecimal은 %f 지원됨
                         row.getAvgPeoplePerResv(),
                         row.getCancelledCount()
                 );
             }
+            writer.flush();
         } catch (IOException e) {
             throw new CustomException(CustomErrorCode.REPORT_EXPORT_FAILED);
         }
