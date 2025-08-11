@@ -8,7 +8,7 @@ const RevenueSeriesChart = ({ expoId }) => {
   const [monthlyData, setMonthlyData] = useState([]);
 
   useEffect(() => {
-    api.get(`/admin/${expoId}/stats?range=yearly`)
+    api.get(`/admin/expos/${expoId}/stats?range=yearly`)
       .then((res) => {
         const sorted = res.data.sort((a, b) => a.year - b.year);
         setYearlyData(sorted);
@@ -17,7 +17,7 @@ const RevenueSeriesChart = ({ expoId }) => {
   }, [expoId]);
 
   useEffect(() => {
-    api.get(`/admin/${expoId}/stats?range=monthly`)
+    api.get(`/admin/expos/${expoId}/stats?range=monthly`)
       .then((res) => {
         const sorted = res.data.sort((a, b) => a.month - b.month);
         setMonthlyData(sorted);

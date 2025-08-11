@@ -29,14 +29,14 @@ public class ExpoAdminController {
     }
 
     // 누적 매출, 총 결제 건수, 총 환불 건수
-    @GetMapping("/{expoId}/sales")
+    @GetMapping("/expos/{expoId}/sales")
     public ResponseEntity<SalesResponseDto> findSalesStatistics(@PathVariable Long expoId) {
         SalesResponseDto salesResponseDto = expoAdminService.findSalesStatistics(expoId);
         return ResponseEntity.ok(salesResponseDto);
     }
 
     // 연간 매출, 월간 매출, 일주일간 매출
-    @GetMapping("/{expoId}/stats")
+    @GetMapping("/expos/{expoId}/stats")
     public ResponseEntity<List<Map<String, Object>>> findSales(@PathVariable Long expoId, @RequestParam String range) {
         List<Map<String, Object>> sales;
         switch (range.toLowerCase()) {
@@ -56,14 +56,14 @@ public class ExpoAdminController {
     }
 
     // 결제 내역 관리
-    @GetMapping("/{expoId}/payment")
+    @GetMapping("/expos/{expoId}/payment")
     public ResponseEntity<List<PaymentResponseDto>> findAllPayments(@PathVariable Long expoId, @RequestParam(required = false) String code) {
         List<PaymentResponseDto> paymentResponseDto = expoAdminService.findAllPayments(expoId, code);
         return ResponseEntity.ok(paymentResponseDto);
     }
 
     // 환불 요청 관리, 환불 대기 관리, 환불 승인 관리
-    @GetMapping("/{expoId}/refund")
+    @GetMapping("/expos/{expoId}/refund")
     public ResponseEntity<List<RefundResponseDto>> findAllRefunds(@PathVariable Long expoId, @RequestParam(required = false) String status) {
         List<RefundResponseDto> refundResponseDto;
         if (status == null) {
