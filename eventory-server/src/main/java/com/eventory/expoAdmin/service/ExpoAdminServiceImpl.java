@@ -5,6 +5,7 @@ import com.eventory.common.entity.RefundStatus;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.dto.ExpoResponseDto;
+import com.eventory.expoAdmin.dto.PaymentResponseDto;
 import com.eventory.expoAdmin.dto.RefundResponseDto;
 import com.eventory.expoAdmin.dto.SalesResponseDto;
 import com.eventory.common.entity.Expo;
@@ -180,6 +181,11 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         return filteredRefunds.stream()
                 .map(expoMapper::toRefundResponseDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PaymentResponseDto> findAllPayments(Long expoId) {
+        return null;
     }
 
 

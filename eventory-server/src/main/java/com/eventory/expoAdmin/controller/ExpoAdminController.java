@@ -4,6 +4,7 @@ import com.eventory.common.entity.User;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.dto.ExpoResponseDto;
+import com.eventory.expoAdmin.dto.PaymentResponseDto;
 import com.eventory.expoAdmin.dto.RefundResponseDto;
 import com.eventory.expoAdmin.dto.SalesResponseDto;
 import com.eventory.expoAdmin.service.ExpoAdminService;
@@ -57,7 +58,11 @@ public class ExpoAdminController {
         return ResponseEntity.ok(sales);
     }
 
-    
+    @GetMapping("/{expoId}/payment")
+    public ResponseEntity<List<PaymentResponseDto>> findAllPayments(@PathVariable Long expoId) {
+        List<PaymentResponseDto> paymentResponseDto = expoAdminService.findAllPayments(expoId);
+        return ResponseEntity.ok(paymentResponseDto);
+    }
 
     // 환불 요청 관리, 환불 대기 관리, 환불 승인 관리
     @GetMapping("/{expoId}/refund")
