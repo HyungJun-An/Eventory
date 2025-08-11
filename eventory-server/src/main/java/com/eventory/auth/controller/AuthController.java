@@ -4,10 +4,11 @@ import com.eventory.auth.dto.LoginRequest;
 import com.eventory.auth.dto.LoginResponse;
 import com.eventory.auth.dto.SignupRequest;
 import com.eventory.auth.dto.SignupResponse;
-import com.eventory.auth.security.JwtAuthenticationFilter;
 import com.eventory.auth.service.AuthService;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,7 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    // 리프레시 토큰 재발급
     @PostMapping("/refresh")
     public ResponseEntity<LoginResponse> refreshToken(HttpServletRequest request) {
 //        String refreshToken = new JwtAuthenticationFilter().resolveToken(request);
@@ -63,15 +65,26 @@ public class AuthController {
         return ResponseEntity.ok(newTokens);
     }
 
-    /**
-     * 사용자 로그아웃 요청을 처리
-     * @param authHeader Authorization 헤더 (Bearer 토큰)
-     * @return 로그아웃 완료 메시지
-     */
+    // 로그아웃
+//    @PostMapping("/logout")
+//    public ResponseEntity<Void> logout(HttpServletRequest request) {
+//        String authHeader = request.getHeader("Authorization");
+//        if (!StringUtils.hasText(authHeader) || !authHeader.startsWith("Bearer ")) {
+//            throw new CustomException(CustomErrorCode.INVALID_ACCESS_TOKEN);
+//        }
+//        String accessToken = authHeader.substring(7);
+//        authService.logout(accessToken);
+//        return ResponseEntity.ok().build();
+//    }
+    @Operation(security = { @SecurityRequirement(name = "bearerAuth") })
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(@RequestHeader("Authorization") String authHeader) {
-        String accessToken = authHeader.replace("Bearer ", "");
+    public ResponseEntity<Void> logout(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        System.out.println("⭐authHeader : " + authHeader);
+        if (!StringUtils.hasText(authHeader) || !authHeader.startsWith("Bearer ")) {
+            throw new CustomException(CustomErrorCode.INVALID_ACCESS_TOKEN);
+        }
+        String accessToken = authHeader.substring(7);
         authService.logout(accessToken);
-        return ResponseEntity.ok("로그아웃 완료");
+        return ResponseEntity.ok().build();
     }
 }
