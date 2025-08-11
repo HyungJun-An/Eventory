@@ -6,14 +6,12 @@ import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.dto.*;
 import com.eventory.expoAdmin.service.ExpoAdminService;
 import com.eventory.expoAdmin.web.FileResponseUtils;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
