@@ -1,15 +1,12 @@
 package com.eventory.expoAdmin.service;
 
-import com.eventory.common.entity.Refund;
-import com.eventory.common.entity.RefundStatus;
+import com.eventory.common.entity.*;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.dto.ExpoResponseDto;
 import com.eventory.expoAdmin.dto.PaymentResponseDto;
 import com.eventory.expoAdmin.dto.RefundResponseDto;
 import com.eventory.expoAdmin.dto.SalesResponseDto;
-import com.eventory.common.entity.Expo;
-import com.eventory.common.entity.ExpoStatistics;
 import com.eventory.common.repository.*;
 import com.eventory.expoAdmin.service.mapper.ExpoMapper;
 import lombok.RequiredArgsConstructor;
@@ -185,7 +182,10 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     @Override
     public List<PaymentResponseDto> findAllPayments(Long expoId) {
-        return null;
+        List<Reservation> reservations = reservationRepository.findByExpoIdWithUserAndPayment(expoId);
+        return reservations.stream()
+                .map(expoMapper::toPaymentResponseDto)
+                .collect(Collectors.toList());
     }
 
 

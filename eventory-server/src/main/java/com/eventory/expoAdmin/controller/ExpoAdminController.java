@@ -58,6 +58,7 @@ public class ExpoAdminController {
         return ResponseEntity.ok(sales);
     }
 
+    // 결제 내역 관리
     @GetMapping("/{expoId}/payment")
     public ResponseEntity<List<PaymentResponseDto>> findAllPayments(@PathVariable Long expoId) {
         List<PaymentResponseDto> paymentResponseDto = expoAdminService.findAllPayments(expoId);

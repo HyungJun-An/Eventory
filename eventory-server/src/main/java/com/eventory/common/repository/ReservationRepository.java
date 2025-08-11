@@ -42,13 +42,26 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
       AND p.paidAt < :endDate
     GROUP BY DATE(p.paidAt)
     ORDER BY DATE(p.paidAt)
-""")
+    """)
     List<Object[]> findDailySalesLast7Days(@Param("expoId") Long expoId,
                                            @Param("startDate") LocalDateTime startDate,
                                            @Param("endDate") LocalDateTime endDate);
 
-    @Query("SELECT r.payment.paymentId FROM reservation r WHERE r.expo.expoId = :expoId")
+    @Query("""
+    SELECT r.payment.paymentId 
+    FROM reservation r 
+    WHERE r.expo.expoId = :expoId
+    """)
     List<Long> findPaymentIdsByExpoId(@Param("expoId") Long expoId);
 
     Optional<Reservation> findByPayment_PaymentId(Long paymentId);
+
+    @Query("""
+        SELECT r
+        FROM reservation r
+        JOIN FETCH r.user u
+        JOIN FETCH r.payment p
+        WHERE r.expo.expoId = :expoId
+    """)
+    List<Reservation> findByExpoIdWithUserAndPayment(@Param("expoId") Long expoId);
 }
