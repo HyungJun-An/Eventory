@@ -256,21 +256,27 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         return MONTH_YM.format(ym.atDay(1));
     }
 
-    // 일별 예약 수 (이번 주 월~일 요일별 예약 수 (오늘이 포함된 월~일까지 7일간))
+    // 일별 예약 수 (최근 7일간 일별 예약 수 (오늘 기준 지난 7일(6일 전 ~ 오늘)))
     @Override
     public List<ReservationStatResponseDto> getDailyReservationStats(Long expoId) {
         assertValidExpoId(expoId);
-        LocalDate monday = LocalDate.now().with(DayOfWeek.MONDAY); // 이번 주의 월요일
+        LocalDate today = LocalDate.now();
+        LocalDate startDate = today.minusDays(6); // 총 7일
 
-        return IntStream.range(0, 7) // 0부터 6까지 반복 (총 7일)
+        return IntStream.rangeClosed(0, 6) // 0..6 (오름차순) => startDate -> today
                 .mapToObj(i -> {
-                    LocalDate date = monday.plusDays(i); // 월요일부터 하루씩 증가
-                    Long count = reservationRepository.countByExpoIdAndCreatedDate(expoId, date);
+                    LocalDate d = startDate.plusDays(i);
 
-                    // 각 날짜에 예약된 인원 수
-                    return expoMapper.toReservationStatResponseDto(labelDaily(date), count);
+                    // [start, end) 반열림 구간으로 하루 범위 설정 (시/분/초 경계 오차 방지)
+                    LocalDateTime start = d.atStartOfDay();
+                    LocalDateTime end = d.plusDays(1).atStartOfDay();
+
+                    Long peopleSum = reservationRepository
+                            .sumPeopleByExpoAndCreatedBetween(expoId, start, end);
+
+                    return expoMapper.toReservationStatResponseDto(labelDaily(d), peopleSum);
                 })
-                .toList();
+                .toList(); // 결과: 순서 — 오늘이 맨 마지막(차트 오른쪽/리스트 하단)
     }
 
     // 주별 예약 수 (최근 4주간 주차별 예약 수 (오늘 기준 최근 4주 (주 단위 구간)))
@@ -281,14 +287,19 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
         List<ReservationStatResponseDto> result = new ArrayList<>();
 
-        // 오래된주 → 최신주 (오른쪽이 최신)
+        // 오래된 → 최신 (오른쪽이 최신)
         for (int i = 3; i >= 0; i--) {
-            LocalDate start = baseSunday.minusWeeks(i).with(DayOfWeek.MONDAY); // 주 시작일
-            LocalDate end = start.plusDays(6); // 주 종료일 (일요일)
-            assertValidRange(start, end);
-            Long count = reservationRepository.countByExpoIdAndDateRange(expoId, start, end);
+            LocalDate startDate = baseSunday.minusWeeks(i).with(DayOfWeek.MONDAY); // 주 시작일
+            LocalDate endDate   = startDate.plusDays(6); // 주 종료일 (일요일)
 
-            result.add(expoMapper.toReservationStatResponseDto(labelWeek(start, end), count));
+            assertValidRange(startDate, endDate);
+            LocalDateTime start = startDate.atStartOfDay();
+            LocalDateTime end   = endDate.plusDays(1).atStartOfDay(); // [월 00:00, 다음주 월 00:00)
+
+            Long peopleSum = reservationRepository
+                    .sumPeopleByExpoAndCreatedBetween(expoId, start, end);
+
+            result.add(expoMapper.toReservationStatResponseDto(labelWeek(startDate, endDate), peopleSum));
         }
         return result;
     }
@@ -298,16 +309,23 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     public List<ReservationStatResponseDto> getMonthlyReservationStats(Long expoId) {
         assertValidExpoId(expoId);
         YearMonth currentMonth = YearMonth.now(); // 기준: 현재 월
+
         List<ReservationStatResponseDto> result = new ArrayList<>();
 
+        // 오래된 → 최신 (오른쪽이 최신)
         for (int i = 3; i >= 0; i--) {
-            YearMonth month = currentMonth.minusMonths(i); // 3개월 전부터 이번 달까지 반복
-            LocalDate start = month.atDay(1); // 해당 월의 1일
-            LocalDate end = month.atEndOfMonth(); // 해당 월의 말일
-            assertValidRange(start, end);
-            Long count = reservationRepository.countByExpoIdAndDateRange(expoId, start, end);
+            YearMonth ym = currentMonth.minusMonths(i);
+            LocalDate startDate = ym.atDay(1); // 해당 월의 1일
+            LocalDate endDate   = ym.atEndOfMonth(); // 해당 월의 말일
 
-            result.add(expoMapper.toReservationStatResponseDto(labelMonth(month), count));
+            assertValidRange(startDate, endDate);
+            LocalDateTime start = startDate.atStartOfDay();
+            LocalDateTime end   = endDate.plusDays(1).atStartOfDay(); // [1일 00:00, 다음달 1일 00:00)
+
+            Long peopleSum = reservationRepository
+                    .sumPeopleByExpoAndCreatedBetween(expoId, start, end);
+
+            result.add(expoMapper.toReservationStatResponseDto(labelMonth(ym), peopleSum));
         }
         return result;
     }

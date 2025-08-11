@@ -84,7 +84,7 @@ public class ExpoAdminController {
                                                                      @RequestParam String period // "daily" | "weekly" | "monthly"
                                                                      ) {
         return switch (period.toLowerCase()) {
-            case "daily" -> ResponseEntity.ok(expoAdminService.getDailyReservationStats(expoId)); // 일별 예약 수 (이번 주 월~일 요일별 예약 수 (오늘이 포함된 월~일까지 7일간))
+            case "daily" -> ResponseEntity.ok(expoAdminService.getDailyReservationStats(expoId)); // 일별 예약 수 (최근 7일간 일별 예약 수 (오늘 기준 지난 7일(6일 전 ~ 오늘)))
             case "weekly" -> ResponseEntity.ok(expoAdminService.getWeeklyReservationStats(expoId)); // 주별 예약 수 (최근 4주간 주차별 예약 수 (오늘 기준 최근 4주 (주 단위 구간)))
             case "monthly" -> ResponseEntity.ok(expoAdminService.getMonthlyReservationStats(expoId)); // 월별 예약 수 (최근 4개월 간 월별 예약 수 (오늘 기준 최근 4개월 (월 단위))
             default -> throw new CustomException(CustomErrorCode.INVALID_PERIOD);
