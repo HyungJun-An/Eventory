@@ -44,12 +44,9 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    // 리프레시 토큰 재발급
+    /** 리프레시 토큰 재발급 */
     @PostMapping("/refresh")
     public ResponseEntity<LoginResponse> refreshToken(HttpServletRequest request) {
-//        String refreshToken = new JwtAuthenticationFilter().resolveToken(request);
-//        LoginResponse newTokens = authService.refreshAccessToken(refreshToken);
-//        return ResponseEntity.ok(newTokens);
         // 1. Authorization 헤더에서 "Bearer " 이후의 토큰 값 추출
         String authHeader = request.getHeader("Authorization");
         String refreshToken = (StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer "))
@@ -65,17 +62,7 @@ public class AuthController {
         return ResponseEntity.ok(newTokens);
     }
 
-    // 로그아웃
-//    @PostMapping("/logout")
-//    public ResponseEntity<Void> logout(HttpServletRequest request) {
-//        String authHeader = request.getHeader("Authorization");
-//        if (!StringUtils.hasText(authHeader) || !authHeader.startsWith("Bearer ")) {
-//            throw new CustomException(CustomErrorCode.INVALID_ACCESS_TOKEN);
-//        }
-//        String accessToken = authHeader.substring(7);
-//        authService.logout(accessToken);
-//        return ResponseEntity.ok().build();
-//    }
+    /** 로그아웃 */
     @Operation(security = { @SecurityRequirement(name = "bearerAuth") })
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@RequestHeader(value = "Authorization", required = false) String authHeader) {
