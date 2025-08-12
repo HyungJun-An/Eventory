@@ -38,7 +38,10 @@ public enum CustomErrorCode {
     EXCEL_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "R006", "엑셀 생성에 실패했습니다."),
 
 	// 박람회 E
-	CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "E001", "카테고리가 존재하지 않습니다");
+	CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "E001", "카테고리가 존재하지 않습니다"),
+	EXPO_NOT_FOUND(HttpStatus.NOT_FOUND, "E002", "박람회가 존재하지 않습니다"),
+	HANDLED_EXPO(HttpStatus.BAD_REQUEST, "E003", "이미 처리된 박람회입니다"),
+	REASON_REQUIRED(HttpStatus.BAD_REQUEST, "E004", "거절 사유가 필요합니다");
 
 
     private final HttpStatus status;

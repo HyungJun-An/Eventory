@@ -69,4 +69,13 @@ public class Expo {
 
     @Column(name = "reason", length = 255, nullable = true)
     private String reason;
+    
+    public void approve() {
+    	this.status = ExpoStatus.APPROVED;
+    }
+    
+    public void reject(String reason) {
+    	this.status = ExpoStatus.REJECTED;
+    	this.reason = reason;
+    }
 }
