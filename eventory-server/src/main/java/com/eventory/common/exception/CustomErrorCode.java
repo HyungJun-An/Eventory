@@ -27,7 +27,7 @@ public enum CustomErrorCode {
     NOT_FOUNT_STATISTICS(HttpStatus.NOT_FOUND, "R002", "지원하지 않는 range 값입니다."),
     NOT_FOUNT_RANGE(HttpStatus.NOT_FOUND, "R003", "지원하지 않는 range 값입니다."),
 
-    // 대시보드/리포트 D
+    // 박람회 관리자 D
     INVALID_PERIOD(HttpStatus.BAD_REQUEST, "D001", "유효하지 않은 통계 기간입니다."),
     EXPO_NOT_FOUND(HttpStatus.NOT_FOUND, "D002", "해당 박람회를 찾을 수 없습니다."),
     INVALID_ID(HttpStatus.BAD_REQUEST, "D003", "유효하지 않은 식별자입니다."),
