@@ -5,7 +5,7 @@ import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.dto.*;
 import com.eventory.expoAdmin.service.ExpoAdminService;
-import jakarta.annotation.Resource;
+import org.springframework.core.io.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -66,15 +66,18 @@ public class ExpoAdminController {
     }
 
     // 결제 내역 엑셀 다운로드
-    /*@PostMapping("/expos/{expoId}/payment/report")
+    @PostMapping("/expos/{expoId}/payment/report")
     public ResponseEntity<Resource> downloadPaymentsExcel(@PathVariable Long expoId) {
-        Resource excel = expoAdminService.downloadPaymentsExcel(expoId);
+
+        List<PaymentResponseDto> paymentResponseDto = expoAdminService.findAllPayments(expoId, null);
+
+        Resource excel = expoAdminService.downloadPaymentsExcel(paymentResponseDto);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=payment.xlsx")
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(excel);
-    }*/
+    }
 
     // 환불 요청 관리, 환불 대기 관리, 환불 승인 관리
     @GetMapping("/expos/{expoId}/refund")
