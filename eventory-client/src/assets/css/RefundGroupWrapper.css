@@ -1,4 +1,4 @@
-.view {
+.refund-group-wrapper {
   height: 25px;
   left: 40px;
   position: absolute;
@@ -6,7 +6,7 @@
   width: 749px;
 }
 
-.view .text-wrapper-26 {
+.refund-group-wrapper .text-wrapper-26 {
   color: #007bff;
   font-family: "Inter", Helvetica;
   font-size: 13px;
@@ -18,7 +18,7 @@
   top: 0;
 }
 
-.view .text-wrapper-27 {
+.refund-group-wrapper .text-wrapper-27 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 13px;
@@ -30,7 +30,7 @@
   top: 0;
 }
 
-.view .text-wrapper-28 {
+.refund-group-wrapper .text-wrapper-28 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 13px;
@@ -42,7 +42,7 @@
   top: 0;
 }
 
-.view .overlap-3 {
+.refund-group-wrapper .overlap-3 {
   height: 3px;
   left: 0;
   position: absolute;
@@ -50,7 +50,7 @@
   width: 743px;
 }
 
-.view .rectangle-12 {
+.refund-group-wrapper .rectangle-12 {
   background-color: #f8f9fa;
   height: 1px;
   left: 0;
@@ -59,7 +59,7 @@
   width: 743px;
 }
 
-.view .rectangle-13 {
+.refund-group-wrapper .rectangle-13 {
   background-color: #007bff;
   border-radius: 10px 10px 0px 0px;
   height: 3px;

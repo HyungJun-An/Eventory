@@ -1,4 +1,4 @@
-.div-wrapper {
+.refund-view {
   height: 120px;
   left: 40px;
   position: absolute;
@@ -6,7 +6,7 @@
   width: 1110px;
 }
 
-.div-wrapper .group-14 {
+.refund-view .group-14 {
   background-color: #ffffff;
   border-radius: 25px;
   height: 120px;
@@ -16,7 +16,7 @@
   width: 350px;
 }
 
-.div-wrapper .group-15 {
+.refund-view .group-15 {
   height: 70px;
   left: 78px;
   position: relative;
@@ -24,7 +24,7 @@
   width: 168px;
 }
 
-.div-wrapper .group-16 {
+.refund-view .group-16 {
   height: 51px;
   left: 85px;
   position: absolute;
@@ -32,7 +32,7 @@
   width: 87px;
 }
 
-.div-wrapper .text-wrapper-29 {
+.refund-view .text-wrapper-29 {
   color: #343a40;
   font-family: var(--heading-four-semibold-20p-font-family);
   font-size: var(--heading-four-semibold-20p-font-size);
@@ -46,7 +46,7 @@
   white-space: nowrap;
 }
 
-.div-wrapper .text-wrapper-30 {
+.refund-view .text-wrapper-30 {
   color: #343a40b2;
   font-family: "Inter", Helvetica;
   font-size: 16px;
@@ -59,7 +59,7 @@
   white-space: nowrap;
 }
 
-.div-wrapper .group-17 {
+.refund-view .group-17 {
   height: 70px;
   left: 0;
   position: absolute;
@@ -67,7 +67,7 @@
   width: 70px;
 }
 
-.div-wrapper .group-18 {
+.refund-view .group-18 {
   background-color: #ffffff;
   border-radius: 25px;
   height: 120px;
@@ -77,7 +77,7 @@
   width: 350px;
 }
 
-.div-wrapper .group-19 {
+.refund-view .group-19 {
   height: 70px;
   left: 48px;
   position: relative;
@@ -85,7 +85,7 @@
   width: 179px;
 }
 
-.div-wrapper .group-20 {
+.refund-view .group-20 {
   height: 51px;
   left: 85px;
   position: absolute;
@@ -93,7 +93,7 @@
   width: 98px;
 }
 
-.div-wrapper .text-wrapper-31 {
+.refund-view .text-wrapper-31 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 20px;
@@ -106,7 +106,7 @@
   white-space: nowrap;
 }
 
-.div-wrapper .group-21 {
+.refund-view .group-21 {
   background-color: #ffffff;
   border-radius: 25px;
   height: 120px;
@@ -116,7 +116,7 @@
   width: 350px;
 }
 
-.div-wrapper .group-22 {
+.refund-view .group-22 {
   height: 70px;
   left: 44px;
   position: relative;
