@@ -18,7 +18,7 @@ const SideBar = () => {
       </div>
 
       <div className="div-2">
-        <div className="text-wrapper">예약 관리</div>
+        <div className="text-wrapper-2">예약 관리</div>
 
         <img
           className="img"

@@ -1,6 +1,7 @@
 package com.eventory.expoAdmin.service;
 
 import com.eventory.expoAdmin.dto.*;
+import jakarta.annotation.Resource;
 
 import java.util.List;
 import java.util.Map;
@@ -17,4 +18,6 @@ public interface ExpoAdminService {
     List<PaymentResponseDto> findAllPayments(Long expoId, String reservationCode);
 
     void updateRefundStatus(Long refundId, RefundRequestDto request);
+
+    // Resource downloadPaymentsExcel(Long expoId);
 }

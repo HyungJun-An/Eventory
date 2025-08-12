@@ -1,4 +1,4 @@
-.div-wrapper {
+.dashboard {
   background-color: #ffffff;
   display: flex;
   flex-direction: row;
@@ -6,19 +6,19 @@
   width: 100%;
 }
 
-.div-wrapper .overlap-wrapper {
+.dashboard .overlap-wrapper {
   background-color: #ffffff;
   height: 1175px;
   overflow: hidden;
   width: 1440px;
 }
 
-.div-wrapper .overlap {
+.dashboard .overlap {
   height: 1184px;
   position: relative;
 }
 
-.div-wrapper .overlap-group {
+.dashboard .overlap-group {
   background-color: #f4f6f9;
   height: 1083px;
   left: 250px;
@@ -27,7 +27,7 @@
   width: 1190px;
 }
 
-.div-wrapper .group {
+.dashboard .group {
   height: 446px;
   left: 40px;
   position: absolute;
@@ -35,7 +35,7 @@
   width: 1110px;
 }
 
-.div-wrapper .weekly-activity {
+.dashboard .weekly-activity {
   height: 445px;
   left: 0;
   position: absolute;
@@ -43,7 +43,7 @@
   width: 732px;
 }
 
-.div-wrapper .text-wrapper {
+.dashboard .text-wrapper {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 22px;
@@ -55,7 +55,7 @@
   top: 0;
 }
 
-.div-wrapper .group-wrapper {
+.dashboard .group-wrapper {
   background-image: url(https://c.animaapp.com/mdwrp9urLhB6f1/img/group-240.png);
   background-size: 100% 100%;
   height: 400px;
@@ -65,7 +65,7 @@
   width: 730px;
 }
 
-.div-wrapper .overlap-group-wrapper {
+.dashboard .overlap-group-wrapper {
   height: 45px;
   left: 489px;
   position: relative;
@@ -73,7 +73,7 @@
   width: 235px;
 }
 
-.div-wrapper .div {
+.dashboard .div {
   background-color: #f4f6f9;
   border-radius: 9px;
   height: 45px;
@@ -81,7 +81,7 @@
   width: 229px;
 }
 
-.div-wrapper .overlap-2 {
+.dashboard .overlap-2 {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0px 0px 0px transparent, 0px 0px 0px transparent,
@@ -94,7 +94,7 @@
   width: 74px;
 }
 
-.div-wrapper .text-wrapper-2 {
+.dashboard .text-wrapper-2 {
   color: #007bff;
   font-family: "Inter", Helvetica;
   font-size: 14px;
@@ -108,7 +108,7 @@
   white-space: nowrap;
 }
 
-.div-wrapper .text-wrapper-3 {
+.dashboard .text-wrapper-3 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 14px;
@@ -122,7 +122,7 @@
   white-space: nowrap;
 }
 
-.div-wrapper .text-wrapper-4 {
+.dashboard .text-wrapper-4 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 14px;
@@ -136,7 +136,7 @@
   white-space: nowrap;
 }
 
-.div-wrapper .group-2 {
+.dashboard .group-2 {
   height: 33px;
   left: 453px;
   position: absolute;
@@ -144,7 +144,7 @@
   width: 132px;
 }
 
-.div-wrapper .overlap-3 {
+.dashboard .overlap-3 {
   border: 1px solid;
   border-color: #007bff;
   border-radius: 9px;
@@ -153,7 +153,7 @@
   width: 130px;
 }
 
-.div-wrapper .text-wrapper-5 {
+.dashboard .text-wrapper-5 {
   color: #007bff;
   font-family: "Inter", Helvetica;
   font-size: 14px;
@@ -165,7 +165,7 @@
   top: 7px;
 }
 
-.div-wrapper .group-3 {
+.dashboard .group-3 {
   height: 33px;
   left: 600px;
   position: absolute;
@@ -173,7 +173,7 @@
   width: 132px;
 }
 
-.div-wrapper .overlap-4 {
+.dashboard .overlap-4 {
   border: 1px solid;
   border-color: #28a745;
   border-radius: 9px;
@@ -182,7 +182,7 @@
   width: 130px;
 }
 
-.div-wrapper .text-wrapper-6 {
+.dashboard .text-wrapper-6 {
   color: #28a745;
   font-family: "Inter", Helvetica;
   font-size: 14px;
@@ -194,7 +194,7 @@
   top: 7px;
 }
 
-.div-wrapper .expense-stats {
+.dashboard .expense-stats {
   height: 445px;
   left: 760px;
   position: absolute;
@@ -202,7 +202,7 @@
   width: 352px;
 }
 
-.div-wrapper .group-4 {
+.dashboard .group-4 {
   height: 402px;
   left: -6px;
   position: absolute;
@@ -210,7 +210,7 @@
   width: 363px;
 }
 
-.div-wrapper .group-5 {
+.dashboard .group-5 {
   height: 190px;
   left: 38px;
   position: absolute;
@@ -218,7 +218,7 @@
   width: 1110px;
 }
 
-.div-wrapper .group-6 {
+.dashboard .group-6 {
   background-color: #ffffff;
   border-radius: 25px;
   height: 190px;
@@ -228,7 +228,7 @@
   width: 350px;
 }
 
-.div-wrapper .group-7 {
+.dashboard .group-7 {
   height: 111px;
   left: 66px;
   position: relative;
@@ -236,7 +236,7 @@
   width: 221px;
 }
 
-.div-wrapper .group-8 {
+.dashboard .group-8 {
   height: 81px;
   left: 122px;
   position: absolute;
@@ -244,7 +244,7 @@
   width: 103px;
 }
 
-.div-wrapper .text-wrapper-7 {
+.dashboard .text-wrapper-7 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 24px;
@@ -253,11 +253,10 @@
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  top: 43px;
   width: 99px;
 }
 
-.div-wrapper .text-wrapper-8 {
+.dashboard .text-wrapper-8 {
   color: #718ebf;
   font-family: "Inter", Helvetica;
   font-size: 22px;
@@ -270,7 +269,7 @@
   width: 99px;
 }
 
-.div-wrapper .group-9 {
+.dashboard .group-9 {
   height: 111px;
   left: 0;
   position: absolute;
@@ -278,7 +277,7 @@
   width: 110px;
 }
 
-.div-wrapper .group-10 {
+.dashboard .group-10 {
   background-color: #ffffff;
   border-radius: 25px;
   height: 190px;
@@ -288,7 +287,7 @@
   width: 350px;
 }
 
-.div-wrapper .group-11 {
+.dashboard .group-11 {
   height: 111px;
   left: 45px;
   position: relative;
@@ -296,7 +295,7 @@
   width: 261px;
 }
 
-.div-wrapper .group-12 {
+.dashboard .group-12 {
   height: 81px;
   left: 122px;
   position: absolute;
@@ -304,7 +303,7 @@
   width: 142px;
 }
 
-.div-wrapper .text-wrapper-9 {
+.dashboard .text-wrapper-9 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 24px;
@@ -317,7 +316,7 @@
   width: 102px;
 }
 
-.div-wrapper .text-wrapper-10 {
+.dashboard .text-wrapper-10 {
   color: #718ebf;
   font-family: "Inter", Helvetica;
   font-size: 22px;
@@ -330,7 +329,7 @@
   width: 138px;
 }
 
-.div-wrapper .group-13 {
+.dashboard .group-13 {
   background-color: #ffffff;
   border-radius: 25px;
   height: 190px;
@@ -340,7 +339,7 @@
   width: 350px;
 }
 
-.div-wrapper .group-14 {
+.dashboard .group-14 {
   height: 111px;
   left: 45px;
   position: relative;
@@ -348,7 +347,7 @@
   width: 272px;
 }
 
-.div-wrapper .group-15 {
+.dashboard .group-15 {
   height: 81px;
   left: 121px;
   position: absolute;
@@ -356,7 +355,7 @@
   width: 155px;
 }
 
-.div-wrapper .text-wrapper-11 {
+.dashboard .text-wrapper-11 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 24px;
@@ -369,7 +368,7 @@
   width: 146px;
 }
 
-.div-wrapper .text-wrapper-12 {
+.dashboard .text-wrapper-12 {
   color: #718ebf;
   font-family: "Inter", Helvetica;
   font-size: 22px;
@@ -382,7 +381,7 @@
   width: 151px;
 }
 
-.div-wrapper .overlap-5 {
+.dashboard .overlap-5 {
   height: 1184px;
   left: 0;
   position: absolute;
@@ -390,7 +389,7 @@
   width: 1440px;
 }
 
-.div-wrapper .header {
+.dashboard .header {
   background-color: transparent;
   height: 101px;
   left: 0;
@@ -399,7 +398,7 @@
   width: 1440px;
 }
 
-.div-wrapper .overlap-6 {
+.dashboard .overlap-6 {
   background-color: #ffffff;
   height: 100px;
   left: 0;
@@ -408,7 +407,7 @@
   width: 1440px;
 }
 
-.div-wrapper .group-16 {
+.dashboard .group-16 {
   height: 36px;
   left: 43px;
   position: absolute;
@@ -416,7 +415,7 @@
   width: 351px;
 }
 
-.div-wrapper .group-17 {
+.dashboard .group-17 {
   height: 34px;
   left: 247px;
   position: absolute;
@@ -424,7 +423,7 @@
   width: 106px;
 }
 
-.div-wrapper .text-wrapper-13 {
+.dashboard .text-wrapper-13 {
   color: #007bff;
   font-family: "Inter", Helvetica;
   font-size: 28px;
@@ -436,7 +435,7 @@
   top: 0;
 }
 
-.div-wrapper .logo {
+.dashboard .logo {
   height: 36px;
   left: 0;
   position: absolute;
@@ -444,23 +443,23 @@
   width: 157px;
 }
 
-.div-wrapper .website-logos-instance {
+.dashboard .website-logos-instance {
   gap: 9.81px !important;
   height: 36px !important;
   width: 157px !important;
 }
 
-.div-wrapper .design-component-instance-node {
+.dashboard .design-component-instance-node {
   height: 27.44px !important;
   width: 30.66px !important;
 }
 
-.div-wrapper .website-logos-2 {
+.dashboard .website-logos-2 {
   height: 24.84px !important;
   width: 110.39px !important;
 }
 
-.div-wrapper .group-18 {
+.dashboard .group-18 {
   height: 46px;
   left: 1252px;
   position: absolute;
@@ -468,7 +467,7 @@
   width: 150px;
 }
 
-.div-wrapper .overlap-group-2 {
+.dashboard .overlap-group-2 {
   background-color: var(--white);
   border: 1px solid;
   border-color: #007bff;
@@ -478,7 +477,7 @@
   width: 148px;
 }
 
-.div-wrapper .text-wrapper-14 {
+.dashboard .text-wrapper-14 {
   color: #007bff;
   font-family: "Inter", Helvetica;
   font-size: 18px;
@@ -491,7 +490,7 @@
   width: 70px;
 }
 
-.div-wrapper .group-19 {
+.dashboard .group-19 {
   height: 46px;
   left: 1025px;
   position: absolute;
@@ -499,7 +498,7 @@
   width: 191px;
 }
 
-.div-wrapper .overlap-7 {
+.dashboard .overlap-7 {
   background-color: #f4f6f9;
   border-radius: 9px;
   height: 46px;
@@ -507,7 +506,7 @@
   width: 189px;
 }
 
-.div-wrapper .vector {
+.dashboard .vector {
   height: 5px;
   left: 158px;
   position: absolute;
@@ -515,7 +514,7 @@
   width: 11px;
 }
 
-.div-wrapper .text-wrapper-15 {
+.dashboard .text-wrapper-15 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 18px;
@@ -528,7 +527,7 @@
   width: 89px;
 }
 
-.div-wrapper .rectangle {
+.dashboard .rectangle {
   background-color: #e5eef4;
   height: 1px;
   left: 250px;
@@ -537,7 +536,7 @@
   width: 1190px;
 }
 
-.div-wrapper .sidebar-menu {
+.dashboard .sidebar-menu {
   height: 1184px;
   left: 0;
   position: absolute;
@@ -545,7 +544,7 @@
   width: 250px;
 }
 
-.div-wrapper .group-20 {
+.dashboard .group-20 {
   height: 426px;
   left: 0;
   position: absolute;
@@ -553,7 +552,7 @@
   width: 183px;
 }
 
-.div-wrapper .group-21 {
+.dashboard .group-21 {
   height: 25px;
   left: 44px;
   position: absolute;
@@ -561,7 +560,7 @@
   width: 124px;
 }
 
-.div-wrapper .img-2 {
+.dashboard .img-2 {
   height: 25px;
   left: 0;
   position: absolute;
@@ -569,7 +568,7 @@
   width: 25px;
 }
 
-.div-wrapper .text-wrapper-16 {
+.dashboard .text-wrapper-16 {
   color: #b1b1b1;
   font-family: var(--heading-three-medium-18p-font-family);
   font-size: var(--heading-three-medium-18p-font-size);
@@ -582,7 +581,7 @@
   top: 2px;
 }
 
-.div-wrapper .group-22 {
+.dashboard .group-22 {
   height: 25px;
   left: 44px;
   position: absolute;
@@ -590,7 +589,7 @@
   width: 124px;
 }
 
-.div-wrapper .text-wrapper-17 {
+.dashboard .text-wrapper-17 {
   color: #b1b1b1;
   font-family: "Inter", Helvetica;
   font-size: 18px;
@@ -602,7 +601,7 @@
   top: 2px;
 }
 
-.div-wrapper .group-23 {
+.dashboard .group-23 {
   height: 26px;
   left: 43px;
   position: absolute;
@@ -610,7 +609,7 @@
   width: 125px;
 }
 
-.div-wrapper .credit-card {
+.dashboard .credit-card {
   height: 26px;
   left: 0;
   position: absolute;
@@ -618,7 +617,7 @@
   width: 26px;
 }
 
-.div-wrapper .text-wrapper-18 {
+.dashboard .text-wrapper-18 {
   color: #b1b1b1;
   font-family: "Inter", Helvetica;
   font-size: 18px;
@@ -630,7 +629,7 @@
   top: 2px;
 }
 
-.div-wrapper .group-24 {
+.dashboard .group-24 {
   height: 25px;
   left: 43px;
   position: absolute;
@@ -638,7 +637,7 @@
   width: 125px;
 }
 
-.div-wrapper .text-wrapper-19 {
+.dashboard .text-wrapper-19 {
   color: #b1b1b1;
   font-family: "Inter", Helvetica;
   font-size: 18px;
@@ -650,7 +649,7 @@
   top: 1px;
 }
 
-.div-wrapper .group-25 {
+.dashboard .group-25 {
   height: 25px;
   left: 43px;
   position: absolute;
@@ -658,7 +657,7 @@
   width: 125px;
 }
 
-.div-wrapper .text-wrapper-20 {
+.dashboard .text-wrapper-20 {
   color: #b1b1b1;
   font-family: "Inter", Helvetica;
   font-size: 18px;
@@ -671,7 +670,7 @@
   width: 71px;
 }
 
-.div-wrapper .group-26 {
+.dashboard .group-26 {
   height: 25px;
   left: 44px;
   position: absolute;
@@ -679,7 +678,7 @@
   width: 141px;
 }
 
-.div-wrapper .text-wrapper-21 {
+.dashboard .text-wrapper-21 {
   color: #b1b1b1;
   font-family: "Inter", Helvetica;
   font-size: 18px;
@@ -691,7 +690,7 @@
   top: 1px;
 }
 
-.div-wrapper .group-27 {
+.dashboard .group-27 {
   height: 60px;
   left: 0;
   position: absolute;
@@ -699,7 +698,7 @@
   width: 164px;
 }
 
-.div-wrapper .home {
+.dashboard .home {
   height: 25px;
   left: 44px;
   position: absolute;
@@ -707,7 +706,7 @@
   width: 25px;
 }
 
-.div-wrapper .text-wrapper-22 {
+.dashboard .text-wrapper-22 {
   color: #007bff;
   font-family: "Inter", Helvetica;
   font-size: 18px;
@@ -719,7 +718,7 @@
   top: 19px;
 }
 
-.div-wrapper .rectangle-2 {
+.dashboard .rectangle-2 {
   background-color: #007bff;
   border-radius: 0px 10px 10px 0px;
   height: 60px;
@@ -729,7 +728,7 @@
   width: 6px;
 }
 
-.div-wrapper .rectangle-3 {
+.dashboard .rectangle-3 {
   background-color: #e6eff5;
   height: 1184px;
   left: 249px;

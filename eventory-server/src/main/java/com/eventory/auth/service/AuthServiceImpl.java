@@ -8,11 +8,13 @@ import com.eventory.auth.repository.UserRepository;
 import com.eventory.auth.repository.UserTypeRepository;
 
 import com.eventory.auth.security.JwtTokenProvider;
+import com.eventory.auth.tokenStore.TokenStore;
 import com.eventory.common.entity.User;
 import com.eventory.common.entity.UserType;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserTypeRepository userTypeRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final TokenStore tokenStore;
 
     // 회원가입
     @Override
@@ -130,27 +133,32 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void logout(String accessToken) {
-//        Long userId = jwtTokenProvider.getUserIdFromToken(accessToken);
-//
-//        long expiration = jwtTokenProvider.getExpiration(accessToken);
-//        redisTemplate.opsForValue()
-//                .set("blacklist:" + accessToken, "logout", Duration.ofMillis(expiration));
-//
-//        redisTemplate.delete("refresh:" + userId);
-        // 1. AccessToken 유효성 확인
-        if (!jwtTokenProvider.validateToken(accessToken)) {
+        // 1) 헤더 포맷 검증은 Controller에서 수행했다고 가정
+
+        // 2) 토큰 유효성 & 클레임 파싱
+        Claims claims = jwtTokenProvider.parseClaims(accessToken); // 만료여도 parseClaims 처리하도록 구현되어 있어야 함
+        Long userId = Long.valueOf(String.valueOf(claims.getSubject())); // subject에 userId 저장한 구조
+        if (userId == null) {
             throw new CustomException(CustomErrorCode.INVALID_ACCESS_TOKEN);
         }
 
-        // 2. AccessToken 남은 유효 시간 계산
-        long expiration = jwtTokenProvider.getRemainingValidity(accessToken);
+        // 3) DB 또는 캐시에서 userId로 userType 조회 (3=companyUser, 4=generalUser만 허용)
+        Integer typeId = userRepository.findById(userId)
+                .map(user -> user.getUserType().getTypeId().intValue()) // Long → int 변환
+                .orElseThrow(() -> new CustomException(CustomErrorCode.MEMBER_NOT_EXIST));
 
-        // 3. 블랙리스트 저장
-        redisTemplate.opsForValue()
-                .set("blacklist:" + accessToken, "logout", Duration.ofMillis(expiration));
+        if (!(typeId == 3 || typeId == 4)) {
+            throw new CustomException(CustomErrorCode.ACCESS_DENIED); // 관리 계정(1,2)은 별도 로직 사용
+        }
 
-        // 4. RefreshToken 삭제
-        long userId = Long.parseLong(jwtTokenProvider.getSubject(accessToken));
-        redisTemplate.delete("refresh:" + userId);
+        // 4) AccessToken 남은 유효시간 → 블랙리스트 TTL로 사용
+        long ttl = jwtTokenProvider.getRemainingValidity(accessToken); // 만료/예외 시 0을 반환하도록 구현되어 있어야 함
+        if (ttl <= 0) {
+            throw new CustomException(CustomErrorCode.INVALID_ACCESS_TOKEN);
+        }
+
+        // 5) 블랙리스트 등록 & RefreshToken 제거
+        tokenStore.blacklistAccessToken(accessToken, ttl); // 해당 AccessToken 재사용 차단
+        tokenStore.deleteRefreshToken(userId); // 해당 유저의 RefreshToken 제거
     }
 }

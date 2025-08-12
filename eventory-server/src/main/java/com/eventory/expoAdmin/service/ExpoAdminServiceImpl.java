@@ -6,8 +6,14 @@ import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.dto.*;
 import com.eventory.common.repository.*;
 import com.eventory.expoAdmin.service.mapper.ExpoMapper;
+import jakarta.annotation.Resource;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -139,6 +145,26 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
                 .collect(Collectors.toList());
     }
 
+    // 결제 내역 다운로드
+    /* @Override
+    public Resource downloadPaymentsExcel(Long expoId) {
+
+        // 엑셀 파일 생성 객체
+        Workbook workbook = new XSSFWorkbook();
+
+        // 시트 이름 설정
+        Sheet sheet = workbook.createSheet("결제 정보");
+
+        // 컬럼 이름 설정
+        Row headerRow = sheet.createRow(0);
+        String[] headers = {"예약 번호", "예약자명", "예약 인원", "결제 수단", "결제 금액", "결제 시각"};
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+        }
+        return null;
+    }*/
+
     // 환불 요청 관리
     @Override
     public List<RefundResponseDto> findAllRefunds(Long expoId) {
@@ -214,6 +240,5 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         refund.updateStatus(refund.getStatus(), refund.getReason());
         refundRepository.save(refund);
     }
-
 
 }

@@ -22,7 +22,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // 세션을 사용하지 않음 (JWT는 서버에 사용자 상태를 저장하지 않음 → 무상태 Stateless)
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // 인증 없이 접근 허용
                         .requestMatchers(
@@ -44,10 +46,6 @@ public class SecurityConfig {
                         //.requestMatchers("/api/system/**").hasRole("SYSTEM_ADMIN") // 시스템 관리자 전용 엔드포인트
                         //.requestMatchers("/api/expo-admin/**").hasRole("EXPO_ADMIN") // 박람회 관리자 전용 엔드포인트
                         .anyRequest().authenticated()
-                )
-                .sessionManagement(sm ->
-                        // 세션을 사용하지 않음 (JWT는 서버에 사용자 상태를 저장하지 않음 → 무상태 Stateless)
-                        sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 // authenticationProvider는 실제 인증 로직을 담당하는 객체 (비밀번호 비교 등)
                 // 커스텀 구현한 Provider를 사용해서 로그인 인증 흐름을 제어함
