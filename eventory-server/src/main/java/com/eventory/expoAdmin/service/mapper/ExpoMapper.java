@@ -5,7 +5,6 @@ import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.common.repository.ReservationRepository;
 import com.eventory.expoAdmin.dto.*;
-import com.eventory.expoAdmin.repository.ReservationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

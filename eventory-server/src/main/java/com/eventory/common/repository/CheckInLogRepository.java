@@ -1,4 +1,4 @@
-package com.eventory.expoAdmin.repository;
+package com.eventory.common.repository;
 
 import com.eventory.common.entity.CheckInLog;
 import org.springframework.data.jpa.repository.JpaRepository;
