@@ -3,11 +3,12 @@ package com.eventory.expoAdmin.service;
 import com.eventory.common.entity.*;
 import com.eventory.expoAdmin.dto.*;
 import com.eventory.common.repository.*;
+import com.eventory.common.exception.CustomErrorCode;
+import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.service.mapper.ExpoMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import java.io.*;
 import java.math.BigDecimal;
@@ -61,7 +62,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 대시보드 카드
     @Override
-    public DashboardResponseDto getDashboardSummary(Long expoId) {
+    public DashboardResponseDto findDashboardSummary(Long expoId) {
         assertValidExpoId(expoId);
         // 페이지 조회 수
         Long viewCount = expoStatisticsRepository.findById(expoId)
@@ -108,7 +109,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 일별 예약 수 (최근 7일간 일별 예약 수 (오늘 기준 지난 7일(6일 전 ~ 오늘)))
     @Override
-    public List<ReservationStatResponseDto> getDailyReservationStats(Long expoId) {
+    public List<ReservationStatResponseDto> findDailyReservationStats(Long expoId) {
         assertValidExpoId(expoId);
         LocalDate today = LocalDate.now();
         LocalDate startDate = today.minusDays(6); // 총 7일
@@ -131,7 +132,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 주별 예약 수 (최근 4주간 주차별 예약 수 (오늘 기준 최근 4주 (주 단위 구간)))
     @Override
-    public List<ReservationStatResponseDto> getWeeklyReservationStats(Long expoId) {
+    public List<ReservationStatResponseDto> findWeeklyReservationStats(Long expoId) {
         assertValidExpoId(expoId);
         LocalDate baseSunday = LocalDate.now().with(DayOfWeek.SUNDAY); // 오늘이 포함된 주의 일요일
 
@@ -156,7 +157,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 월별 예약 수 (최근 4개월 간 월별 예약 수 (오늘 기준 최근 4개월 (월 단위))
     @Override
-    public List<ReservationStatResponseDto> getMonthlyReservationStats(Long expoId) {
+    public List<ReservationStatResponseDto> findMonthlyReservationStats(Long expoId) {
         assertValidExpoId(expoId);
         YearMonth currentMonth = YearMonth.now(); // 기준: 현재 월
 
@@ -208,7 +209,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 일간 통계 리포트 (최근 7일간, 오늘 기준 지난 7일(6일 전 ~ 오늘까지 하루 단위로 7개의 통계 리포트 생성))
     @Override
-    public List<StatReportRowResponseDto> getDailyReportData(Long expoId) {
+    public List<StatReportRowResponseDto> findDailyReportData(Long expoId) {
         assertValidExpoId(expoId);
 
         LocalDate today = LocalDate.now();
@@ -224,7 +225,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 주간 통계 리포트 (최근 4주 간, 주 단위(월~일) 통계 리포트 생성)
     @Override
-    public List<StatReportRowResponseDto> getWeeklyReportData(Long expoId) {
+    public List<StatReportRowResponseDto> findWeeklyReportData(Long expoId) {
         assertValidExpoId(expoId);
         LocalDate baseSunday = LocalDate.now().with(DayOfWeek.SUNDAY); // 오늘이 포함된 주의 일요일을 기준
 
@@ -241,7 +242,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 월간 통계 리포트 (최근 4개월 간, 월 단위 통계 리포트 생성)
     @Override
-    public List<StatReportRowResponseDto> getMonthlyReportData(Long expoId) {
+    public List<StatReportRowResponseDto> findMonthlyReportData(Long expoId) {
         assertValidExpoId(expoId);
         YearMonth currentMonth = YearMonth.now(); // 기준: 현재 월
 
@@ -258,19 +259,19 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 내부 헬퍼 메서드
     // period(daily/weekly/monthly)에 따라 실제 통계 데이터 조회
-    private List<StatReportRowResponseDto> getReportData(Long expoId, String period) {
+    private List<StatReportRowResponseDto> findReportData(Long expoId, String period) {
         if (period == null) throw new CustomException(CustomErrorCode.INVALID_PERIOD);
 
         return switch (period.toLowerCase()) {
-            case "daily" -> getDailyReportData(expoId);
-            case "weekly" -> getWeeklyReportData(expoId);
-            case "monthly" -> getMonthlyReportData(expoId);
+            case "daily" -> findDailyReportData(expoId);
+            case "weekly" -> findWeeklyReportData(expoId);
+            case "monthly" -> findMonthlyReportData(expoId);
             default -> throw new CustomException(CustomErrorCode.INVALID_PERIOD);
         };
     }
 
     // 박람회명 조회 (파일 제목 삽입용)
-    private String getExpoName(Long expoId) {
+    private String findExpoName(Long expoId) {
         return expoRepository.findById(expoId)
                 .map(Expo::getTitle)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.EXPO_NOT_FOUND));
@@ -311,8 +312,8 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     // 통계 데이터를 .csv 형식으로 응답 (텍스트 기반)
     @Override
     public FileDownloadDto exportCsvReport(Long expoId, String period) {
-        String expoName = getExpoName(expoId); // 박람회명 조회
-        List<StatReportRowResponseDto> data = getReportData(expoId, period); // 일/주/월 기준에 따라 통계 데이터를 조회
+        String expoName = findExpoName(expoId); // 박람회명 조회
+        List<StatReportRowResponseDto> data = findReportData(expoId, period); // 일/주/월 기준에 따라 통계 데이터를 조회
 
         String safeExpoName = sanitizeForFilename(expoName);
         String dateStr = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // 오늘 날짜 포맷팅
@@ -381,12 +382,12 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     // 통계 데이터를 .xlsx 형식으로 응답 (엑셀 전용 포맷)
     @Override
     public FileDownloadDto exportExcelReport(Long expoId, String period) {
-        String expoName = getExpoName(expoId); // 박람회명 조회
+        String expoName = findExpoName(expoId); // 박람회명 조회
         String safeExpoName = sanitizeForFilename(expoName);
         String dateStr = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // 오늘 날짜 포맷팅
         String baseName = safeExpoName + "-" + period + "-dashboard-report-" + dateStr + ".xlsx"; // 박람회명-period-dashboard-report-2025-08-08
 
-        List<StatReportRowResponseDto> data = getReportData(expoId, period); // 일/주/월 기준에 따라 통계 데이터를 조회
+        List<StatReportRowResponseDto> data = findReportData(expoId, period); // 일/주/월 기준에 따라 통계 데이터를 조회
         String headerLabel = resolvePeriodHeader(period);
 
         try (Workbook workbook = new XSSFWorkbook(); // 엑셀 새 워크북 생성
@@ -456,7 +457,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 티켓 종류별(FREE/PAID) 예약 비율 조회 (RESERVED 상태만 집계)
     @Override
-    public List<TicketTypeRatioResponseDto> getTicketTypeRatios(Long expoId) {
+    public List<TicketTypeRatioResponseDto> findTicketTypeRatios(Long expoId) {
         assertValidExpoId(expoId);
 
         try {
