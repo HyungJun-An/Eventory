@@ -1,4 +1,4 @@
-package com.eventory.expoAdmin.repository;
+package com.eventory.common.repository;
 
 import com.eventory.common.entity.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -44,15 +44,30 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
       AND p.paidAt < :endDate
     GROUP BY DATE(p.paidAt)
     ORDER BY DATE(p.paidAt)
-""")
+    """)
     List<Object[]> findDailySalesLast7Days(@Param("expoId") Long expoId,
                                            @Param("startDate") LocalDateTime startDate,
                                            @Param("endDate") LocalDateTime endDate);
 
-    @Query("SELECT r.payment.paymentId FROM reservation r WHERE r.expo.expoId = :expoId")
+    @Query("""
+    SELECT r.payment.paymentId 
+    FROM reservation r 
+    WHERE r.expo.expoId = :expoId
+    """)
     List<Long> findPaymentIdsByExpoId(@Param("expoId") Long expoId);
 
     Optional<Reservation> findByPayment_PaymentId(Long paymentId);
+
+    @Query("""
+    SELECT r
+    FROM reservation r
+    JOIN FETCH r.user u
+    JOIN FETCH r.payment p
+    WHERE r.expo.expoId = :expoId
+      AND (:code IS NULL OR r.code = :code)
+    """)
+    List<Reservation> findByExpoIdAndReservationCode(@Param("expoId") Long expoId,
+                                                     @Param("code") String code);
 
     // RESERVED 상태인 총 인원 수
     @Query("""

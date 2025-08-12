@@ -3,6 +3,7 @@ package com.eventory.expoAdmin.service.mapper;
 import com.eventory.common.entity.*;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
+import com.eventory.common.repository.ReservationRepository;
 import com.eventory.expoAdmin.dto.*;
 import com.eventory.expoAdmin.repository.ReservationRepository;
 import lombok.AllArgsConstructor;
@@ -55,6 +56,20 @@ public class ExpoMapper {
                         .reason(refund.getReason())
                         .status(refund.getStatus())
                         .build();
+    }
+
+    public PaymentResponseDto toPaymentResponseDto(Reservation reservation) {
+        Payment payment = reservation.getPayment();
+        User user = reservation.getUser();
+
+        return PaymentResponseDto.builder()
+                .name(user.getName())
+                .code(reservation.getCode())
+                .people(reservation.getPeople())
+                .method(payment.getMethod())
+                .amount(payment.getAmount())
+                .paidAt(payment.getPaidAt())
+                .build();
     }
 
     // 대시보드 카드

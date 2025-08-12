@@ -139,6 +139,27 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>3.5.4</version>
         </dependency>
+
+        <!-- Apache POI 기본 (.xls) -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>5.4.0</version>
+        </dependency>
+
+        <!-- Apache POI 확장 (.xlsx) -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.4.0</version>
+        </dependency>
+
+        <!-- OpenCSV (CSV 파일 처리용) -->
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>5.10</version>
+        </dependency>
     </dependencies>
 
     <build>

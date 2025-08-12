@@ -7,6 +7,8 @@ import com.eventory.expoAdmin.dto.*;
 import com.eventory.expoAdmin.service.ExpoAdminService;
 import com.eventory.expoAdmin.web.FileResponseUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,14 +33,14 @@ public class ExpoAdminController {
     }
 
     // 누적 매출, 총 결제 건수, 총 환불 건수
-    @GetMapping("/{expoId}/sales")
+    @GetMapping("/expos/{expoId}/sales")
     public ResponseEntity<SalesResponseDto> findSalesStatistics(@PathVariable Long expoId) {
         SalesResponseDto salesResponseDto = expoAdminService.findSalesStatistics(expoId);
         return ResponseEntity.ok(salesResponseDto);
     }
 
     // 연간 매출, 월간 매출, 일주일간 매출
-    @GetMapping("/{expoId}/stats")
+    @GetMapping("/expos/{expoId}/stats")
     public ResponseEntity<List<Map<String, Object>>> findSales(@PathVariable Long expoId, @RequestParam String range) {
         List<Map<String, Object>> sales;
         switch (range.toLowerCase()) {
@@ -57,10 +59,26 @@ public class ExpoAdminController {
         return ResponseEntity.ok(sales);
     }
 
+    // 결제 내역 관리
+    @GetMapping("/expos/{expoId}/payment")
+    public ResponseEntity<List<PaymentResponseDto>> findAllPayments(@PathVariable Long expoId, @RequestParam(required = false) String code) {
+        List<PaymentResponseDto> paymentResponseDto = expoAdminService.findAllPayments(expoId, code);
+        return ResponseEntity.ok(paymentResponseDto);
+    }
 
+    // 결제 내역 엑셀 다운로드
+    /*@PostMapping("/expos/{expoId}/payment/report")
+    public ResponseEntity<Resource> downloadPaymentsExcel(@PathVariable Long expoId) {
+        Resource excel = expoAdminService.downloadPaymentsExcel(expoId);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=payment.xlsx")
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(excel);
+    }*/
 
     // 환불 요청 관리, 환불 대기 관리, 환불 승인 관리
-    @GetMapping("/{expoId}/refund")
+    @GetMapping("/expos/{expoId}/refund")
     public ResponseEntity<List<RefundResponseDto>> findAllRefunds(@PathVariable Long expoId, @RequestParam(required = false) String status) {
         List<RefundResponseDto> refundResponseDto;
         if (status == null) {
@@ -69,6 +87,13 @@ public class ExpoAdminController {
             refundResponseDto = expoAdminService.findRefundsByStatus(expoId, status);
         }
         return ResponseEntity.ok(refundResponseDto);
+    }
+
+    // 환불 상태 변경
+    @PatchMapping("/refund/{refundId}/status")
+    public ResponseEntity<Void> updateRefundStatus(@PathVariable Long refundId, @RequestBody RefundRequestDto request) {
+        expoAdminService.updateRefundStatus(refundId, request);
+        return ResponseEntity.ok().build();
     }
 
     // 대시보드 카드 조회

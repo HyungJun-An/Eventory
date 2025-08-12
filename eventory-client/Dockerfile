@@ -1,16 +1,18 @@
 # 1단계: 빌드
-  FROM node:20-alpine as builder
-  
+  FROM node:20-bullseye as builder
+
+  ENV NODE_ENV=development
+
   WORKDIR /app
-  
+
   COPY package*.json ./
   RUN npm install
-  
+
   COPY . .
   RUN npm run build
-  
-  # 2단계: nginx 이미지
+
   FROM nginx:stable-alpine
+
   
   # nginx 설정 복사
   COPY default.conf /etc/nginx/conf.d/default.conf

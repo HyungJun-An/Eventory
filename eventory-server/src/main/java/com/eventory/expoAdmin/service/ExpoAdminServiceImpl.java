@@ -1,15 +1,20 @@
 package com.eventory.expoAdmin.service;
 
-import com.eventory.common.entity.Refund;
-import com.eventory.common.entity.RefundStatus;
+import com.eventory.common.entity.*;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.dto.*;
-import com.eventory.common.entity.Expo;
-import com.eventory.common.entity.ExpoStatistics;
+import com.eventory.common.repository.*;
 import com.eventory.expoAdmin.repository.*;
 import com.eventory.expoAdmin.service.mapper.ExpoMapper;
+import jakarta.annotation.Resource;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import org.apache.poi.ss.usermodel.*;
@@ -136,6 +141,39 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         return dailySales;
     }
 
+    // 결제 내역 관리
+    @Override
+    public List<PaymentResponseDto> findAllPayments(Long expoId, String code) {
+
+        // 특정 박람회(expoId)에 해당하는 예약 조회
+        List<Reservation> reservations = reservationRepository.findByExpoIdAndReservationCode(expoId, code);
+
+        // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
+        return reservations.stream()
+                .map(expoMapper::toPaymentResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    // 결제 내역 다운로드
+    /* @Override
+    public Resource downloadPaymentsExcel(Long expoId) {
+
+        // 엑셀 파일 생성 객체
+        Workbook workbook = new XSSFWorkbook();
+
+        // 시트 이름 설정
+        Sheet sheet = workbook.createSheet("결제 정보");
+
+        // 컬럼 이름 설정
+        Row headerRow = sheet.createRow(0);
+        String[] headers = {"예약 번호", "예약자명", "예약 인원", "결제 수단", "결제 금액", "결제 시각"};
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+        }
+        return null;
+    }*/
+
     // 환불 요청 관리
     @Override
     public List<RefundResponseDto> findAllRefunds(Long expoId) {
@@ -188,6 +226,29 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
                 .collect(Collectors.toList());
     }
 
+    // 환불 상태 변경
+    @Transactional
+    @Override
+    public void updateRefundStatus(Long refundId, RefundRequestDto request) {
+
+        // 환불(refundId) 조회
+        Refund refund = refundRepository.findById(refundId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_REFUND));
+
+        // 요청됨 상태가 아니면 오류 발생
+        if (request.getStatus()!=RefundStatus.PENDING) {
+            throw new CustomException(CustomErrorCode.NOT_FOUND_REFUND);
+        }
+
+        // 환불 반려 시 반려 사유 없으면 오류 발생
+        if (request.getStatus() == RefundStatus.REJECTED && (request.getReason() == null || request.getReason().isBlank())) {
+            throw new CustomException(CustomErrorCode.NOT_FOUND_REASON);
+        }
+
+        // 환불 상태 변경 및 저장
+        refund.updateStatus(refund.getStatus(), refund.getReason());
+        refundRepository.save(refund);
+    }
 
     // expoId 유효/존재 검증
     private void assertValidExpoId(Long expoId) {

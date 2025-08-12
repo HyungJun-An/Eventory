@@ -41,7 +41,8 @@ public class JwtTokenProvider {
     public void init() {
         this.key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
-
+    
+    // 3,4 참가업체와 참관객 로그인시
     // AccessToken 생성 (userId를 subject로)
     public String createAccessToken(Long userId) {
         Date now = new Date();
@@ -52,6 +53,19 @@ public class JwtTokenProvider {
                 .setIssuedAt(now)
                 .setExpiration(expiry)
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()), SIGNATURE_ALGORITHM)
+                .compact();
+    }
+
+    // 관리자 토큰: role 클레임 포함
+    public String createAccessTokenWithRole(Long adminId, String role){
+        Date now = new Date();
+        Date exp = new Date(now.getTime() + accessTokenValidityInMs);
+        return Jwts.builder()
+                .setSubject(String.valueOf(adminId))
+                .claim("role", role)
+                .setIssuedAt(now)
+                .setExpiration(exp)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -66,18 +80,12 @@ public class JwtTokenProvider {
         return Long.parseLong(claims.getSubject());
     }
 
-    // 토큰 남은 시간 계산
-    public long getExpiration(String token) {
-        Claims claims = parseClaims(token);
-        Date expiration = claims.getExpiration();
-        return expiration.getTime() - new Date().getTime();
-    }
-
     // 토큰 유효성 검증
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(key)
+//                    .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
                     .build()
                     .parseClaimsJws(token);
             return true;
@@ -89,7 +97,16 @@ public class JwtTokenProvider {
         return false;
     }
 
-    private Claims parseClaims(String token) {
+    public String getSubject(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+
+    public Claims parseClaims(String token) {
         try {
             return Jwts.parserBuilder()
                     .setSigningKey(secretKey.getBytes())
@@ -98,6 +115,37 @@ public class JwtTokenProvider {
                     .getBody();
         } catch (ExpiredJwtException e) {
             return e.getClaims(); // 만료된 토큰도 claims 추출 가능
+        }
+    }
+
+    // 토큰 남은 시간 계산
+    /**
+     * 접근 토큰의 남은 유효시간(ms)을 반환함.
+     * - 만료되었거나 토큰이 잘못되었으면 0을 반환함(음수 방지로 0 하한 고정).
+     * - StandardCharsets.UTF_8 인코딩으로 시크릿 키 바이트 변환.
+     * 운영 들어가면 secretKey 길이/알고리즘, JJWT 버전 호환(0.11.x)만 확인하면 됨
+     */
+    public long getRemainingValidity(String accessToken) {
+        if (accessToken == null || accessToken.isBlank()) {
+            return 0L;
+        }
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
+                    .build()
+                    .parseClaimsJws(accessToken)
+                    .getBody();
+
+            long remaining = claims.getExpiration().getTime() - System.currentTimeMillis();
+            return Math.max(remaining, 0L); // 만약 시스템 시계 이슈 등으로 음수가 나오면 0으로 보정
+
+            // 토큰이 이미 만료된 경우 ExpiredJwtException이 터지기 때문에 예외 잡아줘야 함
+        } catch (ExpiredJwtException e) {
+            // 이미 만료됨
+            return 0L;
+        } catch (JwtException | IllegalArgumentException e) {
+            // 서명 불일치, 포맷 오류 등 모든 잘못된 토큰
+            return 0L;
         }
     }
 }

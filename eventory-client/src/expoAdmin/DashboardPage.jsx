@@ -4,7 +4,7 @@ import "../assets/css/Dashboard.css";
 
 const Dashboard = () => {
   return (
-    <div className="div-wrapper" data-model-id="11194:16485">
+    <div className="dashboard" data-model-id="11194:16485">
       <div className="overlap-wrapper">
         <div className="overlap">
           <div className="overlap-group">
