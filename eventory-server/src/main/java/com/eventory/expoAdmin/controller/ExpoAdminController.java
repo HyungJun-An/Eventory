@@ -158,4 +158,45 @@ public class ExpoAdminController {
         return ResponseEntity.ok(ratios);
     }
 
+    // 박람회 담당자 정보 조회
+    @GetMapping("/profile")
+    public ResponseEntity<ManagerResponseDto> findExpoManagerInfo() {
+
+    }
+
+    // 박람회 담당자 정보 수정
+    @PutMapping("/profile")
+    public ResponseEntity<ManagerResponseDto> updateExpoManagerInfo() {
+
+    }
+
+    // 특정 박람회 정보 조회
+    @GetMapping("/expos/{expoId}")
+    public ResponseEntity<ExpoResponseDto> findExpoInfo() {
+
+    }
+
+    // 특정 박람회 정보 수정
+    @PutMapping("/expos/{expoId}")
+    public ResponseEntity<ExpoResponseDto> updateExpoInfo() {
+
+    }
+
+    // 특정 박람회 배너 신청
+    @PostMapping("expos/{expoId}/banner")
+    public ResponseEntity<BannerResponseDto> createExpoBanner() {
+
+    }
+
+    // 특정 박람회 배너 조회
+    @GetMapping("expos/{expoId}/banner")
+    public ResponseEntity<BannerResponseDto> findExpoBanner() {
+
+    }
+
+    // 특정 박람회 배너 수정
+    @PutMapping("expos/{expoId}/banner")
+    public ResponseEntity<BannerResponseDto> updateExpoBanner() {
+
+    }
 }
