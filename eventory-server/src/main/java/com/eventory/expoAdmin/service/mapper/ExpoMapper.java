@@ -121,4 +121,7 @@ public class ExpoMapper {
                 .percentage(percentage)
                 .build();
     }
+
+    public ManagerResponseDto toManagerResponseDto(ExpoAdmin expoAdmin) {
+    }
 }

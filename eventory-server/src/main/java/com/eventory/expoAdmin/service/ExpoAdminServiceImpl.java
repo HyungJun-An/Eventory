@@ -25,7 +25,6 @@ import java.util.stream.IntStream;
 public class ExpoAdminServiceImpl implements ExpoAdminService {
     private final ExpoRepository expoRepository;
     private final ExpoStatisticsRepository expoStatisticsRepository;
-    private final RefundRepository refundRepository;
     private final ReservationRepository reservationRepository;
     private final CheckInLogRepository checkInLogRepository;
     private final ExpoMapper expoMapper;
