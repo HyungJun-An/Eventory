@@ -5,22 +5,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import org.springframework.core.io.Resource;
 import java.util.List;
-import java.util.Map;
 
 public interface ExpoAdminService {
     List<ExpoResponseDto> findAllExpos(Long expoAdminId);
-    SalesResponseDto findSalesStatistics(Long expoId);
-    List<Map<String, Object>> findYearlySales(Long expoId);
-    List<Map<String, Object>> findMonthlySales(Long expoId);
-    List<Map<String, Object>> findDailySales(Long expoId);
-    List<RefundResponseDto> findAllRefunds(Long expoId);
-
-    List<RefundResponseDto> findRefundsByStatus(Long expoId, String status);
-    List<PaymentResponseDto> findAllPayments(Long expoId, String reservationCode);
-
-    void updateRefundStatus(Long refundId, RefundRequestDto request);
-
-    Resource downloadPaymentsExcel(List<PaymentResponseDto> paymentResponseDto);
 
     DashboardResponseDto getDashboardSummary(Long expoId);
 
