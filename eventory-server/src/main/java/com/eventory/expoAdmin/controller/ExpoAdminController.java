@@ -108,8 +108,8 @@ public class ExpoAdminController {
 
     // 대시보드 카드 조회
     @GetMapping("/expos/{expoId}/dashboard/summary")
-    public ResponseEntity<DashboardResponseDto> getDashboardSummary(@PathVariable Long expoId) {
-        DashboardResponseDto summary = expoAdminService.getDashboardSummary(expoId);
+    public ResponseEntity<DashboardResponseDto> findDashboardSummary(@PathVariable Long expoId) {
+        DashboardResponseDto summary = expoAdminService.findDashboardSummary(expoId);
         return ResponseEntity.ok(summary);
     }
 
@@ -119,9 +119,9 @@ public class ExpoAdminController {
                                                                      @RequestParam String period // "daily" | "weekly" | "monthly"
                                                                      ) {
         return switch (period.toLowerCase()) {
-            case "daily" -> ResponseEntity.ok(expoAdminService.getDailyReservationStats(expoId)); // 일별 예약 수 (최근 7일간 일별 예약 수 (오늘 기준 지난 7일(6일 전 ~ 오늘)))
-            case "weekly" -> ResponseEntity.ok(expoAdminService.getWeeklyReservationStats(expoId)); // 주별 예약 수 (최근 4주간 주차별 예약 수 (오늘 기준 최근 4주 (주 단위 구간)))
-            case "monthly" -> ResponseEntity.ok(expoAdminService.getMonthlyReservationStats(expoId)); // 월별 예약 수 (최근 4개월 간 월별 예약 수 (오늘 기준 최근 4개월 (월 단위))
+            case "daily" -> ResponseEntity.ok(expoAdminService.findDailyReservationStats(expoId)); // 일별 예약 수 (최근 7일간 일별 예약 수 (오늘 기준 지난 7일(6일 전 ~ 오늘)))
+            case "weekly" -> ResponseEntity.ok(expoAdminService.findWeeklyReservationStats(expoId)); // 주별 예약 수 (최근 4주간 주차별 예약 수 (오늘 기준 최근 4주 (주 단위 구간)))
+            case "monthly" -> ResponseEntity.ok(expoAdminService.findMonthlyReservationStats(expoId)); // 월별 예약 수 (최근 4개월 간 월별 예약 수 (오늘 기준 최근 4개월 (월 단위))
             default -> throw new CustomException(CustomErrorCode.INVALID_PERIOD);
         };
     }
@@ -154,7 +154,7 @@ public class ExpoAdminController {
     // 티켓 종류별(무료/유료) 예약 비율 (파이차트)
     @GetMapping("/expos/{expoId}/dashboard/ticket-types")
     public ResponseEntity<List<TicketTypeRatioResponseDto>> getTicketTypeRatios(@PathVariable Long expoId) {
-        List<TicketTypeRatioResponseDto> ratios = expoAdminService.getTicketTypeRatios(expoId);
+        List<TicketTypeRatioResponseDto> ratios = expoAdminService.findTicketTypeRatios(expoId);
         return ResponseEntity.ok(ratios);
     }
 
