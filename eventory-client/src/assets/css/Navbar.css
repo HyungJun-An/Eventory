@@ -1,0 +1,177 @@
+/* Header Styles */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 104px;
+    background-color: #f6f6f6;
+    min-height: 80px;
+    height: auto;
+    box-sizing: border-box;
+    position: relative;
+    width:100vw;
+    z-index: 10;
+  }
+  
+  .header-menu {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  
+  .menu-item {
+    color: #222222;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 120%;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  
+  .website-logos {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+  
+  .logo-icon {
+    height: 40px;
+    width: 45px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  
+  .logo-text {
+    height: 40px;
+    width: 180px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-shrink: 0;
+  }
+  
+  .shopping-icon {
+    height: 40px;
+    width: 40px;
+    flex-shrink: 0;
+  }
+  
+  .login-register-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    padding: 8px 24px;
+    min-height: 40px;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  
+  .user-icon {
+    height: 16px;
+    width: 16px;
+  }
+
+  /* Responsive Design */
+@media (max-width: 1200px) {
+    .header {
+      padding: 40px 20px;
+    }
+    
+    
+    
+    .login-section,
+    .welcome-section {
+      width: 100%;
+      min-width: auto;
+      flex: none;
+    }
+    
+    .welcome-section {
+      min-height: 400px;
+    }
+    
+    .welcome-overlay {
+      padding: 40px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      gap: 20px;
+      height: auto;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .header-menu {
+      gap: 16px;
+      justify-content: center;
+    }
+    
+    .header-actions {
+      justify-content: center;
+    }
+    
+    .login-section {
+      padding: 40px 20px;
+    }
+    
+    .login-form {
+      width: 100%;
+      max-width: 400px;
+    }
+    
+    .form-options {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    
+    .welcome-overlay {
+      padding: 30px 20px;
+    }
+    
+    .welcome-title {
+      font-size: 28px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .header {
+      padding: 15px;
+    }
+    
+    
+    
+    .login-section {
+      padding: 30px 15px;
+    }
+    
+    .header-menu {
+      gap: 12px;
+    }
+    
+    .menu-item {
+      font-size: 14px;
+    }
+    
+    .login-register-btn {
+      padding: 6px 16px;
+      font-size: 12px;
+    }
+  }
