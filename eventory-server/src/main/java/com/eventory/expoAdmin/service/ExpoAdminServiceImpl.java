@@ -15,8 +15,10 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -29,8 +31,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ExpoAdminServiceImpl implements ExpoAdminService {
-
-    private final ExpoAdminRepository expoAdminRepository;
     private final ExpoRepository expoRepository;
     private final ExpoStatisticsRepository expoStatisticsRepository;
     private final RefundRepository refundRepository;
@@ -136,11 +136,25 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         return dailySales;
     }
 
-    // 결제 내역 관리
+    // 결제 내역 관리 - 페이징 O
+    @Override
+    public List<PaymentResponseDto> findAllPayments(Long expoId, String code, int page, int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        // 특정 박람회(expoId)에 해당하는 예약 조회
+        Page<Reservation> reservations = reservationRepository.findByExpoIdAndReservationCode(expoId, code, pageable);
+
+        // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
+        return reservations.stream()
+                .map(expoMapper::toPaymentResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    // 결제 내역 관리 - 페이징 X
     @Override
     public List<PaymentResponseDto> findAllPayments(Long expoId, String code) {
 
-        // 특정 박람회(expoId)에 해당하는 예약 조회
         List<Reservation> reservations = reservationRepository.findByExpoIdAndReservationCode(expoId, code);
 
         // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
@@ -193,8 +207,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
             throw new CustomException(CustomErrorCode.EXCEL_CREATION_FAILED);
         }
 
-        ByteArrayResource resource = new ByteArrayResource(outputStream.toByteArray());
-        return resource;
+        return new ByteArrayResource(outputStream.toByteArray());
     }
 
     // 환불 요청 관리

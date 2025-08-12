@@ -41,27 +41,31 @@ public class ExpoAdminController {
     // 연간 매출, 월간 매출, 일주일간 매출
     @GetMapping("/expos/{expoId}/stats")
     public ResponseEntity<List<Map<String, Object>>> findSales(@PathVariable Long expoId, @RequestParam String range) {
-        List<Map<String, Object>> sales;
-        switch (range.toLowerCase()) {
-            case "daily":
-                sales = expoAdminService.findDailySales(expoId);
-                break;
-            case "monthly":
-                sales = expoAdminService.findMonthlySales(expoId);
-                break;
-            case "yearly":
-                sales = expoAdminService.findYearlySales(expoId);
-                break;
-            default:
-                throw new CustomException(CustomErrorCode.NOT_FOUNT_RANGE);
-        }
+        List<Map<String, Object>> sales = switch (range.toLowerCase()) {
+            case "daily" -> expoAdminService.findDailySales(expoId);
+            case "monthly" -> expoAdminService.findMonthlySales(expoId);
+            case "yearly" -> expoAdminService.findYearlySales(expoId);
+            default -> throw new CustomException(CustomErrorCode.NOT_FOUNT_RANGE);
+        };
         return ResponseEntity.ok(sales);
     }
 
     // 결제 내역 관리
     @GetMapping("/expos/{expoId}/payment")
-    public ResponseEntity<List<PaymentResponseDto>> findAllPayments(@PathVariable Long expoId, @RequestParam(required = false) String code) {
-        List<PaymentResponseDto> paymentResponseDto = expoAdminService.findAllPayments(expoId, code);
+    public ResponseEntity<List<PaymentResponseDto>> findAllPayments(
+            @PathVariable Long expoId,
+            @RequestParam(required = false) String code,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size) {
+
+        List<PaymentResponseDto> paymentResponseDto;
+
+        if (page!=null && size!=null) { // 페이징 O
+            paymentResponseDto = expoAdminService.findAllPayments(expoId, code, page, size);
+        } else { // 페이징 X
+            paymentResponseDto = expoAdminService.findAllPayments(expoId, code);
+        }
+
         return ResponseEntity.ok(paymentResponseDto);
     }
 

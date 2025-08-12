@@ -1,6 +1,8 @@
 package com.eventory.common.repository;
 
 import com.eventory.common.entity.Reservation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -48,8 +50,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
                                            @Param("endDate") LocalDateTime endDate);
 
     @Query("""
-    SELECT r.payment.paymentId 
-    FROM reservation r 
+    SELECT r.payment.paymentId
+    FROM reservation r
     WHERE r.expo.expoId = :expoId
     """)
     List<Long> findPaymentIdsByExpoId(@Param("expoId") Long expoId);
@@ -59,8 +61,16 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query("""
     SELECT r
     FROM reservation r
-    JOIN FETCH r.user u
-    JOIN FETCH r.payment p
+    WHERE r.expo.expoId = :expoId
+      AND (:code IS NULL OR r.code = :code)
+    """)
+    Page<Reservation> findByExpoIdAndReservationCode(@Param("expoId") Long expoId,
+                                                     @Param("code") String code,
+                                                     Pageable pageable);
+
+    @Query("""
+    SELECT r
+    FROM reservation r
     WHERE r.expo.expoId = :expoId
       AND (:code IS NULL OR r.code = :code)
     """)
