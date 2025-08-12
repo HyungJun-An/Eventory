@@ -4,9 +4,9 @@ import Group from "./sections/PaymentGroup";
 import SalesStats from "./sections/PaymentSalesStats";
 import "../assets/css/PaymentPage.css";
 
-const PaymentPage = ({expoId}) => {
+const PaymentPage = ({ expoId }) => {
   return (
-    <div className="screen" data-model-id="11051:2424">
+    <div className="payment-page" data-model-id="11051:2424">
       <div className="overlap-wrapper-2">
         <div className="overlap-4">
           <div className="overlap-5">

@@ -3,13 +3,12 @@ package com.eventory.expoAdmin.service.mapper;
 import com.eventory.common.entity.*;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
-import com.eventory.expoAdmin.dto.ExpoResponseDto;
-import com.eventory.expoAdmin.dto.PaymentResponseDto;
-import com.eventory.expoAdmin.dto.RefundResponseDto;
-import com.eventory.expoAdmin.dto.SalesResponseDto;
 import com.eventory.common.repository.ReservationRepository;
+import com.eventory.expoAdmin.dto.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
 
 @Component
 @AllArgsConstructor
@@ -69,6 +68,57 @@ public class ExpoMapper {
                 .method(payment.getMethod())
                 .amount(payment.getAmount())
                 .paidAt(payment.getPaidAt())
+                .build();
+    }
+
+    // 대시보드 카드
+    public DashboardResponseDto toDashboardResponseDto(long viewCount, long totalReservation, double checkInRate) {
+        return DashboardResponseDto.builder()
+                .viewCount(viewCount)
+                .totalReservation(totalReservation)
+                .checkInRate(checkInRate)
+                .build();
+    }
+
+    // 막대그래프(일/주/월)
+    public ReservationStatResponseDto toReservationStatResponseDto(String label, long reservationCount) {
+        return ReservationStatResponseDto.builder()
+                .label(label)
+                .reservationCount(reservationCount)
+                .build();
+    }
+
+    // 통계 리포트 행
+    public StatReportRowResponseDto toStatReportRowResponseDto(
+            String label,
+            Long reservationCount,
+            Long peopleCount,
+            BigDecimal paymentTotal,
+            Double avgPeoplePerResv,
+            Long cancelledCount
+    ) {
+        return StatReportRowResponseDto.builder()
+                .label(label)
+                .reservationCount(reservationCount)
+                .peopleCount(peopleCount)
+                .paymentTotal(paymentTotal)
+                .avgPeoplePerResv(avgPeoplePerResv)
+                .cancelledCount(cancelledCount)
+                .build();
+    }
+
+    // 티켓 비율(파이차트)
+    public TicketTypeRatioResponseDto toTicketTypeRatioResponseDto(
+            String type,
+            Long reservationCount,
+            Long peopleCount,
+            Double percentage
+    ) {
+        return TicketTypeRatioResponseDto.builder()
+                .type(type)
+                .reservationCount(reservationCount)
+                .peopleCount(peopleCount)
+                .percentage(percentage)
                 .build();
     }
 }
