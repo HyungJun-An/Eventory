@@ -1,22 +1,28 @@
 package com.eventory.expoAdmin.service;
 
 import com.eventory.expoAdmin.dto.*;
+import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
 import org.springframework.core.io.Resource;
 import java.util.List;
-import java.util.Map;
 
 public interface ExpoAdminService {
     List<ExpoResponseDto> findAllExpos(Long expoAdminId);
-    SalesResponseDto findSalesStatistics(Long expoId);
-    List<Map<String, Object>> findYearlySales(Long expoId);
-    List<Map<String, Object>> findMonthlySales(Long expoId);
-    List<Map<String, Object>> findDailySales(Long expoId);
-    List<RefundResponseDto> findAllRefunds(Long expoId);
 
-    List<RefundResponseDto> findRefundsByStatus(Long expoId, String status);
-    List<PaymentResponseDto> findAllPayments(Long expoId, String reservationCode);
+    DashboardResponseDto findDashboardSummary(Long expoId);
 
-    void updateRefundStatus(Long refundId, RefundRequestDto request);
+    List<ReservationStatResponseDto> findDailyReservationStats(Long expoId);
+    List<ReservationStatResponseDto> findWeeklyReservationStats(Long expoId);
+    List<ReservationStatResponseDto> findMonthlyReservationStats(Long expoId);
 
-    Resource downloadPaymentsExcel(List<PaymentResponseDto> paymentResponseDto);
+    StatReportRowResponseDto buildStatDto(Long expoId, LocalDate start, LocalDate end, String label);
+
+    List<StatReportRowResponseDto> findDailyReportData(Long expoId);
+    List<StatReportRowResponseDto> findWeeklyReportData(Long expoId);
+    List<StatReportRowResponseDto> findMonthlyReportData(Long expoId);
+
+    FileDownloadDto exportCsvReport(Long expoId, String period);
+    FileDownloadDto exportExcelReport(Long expoId, String period);
+
+    List<TicketTypeRatioResponseDto> findTicketTypeRatios(Long expoId);
 }

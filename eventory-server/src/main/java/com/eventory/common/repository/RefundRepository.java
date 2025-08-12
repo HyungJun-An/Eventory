@@ -1,6 +1,9 @@
 package com.eventory.common.repository;
 
 import com.eventory.common.entity.Refund;
+import com.eventory.common.entity.RefundStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,5 +22,7 @@ public interface RefundRepository extends JpaRepository<Refund, Long> {
     """)
     long countRefundsByExpoId(@Param("expoId") Long expoId);
 
-    List<Refund> findByPayment_PaymentIdIn(List<Long> paymentIds);
+    Page<Refund> findByPayment_PaymentIdIn(List<Long> paymentIds, Pageable pageable);
+
+    Page<Refund> findByPayment_PaymentIdInAndStatus(List<Long> paymentIds, RefundStatus status, Pageable pageable);
 }

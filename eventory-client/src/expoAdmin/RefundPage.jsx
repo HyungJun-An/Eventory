@@ -4,9 +4,9 @@ import Group from "./sections/RefundGroup";
 import SalesStats from "./sections/RefundSalesStats";
 import "../assets/css/RefundPage.css";
 
-const RefundPage = ({expoId}) => {
+const RefundPage = ({ expoId }) => {
   return (
-    <div className="screen" data-model-id="11051:3062">
+    <div className="refund-page" data-model-id="11051:3062">
       <div className="overlap-wrapper-2">
         <div className="overlap-4">
           <div className="overlap-5">

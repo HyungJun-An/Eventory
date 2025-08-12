@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../assets/css/UserRegistration.css';
+import { Link } from 'react-router-dom';
 
 const UserRegistration = () => {
     const [selectedUserType, setSelectedUserType] = useState(null);
@@ -51,8 +52,8 @@ const UserRegistration = () => {
                         </div>
 
                         <div className="login-link">
-                            <span className="login-text">Already have an account?</span>
-                            <a href="#" className="login-link-text">Log In</a>
+                          <span className="login-text">Already have an account?</span>
+                          <Link to="/" className="login-link-text">Log In</Link>
                         </div>
                     </div>
                 </div>
