@@ -8,10 +8,10 @@ import com.eventory.common.repository.*;
 import com.eventory.expoAdmin.service.mapper.ExpoMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.apache.poi.ss.usermodel.*;
+import org.springframework.core.io.Resource;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
-
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -147,8 +147,8 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     }
 
     // 결제 내역 다운로드
-    /* @Override
-    public Resource downloadPaymentsExcel(Long expoId) {
+    @Override
+    public Resource downloadPaymentsExcel(List<PaymentResponseDto> paymentResponseDto) {
 
         // 엑셀 파일 생성 객체
         Workbook workbook = new XSSFWorkbook();
@@ -163,8 +163,36 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(headers[i]);
         }
-        return null;
-    }*/
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        for (int i=0; i<paymentResponseDto.size(); i++) {
+            PaymentResponseDto responseDto = paymentResponseDto.get(i);
+            Row row = sheet.createRow(i+1);
+
+            row.createCell(0).setCellValue(responseDto.getCode());
+            row.createCell(1).setCellValue(responseDto.getName());
+            row.createCell(2).setCellValue(responseDto.getPeople());
+            row.createCell(3).setCellValue(responseDto.getMethod());
+            row.createCell(4).setCellValue(responseDto.getAmount().doubleValue());
+            row.createCell(5).setCellValue(responseDto.getPaidAt().format(formatter));
+        }
+
+        for (int i=0; i<headers.length; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            workbook.write(outputStream);
+            workbook.close();
+        } catch (IOException e) {
+            throw new CustomException(CustomErrorCode.EXCEL_CREATION_FAILED);
+        }
+
+        ByteArrayResource resource = new ByteArrayResource(outputStream.toByteArray());
+        return resource;
+    }
 
     // 환불 요청 관리
     @Override
