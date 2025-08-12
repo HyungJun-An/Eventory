@@ -1,8 +1,8 @@
 package com.eventory.expoUser.service;
 
 import com.eventory.common.entity.Expo;
+import com.eventory.common.repository.ExpoUserRepository;
 import com.eventory.expoUser.dto.ExpoMainPageResponseDto;
-import com.eventory.expoUser.repository.ExpoUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
