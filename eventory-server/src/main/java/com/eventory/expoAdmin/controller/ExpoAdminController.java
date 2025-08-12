@@ -85,13 +85,14 @@ public class ExpoAdminController {
 
     // 환불 요청 관리, 환불 대기 관리, 환불 승인 관리
     @GetMapping("/expos/{expoId}/refund")
-    public ResponseEntity<List<RefundResponseDto>> findAllRefunds(@PathVariable Long expoId, @RequestParam(required = false) String status) {
-        List<RefundResponseDto> refundResponseDto;
-        if (status == null) {
-            refundResponseDto = expoAdminService.findAllRefunds(expoId);
-        } else {
-            refundResponseDto = expoAdminService.findRefundsByStatus(expoId, status);
-        }
+    public ResponseEntity<List<RefundResponseDto>> findAllRefunds(
+            @PathVariable Long expoId,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false, defaultValue = "0") Integer page,
+            @RequestParam(required = false, defaultValue = "7") Integer size) {
+
+        List<RefundResponseDto> refundResponseDto = expoAdminService.findAllRefunds(expoId, status, page, size);
+
         return ResponseEntity.ok(refundResponseDto);
     }
 

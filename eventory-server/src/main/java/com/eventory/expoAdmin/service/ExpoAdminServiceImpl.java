@@ -138,9 +138,11 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 결제 내역 관리 - 페이징 O
     @Override
-    public List<PaymentResponseDto> findAllPayments(Long expoId, String code, int page, int size) {
+    public List<PaymentResponseDto> findAllPayments(Long expoId, String code, Integer page, Integer size) {
 
-        Pageable pageable = PageRequest.of(page, size);
+        int actualPage = (page != null) ? page : 0;
+        int actualSize = (size != null) ? size : 7;
+        Pageable pageable = PageRequest.of(actualPage, actualSize);
 
         // 특정 박람회(expoId)에 해당하는 예약 조회
         Page<Reservation> reservations = reservationRepository.findByExpoIdAndReservationCode(expoId, code, pageable);
@@ -210,56 +212,44 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         return new ByteArrayResource(outputStream.toByteArray());
     }
 
-    // 환불 요청 관리
+    // 환불 요청 관리, 환불 대기, 환불 완료
     @Override
-    public List<RefundResponseDto> findAllRefunds(Long expoId) {
+    public List<RefundResponseDto> findAllRefunds(Long expoId, String status, Integer page, Integer size) {
+
+        Pageable pageable = PageRequest.of(page, size);
 
         // 특정 박람회(expoId)에 해당하는 결제 조회
         List<Long> paymentIds = reservationRepository.findPaymentIdsByExpoId(expoId);
+
 
         // 비어있으면 빈 리스트 반환
         if(paymentIds.isEmpty()) {
             return Collections.emptyList();
         }
 
-        // 특정 박람회(expoId)에 해당하는 환불 조회
-        List<Refund> refunds = refundRepository.findByPayment_PaymentIdIn(paymentIds);
+        if (status!=null) {
+            RefundStatus targetStatus;
+            try {
+                targetStatus = RefundStatus.valueOf(status.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                return Collections.emptyList();
+            }
 
-        // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
-        return refunds.stream()
-                .map(expoMapper::toRefundResponseDto)
-                .collect(Collectors.toList());
-    }
+            // 특정 박람회(expoId)에 해당하는 환불 조회
+            Page<Refund> refunds = refundRepository.findByPayment_PaymentIdInAndStatus(paymentIds, targetStatus, pageable);
 
-    // 환불 대기, 환불 완료
-    @Override
-    public List<RefundResponseDto> findRefundsByStatus(Long expoId, String status) {
+            // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
+            return refunds.stream()
+                    .map(expoMapper::toRefundResponseDto)
+                    .collect(Collectors.toList());
+        } else {
+            // 특정 박람회(expoId)에 해당하는 환불 조회
+            Page<Refund> refunds = refundRepository.findByPayment_PaymentIdIn(paymentIds, pageable);
 
-        // 특정 박람회(expoId)에 해당하는 결제 조회
-        List<Long> paymentIds = reservationRepository.findPaymentIdsByExpoId(expoId);
-
-        // 비어있으면 빈 리스트 반환
-        if(paymentIds.isEmpty()) {
-            return Collections.emptyList();
+            return refunds.stream()
+                    .map(expoMapper::toRefundResponseDto)
+                    .collect(Collectors.toList());
         }
-
-        // 특정 박람회(expoId)에 해당하는 환불 조회
-        List<Refund> refunds = refundRepository.findByPayment_PaymentIdIn(paymentIds);
-
-        RefundStatus targetStatus;
-        try {
-            targetStatus = RefundStatus.valueOf(status.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return Collections.emptyList();
-        }
-
-        List<Refund> filteredRefunds = refunds.stream()
-                .filter(refund -> refund.getStatus() == targetStatus).toList();
-
-        // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
-        return filteredRefunds.stream()
-                .map(expoMapper::toRefundResponseDto)
-                .collect(Collectors.toList());
     }
 
     // 환불 상태 변경
