@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 .root {
   padding-bottom: 0px;
 }
@@ -31,10 +32,12 @@ body {
   display: flex;
   flex-direction: row;
   width: 100vw;
-  height: calc(100vh - 80px); /* 헤더 높이 뺀 나머지 */
+  height: calc(100vh - 80px);
+  /* 헤더 높이 뺀 나머지 */
   box-sizing: border-box;
   flex: 1;
-  overflow: hidden; /* 스크롤 생기는 것 방지 */
+  overflow: hidden;
+  /* 스크롤 생기는 것 방지 */
 }
 
 
@@ -139,12 +142,12 @@ body {
   flex-shrink: 0;
 }
 
-.remember-me input[type="checkbox"]:checked + .checkbox-custom {
+.remember-me input[type="checkbox"]:checked+.checkbox-custom {
   background-color: #007bff;
   border-color: #007bff;
 }
 
-.remember-me input[type="checkbox"]:checked + .checkbox-custom::after {
+.remember-me input[type="checkbox"]:checked+.checkbox-custom::after {
   content: "✓";
   position: absolute;
   top: 50%;

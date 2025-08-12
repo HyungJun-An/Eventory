@@ -20,11 +20,11 @@ function App() {
         <Route path="/admin/sales" element={<AdminLayout><RevenuePage /></AdminLayout>} />
         <Route path="/admin/payment" element={<AdminLayout><PaymentPage /></AdminLayout>} />
         <Route path="/admin/refund" element={<AdminLayout><RefundPage /></AdminLayout>} />
-        <Route element={<MainLayout/>}>
-          <Route path="/login" element={<LoginPage/>}/>
-          <Route path="/signup" element={<RegisterPage/>}/>
+        <Route element={<MainLayout />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<RegisterPage />} />
         </Route>
-        <Route path="/" element={<UserMainPage/>}/>
+        <Route path="/" element={<UserMainPage />} />
       </Routes>
     </BrowserRouter>
   )
