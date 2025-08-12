@@ -1,7 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../assets/css/Navbar.css"
+import LogoutButton from './LogoutButton';
 
 export default function Navbar() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+      useEffect(() => {
+        // 페이지 로드시 토큰 존재 여부 확인
+        const token = localStorage.getItem('accessToken');
+        setIsLoggedIn(!!token);
+      }, []);
 
   return (
     <nav className="navbar">
@@ -32,14 +40,20 @@ export default function Navbar() {
             alt="Shopping"
             src="https://c.animaapp.com/me2azzmxxO3KsY/img/money-shopping.svg"
           />
-          <button className="login-register-btn">
-            <img
-              className="user-icon"
-              alt="User"
-              src="https://c.animaapp.com/me2azzmxxO3KsY/img/peoples-user.svg"
-            />
-            Login/Register
-          </button>
+
+          {/* 로그인 o  로그아웃 버튼 / X 로그인회원가입 버튼 */}
+          {isLoggedIn ? (
+              <LogoutButton /> //
+          ) : (
+            <button className="login-register-btn" onClick={() => navigate('/login')}>
+                <img
+                    className="user-icon"
+                    alt="User"
+                    src="https://c.animaapp.com/me2azzmxxO3KsY/img/peoples-user.svg"
+                />
+                Login/Register
+            </button>
+          )}
         </div>
       </div>
     </nav>
