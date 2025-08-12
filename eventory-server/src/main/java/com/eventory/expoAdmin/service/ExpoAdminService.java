@@ -1,10 +1,9 @@
 package com.eventory.expoAdmin.service;
 
 import com.eventory.expoAdmin.dto.*;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.time.LocalDate;
+import org.springframework.core.io.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +20,7 @@ public interface ExpoAdminService {
 
     void updateRefundStatus(Long refundId, RefundRequestDto request);
 
-    // Resource downloadPaymentsExcel(Long expoId);
+    Resource downloadPaymentsExcel(List<PaymentResponseDto> paymentResponseDto);
 
     DashboardResponseDto getDashboardSummary(Long expoId);
 

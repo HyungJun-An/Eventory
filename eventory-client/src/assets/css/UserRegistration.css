@@ -1,252 +1,146 @@
 .user-registration {
-    background-color: #f6f6f6;
-    min-height: 100vh;
-    width: 100%;
-    font-family: 'Inter', Helvetica, sans-serif;
-  }
-  
-  /* Header Styles */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 40px 104px;
-    background-color: transparent;
-    width: 100%;
-    max-width: 1440px;
-    margin: 0 auto;
-  }
-  
-  .nav-menu {
-    display: flex;
-    gap: 32px;
-    align-items: center;
-  }
-  
-  .nav-item {
-    color: #222222;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 120%;
-    cursor: pointer;
-    transition: color 0.2s ease;
-  }
-  
-  .nav-item:hover {
-    color: #007bff;
-  }
-  
-  .nav-item.active {
-    color: #222222;
-  }
-  
-  .logo-section {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .logo-icon {
-    width: 45px;
-    height: 40px;
-    object-fit: cover;
-  }
-  
-  .logo-text {
-    width: 180px;
-    height: 40px;
-    object-fit: cover;
-  }
-  
-  .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
-  
-  .shopping-icon {
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-  }
-  
-  .login-btn {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 16px;
-    padding: 8px 24px;
-    height: 40px;
-    font-size: 14px;
-    font-weight: 400;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .login-btn:hover {
-    background-color: #0056b3;
-  }
-  
-  .user-icon {
-    width: 16px;
-    height: 16px;
-  }
-  
-  /* Main Content Styles */
-  .main-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 96px 0;
-    min-height: calc(100vh - 120px);
-  }
-  
-  .registration-card {
-    background-color: white;
-    border-radius: 16px 0 0 16px;
-    width: 626px;
-    height: 918px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .registration-form {
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .form-title {
-    color: #222222;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .user-type-options {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .user-type-btn {
-    width: 100%;
-    height: 50px;
-    border: 1px solid #6a6a6a;
-    border-radius: 16px;
-    background-color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  
-  .user-type-btn:hover {
-    border-color: #007bff;
-    background-color: #f8f9fa;
-  }
-  
-  .user-type-btn.selected {
-    border-color: #007bff;
-    background-color: #e3f2fd;
-  }
-  
-  .user-type-icon {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .user-type-btn span {
-    color: #505050;
-    font-size: 14px;
-    font-weight: 400;
-    text-align: center;
-  }
-  
-  .divider {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-  }
-  
-  .divider-line {
-    flex: 1;
-    height: 1px;
-    background-color: #b6b6b6;
-    border-radius: 1px;
-  }
-  
-  .divider-text {
-    color: #222222;
-    font-size: 14px;
-    font-weight: 400;
-    width: 14px;
-    text-align: center;
-  }
-  
-  .login-link {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .login-text {
-    color: #6a6a6a;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-  }
-  
-  .login-link-text {
-    color: #222222;
-    font-size: 16px;
-    font-weight: 500;
-    text-decoration: none;
-    cursor: pointer;
-    transition: color 0.2s ease;
-  }
-  
-  .login-link-text:hover {
-    color: #007bff;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .header {
-      padding: 20px;
-      flex-direction: column;
-      gap: 20px;
-    }
-    
-    .nav-menu {
-      gap: 16px;
-    }
-    
-    .registration-card {
-      width: 90%;
-      height: auto;
-      min-height: 600px;
-      border-radius: 16px;
-    }
-    
-    .registration-form {
-      width: 90%;
-      padding: 40px 20px;
-    }
-  }
-  
+  background-color: #f6f6f6;
+  width: 100vw;
+  height: 100vh;
+  font-family: 'Inter', Helvetica, sans-serif;
+}
+
+/* Main Content Styles */
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+}
+
+.registration-card {
+  background-color: white;
+  border-radius: 16px 0 0 16px;
+  width: 626px;
+  height: 918px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.registration-form {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.form-title {
+  color: #222222;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.user-type-options {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.user-type-btn {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #6a6a6a;
+  border-radius: 16px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.user-type-btn:hover {
+  border-color: #007bff;
+  background-color: #f8f9fa;
+}
+
+.user-type-btn.selected {
+  border-color: #007bff;
+  background-color: #e3f2fd;
+}
+
+.user-type-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.user-type-btn span {
+  color: #505050;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: #b6b6b6;
+  border-radius: 1px;
+}
+
+.divider-text {
+  color: #222222;
+  font-size: 14px;
+  font-weight: 400;
+  width: 14px;
+  text-align: center;
+}
+
+.login-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.login-text {
+  color: #6a6a6a;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.login-link-text {
+  color: #222222;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.login-link-text:hover {
+  color: #007bff;
+}
+
+.card-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  height: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  overflow: hidden;
+}

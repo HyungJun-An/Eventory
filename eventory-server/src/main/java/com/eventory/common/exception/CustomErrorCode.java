@@ -33,8 +33,9 @@ public enum CustomErrorCode {
     NOT_FOUND_RESERVATION(HttpStatus.NOT_FOUND, "R001", "예약 정보가 없습니다."),
     NOT_FOUNT_STATISTICS(HttpStatus.NOT_FOUND, "R002", "지원하지 않는 range 값입니다."),
     NOT_FOUNT_RANGE(HttpStatus.NOT_FOUND, "R003", "지원하지 않는 range 값입니다."),
-    NOT_FOUND_REFUND(HttpStatus.NOT_FOUND, "R001", "환불 정보가 없습니다."),
-    NOT_FOUND_REASON(HttpStatus.BAD_REQUEST, "R004", "반려 사유가 누락되었습니다."),
+    NOT_FOUND_REFUND(HttpStatus.NOT_FOUND, "R004", "환불 정보가 없습니다."),
+    NOT_FOUND_REASON(HttpStatus.BAD_REQUEST, "R005", "반려 사유가 누락되었습니다."),
+    EXCEL_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "R006", "엑셀 생성에 실패했습니다."),
 
 	// 박람회 E
 	CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "E001", "카테고리가 존재하지 않습니다"),
