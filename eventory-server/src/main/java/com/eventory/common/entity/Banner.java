@@ -63,5 +63,6 @@ public class Banner {
         this.imageUrl = requestDto.getImageUrl();
         this.startDate = requestDto.getStartDate();
         this.endDate = requestDto.getEndDate();
+        this.updatedAt = LocalDateTime.now();
     }
 }

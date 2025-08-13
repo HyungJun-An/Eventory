@@ -55,5 +55,6 @@ public class ExpoAdmin {
         this.name = requestDto.getName();
         this.email = requestDto.getEmail();
         this.phone = requestDto.getPhone();
+        this.updatedAt = LocalDateTime.now();
     }
 }
