@@ -39,14 +39,20 @@ public enum CustomErrorCode {
 
 	// 박람회 E
 	CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "E001", "카테고리가 존재하지 않습니다"),
+
     // 박람회 관리자 D
     INVALID_PERIOD(HttpStatus.BAD_REQUEST, "D001", "유효하지 않은 통계 기간입니다."),
     EXPO_NOT_FOUND(HttpStatus.NOT_FOUND, "D002", "해당 박람회를 찾을 수 없습니다."),
     INVALID_ID(HttpStatus.BAD_REQUEST, "D003", "유효하지 않은 식별자입니다."),
     INVALID_DATE_RANGE(HttpStatus.BAD_REQUEST, "D004", "유효하지 않은 날짜 구간입니다."),
     REPORT_EXPORT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "D005", "리포트 내보내기에 실패했습니다."),
-    TICKET_TYPE_STATS_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "D006", "티켓 타입 통계 집계 중 오류가 발생했습니다.");
+    TICKET_TYPE_STATS_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "D006", "티켓 타입 통계 집계 중 오류가 발생했습니다."),
+    NOT_FOUND_EXPO_ADMIN(HttpStatus.NOT_FOUND, "D007", "박람회 관리자 계정을 찾을 수 없습니다"),
 
+    // 박람회 관리자 마이페이지 P
+    NOT_FOUND_MANAGER(HttpStatus.NOT_FOUND, "P001", "해당 박람회 담당자를 찾을 수 없습니다."),
+    NOT_FOUND_EXPO(HttpStatus.NOT_FOUND, "P002", "해당 박람회를 찾을 수 없습니다."),
+    NOT_FOUND_BANNER(HttpStatus.NOT_FOUND, "P003", "해당 배너를 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String errorCode;

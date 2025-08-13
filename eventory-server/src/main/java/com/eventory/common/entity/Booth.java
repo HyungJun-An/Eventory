@@ -31,6 +31,10 @@ public class Booth {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "payment_id", nullable = true)
+    private Payment payment;
+
     @Column(name = "title", length = 255, nullable = false)
     private String title;
 
@@ -61,7 +65,7 @@ public class Booth {
     private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false, length = 255)
+    @Column(name = "status", length = 255, nullable = false)
     private BoothStatus status;
 
     @Column(name = "reason", length = 255, nullable = true)

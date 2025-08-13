@@ -36,7 +36,7 @@ public class Reservation {
     private Payment payment;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false, length = 255)
+    @Column(name = "status", length = 255, nullable = false)
     private ReservationStatus status;
 
     @Column(name = "code", length = 255, nullable = false)
