@@ -1,0 +1,65 @@
+server:
+  port: 8080
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12
+    key-store-password: 1234
+    key-store-type: PKCS12
+    key-alias: my-ssl-cert
+    protocol: TLS
+    enabled-protocols: TLSv1.2,TLSv1.3
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,prometheus,metrics"
+  endpoint:
+    health:
+      show-details: always
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 2GB
+      max-request-size: 2GB
+  redis:
+    host: 124.62.17.42
+    port: 6380
+#    password:
+
+  datasource:
+    url: jdbc:mysql://192.168.0.16/Eventory
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: EventoryUser
+    password: 1234
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    org.springframework.boot.actuate.endpoint: TRACE
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+jwt:
+  secret: F4y6UozXgQIUW0NmQ2DI71Zbr1FQnFFu
+#  expiration: 3600000 # 1시간
+  access-token-validity: 900000      # 15분
+  refresh-token-validity: 604800000  # 7일
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+  override-with-generic-response: false
+
