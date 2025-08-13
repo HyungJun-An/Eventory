@@ -127,9 +127,10 @@ public class ExpoAdminController {
 
     // 일별, 주별, 월별 예약 수 (막대그래프)
     @GetMapping("/expos/{expoId}/dashboard/stats")
-    public ResponseEntity<List<ReservationStatResponseDto>> getReservationStats(@PathVariable Long expoId,
-                                                                     @RequestParam String period // "daily" | "weekly" | "monthly"
-                                                                     ) {
+    public ResponseEntity<List<ReservationStatResponseDto>> getReservationStats(
+            @PathVariable Long expoId,
+            @RequestParam String period // "daily" | "weekly" | "monthly"
+    ) {
         return switch (period.toLowerCase()) {
             case "daily" -> ResponseEntity.ok(expoAdminService.findDailyReservationStats(expoId)); // 일별 예약 수 (최근 7일간 일별 예약 수 (오늘 기준 지난 7일(6일 전 ~ 오늘)))
             case "weekly" -> ResponseEntity.ok(expoAdminService.findWeeklyReservationStats(expoId)); // 주별 예약 수 (최근 4주간 주차별 예약 수 (오늘 기준 최근 4주 (주 단위 구간)))
