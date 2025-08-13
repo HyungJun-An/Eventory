@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eventory.systemAdmin.dto.ExpoStatusRequestDto;
+import com.eventory.systemAdmin.dto.SysExpoAdminResponseDto;
 import com.eventory.systemAdmin.dto.SysExpoResponseDto;
 import com.eventory.systemAdmin.service.SystemAdminService;
 
@@ -36,5 +37,12 @@ public class systemAdminController {
 												   @RequestBody ExpoStatusRequestDto requestDto){
 		systemAdminService.updateExpoStatus(expoId, requestDto);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/admins")
+	public ResponseEntity<Page<SysExpoAdminResponseDto>> findAllExpoAdminPages(@RequestParam(required = false) String keyword,
+																		 @RequestParam(defaultValue = "0") int page,
+																		 @RequestParam(defaultValue = "10") int size){
+		return ResponseEntity.ok(systemAdminService.findAllExpoAdminPages(keyword, page, size));
 	}
 }

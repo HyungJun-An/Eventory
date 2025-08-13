@@ -6,13 +6,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.eventory.common.entity.Expo;
+import com.eventory.common.entity.ExpoAdmin;
 import com.eventory.common.entity.ExpoCategory;
 import com.eventory.common.entity.ExpoStatus;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
+import com.eventory.common.repository.ExpoAdminRepository;
 import com.eventory.common.repository.ExpoCategoryRepository;
 import com.eventory.common.repository.ExpoRepository;
 import com.eventory.systemAdmin.dto.ExpoStatusRequestDto;
+import com.eventory.systemAdmin.dto.SysExpoAdminResponseDto;
 import com.eventory.systemAdmin.dto.SysExpoResponseDto;
 
 import jakarta.transaction.Transactional;
@@ -24,6 +27,7 @@ public class SystemAdminService {
 
 	private final ExpoRepository expoRepository;
 	private final ExpoCategoryRepository expoCategoryRepository;
+	private final ExpoAdminRepository expoAdminRepository;
 
 	public Page<SysExpoResponseDto> getAllSysExpoPages(String status, String title, int page, int size) {
 		
@@ -58,6 +62,18 @@ public class SystemAdminService {
 			expo.reject(requestDto.getReason());
 		}
 		
+	}
+
+	public Page<SysExpoAdminResponseDto> findAllExpoAdminPages(String keyword, int page, int size) {
+		
+		Pageable pageable = PageRequest.of(page, size);
+		
+		Page<ExpoAdmin> expoAdminPage = expoAdminRepository.findAll(pageable);
+		
+		return expoAdminPage.map(admin -> {
+			Expo lastExpo = expoRepository.findFirstByExpoAdminOrderByCreatedAtDesc(admin).orElse(null);
+			return SysExpoAdminResponseDto.from(admin, lastExpo != null ? lastExpo.getCreatedAt() : null);
+		});
 	}
 	
 	
