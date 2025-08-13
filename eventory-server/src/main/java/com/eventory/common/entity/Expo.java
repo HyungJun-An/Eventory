@@ -99,5 +99,6 @@ public class Expo {
         this.startDate = requestDto.getStartDate();
         this.endDate = requestDto.getEndDate();
         this.visibility = requestDto.getVisibility();
+        this.displayUpdateDate = LocalDateTime.now();
     }
 }
