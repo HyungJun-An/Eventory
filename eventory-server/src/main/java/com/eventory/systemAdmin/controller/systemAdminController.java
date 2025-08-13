@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eventory.expoAdmin.dto.ManagerRequestDto;
 import com.eventory.systemAdmin.dto.ExpoStatusRequestDto;
 import com.eventory.systemAdmin.dto.SysExpoAdminResponseDto;
 import com.eventory.systemAdmin.dto.SysExpoResponseDto;
@@ -56,5 +57,12 @@ public class systemAdminController {
 	@GetMapping("/admins/{adminId}")
 	public ResponseEntity<SysExpoAdminResponseDto> findExpoAdmin(@PathVariable Long adminId){
 		return ResponseEntity.ok(systemAdminService.findExpoAdmin(adminId));
+	}
+	
+	@PutMapping("/admins/{adminId}")
+	public ResponseEntity<?> updateExpoAdmin(@PathVariable Long adminId,
+											 @RequestBody ManagerRequestDto requestDto){
+		systemAdminService.updateExpoAdmin(adminId, requestDto);
+		return ResponseEntity.noContent().build();
 	}
 }

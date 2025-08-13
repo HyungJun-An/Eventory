@@ -14,6 +14,7 @@ import com.eventory.common.exception.CustomException;
 import com.eventory.common.repository.ExpoAdminRepository;
 import com.eventory.common.repository.ExpoCategoryRepository;
 import com.eventory.common.repository.ExpoRepository;
+import com.eventory.expoAdmin.dto.ManagerRequestDto;
 import com.eventory.systemAdmin.dto.ExpoStatusRequestDto;
 import com.eventory.systemAdmin.dto.SysExpoAdminResponseDto;
 import com.eventory.systemAdmin.dto.SysExpoResponseDto;
@@ -95,6 +96,13 @@ public class SystemAdminService {
 		ExpoAdmin admin = expoAdminRepository.findById(adminId).orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO_ADMIN));
 		
 		return SysExpoAdminResponseDto.from(admin, null);
+	}
+
+	@Transactional
+	public void updateExpoAdmin(Long adminId, ManagerRequestDto requestDto) {
+		
+		ExpoAdmin admin = expoAdminRepository.findById(adminId).orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO_ADMIN));
+		admin.updateExpoAdmin(requestDto);
 	}
 	
 	
