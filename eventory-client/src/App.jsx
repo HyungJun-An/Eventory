@@ -11,6 +11,8 @@ import RegisterPage from './user/UserRegistration';
 import Main, { UserMainPage } from './user/userMain';
 import Navbar from './components/Navbar';
 import MainLayout from './components/MainLayout';
+import Register from './user/Register';
+
 function App() {
 
   return (
@@ -23,6 +25,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<RegisterPage />} />
+          <Route path="/register" element={<Register />} />
         </Route>
         <Route path="/" element={<UserMainPage />} />
       </Routes>

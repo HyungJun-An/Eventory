@@ -1,0 +1,584 @@
+/* Register Page Styles */
+.register {
+  background-color: var(--neutralgray-50);
+  height: 1124px;
+  position: relative;
+  width: 1440px;
+}
+
+/* Frame Styles */
+.frame {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  left: 407px;
+  position: absolute;
+  top: 136px;
+}
+
+.frame .frame-wrapper {
+  background-color: var(--white);
+  border-radius: 16px 0px 0px 16px;
+  height: 918px;
+  position: relative;
+  width: 626px;
+}
+
+.frame .div {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 903px;
+  justify-content: center;
+  left: 113px;
+  position: relative;
+  top: 7px;
+  width: 400px;
+}
+
+.frame .div-2 {
+  align-items: flex-start;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 788px;
+  position: relative;
+  width: 100%;
+}
+
+.frame .div-3 {
+  align-items: flex-start;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 713px;
+  position: relative;
+  width: 100%;
+}
+
+.frame .input-instance {
+  align-self: stretch !important;
+  height: 50px !important;
+  width: 100% !important;
+}
+
+.frame .design-component-instance-node {
+  justify-content: center !important;
+  margin-bottom: -1.00px !important;
+  margin-top: -1.00px !important;
+}
+
+.frame .design-component-instance-node-2 {
+  height: 20px !important;
+  left: unset !important;
+  position: relative !important;
+  top: unset !important;
+  width: 20px !important;
+}
+
+.frame .input-2 {
+  flex: unset !important;
+  text-align: center !important;
+  width: fit-content !important;
+}
+
+.frame .div-4 {
+  align-items: center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  position: relative;
+  width: 100%;
+}
+
+.frame .rectangle {
+  background-color: var(--neutralgray-300);
+  border-radius: 1px;
+  flex: 1;
+  flex-grow: 1;
+  height: 1px;
+  position: relative;
+}
+
+.frame .text-wrapper {
+  color: var(--black);
+  font-family: var(--body-SM-font-family);
+  font-size: var(--body-SM-font-size);
+  font-style: var(--body-SM-font-style);
+  font-weight: var(--body-SM-font-weight);
+  letter-spacing: var(--body-SM-letter-spacing);
+  line-height: var(--body-SM-line-height);
+  margin-top: -1.00px;
+  position: relative;
+  width: 14px;
+}
+
+.frame .div-5 {
+  align-items: flex-start;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  height: 701px;
+  margin-bottom: -75.00px;
+  position: relative;
+  width: 100%;
+}
+
+.frame .div-6 {
+  align-items: flex-start;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 80px;
+  position: relative;
+  width: 100%;
+}
+
+.frame .text-wrapper-2 {
+  align-self: stretch;
+  color: var(--black);
+  font-family: var(--body-MD-font-family);
+  font-size: var(--body-MD-font-size);
+  font-style: var(--body-MD-font-style);
+  font-weight: var(--body-MD-font-weight);
+  letter-spacing: var(--body-MD-letter-spacing);
+  line-height: var(--body-MD-line-height);
+  margin-top: -1.00px;
+  position: relative;
+}
+
+.frame .input-3 {
+  align-self: stretch !important;
+  width: 100% !important;
+}
+
+.frame .div-7 {
+  align-items: flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  width: 100%;
+}
+
+.frame .design-component-instance-node-3 {
+  left: unset !important;
+  margin-bottom: -4.00px !important;
+  margin-top: -4.00px !important;
+  position: relative !important;
+  top: unset !important;
+}
+
+.frame .p {
+  align-self: stretch;
+  color: var(--neutralgray-700);
+  font-family: var(--body-SM-font-family);
+  font-size: var(--body-SM-font-size);
+  font-style: var(--body-SM-font-style);
+  font-weight: var(--body-SM-font-weight);
+  letter-spacing: var(--body-SM-letter-spacing);
+  line-height: var(--body-SM-line-height);
+  position: relative;
+}
+
+.frame .div-8 {
+  align-items: flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  position: relative;
+  width: 100%;
+}
+
+.frame .text-wrapper-3 {
+  color: var(--black);
+  font-family: var(--body-MD-font-family);
+  font-size: var(--body-MD-font-size);
+  font-style: var(--body-MD-font-style);
+  font-weight: var(--body-MD-font-weight);
+  letter-spacing: var(--body-MD-letter-spacing);
+  line-height: var(--body-MD-line-height);
+  margin-top: -1.00px;
+  position: relative;
+  width: 200px;
+}
+
+.frame .text-wrapper-4 {
+  color: var(--black);
+  font-family: var(--body-MD-font-family);
+  font-size: var(--body-MD-font-size);
+  font-style: var(--body-MD-font-style);
+  font-weight: var(--body-MD-font-weight);
+  letter-spacing: var(--body-MD-letter-spacing);
+  line-height: var(--body-MD-line-height);
+  margin-top: -1.00px;
+  position: relative;
+  width: 77px;
+}
+
+.frame .div-9 {
+  align-items: flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  position: relative;
+  width: 200px;
+}
+
+.frame .search-box-date-picker {
+  border-radius: 16px !important;
+  height: 48px !important;
+}
+
+.frame .search-box-date-instance {
+  margin-bottom: -0.50px !important;
+  margin-top: -2.50px !important;
+}
+
+.frame .search-box-date-picker-instance {
+  border-radius: 16px !important;
+  height: 48px !important;
+  margin-right: -198.00px !important;
+  width: 190px !important;
+}
+
+.frame .input-4 {
+  align-self: stretch !important;
+  flex: 0 0 auto !important;
+  width: 100% !important;
+}
+
+.frame .input-5 {
+  margin-top: -1.00px !important;
+  text-align: center !important;
+}
+
+.frame .div-10 {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 16px;
+  justify-content: center;
+  position: relative;
+}
+
+.frame .text-wrapper-5 {
+  color: var(--neutralgray-600);
+  font-family: "Inter", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 24px;
+  margin-top: -1.00px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.frame .text-wrapper-6 {
+  color: var(--black);
+  font-family: "Inter", Helvetica;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+/* Input Component Styles */
+.input {
+  align-items: center;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  position: relative;
+  width: 400px;
+}
+
+.input .frame-2 {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  flex-grow: 1;
+  gap: 8px;
+  position: relative;
+}
+
+.input .text {
+  flex: 1;
+  font-family: var(--body-SM-font-family);
+  font-size: var(--body-SM-font-size);
+  font-style: var(--body-SM-font-style);
+  font-weight: var(--body-SM-font-weight);
+  letter-spacing: var(--body-SM-letter-spacing);
+  line-height: var(--body-SM-line-height);
+  position: relative;
+}
+
+.input .base-mail-instance {
+  height: 20px !important;
+  left: unset !important;
+  position: relative !important;
+  top: unset !important;
+  width: 20px !important;
+}
+
+.input .arrows-right-small-instance {
+  left: unset !important;
+  margin-bottom: -4.00px !important;
+  margin-top: -4.00px !important;
+  position: relative !important;
+  top: unset !important;
+}
+
+.input.norma {
+  border: 1px solid;
+  border-color: #6a6a6a;
+}
+
+.input.colored {
+  background-color: var(--primaryprimary);
+}
+
+.input.normal {
+  border: 1px solid;
+  border-color: #6a6a6a;
+}
+
+.input.forty-eight {
+  height: 48px;
+}
+
+.input.forty-eight .frame-2 {
+  margin-bottom: -2.00px;
+  margin-top: -2.00px;
+}
+
+.input.normal .text {
+  color: var(--neutralgray-700);
+}
+
+.input.norma .text {
+  color: var(--neutralgray-700);
+}
+
+.input.colored .text {
+  color: var(--white);
+}
+
+/* Search Box Date Styles */
+.search-box-date {
+  align-items: center;
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: #6a6a6a;
+  border-radius: 12px;
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  position: relative;
+  width: 200px;
+}
+
+.search-box-date .date {
+  color: var(--neutralgray-400);
+  flex: 1;
+  font-family: var(--button-LG-font-family);
+  font-size: var(--button-LG-font-size);
+  font-style: var(--button-LG-font-style);
+  font-weight: var(--button-LG-font-weight);
+  letter-spacing: var(--button-LG-letter-spacing);
+  line-height: var(--button-LG-line-height);
+  position: relative;
+}
+
+/* Header Component Styles */
+.state-signed-out-wrapper {
+  height: 40px;
+  position: relative;
+  width: 1232px;
+}
+
+.state-signed-out-wrapper .header-menu-instance {
+  left: 0 !important;
+  position: absolute !important;
+  top: 11px !important;
+}
+
+.state-signed-out-wrapper .frame-3 {
+  align-items: center;
+  display: inline-flex;
+  gap: 24px;
+  left: 987px;
+  position: absolute;
+  top: 0;
+}
+
+.state-signed-out-wrapper .money-shopping-instance {
+  height: 40px !important;
+  left: unset !important;
+  position: relative !important;
+  top: unset !important;
+  width: 40px !important;
+}
+
+.state-signed-out-wrapper .buttons-instance {
+  max-width: 181px !important;
+  width: 181px !important;
+}
+
+.state-signed-out-wrapper .website-logos-instance {
+  left: 496px !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+.state-signed-out-wrapper .peoples-user-2 {
+  height: 16px !important;
+  left: unset !important;
+  position: relative !important;
+  top: unset !important;
+  width: 16px !important;
+}
+
+/* Header Menu Styles */
+.header-menu {
+  align-items: center;
+  display: flex;
+  gap: 32px;
+  max-width: 240px;
+  position: relative;
+  width: 240px;
+}
+
+.header-menu .text-wrapper-7 {
+  color: var(--black);
+  font-family: var(--h6-font-family);
+  font-size: var(--h6-font-size);
+  font-style: var(--h6-font-style);
+  font-weight: var(--h6-font-weight);
+  letter-spacing: var(--h6-letter-spacing);
+  line-height: var(--h6-line-height);
+  margin-top: -1.00px;
+  position: relative;
+  width: 46px;
+}
+
+.header-menu .text-wrapper-8 {
+  color: var(--black);
+  flex: 1;
+  font-family: var(--h6-font-family);
+  font-size: var(--h6-font-size);
+  font-style: var(--h6-font-style);
+  font-weight: var(--h6-font-weight);
+  letter-spacing: var(--h6-letter-spacing);
+  line-height: var(--h6-line-height);
+  margin-top: -1.00px;
+  position: relative;
+  text-align: center;
+}
+
+.header-menu .text-wrapper-9 {
+  color: var(--black);
+  font-family: var(--h6-font-family);
+  font-size: var(--h6-font-size);
+  font-style: var(--h6-font-style);
+  font-weight: var(--h6-font-weight);
+  letter-spacing: var(--h6-letter-spacing);
+  line-height: var(--h6-line-height);
+  margin-top: -1.00px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+/* Button Styles */
+.buttons {
+  align-items: center;
+  background-color: var(--primaryprimary);
+  border-radius: 16px;
+  display: flex;
+  gap: 4px;
+  height: 40px;
+  justify-content: center;
+  padding: 8px 24px;
+  position: relative;
+  width: 117px;
+}
+
+.buttons .text-2 {
+  color: var(--white);
+  flex: 1;
+  font-family: var(--button-SM-font-family);
+  font-size: var(--button-SM-font-size);
+  font-style: var(--button-SM-font-style);
+  font-weight: var(--button-SM-font-weight);
+  letter-spacing: var(--button-SM-letter-spacing);
+  line-height: var(--button-SM-line-height);
+  position: relative;
+  text-align: center;
+}
+
+.buttons .design-component-instance-node-4 {
+  height: 16px !important;
+  left: unset !important;
+  position: relative !important;
+  top: unset !important;
+  width: 16px !important;
+}
+
+/* Website Logos Styles */
+.website-logos {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  height: 40px;
+  position: relative;
+  width: 240px;
+}
+
+.website-logos .removebg-preview {
+  height: 40px;
+  object-fit: cover;
+  position: relative;
+  width: 45px;
+}
+
+.website-logos .img {
+  height: 40px;
+  object-fit: cover;
+  position: relative;
+  width: 180px;
+}
+
+/* Icon Styles */
+.gmail,
+.peoples-user,
+.peoples-edit-name,
+.base-mail,
+.base-lock,
+.base-preview-close,
+.time-calendar-thirty,
+.arrows-down,
+.base-phone-telephone,
+.money-shopping,
+.arrows-right-small,
+.arrows-left-small {
+  height: 24px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 24px;
+}
