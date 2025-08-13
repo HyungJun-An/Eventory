@@ -83,6 +83,15 @@ public class Expo {
         return expoCategories.isEmpty() ? null : expoCategories.get(0).getCategory();
     }
 
+    public void approve() {
+    	this.status = ExpoStatus.APPROVED;
+    }
+    
+    public void reject(String reason) {
+    	this.status = ExpoStatus.REJECTED;
+    	this.reason = reason;
+    }
+  
     public void updateExpo(ExpoRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.imageUrl = requestDto.getImageUrl();
