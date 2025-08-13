@@ -15,9 +15,6 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 public class BannerCreateRequestDto {
-    @NotNull
-    @Positive
-    private Long bannerId;
 
     @NotBlank
     private String imageUrl;
@@ -27,7 +24,4 @@ public class BannerCreateRequestDto {
 
     @NotNull
     private LocalDate endDate;
-
-    @NotNull
-    private BannerStatus status;
 }

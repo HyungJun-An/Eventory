@@ -4,7 +4,7 @@ import com.eventory.expoAdmin.dto.*;
 import jakarta.validation.Valid;
 
 public interface ExpoInfoService {
-    /*ManagerResponseDto findExpoManagerInfo(Long expoAdminId);
+    ManagerResponseDto findExpoManagerInfo(Long expoAdminId);
 
     void updateExpoManagerInfo(Long expoAdminId, @Valid ManagerRequestDto requestDto);
 
@@ -16,5 +16,5 @@ public interface ExpoInfoService {
 
     BannerResponseDto findExpoBanner(Long expoId);
 
-    void updateExpoBanner(Long expoId, @Valid BannerUpdateRequestDto requestDto);*/
+    void updateExpoBanner(Long expoId, @Valid BannerUpdateRequestDto requestDto);
 }

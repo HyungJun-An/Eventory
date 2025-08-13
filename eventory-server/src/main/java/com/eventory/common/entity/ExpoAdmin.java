@@ -1,5 +1,6 @@
 package com.eventory.common.entity;
 
+import com.eventory.expoAdmin.dto.ManagerRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,4 +50,10 @@ public class ExpoAdmin {
     @UpdateTimestamp
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime updatedAt;
+
+    public void updateExpoAdmin(ManagerRequestDto requestDto) {
+        this.name = requestDto.getName();
+        this.email = requestDto.getEmail();
+        this.phone = requestDto.getPhone();
+    }
 }

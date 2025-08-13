@@ -42,31 +42,31 @@ public class User {
     @Column(name = "password", length = 255, nullable = false)
     private String password;
 
-    @Column(name = "birth", length = 255)
+    @Column(name = "birth", length = 255, nullable = true)
     private LocalDate birth;
 
-    @Column(name = "gender", length = 10)
+    @Column(name = "gender", length = 10, nullable = true)
     private String gender;
 
     @Column(name = "phone", length = 255, nullable = false)
     private String phone;
 
-    @Column(name = "company_name_kr", length = 255)
+    @Column(name = "company_name_kr", length = 255, nullable = true)
     private String companyNameKr;
 
-    @Column(name = "company_name_eng", length = 255)
+    @Column(name = "company_name_eng", length = 255, nullable = true)
     private String companyNameEng;
 
-    @Column(name = "ceo_name_kr", length = 255)
+    @Column(name = "ceo_name_kr", length = 255, nullable = true)
     private String ceoNameKr;
 
-    @Column(name = "ceo_name_eng", length = 255)
+    @Column(name = "ceo_name_eng", length = 255, nullable = true)
     private String ceoNameEng;
 
-    @Column(name = "company_address", length = 255)
+    @Column(name = "company_address", length = 255, nullable = true)
     private String companyAddress;
 
-    @Column(name = "registration_num", length = 255)
+    @Column(name = "registration_num", length = 255, nullable = true)
     private String registrationNum;
 
     @CreationTimestamp

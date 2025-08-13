@@ -50,7 +50,9 @@ public enum CustomErrorCode {
     NOT_FOUND_EXPO_ADMIN(HttpStatus.NOT_FOUND, "D007", "박람회 관리자 계정을 찾을 수 없습니다"),
 
     // 박람회 관리자 마이페이지 P
-    NOT_FOUND_MANAGER(HttpStatus.NOT_FOUND, "P001", "해당 박람회 담당자를 찾을 수 없습니다.");
+    NOT_FOUND_MANAGER(HttpStatus.NOT_FOUND, "P001", "해당 박람회 담당자를 찾을 수 없습니다."),
+    NOT_FOUND_EXPO(HttpStatus.NOT_FOUND, "P002", "해당 박람회를 찾을 수 없습니다."),
+    NOT_FOUND_BANNER(HttpStatus.NOT_FOUND, "P003", "해당 배너를 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String errorCode;

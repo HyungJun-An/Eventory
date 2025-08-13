@@ -1,7 +1,5 @@
 package com.eventory.expoAdmin.dto;
 
-import com.eventory.common.entity.ExpoStatus;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -10,15 +8,11 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Builder
 @AllArgsConstructor
 public class ExpoRequestDto {
-    @NotNull
-    @Positive
-    private Long expoId;
 
     @NotBlank
     private String title;

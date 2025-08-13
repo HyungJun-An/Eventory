@@ -161,7 +161,7 @@ public class ExpoAdminController {
     }
 
     // 박람회 담당자 정보 조회
-    /*@GetMapping("/profile")
+    @GetMapping("/profile")
     public ResponseEntity<ManagerResponseDto> findExpoManagerInfo(@AuthenticationPrincipal ExpoAdmin expoAdmin) {
         Long expoAdminId = expoAdmin.getExpoAdminId();
         ManagerResponseDto responseDto = expoInfoService.findExpoManagerInfo(expoAdminId);
@@ -209,5 +209,5 @@ public class ExpoAdminController {
     public ResponseEntity<Void> updateExpoBanner(@PathVariable Long expoId, @Valid @RequestBody BannerUpdateRequestDto requestDto) {
         expoInfoService.updateExpoBanner(expoId, requestDto);
         return ResponseEntity.ok().build();
-    }*/
+    }
 }

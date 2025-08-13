@@ -13,8 +13,6 @@ import com.eventory.expoAdmin.service.mapper.ExpoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class ExpoInfoServiceImpl implements ExpoInfoService {
@@ -25,48 +23,77 @@ public class ExpoInfoServiceImpl implements ExpoInfoService {
     private final ExpoMapper expoMapper;
 
     // 박람회 담당자 정보 조회
-    /*@Override
+    @Override
     public ManagerResponseDto findExpoManagerInfo(Long expoAdminId) {
+
         ExpoAdmin expoAdmin = expoAdminRepository.findById(expoAdminId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_MANAGER));
+
         return expoMapper.toManagerResponseDto(expoAdmin);
     }
 
     // 박람회 담당자 정보 수정
     @Override
     public void updateExpoManagerInfo(Long expoAdminId, ManagerRequestDto requestDto) {
-        Optional<ExpoAdmin> expoAdmin = expoAdminRepository.findById(expoAdminId);
+
+        ExpoAdmin expoAdmin = expoAdminRepository.findById(expoAdminId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_MANAGER));
+
+        expoAdmin.updateExpoAdmin(requestDto);
+
+        expoAdminRepository.save(expoAdmin);
     }
 
     // 특정 박람회 정보 조회
     @Override
     public ExpoResponseDto findExpoInfo(Long expoId) {
-        Optional<Expo> expo = expoRepository.findById(expoId);
-        return null;
+
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        return expoMapper.toExpoResponseDto(expo);
     }
 
     // 특정 박람회 정보 수정
     @Override
     public void updateExpoInfo(Long expoId, ExpoRequestDto requestDto) {
-        Optional<Expo> expo = expoRepository.findById(expoId);
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        expo.updateExpo(requestDto);
+
+        expoRepository.save(expo);
     }
 
     // 특정 박람회 배너 신청
     @Override
     public void createExpoBanner(Long expoId, BannerCreateRequestDto requestDto) {
-        Optional<Expo> expo = expoRepository.findById(expoId);
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        Banner banner = expoMapper.toBannerRequestDto(expo, requestDto);
+
+        bannerRepository.save(banner);
     }
 
     // 특정 박람회 배너 조회
     @Override
     public BannerResponseDto findExpoBanner(Long expoId) {
-        Optional<Banner> banner = bannerRepository.findByExpo_ExpoId(expoId);
-        return null;
+
+        Banner banner = bannerRepository.findByExpo_ExpoId(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_BANNER));
+
+        return expoMapper.toBannerResponseDto(banner);
     }
 
     // 특정 박람회 배너 수정
     @Override
     public void updateExpoBanner(Long expoId, BannerUpdateRequestDto requestDto) {
-        Optional<Banner> banner = bannerRepository.findByExpo_ExpoId(expoId);
-    }*/
+        Banner banner = bannerRepository.findByExpo_ExpoId(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_BANNER));
+
+        banner.updateBanner(requestDto);
+
+        bannerRepository.save(banner);
+    }
 }
