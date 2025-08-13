@@ -1,12 +1,14 @@
 package com.eventory.expoAdmin.controller;
 
-import com.eventory.common.entity.User;
+import com.eventory.common.entity.ExpoAdmin;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.dto.*;
 import com.eventory.expoAdmin.service.ExpoAdminService;
+import com.eventory.expoAdmin.service.ExpoInfoService;
 import com.eventory.expoAdmin.service.SalesAdminService;
 import com.eventory.expoAdmin.web.FileResponseUtils;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -25,12 +27,12 @@ public class ExpoAdminController {
 
     private final ExpoAdminService expoAdminService;
     private final SalesAdminService salesAdminService;
+    private final ExpoInfoService expoInfoService;
 
     // 해당 박람회 관리자에 속하는 전체 박람회 목록
     @GetMapping("/expos")
-    public ResponseEntity<List<ExpoResponseDto>> findAllExpos(@AuthenticationPrincipal User user) {
-        Long expoAdminId = user.getUserId();
-        List<ExpoResponseDto> expos = expoAdminService.findAllExpos(expoAdminId);
+    public ResponseEntity<List<ExpoResponseDto>> findAllExpos(@AuthenticationPrincipal ExpoAdmin expoAdmin) {
+        List<ExpoResponseDto> expos = expoAdminService.findAllExpos(expoAdmin);
         return ResponseEntity.ok(expos);
     }
 
@@ -101,7 +103,7 @@ public class ExpoAdminController {
 
     // 환불 상태 변경
     @PatchMapping("/refund/{refundId}/status")
-    public ResponseEntity<Void> updateRefundStatus(@PathVariable Long refundId, @RequestBody RefundRequestDto request) {
+    public ResponseEntity<Void> updateRefundStatus(@PathVariable Long refundId, @Valid @RequestBody RefundRequestDto request) {
         salesAdminService.updateRefundStatus(refundId, request);
         return ResponseEntity.ok().build();
     }
@@ -158,4 +160,54 @@ public class ExpoAdminController {
         return ResponseEntity.ok(ratios);
     }
 
+    // 박람회 담당자 정보 조회
+    @GetMapping("/profile")
+    public ResponseEntity<ManagerResponseDto> findExpoManagerInfo(@AuthenticationPrincipal ExpoAdmin expoAdmin) {
+        Long expoAdminId = expoAdmin.getExpoAdminId();
+        ManagerResponseDto responseDto = expoInfoService.findExpoManagerInfo(expoAdminId);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    // 박람회 담당자 정보 수정
+    @PutMapping("/profile")
+    public ResponseEntity<Void> updateExpoManagerInfo(@AuthenticationPrincipal ExpoAdmin expoAdmin, @Valid @RequestBody ManagerRequestDto requestDto) {
+        Long expoAdminId = expoAdmin.getExpoAdminId();
+        expoInfoService.updateExpoManagerInfo(expoAdminId, requestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    // 특정 박람회 정보 조회
+    @GetMapping("/expos/{expoId}")
+    public ResponseEntity<ExpoResponseDto> findExpoInfo(@PathVariable Long expoId) {
+        ExpoResponseDto responseDto = expoInfoService.findExpoInfo(expoId);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    // 특정 박람회 정보 수정
+    @PutMapping("/expos/{expoId}")
+    public ResponseEntity<Void> updateExpoInfo(@PathVariable Long expoId, @Valid @RequestBody ExpoRequestDto requestDto) {
+        expoInfoService.updateExpoInfo(expoId, requestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    // 특정 박람회 배너 신청
+    @PostMapping("/expos/{expoId}/banner")
+    public ResponseEntity<Void> createExpoBanner(@PathVariable Long expoId, @Valid @RequestBody BannerCreateRequestDto requestDto) {
+        expoInfoService.createExpoBanner(expoId, requestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    // 특정 박람회 배너 조회
+    @GetMapping("/expos/{expoId}/banner")
+    public ResponseEntity<BannerResponseDto> findExpoBanner(@PathVariable Long expoId) {
+        BannerResponseDto responseDto = expoInfoService.findExpoBanner(expoId);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    // 특정 박람회 배너 수정
+    @PutMapping("/expos/{expoId}/banner")
+    public ResponseEntity<Void> updateExpoBanner(@PathVariable Long expoId, @Valid @RequestBody BannerUpdateRequestDto requestDto) {
+        expoInfoService.updateExpoBanner(expoId, requestDto);
+        return ResponseEntity.ok().build();
+    }
 }

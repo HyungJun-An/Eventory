@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Component
 @AllArgsConstructor
@@ -21,11 +22,18 @@ public class ExpoMapper {
                 .expoId(expo.getExpoId())
                 .expoAdminId(expo.getExpoAdmin().getExpoAdminId())
                 .title(expo.getTitle())
+                .imageUrl(expo.getImageUrl())
                 .description(expo.getDescription())
                 .startDate(expo.getStartDate())
                 .endDate(expo.getEndDate())
                 .location(expo.getLocation())
                 .visibility(expo.getVisibility())
+                .createdAt(expo.getCreatedAt())
+                .updatedAt(expo.getUpdatedAt())
+                .displayStartDate(expo.getDisplayStartDate())
+                .displayUpdateDate(expo.getDisplayUpdateDate())
+                .status(expo.getStatus())
+                .reason(expo.getReason())
                 .build();
     }
 
@@ -119,6 +127,44 @@ public class ExpoMapper {
                 .reservationCount(reservationCount)
                 .peopleCount(peopleCount)
                 .percentage(percentage)
+                .build();
+    }
+
+    public ManagerResponseDto toManagerResponseDto(ExpoAdmin expoAdmin) {
+        return ManagerResponseDto.builder()
+                .expoAdminId(expoAdmin.getExpoAdminId())
+                .password(expoAdmin.getPassword())
+                .name(expoAdmin.getName())
+                .email(expoAdmin.getEmail())
+                .phone(expoAdmin.getPhone())
+                .createdAt(expoAdmin.getCreatedAt())
+                .updatedAt(expoAdmin.getUpdatedAt())
+                .build();
+    }
+
+    public Banner toBannerRequestDto(Expo expo, BannerCreateRequestDto requestDto) {
+        return Banner.builder()
+                .expo(expo)
+                .payment(null)
+                .imageUrl(requestDto.getImageUrl())
+                .startDate(requestDto.getStartDate())
+                .endDate(requestDto.getEndDate())
+                .status(BannerStatus.PENDING)
+                .build();
+    }
+
+    public BannerResponseDto toBannerResponseDto(Banner banner) {
+        return BannerResponseDto.builder()
+                .bannerId(banner.getBannerId())
+                .expoId(banner.getExpo().getExpoId())
+                .paymentId(banner.getPayment().getPaymentId())
+                .imageUrl(banner.getImageUrl())
+                .createdAt(banner.getCreatedAt())
+                .updatedAt(banner.getUpdatedAt())
+                .startDate(banner.getStartDate())
+                .endDate(banner.getEndDate())
+                .status(banner.getStatus())
+                .reason(banner.getReason())
                 .build();
     }
 }

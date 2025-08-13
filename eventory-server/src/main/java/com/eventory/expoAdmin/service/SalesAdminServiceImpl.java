@@ -251,24 +251,24 @@ public class SalesAdminServiceImpl implements SalesAdminService {
     // 환불 상태 변경
     @Transactional
     @Override
-    public void updateRefundStatus(Long refundId, RefundRequestDto request) {
+    public void updateRefundStatus(Long refundId, RefundRequestDto requestDto) {
 
         // 환불(refundId) 조회
         Refund refund = refundRepository.findById(refundId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_REFUND));
 
-        // 요청됨 상태가 아니면 오류 발생
-        if (request.getStatus()!=RefundStatus.PENDING) {
-            throw new CustomException(CustomErrorCode.NOT_FOUND_REFUND);
-        }
-
         // 환불 반려 시 반려 사유 없으면 오류 발생
-        if (request.getStatus() == RefundStatus.REJECTED && (request.getReason() == null || request.getReason().isBlank())) {
+        if (requestDto.getStatus() == RefundStatus.REJECTED && (requestDto.getReason() == null || requestDto.getReason().isBlank())) {
             throw new CustomException(CustomErrorCode.NOT_FOUND_REASON);
         }
 
+        // 요청됨 상태라면 오류 발생
+        if (requestDto.getStatus() == RefundStatus.PENDING) {
+            throw new CustomException(CustomErrorCode.NOT_FOUND_REFUND);
+        }
+
         // 환불 상태 변경 및 저장
-        refund.updateStatus(refund.getStatus(), refund.getReason());
+        refund.updateStatus(requestDto);
         refundRepository.save(refund);
     }
 

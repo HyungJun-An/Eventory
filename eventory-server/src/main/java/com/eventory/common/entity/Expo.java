@@ -1,5 +1,6 @@
 package com.eventory.common.entity;
 
+import com.eventory.expoAdmin.dto.ExpoRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,7 +29,7 @@ public class Expo {
     private Long expoId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "expo_admin_id", nullable = false)
+    @JoinColumn(name = "expo_admin_id", nullable = true)
     private ExpoAdmin expoAdmin;
 
     @Column(name = "title", length = 255, nullable = false)
@@ -91,4 +92,12 @@ public class Expo {
     	this.reason = reason;
     }
   
+    public void updateExpo(ExpoRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.imageUrl = requestDto.getImageUrl();
+        this.description = requestDto.getDescription();
+        this.startDate = requestDto.getStartDate();
+        this.endDate = requestDto.getEndDate();
+        this.visibility = requestDto.getVisibility();
+    }
 }

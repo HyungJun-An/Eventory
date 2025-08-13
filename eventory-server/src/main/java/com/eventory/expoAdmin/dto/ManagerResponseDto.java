@@ -1,6 +1,5 @@
 package com.eventory.expoAdmin.dto;
 
-import com.eventory.common.entity.ExpoStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,42 +8,28 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
 @Builder
 @AllArgsConstructor
-public class ExpoResponseDto {
-
-    @NotNull
-    @Positive
-    private Long expoId;
+public class ManagerResponseDto {
 
     @NotNull
     @Positive
     private Long expoAdminId;
 
     @NotBlank
-    private String title;
+    private String password;
 
     @NotBlank
-    private String imageUrl;
+    private String name;
 
     @NotBlank
-    private String description;
-
-    @NotNull
-    private LocalDate startDate;
-
-    @NotNull
-    private LocalDate endDate;
+    private String email;
 
     @NotBlank
-    private String location;
-
-    @NotNull
-    private Boolean visibility;
+    private String phone;
 
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -53,17 +38,4 @@ public class ExpoResponseDto {
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
-
-    @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime displayStartDate;
-
-    @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime displayUpdateDate;
-
-    @NotNull
-    private ExpoStatus status;
-
-    private String reason;
 }

@@ -9,11 +9,10 @@ services:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/Eventory?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.0.17:3306/Eventory?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true #배포서버
+#     - SPRING_DATASOURCE_URL=jdbc:mysql://127.0.0.1:3307/Eventory?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true #로컬서버
       - SPRING_DATASOURCE_USERNAME=EventoryUser
       - SPRING_DATASOURCE_PASSWORD=1234
-    depends_on:
-      - db
     restart: unless-stopped
 
   eventory-client:
@@ -33,19 +32,3 @@ services:
     ports:
       - "6380:6379"
     restart: unless-stopped
-    
-  db:
-    image: mysql:8.0
-    environment:
-      MYSQL_ROOT_PASSWORD: 'C0mpl3x!P@ssw0rd#2025'
-      MYSQL_DATABASE: Eventory
-      MYSQL_USER: EventoryUser
-      MYSQL_PASSWORD: 1234
-    ports:
-      - "3306:3306"
-    volumes:
-      - db-data:/var/lib/mysql
-    restart: unless-stopped
-
-volumes:
-  db-data:

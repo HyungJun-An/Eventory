@@ -1,5 +1,6 @@
 package com.eventory.common.entity;
 
+import com.eventory.expoAdmin.dto.RefundRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,11 +38,11 @@ public class Refund {
     @Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "approved_at", columnDefinition = "TIMESTAMP")
+    @Column(name = "approved_at", columnDefinition = "TIMESTAMP", nullable = true)
     private LocalDateTime approvedAt;
 
-    public void updateStatus(RefundStatus status, String reason) {
-        this.status = status;
-        this.reason = reason;
+    public void updateStatus(RefundRequestDto requestDto) {
+        this.status = requestDto.getStatus();
+        this.reason = requestDto.getReason();
     }
 }

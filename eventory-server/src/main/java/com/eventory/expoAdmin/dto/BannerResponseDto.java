@@ -1,6 +1,6 @@
 package com.eventory.expoAdmin.dto;
 
-import com.eventory.common.entity.ExpoStatus;
+import com.eventory.common.entity.BannerStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,7 +15,11 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @AllArgsConstructor
-public class ExpoResponseDto {
+public class BannerResponseDto {
+
+    @NotNull
+    @Positive
+    private Long bannerId;
 
     @NotNull
     @Positive
@@ -23,28 +27,10 @@ public class ExpoResponseDto {
 
     @NotNull
     @Positive
-    private Long expoAdminId;
-
-    @NotBlank
-    private String title;
+    private Long paymentId;
 
     @NotBlank
     private String imageUrl;
-
-    @NotBlank
-    private String description;
-
-    @NotNull
-    private LocalDate startDate;
-
-    @NotNull
-    private LocalDate endDate;
-
-    @NotBlank
-    private String location;
-
-    @NotNull
-    private Boolean visibility;
 
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -55,15 +41,14 @@ public class ExpoResponseDto {
     private LocalDateTime updatedAt;
 
     @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime displayStartDate;
+    private LocalDate startDate;
 
     @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime displayUpdateDate;
+    private LocalDate endDate;
 
     @NotNull
-    private ExpoStatus status;
+    private BannerStatus status;
 
+    @NotBlank
     private String reason;
 }
