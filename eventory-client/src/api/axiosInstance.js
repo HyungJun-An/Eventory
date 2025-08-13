@@ -13,6 +13,8 @@ import qs from "qs";
 
 const api = axios.create({
   baseURL: "/api",
+  // 배포 시
+  // baseURL: "https://localhost:8080/api",
   withCredentials: true, // 서버가 RefreshToken을 쿠키로 내려주므로 유지해야 함
   paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
 });
