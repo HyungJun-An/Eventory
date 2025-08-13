@@ -2,6 +2,7 @@ package com.eventory.systemAdmin.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -63,6 +64,12 @@ public class systemAdminController {
 	public ResponseEntity<?> updateExpoAdmin(@PathVariable Long adminId,
 											 @RequestBody ManagerRequestDto requestDto){
 		systemAdminService.updateExpoAdmin(adminId, requestDto);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@DeleteMapping("/admins/{adminId}")
+	public ResponseEntity<?> deleteExpoAdmin(@PathVariable Long adminId){
+		systemAdminService.deleteExpoAdmin(adminId);
 		return ResponseEntity.noContent().build();
 	}
 }

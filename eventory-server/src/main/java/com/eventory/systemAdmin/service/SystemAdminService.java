@@ -104,6 +104,12 @@ public class SystemAdminService {
 		ExpoAdmin admin = expoAdminRepository.findById(adminId).orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO_ADMIN));
 		admin.updateExpoAdmin(requestDto);
 	}
+
+	@Transactional
+	public void deleteExpoAdmin(Long adminId) {
+		
+		expoAdminRepository.deleteById(adminId);
+	}
 	
 	
 }
