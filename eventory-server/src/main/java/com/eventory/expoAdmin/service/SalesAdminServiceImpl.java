@@ -257,14 +257,14 @@ public class SalesAdminServiceImpl implements SalesAdminService {
         Refund refund = refundRepository.findById(refundId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_REFUND));
 
-        // 요청됨 상태가 아니면 오류 발생
-        if (request.getStatus()!=RefundStatus.PENDING) {
-            throw new CustomException(CustomErrorCode.NOT_FOUND_REFUND);
-        }
-
         // 환불 반려 시 반려 사유 없으면 오류 발생
         if (request.getStatus() == RefundStatus.REJECTED && (request.getReason() == null || request.getReason().isBlank())) {
             throw new CustomException(CustomErrorCode.NOT_FOUND_REASON);
+        }
+
+        // 요청됨 상태라면 오류 발생
+        if (request.getStatus() == RefundStatus.PENDING) {
+            throw new CustomException(CustomErrorCode.NOT_FOUND_REFUND);
         }
 
         // 환불 상태 변경 및 저장

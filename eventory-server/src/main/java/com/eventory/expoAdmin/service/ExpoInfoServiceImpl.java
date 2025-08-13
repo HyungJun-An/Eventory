@@ -25,7 +25,7 @@ public class ExpoInfoServiceImpl implements ExpoInfoService {
     private final ExpoMapper expoMapper;
 
     // 박람회 담당자 정보 조회
-    @Override
+    /*@Override
     public ManagerResponseDto findExpoManagerInfo(Long expoAdminId) {
         ExpoAdmin expoAdmin = expoAdminRepository.findById(expoAdminId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_MANAGER));
@@ -68,5 +68,5 @@ public class ExpoInfoServiceImpl implements ExpoInfoService {
     @Override
     public void updateExpoBanner(Long expoId, BannerUpdateRequestDto requestDto) {
         Optional<Banner> banner = bannerRepository.findByExpo_ExpoId(expoId);
-    }
+    }*/
 }

@@ -31,10 +31,16 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 해당 박람회 관리자에 속하는 전체 박람회 목록
     @Override
-    public List<ExpoResponseDto> findAllExpos(Long expoAdminId) {
+    public List<ExpoResponseDto> findAllExpos(ExpoAdmin expoAdmin) {
+
+        if (expoAdmin == null || expoAdmin.getExpoAdminId() == null) {
+            throw new CustomException(CustomErrorCode.NOT_FOUND_EXPO_ADMIN);
+        }
+
+        Long expoAdminId = expoAdmin.getExpoAdminId();
 
         // 연관관계 ExpoAdmin의 기본키(expoAdminId)로 Expo 조회 및 제목(title) 오름차순 정렬
-        List<Expo> expos = expoRepository.findByExpoAdmin_ExpoAdminIdOrderByTitleAsc(expoAdminId);
+        List<Expo> expos = expoRepository.findByExpoAdminIdAndStatusOrderByTitleAsc(expoAdminId, ExpoStatus.APPROVED);
 
         // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
         return expos.stream()

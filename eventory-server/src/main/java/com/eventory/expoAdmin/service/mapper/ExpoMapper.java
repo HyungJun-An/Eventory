@@ -122,6 +122,6 @@ public class ExpoMapper {
                 .build();
     }
 
-    public ManagerResponseDto toManagerResponseDto(ExpoAdmin expoAdmin) {
-    }
+    /*public ManagerResponseDto toManagerResponseDto(ExpoAdmin expoAdmin) {
+    }*/
 }
