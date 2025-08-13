@@ -45,4 +45,11 @@ public class systemAdminController {
 																		 @RequestParam(defaultValue = "10") int size){
 		return ResponseEntity.ok(systemAdminService.findAllExpoAdminPages(keyword, page, size));
 	}
+	
+	@GetMapping("/admins/{id}/expos")
+	public ResponseEntity<Page<SysExpoResponseDto>> findExpoByExpoAdminPages(@PathVariable Long id,
+																			 @RequestParam(defaultValue = "0") int page,
+			 																 @RequestParam(defaultValue = "10") int size){
+		return ResponseEntity.ok(systemAdminService.findExpoByExpoAdminPages(id, page, size));
+	}
 }

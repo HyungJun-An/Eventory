@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 public class SysExpoAdminResponseDto {
 
+	private Long id;
 	private String name;
 	private String phone;
 	private String email;
@@ -17,6 +18,7 @@ public class SysExpoAdminResponseDto {
 	
 	public static SysExpoAdminResponseDto from(ExpoAdmin admin, LocalDateTime lastAppliedAt) {
 		SysExpoAdminResponseDto dto = new SysExpoAdminResponseDto();
+		dto.id = admin.getExpoAdminId();
 		dto.name = admin.getName();
 		dto.phone = admin.getPhone();
 		dto.email = admin.getEmail();

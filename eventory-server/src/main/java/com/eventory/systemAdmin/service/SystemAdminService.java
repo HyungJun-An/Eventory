@@ -75,6 +75,20 @@ public class SystemAdminService {
 			return SysExpoAdminResponseDto.from(admin, lastExpo != null ? lastExpo.getCreatedAt() : null);
 		});
 	}
+
+	public Page<SysExpoResponseDto> findExpoByExpoAdminPages(Long id, int page, int size) {
+		
+		Pageable pageable = PageRequest.of(page, size);
+		
+		ExpoAdmin admin = expoAdminRepository.findById(id).orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO_ADMIN));
+		Page<Expo> expoPage = expoRepository.findByExpoAdmin(admin, pageable);
+		
+		return expoPage.map(expo -> {
+			ExpoCategory expoCategory = expoCategoryRepository.findByExpo(expo).orElseThrow(() -> new CustomException(CustomErrorCode.CATEGORY_NOT_FOUND));
+			String category = expoCategory.getCategory().getName();
+			return SysExpoResponseDto.from(expo, category);
+		});
+	}
 	
 	
 }
