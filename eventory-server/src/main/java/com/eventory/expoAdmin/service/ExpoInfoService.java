@@ -8,13 +8,13 @@ public interface ExpoInfoService {
 
     void updateExpoManagerInfo(Long expoAdminId, @Valid ManagerRequestDto requestDto);
 
-    ExpoResponseDto findExpoInfo(Long expoId);
+    ExpoResponseDto findExpoInfo(Long expoAdminId, Long expoId);
 
-    void updateExpoInfo(Long expoId, @Valid ExpoRequestDto requestDto);
+    void updateExpoInfo(Long expoAdminId, Long expoId, @Valid ExpoRequestDto requestDto);
 
-    void createExpoBanner(Long expoId, @Valid BannerCreateRequestDto requestDto);
+    void createExpoBanner(Long expoAdminId, Long expoId, @Valid BannerCreateRequestDto requestDto);
 
-    BannerResponseDto findExpoBanner(Long expoId);
+    BannerResponseDto findExpoBanner(Long expoAdminId, Long expoId);
 
-    void updateExpoBanner(Long expoId, @Valid BannerUpdateRequestDto requestDto);
+    void updateExpoBanner(Long expoAdminId, Long expoId, @Valid BannerUpdateRequestDto requestDto);
 }

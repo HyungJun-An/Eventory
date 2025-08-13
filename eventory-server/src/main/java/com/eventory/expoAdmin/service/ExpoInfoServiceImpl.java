@@ -46,19 +46,23 @@ public class ExpoInfoServiceImpl implements ExpoInfoService {
 
     // 특정 박람회 정보 조회
     @Override
-    public ExpoResponseDto findExpoInfo(Long expoId) {
+    public ExpoResponseDto findExpoInfo(Long expoAdminId, Long expoId) {
 
         Expo expo = expoRepository.findById(expoId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
 
         return expoMapper.toExpoResponseDto(expo);
     }
 
     // 특정 박람회 정보 수정
     @Override
-    public void updateExpoInfo(Long expoId, ExpoRequestDto requestDto) {
+    public void updateExpoInfo(Long expoAdminId, Long expoId, ExpoRequestDto requestDto) {
         Expo expo = expoRepository.findById(expoId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
 
         expo.updateExpo(requestDto);
 
@@ -67,9 +71,11 @@ public class ExpoInfoServiceImpl implements ExpoInfoService {
 
     // 특정 박람회 배너 신청
     @Override
-    public void createExpoBanner(Long expoId, BannerCreateRequestDto requestDto) {
+    public void createExpoBanner(Long expoAdminId, Long expoId, BannerCreateRequestDto requestDto) {
         Expo expo = expoRepository.findById(expoId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
 
         Banner banner = expoMapper.toBannerRequestDto(expo, requestDto);
 
@@ -78,7 +84,12 @@ public class ExpoInfoServiceImpl implements ExpoInfoService {
 
     // 특정 박람회 배너 조회
     @Override
-    public BannerResponseDto findExpoBanner(Long expoId) {
+    public BannerResponseDto findExpoBanner(Long expoAdminId, Long expoId) {
+
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
 
         Banner banner = bannerRepository.findByExpo_ExpoId(expoId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_BANNER));
@@ -88,12 +99,24 @@ public class ExpoInfoServiceImpl implements ExpoInfoService {
 
     // 특정 박람회 배너 수정
     @Override
-    public void updateExpoBanner(Long expoId, BannerUpdateRequestDto requestDto) {
+    public void updateExpoBanner(Long expoAdminId, Long expoId, BannerUpdateRequestDto requestDto) {
+
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+
         Banner banner = bannerRepository.findByExpo_ExpoId(expoId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_BANNER));
 
         banner.updateBanner(requestDto);
 
         bannerRepository.save(banner);
+    }
+
+    private void checkExpo_ExpoAdminAccess(Long expoId, Long expoAdminId) {
+        if (!expoAdminId.equals(expoId)) {
+            throw new CustomException(CustomErrorCode.FORBIDDEN_ACCESS);
+        }
     }
 }
