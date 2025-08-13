@@ -12,31 +12,31 @@ export default function Navbar() {
       }, []);
 
   return (
-    <nav className="navbar-navbar">
+    <nav className="navbar">
       {/* Header */}
-      <div className="navbar-header">
-        <div className="navbar-header-menu">
-          <div className="navbar-menu-item">Home</div>
-          <div className="navbar-menu-item">Expo</div>
-          <div className="navbar-menu-item">Category</div>
+      <div className="header">
+        <div className="header-menu">
+          <div className="menu-item">Home</div>
+          <div className="menu-item">Expo</div>
+          <div className="menu-item">Category</div>
         </div>
 
-        <div className="navbar-website-logos">
+        <div className="website-logos">
           <img
-            className="navbar-logo-icon"
+            className="logo-icon"
             alt="Logo"
             src="https://c.animaapp.com/me2azzmxxO3KsY/img/--------removebg-preview-1-2.png"
           />
           <img
-            className="navbar-logo-text"
+            className="logo-text"
             alt="Logo text"
             src="https://c.animaapp.com/me2azzmxxO3KsY/img/-------removebg-preview-1-2.png"
           />
         </div>
 
-        <div className="navbar-header-actions">
+        <div className="header-actions">
           <img
-            className="navbar-shopping-icon"
+            className="shopping-icon"
             alt="Shopping"
             src="https://c.animaapp.com/me2azzmxxO3KsY/img/money-shopping.svg"
           />
@@ -45,9 +45,9 @@ export default function Navbar() {
           {isLoggedIn ? (
               <LogoutButton /> //
           ) : (
-            <button className="navbar-login-register-btn" onClick={() => navigate('/login')}>
+            <button className="login-register-btn" onClick={() => navigate('/login')}>
                 <img
-                    className="navbar-user-icon"
+                    className="user-icon"
                     alt="User"
                     src="https://c.animaapp.com/me2azzmxxO3KsY/img/peoples-user.svg"
                 />

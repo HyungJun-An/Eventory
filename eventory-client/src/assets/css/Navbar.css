@@ -1,5 +1,5 @@
 /* Header Styles */
-.navbar-header {
+.navbar .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -13,14 +13,14 @@
   z-index: 10;
 }
 
-.navbar-header-menu {
+.navbar .header-menu {
   display: flex;
   align-items: center;
   gap: 32px;
   flex-wrap: wrap;
 }
 
-.navbar-menu-item {
+.navbar .menu-item {
   color: #222222;
   font-size: 16px;
   font-weight: 500;
@@ -29,7 +29,7 @@
   white-space: nowrap;
 }
 
-.navbar-website-logos {
+.navbar .website-logos {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -37,34 +37,34 @@
   flex-shrink: 0;
 }
 
-.navbar-logo-icon {
+.navbar .logo-icon {
   height: 40px;
   width: 45px;
   object-fit: cover;
   flex-shrink: 0;
 }
 
-.navbar-logo-text {
+.navbar .logo-text {
   height: 40px;
   width: 180px;
   object-fit: cover;
   flex-shrink: 0;
 }
 
-.navbar-header-actions {
+.navbar .header-actions {
   display: flex;
   align-items: center;
   gap: 24px;
   flex-shrink: 0;
 }
 
-.navbar-shopping-icon {
+.navbar .shopping-icon {
   height: 40px;
   width: 40px;
   flex-shrink: 0;
 }
 
-.navbar-login-register-btn {
+.navbar .login-register-btn {
   display: flex;
   align-items: center;
   gap: 4px;
@@ -80,37 +80,37 @@
   flex-shrink: 0;
 }
 
-.navbar-user-icon {
+.navbar .user-icon {
   height: 16px;
   width: 16px;
 }
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-  .navbar-header {
+  .navbar .header {
     padding: 40px 20px;
   }
 
 
 
-  .navbar-login-section,
-  .navbar-welcome-section {
+  .navbar .login-section,
+  .navbar .welcome-section {
     width: 100%;
     min-width: auto;
     flex: none;
   }
 
-  .navbar-welcome-section {
+  .navbar .welcome-section {
     min-height: 400px;
   }
 
-  .navbar-welcome-overlay {
+  .navbar .welcome-overlay {
     padding: 40px;
   }
 }
 
 @media (max-width: 768px) {
-  .navbar-header {
+  .navbar .header {
     flex-direction: column;
     gap: 20px;
     height: auto;
@@ -118,59 +118,59 @@
     text-align: center;
   }
 
-  .navbar-header-menu {
+  .navbar .header-menu {
     gap: 16px;
     justify-content: center;
   }
 
-  .navbar-header-actions {
+  .navbar .header-actions {
     justify-content: center;
   }
 
-  .navbar-login-section {
+  .navbar .login-section {
     padding: 40px 20px;
   }
 
-  .navbar-login-form {
+  .navbar .login-form {
     width: 100%;
     max-width: 400px;
   }
 
-  .navbar-form-options {
+  .navbar .form-options {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
   }
 
-  .navbar-welcome-overlay {
+  .navbar .welcome-overlay {
     padding: 30px 20px;
   }
 
-  .navbar-welcome-title {
+  .navbar .welcome-title {
     font-size: 28px;
   }
 }
 
 @media (max-width: 480px) {
-  .navbar-header {
+  .navbar .header {
     padding: 15px;
   }
 
 
 
-  .navbar-login-section {
+  .navbar .login-section {
     padding: 30px 15px;
   }
 
-  .navbar-header-menu {
+  .navbar .header-menu {
     gap: 12px;
   }
 
-  .navbar-menu-item {
+  .navbar .menu-item {
     font-size: 14px;
   }
 
-  .navbar-login-register-btn {
+  .navbar .login-register-btn {
     padding: 6px 16px;
     font-size: 12px;
   }
