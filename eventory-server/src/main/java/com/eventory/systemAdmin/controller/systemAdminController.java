@@ -53,4 +53,8 @@ public class systemAdminController {
 		return ResponseEntity.ok(systemAdminService.findExpoByExpoAdminPages(adminId, page, size));
 	}
 	
+	@GetMapping("/admins/{adminId}")
+	public ResponseEntity<SysExpoAdminResponseDto> findExpoAdmin(@PathVariable Long adminId){
+		return ResponseEntity.ok(systemAdminService.findExpoAdmin(adminId));
+	}
 }

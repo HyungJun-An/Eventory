@@ -89,6 +89,13 @@ public class SystemAdminService {
 			return SysExpoResponseDto.from(expo, category);
 		});
 	}
+
+	public SysExpoAdminResponseDto findExpoAdmin(Long adminId) {
+		
+		ExpoAdmin admin = expoAdminRepository.findById(adminId).orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO_ADMIN));
+		
+		return SysExpoAdminResponseDto.from(admin, null);
+	}
 	
 	
 }
