@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import '../assets/css/UserRegistration.css';
-
 import { Link } from 'react-router-dom';
 
 const UserRegistration = () => {
@@ -26,7 +25,7 @@ const UserRegistration = () => {
                                 onClick={() => handleUserTypeSelect('company')}
                             >
                                 <img
-                                    src="https://c.animaapp.com/me6rzqglc3Fy3X/img/peoples-user-business.svg"
+                                    src= '/src/assets/img/peoples-user-business.svg'
                                     alt="Company"
                                     className="user-type-icon"
                                 />
@@ -44,7 +43,7 @@ const UserRegistration = () => {
                                 onClick={() => handleUserTypeSelect('customer')}
                             >
                                 <img
-                                    src="https://c.animaapp.com/me6rzqglc3Fy3X/img/base-mail-1.svg"
+                                    src="/src/assets/img/base-mail-1.svg"
                                     alt="Customer"
                                     className="user-type-icon"
                                 />
