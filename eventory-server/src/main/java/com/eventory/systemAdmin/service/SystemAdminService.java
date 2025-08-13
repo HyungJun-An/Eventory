@@ -76,11 +76,11 @@ public class SystemAdminService {
 		});
 	}
 
-	public Page<SysExpoResponseDto> findExpoByExpoAdminPages(Long id, int page, int size) {
+	public Page<SysExpoResponseDto> findExpoByExpoAdminPages(Long adminId, int page, int size) {
 		
 		Pageable pageable = PageRequest.of(page, size);
 		
-		ExpoAdmin admin = expoAdminRepository.findById(id).orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO_ADMIN));
+		ExpoAdmin admin = expoAdminRepository.findById(adminId).orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO_ADMIN));
 		Page<Expo> expoPage = expoRepository.findByExpoAdmin(admin, pageable);
 		
 		return expoPage.map(expo -> {
