@@ -1,11 +1,9 @@
 package com.eventory.expoAdmin.service;
 
-import com.eventory.common.entity.ExpoStatistics;
-import com.eventory.common.entity.Refund;
-import com.eventory.common.entity.RefundStatus;
-import com.eventory.common.entity.Reservation;
+import com.eventory.common.entity.*;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
+import com.eventory.common.repository.ExpoRepository;
 import com.eventory.common.repository.ExpoStatisticsRepository;
 import com.eventory.common.repository.RefundRepository;
 import com.eventory.common.repository.ReservationRepository;
@@ -41,6 +39,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SalesAdminServiceImpl implements SalesAdminService {
 
+    private final ExpoRepository expoRepository;
     private final ExpoStatisticsRepository expoStatisticsRepository;
     private final RefundRepository refundRepository;
     private final ReservationRepository reservationRepository;
@@ -48,7 +47,13 @@ public class SalesAdminServiceImpl implements SalesAdminService {
 
     // 누적 매출, 총 결제 건수, 총 환불 건수
     @Override
-    public SalesResponseDto findSalesStatistics(Long expoId) {
+    public SalesResponseDto findSalesStatistics(Long expoAdminId, Long expoId) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
 
         // 기본키(expoId)로 ExpoStatistics 조회
         ExpoStatistics expoStatistics = expoStatisticsRepository.findById(expoId)
@@ -63,7 +68,13 @@ public class SalesAdminServiceImpl implements SalesAdminService {
 
     // 연간 매출
     @Override
-    public List<Map<String, Object>> findYearlySales(Long expoId) {
+    public List<Map<String, Object>> findYearlySales(Long expoAdminId, Long expoId) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
 
         // 특정 박람회(expoId)의 연도별 매출 합계 조회
         List<Object[]> yearlySales = reservationRepository.findYearlySalesByExpoId(expoId);
@@ -79,7 +90,13 @@ public class SalesAdminServiceImpl implements SalesAdminService {
 
     // 월간 매출
     @Override
-    public List<Map<String, Object>> findMonthlySales(Long expoId) {
+    public List<Map<String, Object>> findMonthlySales(Long expoAdminId, Long expoId) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
 
         // 현재 연도 조회
         int currentYear = Year.now().getValue();
@@ -98,7 +115,13 @@ public class SalesAdminServiceImpl implements SalesAdminService {
 
     // 지난 일주일간 매출
     @Override
-    public List<Map<String, Object>> findDailySales(Long expoId) {
+    public List<Map<String, Object>> findDailySales(Long expoAdminId, Long expoId) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
 
         // 오늘 날짜 조회
         LocalDate today = LocalDate.now();
@@ -134,8 +157,15 @@ public class SalesAdminServiceImpl implements SalesAdminService {
 
     // 결제 내역 관리 - 페이징 O
     @Override
-    public List<PaymentResponseDto> findAllPayments(Long expoId, String code, Integer page, Integer size) {
+    public List<PaymentResponseDto> findAllPayments(Long expoAdminId, Long expoId, String code, Integer page, Integer size) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
 
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+
+        // 7개씩 페이징
         int actualPage = (page != null) ? page : 0;
         int actualSize = (size != null) ? size : 7;
         Pageable pageable = PageRequest.of(actualPage, actualSize);
@@ -151,8 +181,15 @@ public class SalesAdminServiceImpl implements SalesAdminService {
 
     // 결제 내역 관리 - 페이징 X
     @Override
-    public List<PaymentResponseDto> findAllPayments(Long expoId, String code) {
+    public List<PaymentResponseDto> findAllPayments(Long expoAdminId, Long expoId, String code) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
 
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+
+        // 특정 박람회(expoId)에 해당하는 예약 조회
         List<Reservation> reservations = reservationRepository.findByExpoIdAndReservationCode(expoId, code);
 
         // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
@@ -210,7 +247,13 @@ public class SalesAdminServiceImpl implements SalesAdminService {
 
     // 환불 요청 관리, 환불 대기, 환불 완료
     @Override
-    public List<RefundResponseDto> findAllRefunds(Long expoId, String status, Integer page, Integer size) {
+    public List<RefundResponseDto> findAllRefunds(Long expoAdminId, Long expoId, String status, Integer page, Integer size) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
 
         Pageable pageable = PageRequest.of(page, size);
 
@@ -257,6 +300,7 @@ public class SalesAdminServiceImpl implements SalesAdminService {
         Refund refund = refundRepository.findById(refundId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_REFUND));
 
+
         // 환불 반려 시 반려 사유 없으면 오류 발생
         if (requestDto.getStatus() == RefundStatus.REJECTED && (requestDto.getReason() == null || requestDto.getReason().isBlank())) {
             throw new CustomException(CustomErrorCode.NOT_FOUND_REASON);
@@ -272,4 +316,10 @@ public class SalesAdminServiceImpl implements SalesAdminService {
         refundRepository.save(refund);
     }
 
+    // 현재 로그인한 사용자가 박람회 담당자인지 확인
+    private void checkExpo_ExpoAdminAccess(Long expoId, Long expoAdminId) {
+        if (!expoAdminId.equals(expoId)) {
+            throw new CustomException(CustomErrorCode.FORBIDDEN_ACCESS);
+        }
+    }
 }

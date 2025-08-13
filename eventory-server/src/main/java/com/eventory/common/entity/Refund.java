@@ -44,5 +44,6 @@ public class Refund {
     public void updateStatus(RefundRequestDto requestDto) {
         this.status = requestDto.getStatus();
         this.reason = requestDto.getReason();
+        this.approvedAt = LocalDateTime.now();
     }
 }
