@@ -9,10 +9,6 @@ services:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.0.17:3306/Eventory?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true #배포서버
-#     - SPRING_DATASOURCE_URL=jdbc:mysql://127.0.0.1:3307/Eventory?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true #로컬서버
-      - SPRING_DATASOURCE_USERNAME=EventoryUser
-      - SPRING_DATASOURCE_PASSWORD=1234
     restart: unless-stopped
 
   eventory-client:

@@ -11,11 +11,11 @@ import qs from "qs";
  * - 로그인/회원가입/리프레시 호출은 토큰 주입/재귀 방지 예외 처리
  */
 
+const mode = import.meta.env.VITE_MODE;
+
 const api = axios.create({
-  baseURL: "/api",
-  // 배포 시
-  // baseURL: "https://localhost:8080/api",
-  withCredentials: true, // 서버가 RefreshToken을 쿠키로 내려주므로 유지해야 함
+  baseURL: mode === "prod" ? "https://localhost:8080/api" : "/api",
+  withCredentials: true,
   paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
 });
 
