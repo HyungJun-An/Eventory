@@ -1,4 +1,4 @@
-.screen {
+.refund-page {
   align-items: start;
   background-color: #ffffff;
   display: grid;
@@ -8,18 +8,18 @@
   width: 100vw;
 }
 
-.screen .overlap-wrapper-2 {
+.refund-page .overlap-wrapper-2 {
   background-color: #ffffff;
   height: 1024px;
   width: 1440px;
 }
 
-.screen .overlap-4 {
+.refund-page .overlap-4 {
   height: 1024px;
   position: relative;
 }
 
-.screen .overlap-5 {
+.refund-page .overlap-5 {
   height: 1024px;
   left: 0;
   position: absolute;
@@ -27,7 +27,7 @@
   width: 1440px;
 }
 
-.screen .rectangle-14 {
+.refund-page .rectangle-14 {
   background-color: #e6eff5;
   height: 1px;
   left: 250px;
@@ -36,7 +36,7 @@
   width: 1190px;
 }
 
-.screen .rectangle-15 {
+.refund-page .rectangle-15 {
   background-color: #e6eff5;
   height: 1024px;
   left: 249px;
@@ -45,7 +45,7 @@
   width: 1px;
 }
 
-.screen .overlap-6 {
+.refund-page .overlap-6 {
   background-color: #f4f6f9;
   height: 923px;
   left: 250px;
@@ -54,7 +54,7 @@
   width: 1190px;
 }
 
-.screen .text-wrapper-32 {
+.refund-page .text-wrapper-32 {
   color: #343a40;
   font-family: "Inter", Helvetica;
   font-size: 22px;
@@ -66,7 +66,7 @@
   top: 173px;
 }
 
-.screen .view-2 {
+.refund-page .view-2 {
   height: 40px;
   left: 853px;
   position: absolute;
@@ -74,7 +74,7 @@
   width: 305px;
 }
 
-.screen .group-23 {
+.refund-page .group-23 {
   height: 18px;
   left: 250px;
   position: absolute;
@@ -82,7 +82,7 @@
   width: 49px;
 }
 
-.screen .text-wrapper-33 {
+.refund-page .text-wrapper-33 {
   color: #007bff;
   font-family: "Inter", Helvetica;
   font-size: 15px;
@@ -96,7 +96,7 @@
   white-space: nowrap;
 }
 
-.screen .vector-2 {
+.refund-page .vector-2 {
   height: 13px;
   left: 40px;
   position: absolute;
@@ -104,7 +104,7 @@
   width: 8px;
 }
 
-.screen .group-24 {
+.refund-page .group-24 {
   height: 18px;
   left: 0;
   position: absolute;
@@ -112,7 +112,7 @@
   width: 77px;
 }
 
-.screen .text-wrapper-34 {
+.refund-page .text-wrapper-34 {
   color: #007bff;
   font-family: var(--button-2-medium-15p-font-family);
   font-size: var(--button-2-medium-15p-font-size);
@@ -127,7 +127,7 @@
   white-space: nowrap;
 }
 
-.screen .vector-3 {
+.refund-page .vector-3 {
   height: 13px;
   left: -1px;
   position: absolute;
@@ -135,7 +135,7 @@
   width: 8px;
 }
 
-.screen .text-wrapper-35 {
+.refund-page .text-wrapper-35 {
   color: #007bff;
   font-family: "Inter", Helvetica;
   font-size: 15px;
@@ -149,7 +149,7 @@
   white-space: nowrap;
 }
 
-.screen .text-wrapper-36 {
+.refund-page .text-wrapper-36 {
   color: #007bff;
   font-family: "Inter", Helvetica;
   font-size: 15px;
@@ -163,7 +163,7 @@
   white-space: nowrap;
 }
 
-.screen .overlap-7 {
+.refund-page .overlap-7 {
   background-color: #007bff;
   border-radius: 10px;
   height: 40px;
@@ -173,7 +173,7 @@
   width: 40px;
 }
 
-.screen .text-wrapper-37 {
+.refund-page .text-wrapper-37 {
   color: #ffffff;
   font-family: "Inter", Helvetica;
   font-size: 15px;
@@ -187,7 +187,7 @@
   white-space: nowrap;
 }
 
-.screen .text-wrapper-38 {
+.refund-page .text-wrapper-38 {
   color: #007bff;
   font-family: "Inter", Helvetica;
   font-size: 15px;

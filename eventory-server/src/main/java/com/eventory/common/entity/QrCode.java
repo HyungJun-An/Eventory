@@ -31,7 +31,7 @@ public class QrCode {
     private String data;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false, length = 255)
+    @Column(name = "status", length = 255, nullable = false)
     private QrCodeStatus status;
 
     @CreationTimestamp

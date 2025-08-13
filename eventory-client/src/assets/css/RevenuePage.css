@@ -1,4 +1,4 @@
-.div-wrapper-screen {
+.revenue-page {
   background-color: #ffffff;
   display: flex;
   flex-direction: row;
@@ -6,18 +6,18 @@
   width: 100%;
 }
 
-.div-wrapper-screen .overlap-wrapper-2 {
+.revenue-page .overlap-wrapper-2 {
   background-color: #ffffff;
   height: 1024px;
   width: 1440px;
 }
 
-.div-wrapper-screen .overlap-3 {
+.revenue-page .overlap-3 {
   height: 1024px;
   position: relative;
 }
 
-.div-wrapper-screen .overlap-4 {
+.revenue-page .overlap-4 {
   height: 999px;
   left: 0;
   position: absolute;
@@ -25,7 +25,7 @@
   width: 1440px;
 }
 
-.div-wrapper-screen .rectangle-24 {
+.revenue-page .rectangle-24 {
   background-color: #e6eff5;
   height: 1px;
   left: 250px;
@@ -34,7 +34,7 @@
   width: 1190px;
 }
 
-.div-wrapper-screen .rectangle-25 {
+.revenue-page .rectangle-25 {
   background-color: #e6eff5;
   height: 999px;
   left: 249px;
@@ -43,7 +43,7 @@
   width: 1px;
 }
 
-.div-wrapper-screen .overlap-5 {
+.revenue-page .overlap-5 {
   background-color: #f4f6f9;
   height: 923px;
   left: 250px;

@@ -4,9 +4,9 @@ import SalesStats from "./sections/RevenueSalesStats";
 import SeriesChart from "./sections/RevenueSeriesChart";
 import "../assets/css/RevenuePage.css";
 
-const RevenuePage = ({expoId}) => {
+const RevenuePage = ({ expoId }) => {
   return (
-    <div className="div-wrapper-screen" data-model-id="11057:3338">
+    <div className="revenue-page" data-model-id="11051:3062">
       <div className="overlap-wrapper-2">
         <div className="overlap-3">
           <div className="overlap-4">

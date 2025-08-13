@@ -1,5 +1,6 @@
 package com.eventory.expoAdmin.dto;
 
+import com.eventory.common.entity.ExpoStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,6 +27,9 @@ public class ExpoResponseDto {
 
     @NotBlank
     private String title;
+
+    @NotBlank
+    private String imageUrl;
 
     @NotBlank
     private String description;
@@ -57,4 +61,9 @@ public class ExpoResponseDto {
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime displayUpdateDate;
+
+    @NotNull
+    private ExpoStatus status;
+
+    private String reason;
 }

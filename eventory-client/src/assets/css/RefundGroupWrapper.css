@@ -1,0 +1,70 @@
+.refund-group-wrapper {
+  height: 25px;
+  left: 40px;
+  position: absolute;
+  top: 245px;
+  width: 749px;
+}
+
+.refund-group-wrapper .text-wrapper-26 {
+  color: #007bff;
+  font-family: "Inter", Helvetica;
+  font-size: 13px;
+  font-weight: 500;
+  left: 30px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+}
+
+.refund-group-wrapper .text-wrapper-27 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 13px;
+  font-weight: 500;
+  left: 170px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+}
+
+.refund-group-wrapper .text-wrapper-28 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 13px;
+  font-weight: 500;
+  left: 276px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+}
+
+.refund-group-wrapper .overlap-3 {
+  height: 3px;
+  left: 0;
+  position: absolute;
+  top: 22px;
+  width: 743px;
+}
+
+.refund-group-wrapper .rectangle-12 {
+  background-color: #f8f9fa;
+  height: 1px;
+  left: 0;
+  position: absolute;
+  top: 2px;
+  width: 743px;
+}
+
+.refund-group-wrapper .rectangle-13 {
+  background-color: #007bff;
+  border-radius: 10px 10px 0px 0px;
+  height: 3px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 120px;
+}

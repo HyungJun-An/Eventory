@@ -1,7 +1,9 @@
 package com.eventory.common.entity;
 
+import com.eventory.expoAdmin.dto.BannerUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "banner")
@@ -29,7 +32,7 @@ public class Banner {
     private Expo expo;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "payment_id", nullable = false)
+    @JoinColumn(name = "payment_id", nullable = true)
     private Payment payment;
 
     @Column(name = "image_url", length = 255, nullable = false)
@@ -55,4 +58,11 @@ public class Banner {
 
     @Column(name = "reason", length = 255, nullable = true)
     private String reason;
+
+    public void updateBanner(BannerUpdateRequestDto requestDto) {
+        this.imageUrl = requestDto.getImageUrl();
+        this.startDate = requestDto.getStartDate();
+        this.endDate = requestDto.getEndDate();
+        this.updatedAt = LocalDateTime.now();
+    }
 }

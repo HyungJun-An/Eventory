@@ -1,5 +1,6 @@
 package com.eventory.common.entity;
 
+import com.eventory.expoAdmin.dto.ExpoRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.util.List;
+import java.util.ArrayList; // 필드에 new ArrayList<>()
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,7 +29,7 @@ public class Expo {
     private Long expoId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "expo_admin_id", nullable = false)
+    @JoinColumn(name = "expo_admin_id", nullable = true)
     private ExpoAdmin expoAdmin;
 
     @Column(name = "title", length = 255, nullable = false)
@@ -69,7 +73,16 @@ public class Expo {
 
     @Column(name = "reason", length = 255, nullable = true)
     private String reason;
-    
+
+    @OneToMany(mappedBy = "expo", fetch = FetchType.LAZY)
+    private List<ExpoCategory> expoCategories = new ArrayList<>();
+
+    // 호환용: 1:N 코드 getCategory() 유지
+    @Transient
+    public Category getCategory() {
+        return expoCategories.isEmpty() ? null : expoCategories.get(0).getCategory();
+    }
+
     public void approve() {
     	this.status = ExpoStatus.APPROVED;
     }
@@ -77,5 +90,15 @@ public class Expo {
     public void reject(String reason) {
     	this.status = ExpoStatus.REJECTED;
     	this.reason = reason;
+    }
+  
+    public void updateExpo(ExpoRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.imageUrl = requestDto.getImageUrl();
+        this.description = requestDto.getDescription();
+        this.startDate = requestDto.getStartDate();
+        this.endDate = requestDto.getEndDate();
+        this.visibility = requestDto.getVisibility();
+        this.displayUpdateDate = LocalDateTime.now();
     }
 }

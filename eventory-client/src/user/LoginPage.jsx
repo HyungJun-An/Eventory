@@ -22,24 +22,22 @@ export const LoginPage = () => {
       const { rememberMe, ...loginData } = formData;
       const res = await api.post('/auth/login', loginData, {
         headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,  // 쿠키 (refreshToken) 받으려면 꼭 넣어야 해!!!
+        withCredentials: true, // RefreshToken 쿠키 수신
       });
 
-      console.log('서버 응답:', res.data);
+      const accessToken = res.data?.accessToken;
+      if (!accessToken) throw new Error('토큰이 없습니다');
 
-      // accessToken만 상태에 저장
-      const accessToken = res.data.accessToken;
-      setAccessToken(accessToken); // React state나 Context에 넣어줘!
+      localStorage.setItem('accessToken', accessToken); // 상태 말고 로컬스토리지 저장
+      // TODO: 필요 시 rememberMe에 따라 저장소 분기(세션스토리지 등) 고려
+      // TODO: 로그인 후 이동
+      window.location.replace('/'); // or navigate('/')
 
     } catch (err) {
       console.error('로그인 실패:', err);
+      alert('로그인 실패. 아이디/비밀번호를 확인하거나 잠시 후 다시 시도해주세요.');
     }
   };
-
-
-
-
-
 
   return (
     <div>
