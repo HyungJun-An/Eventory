@@ -25,11 +25,11 @@ public class systemAdminController {
 	private final SystemAdminService systemAdminService;
 	
 	@GetMapping("/expos")
-	public ResponseEntity<Page<SysExpoResponseDto>> getAllSysExpoPages(@RequestParam(required = false) String status,
+	public ResponseEntity<Page<SysExpoResponseDto>> findAllSysExpoPages(@RequestParam(required = false) String status,
 																	   @RequestParam(required = false) String title,
 																	   @RequestParam(defaultValue = "0") int page,
 																	   @RequestParam(defaultValue = "10") int size){
-		return ResponseEntity.ok(systemAdminService.getAllSysExpoPages(status, title, page, size));
+		return ResponseEntity.ok(systemAdminService.findAllSysExpoPages(status, title, page, size));
 	}
 	
 	@PutMapping("/expos/{expoId}/status")

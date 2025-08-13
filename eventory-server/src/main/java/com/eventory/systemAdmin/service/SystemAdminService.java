@@ -29,7 +29,7 @@ public class SystemAdminService {
 	private final ExpoCategoryRepository expoCategoryRepository;
 	private final ExpoAdminRepository expoAdminRepository;
 
-	public Page<SysExpoResponseDto> getAllSysExpoPages(String status, String title, int page, int size) {
+	public Page<SysExpoResponseDto> findAllSysExpoPages(String status, String title, int page, int size) {
 		
 		Pageable pageable = PageRequest.of(page, size);
 		
