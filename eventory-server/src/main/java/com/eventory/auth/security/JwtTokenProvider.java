@@ -3,6 +3,7 @@ package com.eventory.auth.security;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SecurityException;
+import org.springframework.util.StringUtils;
 
 
 import java.nio.charset.StandardCharsets;
@@ -44,25 +46,27 @@ public class JwtTokenProvider {
     
     // 3,4 참가업체와 참관객 로그인시
     // AccessToken 생성 (userId를 subject로)
-    public String createAccessToken(Long userId) {
+    public String createAccessToken(Long userId, String role) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + accessTokenValidityInMs);
 
         return Jwts.builder()
                 .setSubject(String.valueOf(userId))
+                .claim("role", role)
                 .setIssuedAt(now)
                 .setExpiration(expiry)
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()), SIGNATURE_ALGORITHM)
                 .compact();
     }
 
-    // 관리자 토큰: role 클레임 포함
-    public String createAccessTokenWithRole(Long adminId, String role){
+    // 관리자 토큰: role + userType 클레임 포함
+    public String createAccessTokenWithRole(Long adminId, String role, String userType) {
         Date now = new Date();
         Date exp = new Date(now.getTime() + accessTokenValidityInMs);
         return Jwts.builder()
                 .setSubject(String.valueOf(adminId))
                 .claim("role", role)
+                .claim("userType", userType) // userType 추가
                 .setIssuedAt(now)
                 .setExpiration(exp)
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -76,8 +80,21 @@ public class JwtTokenProvider {
 
     // 토큰에서 userId 추출
     public Long getUserIdFromToken(String token) {
-        Claims claims = parseClaims(token);
-        return Long.parseLong(claims.getSubject());
+        Claims body = Jwts.parserBuilder()
+                .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return Long.valueOf(body.getSubject());
+    }
+
+    public String getRoleFromToken(String token) {
+        Claims body = Jwts.parserBuilder()
+                .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return (String) body.get("role");
     }
 
     // 토큰 유효성 검증
@@ -87,7 +104,7 @@ public class JwtTokenProvider {
                     .setSigningKey(key)
 //                    .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
                     .build()
-                    .parseClaimsJws(token);
+                    .parseClaimsJws(token); // 만료/서명 검증에서 예외 발생 시 catch
             return true;
         } catch (SecurityException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
             System.out.println("잘못된 JWT 서명입니다: " + e.getMessage());
@@ -147,5 +164,9 @@ public class JwtTokenProvider {
             // 서명 불일치, 포맷 오류 등 모든 잘못된 토큰
             return 0L;
         }
+    }
+
+    public String getUserTypeFromToken(String refreshToken) {
+        return (String) parseClaims(refreshToken).get("userType");
     }
 }
