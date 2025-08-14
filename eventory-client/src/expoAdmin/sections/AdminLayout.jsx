@@ -11,11 +11,11 @@ const AdminLayout = ({ children }) => {
 
     return (
         <div className="admin-layout">
-        <SideBar />
-        <div className="main-content">
-            <Header expoId={expoId} setExpoId={setExpoId}/>
-            {childrenWithProps}
-        </div>
+            <SideBar />
+            <div className="main-content">
+                <Header expoId={expoId} setExpoId={setExpoId}/>
+                {childrenWithProps}
+            </div>
         </div>
     );
 };

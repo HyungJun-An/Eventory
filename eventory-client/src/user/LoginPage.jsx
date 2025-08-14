@@ -42,7 +42,7 @@ export const LoginPage = () => {
   return (
     <div>
       {/* Main Content */}
-      <div className="login-main-content">
+      <div className="login-page">
         {/* Login Form */}
         <div className="login-section">
           <form className="login-form" onSubmit={handleSubmit}>

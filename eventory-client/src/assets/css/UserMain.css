@@ -6,7 +6,7 @@
   width: 100vw;
 }
 
-.container {
+.user-screen .container {
   background-color: #ffffff;
   height: 5615px;
   overflow: hidden;
@@ -15,7 +15,7 @@
 }
 
 /* Hero Section */
-.hero-image {
+.user-screen .hero-image {
   height: 656px;
   left: 0;
   position: absolute;
@@ -23,7 +23,7 @@
   width: 1440px;
 }
 
-.main-content {
+.user-screen .main-content {
   height: 597px;
   left: 0;
   position: absolute;
@@ -31,7 +31,7 @@
   width: 1440px;
 }
 
-.secondary-content {
+.user-screen .secondary-content {
   height: 622px;
   left: 0;
   position: absolute;
@@ -40,7 +40,7 @@
 }
 
 /* Benefits Section */
-.benefits-section {
+.user-screen .benefits-section {
   align-items: flex-start;
   display: flex;
   flex-direction: column;
@@ -51,7 +51,7 @@
   width: 1232px;
 }
 
-.benefits-header {
+.user-screen .benefits-header {
   align-items: center;
   align-self: stretch;
   display: flex;
@@ -61,7 +61,7 @@
   width: 100%;
 }
 
-.section-title {
+.user-screen .section-title {
   color: var(--black);
   font-family: var(--h4-font-family);
   font-size: var(--h4-font-size);
@@ -72,7 +72,7 @@
   margin-top: -1px;
 }
 
-.section-subtitle {
+.user-screen .section-subtitle {
   align-self: stretch;
   color: var(--neutralgray-700);
   font-family: var(--body-SM-font-family);
@@ -84,7 +84,7 @@
   text-align: center;
 }
 
-.benefits-grid {
+.user-screen .benefits-grid {
   align-items: flex-start;
   align-self: stretch;
   display: flex;
@@ -93,7 +93,7 @@
   width: 100%;
 }
 
-.benefit-card {
+.user-screen .benefit-card {
   align-items: center;
   border-radius: 200px;
   display: flex;
@@ -103,12 +103,12 @@
   width: 292px;
 }
 
-.benefit-icon {
+.user-screen .benefit-icon {
   height: 80px;
   width: 100px;
 }
 
-.benefit-title {
+.user-screen .benefit-title {
   color: var(--black);
   font-family: var(--h4-font-family);
   font-size: var(--h4-font-size);
@@ -118,7 +118,7 @@
   line-height: var(--h4-line-height);
 }
 
-.benefit-description {
+.user-screen .benefit-description {
   color: var(--neutralgray-700);
   font-family: var(--body-XS-font-family);
   font-size: var(--body-XS-font-size);
@@ -129,7 +129,7 @@
   text-align: center;
 }
 
-.benefit-content {
+.user-screen .benefit-content {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -139,7 +139,7 @@
 }
 
 /* Steps Section */
-.steps-wrapper {
+.user-screen .steps-wrapper {
   align-items: flex-start;
   background-color: var(--neutralgray-50);
   display: flex;
@@ -152,7 +152,7 @@
   width: 1440px;
 }
 
-.steps-section {
+.user-screen .steps-section {
   align-items: center;
   align-self: stretch;
   display: flex;
@@ -160,7 +160,7 @@
   width: 100%;
 }
 
-.steps-header {
+.user-screen .steps-header {
   align-items: flex-start;
   display: flex;
   flex: 1;
@@ -169,7 +169,7 @@
   height: 212px;
 }
 
-.steps-info {
+.user-screen .steps-info {
   align-items: center;
   align-self: stretch;
   display: flex;
@@ -178,7 +178,7 @@
   width: 100%;
 }
 
-.steps-title {
+.user-screen .steps-title {
   align-self: stretch;
   color: var(--black);
   font-family: var(--h4-font-family);
@@ -190,7 +190,7 @@
   margin-top: -1px;
 }
 
-.steps-subtitle {
+.user-screen .steps-subtitle {
   align-self: stretch;
   color: var(--neutralgray-700);
   font-family: var(--body-SM-font-family);
@@ -201,7 +201,7 @@
   line-height: var(--body-SM-line-height);
 }
 
-.buy-ticket-btn {
+.user-screen .buy-ticket-btn {
   align-items: center;
   background-color: var(--primaryprimary);
   border: none;
@@ -223,13 +223,13 @@
   width: 140px;
 }
 
-.steps-content {
+.user-screen .steps-content {
   height: 212px;
   position: relative;
   width: 920px;
 }
 
-.steps-background {
+.user-screen .steps-background {
   background-image: url(https://c.animaapp.com/me6sahcjqNWWBm/img/vector-7.svg);
   background-size: 100% 100%;
   height: 214px;
@@ -239,7 +239,7 @@
   width: 922px;
 }
 
-.steps-grid {
+.user-screen .steps-grid {
   align-items: center;
   display: flex;
   gap: 32px;
@@ -249,7 +249,7 @@
   width: 798px;
 }
 
-.step-item {
+.user-screen .step-item {
   align-items: center;
   display: flex;
   flex: 1;
@@ -257,12 +257,12 @@
   gap: 8px;
 }
 
-.step-icon {
+.user-screen .step-icon {
   height: 80px;
   width: 80px;
 }
 
-.step-content {
+.user-screen .step-content {
   align-items: flex-start;
   align-self: stretch;
   display: flex;
@@ -271,7 +271,7 @@
   width: 100%;
 }
 
-.step-title {
+.user-screen .step-title {
   align-self: stretch;
   color: var(--black);
   font-family: var(--h6-font-family);
@@ -284,7 +284,7 @@
   text-align: center;
 }
 
-.step-description {
+.user-screen .step-description {
   align-self: stretch;
   color: var(--neutralgray-700);
   font-family: var(--body-XS-font-family);
@@ -297,7 +297,7 @@
 }
 
 /* Footer */
-.footer {
+.user-screen .footer {
   height: 705px;
   left: 0;
   position: absolute;
@@ -306,7 +306,7 @@
 }
 
 /* FAQ Section */
-.faq-wrapper {
+.user-screen .faq-wrapper {
   align-items: center;
   background-color: var(--neutralgray-50);
   display: flex;
@@ -320,7 +320,7 @@
   width: 1440px;
 }
 
-.faq-section {
+.user-screen .faq-section {
   align-items: flex-start;
   align-self: stretch;
   display: flex;
@@ -328,7 +328,7 @@
   width: 100%;
 }
 
-.faq-left {
+.user-screen .faq-left {
   align-items: flex-start;
   display: flex;
   flex: 1;
@@ -338,7 +338,7 @@
   max-width: 400px;
 }
 
-.faq-title {
+.user-screen .faq-title {
   color: var(--black);
   font-family: var(--h4-font-family);
   font-size: var(--h4-font-size);
@@ -349,7 +349,7 @@
   margin-top: -1px;
 }
 
-.faq-contact {
+.user-screen .faq-contact {
   align-items: flex-start;
   align-self: stretch;
   display: flex;
@@ -358,7 +358,7 @@
   width: 100%;
 }
 
-.contact-info {
+.user-screen .contact-info {
   align-items: flex-start;
   align-self: stretch;
   display: flex;
@@ -367,7 +367,7 @@
   width: 100%;
 }
 
-.contact-item {
+.user-screen .contact-item {
   align-items: center;
   align-self: stretch;
   display: flex;
@@ -375,7 +375,7 @@
   width: 100%;
 }
 
-.contact-icon {
+.user-screen .contact-icon {
   align-items: center;
   background-color: var(--neutralgray-100);
   border-radius: 8px;
@@ -387,7 +387,7 @@
   width: 44px;
 }
 
-.contact-text {
+.user-screen .contact-text {
   color: var(--black);
   flex: 1;
   font-family: var(--body-LG-font-family);
@@ -398,7 +398,7 @@
   line-height: var(--body-LG-line-height);
 }
 
-.contact-cta {
+.user-screen .contact-cta {
   align-items: flex-start;
   align-self: stretch;
   display: flex;
@@ -407,7 +407,7 @@
   width: 100%;
 }
 
-.cta-title {
+.user-screen .cta-title {
   align-self: stretch;
   color: var(--black);
   font-family: var(--h5-font-family);
@@ -419,7 +419,7 @@
   margin-top: -1px;
 }
 
-.cta-description {
+.user-screen .cta-description {
   align-self: stretch;
   color: var(--neutralgray-700);
   font-family: var(--body-MD-font-family);
@@ -430,7 +430,7 @@
   line-height: var(--body-MD-line-height);
 }
 
-.contact-btn {
+.user-screen .contact-btn {
   align-items: center;
   background-color: var(--primaryprimary);
   border: none;
@@ -452,7 +452,7 @@
   width: 140px;
 }
 
-.faq-right {
+.user-screen .faq-right {
   align-items: flex-start;
   display: flex;
   flex: 1;
@@ -460,7 +460,7 @@
   gap: 60px;
 }
 
-.faq-list {
+.user-screen .faq-list {
   align-items: flex-end;
   align-self: stretch;
   display: flex;
@@ -469,7 +469,7 @@
   width: 100%;
 }
 
-.faq-item {
+.user-screen .faq-item {
   align-items: flex-start;
   align-self: stretch;
   display: flex;
@@ -478,16 +478,16 @@
   width: 100%;
 }
 
-.faq-item.expanded {
+.user-screen .faq-item.expanded {
   gap: 8px;
 }
 
-.faq-item.last {
+.user-screen .faq-item.last {
   align-items: center;
   justify-content: center;
 }
 
-.faq-question {
+.user-screen .faq-question {
   align-items: flex-start;
   align-self: stretch;
   display: flex;
@@ -495,7 +495,7 @@
   width: 100%;
 }
 
-.question-text {
+.user-screen .question-text {
   color: var(--black);
   flex: 1;
   font-family: var(--body-LG-font-family);
@@ -507,12 +507,12 @@
   margin-top: -1px;
 }
 
-.arrow-icon {
+.user-screen .arrow-icon {
   height: 24px;
   width: 24px;
 }
 
-.faq-answer {
+.user-screen .faq-answer {
   align-self: stretch;
   color: var(--neutralgray-700);
   font-family: var(--body-SM-font-family);
@@ -523,7 +523,7 @@
   line-height: var(--body-SM-line-height);
 }
 
-.divider {
+.user-screen .divider {
   align-self: stretch;
   background-color: var(--neutralgray-100);
   border-radius: 1px;
@@ -531,7 +531,7 @@
   width: 100%;
 }
 
-.read-more-btn {
+.user-screen .read-more-btn {
   align-items: center;
   background-color: transparent;
   border: 1px solid #007bff;
@@ -553,7 +553,7 @@
 }
 
 /* Sponsors Section */
-.sponsors-section {
+.user-screen .sponsors-section {
   align-items: center;
   display: inline-flex;
   gap: 32px;
@@ -564,13 +564,13 @@
   top: 4562px;
 }
 
-.sponsor-logo {
+.user-screen .sponsor-logo {
   height: 120px;
   object-fit: cover;
   width: 120px;
 }
 
-.sponsor-placeholder {
+.user-screen .sponsor-placeholder {
   background-color: var(--neutralgray-100);
   border-radius: 8px;
   height: 120px;
@@ -578,7 +578,7 @@
 }
 
 /* Carousel */
-.carousel {
+.user-screen .carousel {
   height: 810px;
   left: 0;
   position: absolute;
