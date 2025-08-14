@@ -34,28 +34,23 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // 인증 없이 접근 허용
                         .requestMatchers(
-                                "/api/auth/**", // 로그인/회원가입/토큰 재발급 등
-                                "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/swagger-resources/**",
-                                "/v3/api-docs/**",
-                                "/v3/api-docs.yaml",
-                                "/webjars/**",
-                                "/favicon.ico",
-                                "/error",
-                                "/api/user/expos",              // 박람회 리스트
-                                "/api/user/expos/**",            // 박람회 상세 (expoId)
-                                "/session/**",
-                                "/actuator/**"
+                                "/api/admin/login", "/api/admin/sys/login",
+                                "/api/auth/login", "/api/auth/register", "/api/auth/refresh",
+                                "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**",
+                                "/webjars/**", "/favicon.ico", "/error",
+                                "/api/user/expos", "/api/user/expos/**",
+                                "/session/**", "/actuator/**"
                         ).permitAll()
-                        // 그 외 모든 요청은 인증 필요
-                        //.requestMatchers("/api/system/**").hasRole("SYSTEM_ADMIN") // 시스템 관리자 전용 엔드포인트
-                        //.requestMatchers("/api/expo-admin/**").hasRole("EXPO_ADMIN") // 박람회 관리자 전용 엔드포인트
+                        .requestMatchers("/api/auth/me").authenticated() // me는 인증만 필요
+                        // 로그아웃은 인증 필요 (화이트리스트/permitAll 금지)
+                        .requestMatchers("/api/admin/sys/logout").authenticated()
+                        .requestMatchers("/api/admin/logout").authenticated()
+                        // 관리자 전용 도메인
+                        .requestMatchers("/api/sys/expo/**").hasRole("SYSTEM_ADMIN") 
+                        .requestMatchers("/api/admin/expo/**").hasRole("EXPO_ADMIN")
+                        // 나머지 전부 보호
                         .anyRequest().authenticated()
                 )
-                // authenticationProvider는 실제 인증 로직을 담당하는 객체 (비밀번호 비교 등)
-                // 커스텀 구현한 Provider를 사용해서 로그인 인증 흐름을 제어함
-//                .authenticationProvider(authenticationProvider())
                 // JWT 필터 등록
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -75,12 +70,15 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("http://localhost:5173")); // 프론트 주소
-        config.setAllowedOriginPatterns(List.of("https://localhost")); // 프론트 주소
+        config.setAllowedOriginPatterns(List.of(
+                "http://localhost:5173",
+                "https://localhost",
+                "https://eventory.kro.kr",      // 포트 없이 도메인만
+                "https://eventory.kro.kr:8080"  // 명시적으로 포트 포함
+        ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // 크리덴셜 허용
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;

@@ -8,12 +8,13 @@ import AdminLayout from './expoAdmin/sections/AdminLayout';
 import Dashboard from './expoAdmin/DashboardPage';
 import LoginPage from './user/LoginPage';
 import RegisterPage from './user/UserRegistration';
-import Main, { UserMainPage } from './user/userMain';
-import Navbar from './components/Navbar';
+import { UserMainPage } from './user/userMain';
 import MainLayout from './components/MainLayout';
 import { SysExpoList } from './systemAdmin/SysExpoList';
-function App() {
+import RegisterCompany from './user/RegisterCompany';
+import RegisterCustomer from './user/RegisterCustomer';
 
+function App() {
   return (
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
@@ -22,10 +23,12 @@ function App() {
         <Route path="/admin/payment" element={<AdminLayout><PaymentPage /></AdminLayout>} />
         <Route path="/admin/refund" element={<AdminLayout><RefundPage /></AdminLayout>} />
         <Route element={<MainLayout />}>
+          <Route path="/" element={<UserMainPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<RegisterPage />} />
+          <Route path="/signup" element={<RegisterPage/>} />
+          <Route path="/register/company" element={<RegisterCompany/>} />
+          <Route path="/register/customer" element={<RegisterCustomer/>} />
         </Route>
-        <Route path="/" element={<UserMainPage />} />
         <Route path="/sys/expos" element={<SysExpoList />} />
       </Routes>
     </BrowserRouter>

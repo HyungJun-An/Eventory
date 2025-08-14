@@ -28,6 +28,7 @@ public enum CustomErrorCode {
     INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "A003", "유효하지 않은 AccessToken입니다"),
     LOGGED_OUT_TOKEN(HttpStatus.UNAUTHORIZED, "A004", "해당 토큰은 로그아웃 처리된 토큰입니다"),
     ACCESS_DENIED(HttpStatus.FORBIDDEN, "A005", "접근 권한이 없습니다."),
+    EXPO_ADMIN_EXPIRED(HttpStatus.FORBIDDEN, "A006", "박람회 관리자 계정의 유효기간이 만료되었습니다"),
 
     // 회계 관리자 R
     NOT_FOUND_RESERVATION(HttpStatus.NOT_FOUND, "R001", "예약 정보가 없습니다."),

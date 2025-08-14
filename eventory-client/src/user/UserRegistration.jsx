@@ -3,13 +3,7 @@ import '../assets/css/UserRegistration.css';
 import { Link } from 'react-router-dom';
 
 const UserRegistration = () => {
-    const [selectedUserType, setSelectedUserType] = useState(null);
 
-    const handleUserTypeSelect = (type) => {
-        setSelectedUserType(type);
-        // Handle user type selection logic here
-        console.log('Selected user type:', type);
-    };
 
     return (
         <div className="user-registration">
@@ -21,11 +15,11 @@ const UserRegistration = () => {
 
                         <div className="user-type-options">
                             <button
-                                className={`user-type-btn ${selectedUserType === 'company' ? 'selected' : ''}`}
-                                onClick={() => handleUserTypeSelect('company')}
+                                className={`user-type-btn `}
+                                onClick={() => window.location.href='/register/company'}
                             >
                                 <img
-                                    src="https://c.animaapp.com/me6rzqglc3Fy3X/img/peoples-user-business.svg"
+                                    src= '/src/assets/img/peoples-user-business.svg'
                                     alt="Company"
                                     className="user-type-icon"
                                 />
@@ -39,11 +33,11 @@ const UserRegistration = () => {
                             </div>
 
                             <button
-                                className={`user-type-btn ${selectedUserType === 'customer' ? 'selected' : ''}`}
-                                onClick={() => handleUserTypeSelect('customer')}
+                                className={`user-type-btn` }
+                                onClick={() => window.location.href='/register/customer'}
                             >
                                 <img
-                                    src="https://c.animaapp.com/me6rzqglc3Fy3X/img/base-mail-1.svg"
+                                    src="/src/assets/img/base-mail-1.svg"
                                     alt="Customer"
                                     className="user-type-icon"
                                 />
@@ -53,7 +47,7 @@ const UserRegistration = () => {
 
                         <div className="login-link">
                           <span className="login-text">Already have an account?</span>
-                          <Link to="/" className="login-link-text">Log In</Link>
+                          <Link to="/login" className="login-link-text">Log In</Link>
                         </div>
                     </div>
                 </div>

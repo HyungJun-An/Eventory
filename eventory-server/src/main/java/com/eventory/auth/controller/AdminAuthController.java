@@ -1,6 +1,6 @@
 package com.eventory.auth.controller;
 
-import com.eventory.auth.dto.AdminLoginRequest;
+import com.eventory.auth.dto.LoginRequest;
 import com.eventory.auth.dto.LoginResponse;
 import com.eventory.auth.service.AdminAuthService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,13 +22,13 @@ public class AdminAuthController {
 
     /** 시스템 관리자 로그인 */
     @PostMapping("/sys/login")
-    public ResponseEntity<LoginResponse> systemLogin(@RequestBody @Valid AdminLoginRequest req) {
+    public ResponseEntity<LoginResponse> systemLogin(@RequestBody @Valid LoginRequest req) {
         return ResponseEntity.ok(adminAuthService.loginSystemAdmin(req));
     }
 
     /** 박람회 관리자 로그인 */
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> expoLogin(@RequestBody @Valid AdminLoginRequest req) {
+    public ResponseEntity<LoginResponse> expoLogin(@RequestBody @Valid LoginRequest req) {
         return ResponseEntity.ok(adminAuthService.loginExpoAdmin(req));
     }
 

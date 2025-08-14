@@ -96,7 +96,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // AccessToken, RefreshToken 생성 후
-        String accessToken = jwtTokenProvider.createAccessToken(user.getUserId());
+        String accessToken = jwtTokenProvider.createAccessToken(user.getUserId(), user.getUserType().getName());
         String refreshToken = jwtTokenProvider.createRefreshToken();
 
         // Redis 저장
@@ -127,7 +127,8 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // 4. 새로운 AccessToken 발급
-        String newAccessToken = jwtTokenProvider.createAccessToken(userId);
+        String role = jwtTokenProvider.getRoleFromToken(refreshToken);
+        String newAccessToken = jwtTokenProvider.createAccessToken(userId, role);
         return new LoginResponse(newAccessToken, refreshToken); // RefreshToken은 그대로 전달
     }
 
