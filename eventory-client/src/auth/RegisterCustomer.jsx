@@ -12,7 +12,7 @@ const RegisterForm = () => {
     birth: "",
     gender: "",
     phoneNumber: "",
-    typeoId: 4,
+    typeId: 4,
   });
 
   const handleChange = (e) => {
