@@ -8,6 +8,7 @@ import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.service.mapper.ExpoMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import com.eventory.common.exception.CustomErrorCode;
+import com.eventory.common.exception.CustomException;
 
 @Service
 @RequiredArgsConstructor
@@ -76,8 +80,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         Long checkedIn = checkInLogRepository.countCheckedInByExpoId(expoId);
 
         // 입장률 계산
-        double checkInRate = (totalReservedPeople == 0) ? 0.0 :
-                ((double) checkedIn / totalReservedPeople) * 100;
+        double checkInRate = (totalReservedPeople == 0) ? 0.0 : ((double) checkedIn / totalReservedPeople) * 100;
 
         return expoMapper.toDashboardResponseDto(viewCount, totalReservedPeople, checkInRate);
     }
@@ -85,8 +88,8 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     // 날짜 포맷터 상수
     private static final Locale KO = Locale.KOREAN;
     private static final DateTimeFormatter DAILY_FMT = DateTimeFormatter.ofPattern("MM/dd (E)", KO);
-    private static final DateTimeFormatter WEEK_MD   = DateTimeFormatter.ofPattern("M/d", KO);
-    private static final DateTimeFormatter MONTH_YM  = DateTimeFormatter.ofPattern("M월", KO);
+    private static final DateTimeFormatter WEEK_MD = DateTimeFormatter.ofPattern("M/d", KO);
+    private static final DateTimeFormatter MONTH_YM = DateTimeFormatter.ofPattern("M월", KO);
 
     // 하루 라벨: 08/09 (토)
     private String labelDaily(LocalDate date) {
@@ -141,11 +144,11 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         // 오래된 → 최신 (오른쪽이 최신)
         for (int i = 3; i >= 0; i--) {
             LocalDate startDate = baseSunday.minusWeeks(i).with(DayOfWeek.MONDAY); // 주 시작일
-            LocalDate endDate   = startDate.plusDays(6); // 주 종료일 (일요일)
+            LocalDate endDate = startDate.plusDays(6); // 주 종료일 (일요일)
 
             assertValidRange(startDate, endDate);
             LocalDateTime start = startDate.atStartOfDay();
-            LocalDateTime end   = endDate.plusDays(1).atStartOfDay(); // [월 00:00, 다음주 월 00:00)
+            LocalDateTime end = endDate.plusDays(1).atStartOfDay(); // [월 00:00, 다음주 월 00:00)
 
             Long peopleSum = reservationRepository
                     .sumPeopleByExpoAndCreatedBetween(expoId, start, end);
@@ -167,11 +170,11 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         for (int i = 3; i >= 0; i--) {
             YearMonth ym = currentMonth.minusMonths(i);
             LocalDate startDate = ym.atDay(1); // 해당 월의 1일
-            LocalDate endDate   = ym.atEndOfMonth(); // 해당 월의 말일
+            LocalDate endDate = ym.atEndOfMonth(); // 해당 월의 말일
 
             assertValidRange(startDate, endDate);
             LocalDateTime start = startDate.atStartOfDay();
-            LocalDateTime end   = endDate.plusDays(1).atStartOfDay(); // [1일 00:00, 다음달 1일 00:00)
+            LocalDateTime end = endDate.plusDays(1).atStartOfDay(); // [1일 00:00, 다음달 1일 00:00)
 
             Long peopleSum = reservationRepository
                     .sumPeopleByExpoAndCreatedBetween(expoId, start, end);
@@ -203,8 +206,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
                 people,
                 total,
                 avg,
-                cancelled
-        );
+                cancelled);
     }
 
     // 일간 통계 리포트 (최근 7일간, 오늘 기준 지난 7일(6일 전 ~ 오늘까지 하루 단위로 7개의 통계 리포트 생성))
@@ -233,7 +235,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
         for (int i = 3; i >= 0; i--) { // 오래된 주부터
             LocalDate start = baseSunday.minusWeeks(i).with(DayOfWeek.MONDAY);
-            LocalDate end   = start.plusDays(6);
+            LocalDate end = start.plusDays(6);
 
             result.add(buildStatDto(expoId, start, end, labelWeek(start, end)));
         }
@@ -249,9 +251,9 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         List<StatReportRowResponseDto> result = new ArrayList<>();
 
         for (int i = 3; i >= 0; i--) { // 오래된 월부터
-            YearMonth ym   = currentMonth.minusMonths(i);
-            LocalDate start    = ym.atDay(1);
-            LocalDate end    = ym.atEndOfMonth();
+            YearMonth ym = currentMonth.minusMonths(i);
+            LocalDate start = ym.atDay(1);
+            LocalDate end = ym.atEndOfMonth();
             result.add(buildStatDto(expoId, start, end, labelMonth(ym)));
         }
         return result;
@@ -260,7 +262,8 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     // 내부 헬퍼 메서드
     // period(daily/weekly/monthly)에 따라 실제 통계 데이터 조회
     private List<StatReportRowResponseDto> findReportData(Long expoId, String period) {
-        if (period == null) throw new CustomException(CustomErrorCode.INVALID_PERIOD);
+        if (period == null)
+            throw new CustomException(CustomErrorCode.INVALID_PERIOD);
 
         return switch (period.toLowerCase()) {
             case "daily" -> findDailyReportData(expoId);
@@ -290,7 +293,8 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 파일명으로 쓰기에 위험한 문자들을 안전한 문자(_)로 치환
     private String sanitizeForFilename(String name) {
-        if (name == null || name.isBlank()) return "expo"; // 공백만 있거나 null이면 기본값("expo")로 대체
+        if (name == null || name.isBlank())
+            return "expo"; // 공백만 있거나 null이면 기본값("expo")로 대체
         // 윈도우 금지문자(\ / : * ? " < > |) 안전한 문자(_)로 치환
         return name.replaceAll("[\\\\/:*?\"<>|]", "_").trim();
     }
@@ -302,9 +306,11 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // CSV 값 이스케이프: 값에 쉼표/따옴표/개행이 있으면 따옴표로 감싸고 내부 따옴표는 ""로 이스케이프
     private static String escapeCsv(String value) {
-        if (value == null) return "";
+        if (value == null)
+            return "";
         boolean needQuote = value.contains(",") || value.contains("\"") || value.contains("\n") || value.contains("\r");
-        if (!needQuote) return value;
+        if (!needQuote)
+            return value;
         String escaped = value.replace("\"", "\"\"");
         return "\"" + escaped + "\"";
     }
@@ -322,11 +328,13 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         String headerLabel = resolvePeriodHeader(period);
 
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
-             OutputStreamWriter osw = new OutputStreamWriter(bos, StandardCharsets.UTF_8);
-             PrintWriter writer = new PrintWriter(osw, false)) {
+                OutputStreamWriter osw = new OutputStreamWriter(bos, StandardCharsets.UTF_8);
+                PrintWriter writer = new PrintWriter(osw, false)) {
 
             // UTF-8 BOM (엑셀에서 한글/UTF-8 인식)
-            bos.write(0xEF); bos.write(0xBB); bos.write(0xBF);
+            bos.write(0xEF);
+            bos.write(0xBB);
+            bos.write(0xBF);
 
             // 헤더: 기간 라벨은 period에 따라 변경
             writer.println(String.join(",",
@@ -335,15 +343,14 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
                     "총 예약 인원",
                     "총 결제 금액(원)",
                     "예약당 평균 인원 수(명)",
-                    "예약 취소 건수"
-            ));
+                    "예약 취소 건수"));
 
             // 본문: CSV는 쉼표 분리, 줄바꿈으로 레코드 구분
             for (StatReportRowResponseDto row : data) {
                 String label = escapeCsv(row.getLabel()); // 혹시 모를 쉼표/따옴표 대응
 
                 long reservationCount = row.getReservationCount() == null ? 0L : row.getReservationCount();
-                long peopleCount      = row.getPeopleCount() == null ? 0L : row.getPeopleCount();
+                long peopleCount = row.getPeopleCount() == null ? 0L : row.getPeopleCount();
 
                 // BigDecimal → 문자열(손실 없이)
                 String paymentTotal = (row.getPaymentTotal() == null)
@@ -355,7 +362,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
                         ? "0.00"
                         : String.format(java.util.Locale.US, "%.2f", row.getAvgPeoplePerResv());
 
-                long cancelledCount  = row.getCancelledCount() == null ? 0L : row.getCancelledCount();
+                long cancelledCount = row.getCancelledCount() == null ? 0L : row.getCancelledCount();
 
                 // 값 쪽에는 단위를 붙이지 않음(숫자로 인식되게)
                 writer.println(String.join(",",
@@ -364,16 +371,14 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
                         String.valueOf(peopleCount),
                         paymentTotal,
                         avgPeople,
-                        String.valueOf(cancelledCount)
-                ));
+                        String.valueOf(cancelledCount)));
             }
             writer.flush();
 
             return new FileDownloadDto(
                     bos.toByteArray(),
                     baseName,
-                    "text/csv; charset=UTF-8"
-            );
+                    "text/csv; charset=UTF-8");
         } catch (IOException e) {
             throw new CustomException(CustomErrorCode.REPORT_EXPORT_FAILED);
         }
@@ -391,12 +396,13 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         String headerLabel = resolvePeriodHeader(period);
 
         try (Workbook workbook = new XSSFWorkbook(); // 엑셀 새 워크북 생성
-             ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+                ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
 
             // 시트 생성/스타일
             // 시트명은 31자 제한(Excel 포맷 자체 제약)/엑셀 시트명 금지문자 처리
             String sheetName = (period + "-report").replaceAll("[\\\\/*?:\\[\\]]", "_");
-            if (sheetName.length() > 31) sheetName = sheetName.substring(0, 31);
+            if (sheetName.length() > 31)
+                sheetName = sheetName.substring(0, 31);
             Sheet sheet = workbook.createSheet(sheetName);
 
             // 데이터 포맷/스타일
@@ -447,8 +453,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
             return new FileDownloadDto(
                     bos.toByteArray(),
                     baseName,
-                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            );
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         } catch (IOException e) {
             // 생성 중 I/O 문제 → 커스텀 예외로 래핑
             throw new CustomException(CustomErrorCode.REPORT_EXPORT_FAILED);
@@ -469,25 +474,22 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
             Map<String, TicketTypeRatioResponseDto> map = new HashMap<>();
 
             for (Object[] row : rows) {
-                String type = (String) row[0];                  // "FREE" or "PAID"
+                String type = (String) row[0]; // "FREE" or "PAID"
                 Long reservationCount = ((Number) row[1]).longValue(); // 예약 건수
                 Long peopleCount = ((Number) row[2]).longValue(); // 예약 인원 수
 
                 // 일단 percentage = 0.0 으로 생성 후 아래에서 비율 계산
                 map.put(type, expoMapper.toTicketTypeRatioResponseDto(
-                        type, reservationCount, peopleCount, 0.0
-                ));
+                        type, reservationCount, peopleCount, 0.0));
 
                 totalReservations += reservationCount;
             }
 
             // 누락된 타입(FREE/PAID) 보정 → 항상 두 개의 타입 반환
             map.putIfAbsent("FREE", expoMapper.toTicketTypeRatioResponseDto(
-                    "FREE", 0L, 0L, 0.0
-            ));
+                    "FREE", 0L, 0L, 0.0));
             map.putIfAbsent("PAID", expoMapper.toTicketTypeRatioResponseDto(
-                    "PAID", 0L, 0L, 0.0
-            ));
+                    "PAID", 0L, 0L, 0.0));
 
             // 비율 계산 (총 예약 건수가 0인 경우 비율은 0) (소수점 둘째 자리까지 반올림)
             if (totalReservations > 0) {
@@ -496,8 +498,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
                         dto.getType(),
                         dto.getReservationCount(),
                         dto.getPeopleCount(),
-                        Math.round((dto.getReservationCount() * 100.0 / total) * 100) / 100.0
-                ));
+                        Math.round((dto.getReservationCount() * 100.0 / total) * 100) / 100.0));
             }
 
             // 결과 정렬 (FREE, PAID 순서)
