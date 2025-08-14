@@ -11,7 +11,7 @@ const RegisterForm = () => {
     confirmPassword: "",
     birth: "",
     gender: "",
-    phoneNumber: "",
+    phone: "",
     typeId: 4,
   });
 
@@ -41,9 +41,10 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
     try {
-      const res = await api.post('/auth/signup', form, {
+      const {confirmPassword, ...signupData} = form
+      console.log(signupData);
+      const res = await api.post('/auth/signup', signupData, {
         headers: { 'Content-Type': 'application/json' },
       });
       alert("성공")
@@ -185,7 +186,7 @@ const RegisterForm = () => {
                 <label htmlFor="gender">Gender</label>
                 <div className="input-wrapper">
 
-                  <select id="gender" name="gender" defaultValue="">
+                <select id="gender" name="gender" value={form.gender} onChange={handleChange}>
                     <option value="" disabled>Select</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
@@ -204,8 +205,8 @@ const RegisterForm = () => {
                 />
                 <input
                   type="tel"
-                  name="phoneNumber"
-                  value={form.phoneNumber}
+                  name="phone"
+                  value={form.phone}
                   onChange={handleChange}
                   placeholder="Enter your phone number"
                   className="form-input"
