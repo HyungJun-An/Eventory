@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import "../assets/css/LoginPage.css";
 import api from '../api/axiosInstance';
-import Register from './Register';
+import Register from './RegisterCompany';
 
 export const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -119,7 +119,7 @@ export const LoginPage = () => {
 
             <p className="signup-link">
               <span className="signup-text">Don't have an account? </span>
-              <Link to="/register" className="signup-link-text">Sign Up</Link>
+              <Link to="/signup" className="signup-link-text">Sign Up</Link>
             </p>
           </form>
         </div>

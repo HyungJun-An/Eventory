@@ -3,13 +3,7 @@ import '../assets/css/UserRegistration.css';
 import { Link } from 'react-router-dom';
 
 const UserRegistration = () => {
-    const [selectedUserType, setSelectedUserType] = useState(null);
 
-    const handleUserTypeSelect = (type) => {
-        setSelectedUserType(type);
-        // Handle user type selection logic here
-        console.log('Selected user type:', type);
-    };
 
     return (
         <div className="user-registration">
@@ -21,8 +15,8 @@ const UserRegistration = () => {
 
                         <div className="user-type-options">
                             <button
-                                className={`user-type-btn ${selectedUserType === 'company' ? 'selected' : ''}`}
-                                onClick={() => handleUserTypeSelect('company')}
+                                className={`user-type-btn `}
+                                onClick={() => window.location.href='/register/company'}
                             >
                                 <img
                                     src= '/src/assets/img/peoples-user-business.svg'
@@ -39,8 +33,8 @@ const UserRegistration = () => {
                             </div>
 
                             <button
-                                className={`user-type-btn ${selectedUserType === 'customer' ? 'selected' : ''}`}
-                                onClick={() => handleUserTypeSelect('customer')}
+                                className={`user-type-btn` }
+                                onClick={() => window.location.href='/register/customer'}
                             >
                                 <img
                                     src="/src/assets/img/base-mail-1.svg"
