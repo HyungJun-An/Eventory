@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import "../assets/css/BannerCarousel.css";
+import "../../assets/css/BannerCarousel.css";
 
 const DEFAULT_INTERVAL = 5000;
 

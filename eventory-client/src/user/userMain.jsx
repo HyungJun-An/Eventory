@@ -1,7 +1,7 @@
 // src/user/userMain.jsx
 import React, { useEffect, useMemo, useState } from "react";
 import api from "../api/axiosInstance";
-import BannerCarousel from "../components/BannerCarousel";
+import BannerCarousel from "./sections/BannerCarousel";
 import ExpoCardList from "../components/ExpoCardList";
 import "../assets/css/UserMain.css";
 
@@ -9,8 +9,8 @@ import banner1 from '../assets/demo/busanExpo.jpg';
 import banner2 from '../assets/demo/AiKorea.jpg';
 import banner3 from '../assets/demo/greenEnergy.jpg';
 
-import HeroSection from "../components/HeroSection";
-import Footer from "../components/Footer";
+import HeroSection from "./sections/HeroSection";
+import Footer from "./sections/Footer";
 
 export const UserMainPage = () => {
   const [expos, setExpos] = useState([]);

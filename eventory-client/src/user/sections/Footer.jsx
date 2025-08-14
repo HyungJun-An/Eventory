@@ -1,7 +1,7 @@
 // src/components/Footer.jsx
 import React from "react";
-import "../assets/css/Footer.css";
-import logo from "../assets/demo/eventory_bluewriting.png";
+import "../../assets/css/Footer.css";
+import logo from "../../assets/demo/eventory_bluewriting.png";
 
 export default function Footer() {
   const stop = (e) => e.preventDefault();

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../assets/css/UserMain.css";
+import "../../assets/css/UserMain.css";
 
 export default function HeroSection({ onSearch }) {
   const [keyword, setKeyword] = useState("");
