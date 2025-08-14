@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import SideBar from "./SideBar";
-import Header from "./Header";
+import SideBar from "./ExpoAdminSideBar";
+import Header from "../../components/Header";
 
 const AdminLayout = ({ children }) => {
     const [expoId, setExpoId] = useState(null);

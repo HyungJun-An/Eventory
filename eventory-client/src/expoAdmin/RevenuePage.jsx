@@ -1,8 +1,8 @@
 import React from "react";
-import SalesChart from "./sections/RevenueSalesChart";
-import SalesStats from "./sections/RevenueSalesStats";
-import SeriesChart from "./sections/RevenueSeriesChart";
-import "../assets/css/RevenuePage.css";
+import SalesChart from "./sections/Revenue/RevenueSalesChart";
+import SalesStats from "./sections/Revenue/RevenueSalesStats";
+import SeriesChart from "./sections/Revenue/RevenueSeriesChart";
+import "../assets/css/Revenue/RevenuePage.css";
 
 const RevenuePage = ({ expoId }) => {
   return (
