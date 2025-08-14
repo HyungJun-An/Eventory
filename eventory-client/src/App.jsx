@@ -11,7 +11,8 @@ import RegisterPage from './user/UserRegistration';
 import Main, { UserMainPage } from './user/userMain';
 import Navbar from './components/Navbar';
 import MainLayout from './components/MainLayout';
-import Register from './user/Register';
+import RegisterCompany from './user/RegisterCompany';
+import RegisterCustomer from './user/RegisterCustomer';
 
 function App() {
 
@@ -24,8 +25,9 @@ function App() {
         <Route path="/admin/refund" element={<AdminLayout><RefundPage /></AdminLayout>} />
         <Route element={<MainLayout />}>
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<RegisterPage />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/signup" element={<RegisterPage/>} />
+          <Route path="/register/company" element={<RegisterCompany/>} />
+          <Route path="/register/customer" element={<RegisterCustomer/>} />
         </Route>
         <Route path="/" element={<UserMainPage />} />
       </Routes>
