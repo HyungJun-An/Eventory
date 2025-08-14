@@ -1,5 +1,3 @@
-import Header from "./sections/Header.jsx";
-import Sidebar from "./sections/SideBar.jsx";
 import {
   PageViewsCard,
   TotalReservationsCard,
@@ -12,15 +10,7 @@ import "../assets/css/dashboard/DashboardIndex.css";
 function DashboardIndex() {
   return (
     <div className="dashboard-index main-container">
-      {/* Header */}
-      <Header />
-
       <div className="content-wrapper">
-        {/* Sidebar */}
-        <div className="sidebar-container">
-          <Sidebar />
-        </div>
-
         {/* Main Content */}
         <main className="main-content">
           <div className="content-padding">
