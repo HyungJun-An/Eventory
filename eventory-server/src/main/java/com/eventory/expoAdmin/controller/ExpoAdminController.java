@@ -10,6 +10,7 @@ import com.eventory.expoAdmin.service.SalesAdminService;
 import com.eventory.expoAdmin.web.FileResponseUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.core.io.Resource;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -64,6 +66,8 @@ public class ExpoAdminController {
             @AuthenticationPrincipal CustomUserPrincipal expoAdmin,
             @PathVariable Long expoId,
             @RequestParam(required = false) String code,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size) {
 
@@ -72,9 +76,9 @@ public class ExpoAdminController {
         List<PaymentResponseDto> paymentResponseDto;
 
         if (page!=null && size!=null) { // 페이징 O
-            paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId, code, page, size);
+            paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId, code, startDate, endDate, page, size);
         } else { // 페이징 X
-            paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId, code);
+            paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId);
         }
 
         return ResponseEntity.ok(paymentResponseDto);
@@ -86,7 +90,7 @@ public class ExpoAdminController {
 
         Long expoAdminId = expoAdmin.getId();
 
-        List<PaymentResponseDto> paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId, null);
+        List<PaymentResponseDto> paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId);
 
         Resource excel = salesAdminService.downloadPaymentsExcel(paymentResponseDto);
 

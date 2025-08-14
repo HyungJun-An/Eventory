@@ -65,19 +65,21 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     FROM reservation r
     WHERE r.expo.expoId = :expoId
       AND (:code IS NULL OR r.code = :code)
+      AND (:startDate IS NULL OR r.paidAt >= :startDate)
+      AND (:endDate IS NULL OR r.paidAt <= :endDate)
     """)
     Page<Reservation> findByExpoIdAndReservationCode(@Param("expoId") Long expoId,
                                                      @Param("code") String code,
+                                                     @Param("startDate") LocalDate startDate,
+                                                     @Param("endDate") LocalDate endDate,
                                                      Pageable pageable);
 
     @Query("""
     SELECT r
     FROM reservation r
     WHERE r.expo.expoId = :expoId
-      AND (:code IS NULL OR r.code = :code)
     """)
-    List<Reservation> findByExpoIdAndReservationCode(@Param("expoId") Long expoId,
-                                                     @Param("code") String code);
+    List<Reservation> findByExpoIdAndReservationCode(@Param("expoId") Long expoId);
 
     // RESERVED 상태인 총 인원 수
     @Query("""
