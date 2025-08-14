@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import '../assets/css/Register.css'
+import '../assets/css/auth/Register.css'
 const RegisterForm = () => {
   const [form, setForm] = useState({
     customerId: "",
