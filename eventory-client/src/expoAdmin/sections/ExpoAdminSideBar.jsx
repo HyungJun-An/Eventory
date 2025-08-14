@@ -1,12 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../../assets/css/SideBar.css";
+import "../../assets/css/ExpoAdminSideBar.css";
 
-const SideBar = () => {
+const ExpoAdminSideBar = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="sideBar">
+    <div className="expoadmin-sideBar">
       <div className="div-8">
         <div className="text-wrapper-2">대시보드</div>
 
@@ -81,4 +81,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export default ExpoAdminSideBar;
