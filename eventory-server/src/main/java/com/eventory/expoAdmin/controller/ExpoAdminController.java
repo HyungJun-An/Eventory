@@ -1,6 +1,6 @@
 package com.eventory.expoAdmin.controller;
 
-import com.eventory.common.entity.ExpoAdmin;
+import com.eventory.auth.security.CustomUserPrincipal;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.dto.*;
@@ -31,23 +31,24 @@ public class ExpoAdminController {
 
     // 해당 박람회 관리자에 속하는 전체 박람회 목록
     @GetMapping("/expos")
-    public ResponseEntity<List<ExpoResponseDto>> findAllExpos(@AuthenticationPrincipal ExpoAdmin expoAdmin) {
-        List<ExpoResponseDto> expos = expoAdminService.findAllExpos(expoAdmin);
+    public ResponseEntity<List<ExpoResponseDto>> findAllExpos(@AuthenticationPrincipal CustomUserPrincipal expoAdmin) {
+        Long expoAdminId = expoAdmin.getId();
+        List<ExpoResponseDto> expos = expoAdminService.findAllExpos(expoAdminId);
         return ResponseEntity.ok(expos);
     }
 
     // 누적 매출, 총 결제 건수, 총 환불 건수
     @GetMapping("/expos/{expoId}/sales")
-    public ResponseEntity<SalesResponseDto> findSalesStatistics(@AuthenticationPrincipal ExpoAdmin expoAdmin, @PathVariable Long expoId) {
-        Long expoAdminId = expoAdmin.getExpoAdminId();
+    public ResponseEntity<SalesResponseDto> findSalesStatistics(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId) {
+        Long expoAdminId = expoAdmin.getId();
         SalesResponseDto salesResponseDto = salesAdminService.findSalesStatistics(expoAdminId, expoId);
         return ResponseEntity.ok(salesResponseDto);
     }
 
     // 연간 매출, 월간 매출, 일주일간 매출
     @GetMapping("/expos/{expoId}/stats")
-    public ResponseEntity<List<Map<String, Object>>> findSales(@AuthenticationPrincipal ExpoAdmin expoAdmin, @PathVariable Long expoId, @RequestParam String range) {
-        Long expoAdminId = expoAdmin.getExpoAdminId();
+    public ResponseEntity<List<Map<String, Object>>> findSales(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId, @RequestParam String range) {
+        Long expoAdminId = expoAdmin.getId();
         List<Map<String, Object>> sales = switch (range.toLowerCase()) {
             case "daily" -> salesAdminService.findDailySales(expoAdminId, expoId);
             case "monthly" -> salesAdminService.findMonthlySales(expoAdminId, expoId);
@@ -60,13 +61,13 @@ public class ExpoAdminController {
     // 결제 내역 관리
     @GetMapping("/expos/{expoId}/payment")
     public ResponseEntity<List<PaymentResponseDto>> findAllPayments(
-            @AuthenticationPrincipal ExpoAdmin expoAdmin,
+            @AuthenticationPrincipal CustomUserPrincipal expoAdmin,
             @PathVariable Long expoId,
             @RequestParam(required = false) String code,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size) {
 
-        Long expoAdminId = expoAdmin.getExpoAdminId();
+        Long expoAdminId = expoAdmin.getId();
 
         List<PaymentResponseDto> paymentResponseDto;
 
@@ -81,9 +82,9 @@ public class ExpoAdminController {
 
     // 결제 내역 엑셀 다운로드
     @PostMapping("/expos/{expoId}/payment/report")
-    public ResponseEntity<Resource> downloadPaymentsExcel(@AuthenticationPrincipal ExpoAdmin expoAdmin, @PathVariable Long expoId) {
+    public ResponseEntity<Resource> downloadPaymentsExcel(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId) {
 
-        Long expoAdminId = expoAdmin.getExpoAdminId();
+        Long expoAdminId = expoAdmin.getId();
 
         List<PaymentResponseDto> paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId, null);
 
@@ -98,13 +99,13 @@ public class ExpoAdminController {
     // 환불 요청 관리, 환불 대기 관리, 환불 승인 관리
     @GetMapping("/expos/{expoId}/refund")
     public ResponseEntity<List<RefundResponseDto>> findAllRefunds(
-            @AuthenticationPrincipal ExpoAdmin expoAdmin,
+            @AuthenticationPrincipal CustomUserPrincipal expoAdmin,
             @PathVariable Long expoId,
             @RequestParam(required = false) String status,
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "7") Integer size) {
 
-        Long expoAdminId = expoAdmin.getExpoAdminId();
+        Long expoAdminId = expoAdmin.getId();
 
         List<RefundResponseDto> refundResponseDto = salesAdminService.findAllRefunds(expoAdminId, expoId, status, page, size);
 
@@ -173,56 +174,56 @@ public class ExpoAdminController {
 
     // 박람회 담당자 정보 조회
     @GetMapping("/profile")
-    public ResponseEntity<ManagerResponseDto> findExpoManagerInfo(@AuthenticationPrincipal ExpoAdmin expoAdmin) {
-        Long expoAdminId = expoAdmin.getExpoAdminId();
+    public ResponseEntity<ManagerResponseDto> findExpoManagerInfo(@AuthenticationPrincipal CustomUserPrincipal expoAdmin) {
+        Long expoAdminId = expoAdmin.getId();
         ManagerResponseDto responseDto = expoInfoService.findExpoManagerInfo(expoAdminId);
         return ResponseEntity.ok(responseDto);
     }
 
     // 박람회 담당자 정보 수정
     @PutMapping("/profile")
-    public ResponseEntity<Void> updateExpoManagerInfo(@AuthenticationPrincipal ExpoAdmin expoAdmin, @Valid @RequestBody ManagerRequestDto requestDto) {
-        Long expoAdminId = expoAdmin.getExpoAdminId();
+    public ResponseEntity<Void> updateExpoManagerInfo(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @Valid @RequestBody ManagerRequestDto requestDto) {
+        Long expoAdminId = expoAdmin.getId();
         expoInfoService.updateExpoManagerInfo(expoAdminId, requestDto);
         return ResponseEntity.ok().build();
     }
 
     // 특정 박람회 정보 조회
     @GetMapping("/expos/{expoId}")
-    public ResponseEntity<ExpoResponseDto> findExpoInfo(@AuthenticationPrincipal ExpoAdmin expoAdmin, @PathVariable Long expoId) {
-        Long expoAdminId = expoAdmin.getExpoAdminId();
+    public ResponseEntity<ExpoResponseDto> findExpoInfo(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId) {
+        Long expoAdminId = expoAdmin.getId();
         ExpoResponseDto responseDto = expoInfoService.findExpoInfo(expoAdminId, expoId);
         return ResponseEntity.ok(responseDto);
     }
 
     // 특정 박람회 정보 수정
     @PutMapping("/expos/{expoId}")
-    public ResponseEntity<Void> updateExpoInfo(@AuthenticationPrincipal ExpoAdmin expoAdmin, @PathVariable Long expoId, @Valid @RequestBody ExpoRequestDto requestDto) {
-        Long expoAdminId = expoAdmin.getExpoAdminId();
+    public ResponseEntity<Void> updateExpoInfo(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId, @Valid @RequestBody ExpoRequestDto requestDto) {
+        Long expoAdminId = expoAdmin.getId();
         expoInfoService.updateExpoInfo(expoAdminId, expoId, requestDto);
         return ResponseEntity.ok().build();
     }
 
     // 특정 박람회 배너 신청
     @PostMapping("/expos/{expoId}/banner")
-    public ResponseEntity<Void> createExpoBanner(@AuthenticationPrincipal ExpoAdmin expoAdmin, @PathVariable Long expoId, @Valid @RequestBody BannerCreateRequestDto requestDto) {
-        Long expoAdminId = expoAdmin.getExpoAdminId();
+    public ResponseEntity<Void> createExpoBanner(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId, @Valid @RequestBody BannerCreateRequestDto requestDto) {
+        Long expoAdminId = expoAdmin.getId();
         expoInfoService.createExpoBanner(expoAdminId, expoId, requestDto);
         return ResponseEntity.ok().build();
     }
 
     // 특정 박람회 배너 조회
     @GetMapping("/expos/{expoId}/banner")
-    public ResponseEntity<BannerResponseDto> findExpoBanner(@AuthenticationPrincipal ExpoAdmin expoAdmin, @PathVariable Long expoId) {
-        Long expoAdminId = expoAdmin.getExpoAdminId();
+    public ResponseEntity<BannerResponseDto> findExpoBanner(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId) {
+        Long expoAdminId = expoAdmin.getId();
         BannerResponseDto responseDto = expoInfoService.findExpoBanner(expoAdminId, expoId);
         return ResponseEntity.ok(responseDto);
     }
 
     // 특정 박람회 배너 수정
     @PutMapping("/expos/{expoId}/banner")
-    public ResponseEntity<Void> updateExpoBanner(@AuthenticationPrincipal ExpoAdmin expoAdmin, @PathVariable Long expoId, @Valid @RequestBody BannerUpdateRequestDto requestDto) {
-        Long expoAdminId = expoAdmin.getExpoAdminId();
+    public ResponseEntity<Void> updateExpoBanner(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId, @Valid @RequestBody BannerUpdateRequestDto requestDto) {
+        Long expoAdminId = expoAdmin.getId();
         expoInfoService.updateExpoBanner(expoAdminId, expoId, requestDto);
         return ResponseEntity.ok().build();
     }

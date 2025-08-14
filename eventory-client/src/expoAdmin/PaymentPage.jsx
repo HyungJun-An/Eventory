@@ -1,8 +1,8 @@
 import React from "react";
-import Element from "./sections/PaymentElement";
-import Group from "./sections/PaymentGroup";
-import SalesStats from "./sections/PaymentSalesStats";
-import "../assets/css/PaymentPage.css";
+import Element from "./sections/payment/PaymentElement";
+import Group from "./sections/payment/PaymentGroup";
+import SalesStats from "./sections/payment/PaymentSalesStats";
+import "../assets/css/payment/PaymentPage.css";
 
 const PaymentPage = ({ expoId }) => {
   return (

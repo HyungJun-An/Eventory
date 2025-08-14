@@ -1,14 +1,12 @@
 package com.eventory.expoAdmin.service;
 
-import com.eventory.common.entity.ExpoAdmin;
+import com.eventory.auth.security.CustomUserPrincipal;
 import com.eventory.expoAdmin.dto.*;
-import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
-import org.springframework.core.io.Resource;
 import java.util.List;
 
 public interface ExpoAdminService {
-    List<ExpoResponseDto> findAllExpos(ExpoAdmin expoAdmin);
+    List<ExpoResponseDto> findAllExpos(Long expoAdminId);
 
     DashboardResponseDto findDashboardSummary(Long expoId);
 
