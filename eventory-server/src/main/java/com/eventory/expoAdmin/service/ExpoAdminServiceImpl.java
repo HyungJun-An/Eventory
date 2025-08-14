@@ -1,5 +1,6 @@
 package com.eventory.expoAdmin.service;
 
+import com.eventory.auth.security.CustomUserPrincipal;
 import com.eventory.common.entity.*;
 import com.eventory.expoAdmin.dto.*;
 import com.eventory.common.repository.*;
@@ -31,13 +32,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 해당 박람회 관리자에 속하는 전체 박람회 목록
     @Override
-    public List<ExpoResponseDto> findAllExpos(ExpoAdmin expoAdmin) {
-
-        if (expoAdmin == null || expoAdmin.getExpoAdminId() == null) {
-            throw new CustomException(CustomErrorCode.NOT_FOUND_EXPO_ADMIN);
-        }
-
-        Long expoAdminId = expoAdmin.getExpoAdminId();
+    public List<ExpoResponseDto> findAllExpos(Long expoAdminId) {
 
         // 연관관계 ExpoAdmin의 기본키(expoAdminId)로 Expo 조회 및 제목(title) 오름차순 정렬
         List<Expo> expos = expoRepository.findByExpoAdminIdAndStatusOrderByTitleAsc(expoAdminId, ExpoStatus.APPROVED);
