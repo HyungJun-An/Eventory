@@ -1,6 +1,4 @@
-import React from "react";
-import WebsiteLogos from "../components/WebsiteLogos";
-import "../assets/css/Dashboard.css";
+import "../assets/css/Dashboard/Dashboard.css";
 
 const Dashboard = () => {
   return (

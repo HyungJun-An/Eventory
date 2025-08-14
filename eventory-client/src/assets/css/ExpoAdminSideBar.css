@@ -1,4 +1,4 @@
-.sideBar {
+.expoadmin-sideBar {
   height: 409px;
   left: 0;
   position: absolute;
@@ -6,7 +6,7 @@
   width: 183px;
 }
 
-.sideBar .div-2 {
+.expoadmin-sideBar .div-2 {
   height: 25px;
   left: 44px;
   position: absolute;
@@ -14,7 +14,7 @@
   width: 124px;
 }
 
-.sideBar .img {
+.expoadmin-sideBar .img {
   height: 25px;
   left: 0;
   position: absolute;
@@ -22,7 +22,7 @@
   width: 25px;
 }
 
-.sideBar .text-wrapper {
+.expoadmin-sideBar .text-wrapper {
   color: #343a4080;
   font-family: var(--heading-three-medium-18p-font-family);
   font-size: var(--heading-three-medium-18p-font-size);
@@ -34,7 +34,7 @@
   position: absolute;
 }
 
-.sideBar .div-3 {
+.expoadmin-sideBar .div-3 {
   height: 25px;
   left: 44px;
   position: absolute;
@@ -42,7 +42,7 @@
   width: 124px;
 }
 
-.sideBar .text-wrapper-2 {
+.expoadmin-sideBar .text-wrapper-2 {
   color: #343a4080;
   font-family: "Inter", Helvetica;
   font-size: 18px;
@@ -51,7 +51,7 @@
   position: absolute;
 }
 
-.sideBar .div-4 {
+.expoadmin-sideBar .div-4 {
   height: 26px;
   left: 43px;
   position: absolute;
@@ -59,7 +59,7 @@
   width: 125px;
 }
 
-.sideBar .credit-card {
+.expoadmin-sideBar .credit-card {
   height: 26px;
   left: 0;
   position: absolute;
@@ -67,7 +67,7 @@
   width: 26px;
 }
 
-.sideBar .text-wrapper-3 {
+.expoadmin-sideBar .text-wrapper-3 {
   color: #007bff;
   font-family: "Inter", Helvetica;
   font-size: 18px;
@@ -76,7 +76,7 @@
   position: absolute;
 }
 
-.sideBar .div-5 {
+.expoadmin-sideBar .div-5 {
   height: 25px;
   left: 43px;
   position: absolute;
@@ -84,7 +84,7 @@
   width: 125px;
 }
 
-.sideBar .text-wrapper-4 {
+.expoadmin-sideBar .text-wrapper-4 {
   color: #343a4080;
   font-family: "Inter", Helvetica;
   font-size: 18px;
@@ -94,7 +94,7 @@
   position: absolute;
 }
 
-.sideBar .div-6 {
+.expoadmin-sideBar .div-6 {
   height: 25px;
   left: 43px;
   position: absolute;
@@ -102,7 +102,7 @@
   width: 125px;
 }
 
-.sideBar .text-wrapper-5 {
+.expoadmin-sideBar .text-wrapper-5 {
   color: #343a4080;
   font-family: "Inter", Helvetica;
   font-size: 18px;
@@ -115,7 +115,7 @@
   overflow: hidden; 
 }
 
-.sideBar .div-7 {
+.expoadmin-sideBar .div-7 {
   height: 25px;
   left: 44px;
   position: absolute;
@@ -123,7 +123,7 @@
   width: 141px;
 }
 
-.sideBar .text-wrapper-6 {
+.expoadmin-sideBar .text-wrapper-6 {
   color: #343a4080;
   font-family: "Inter", Helvetica;
   font-size: 18px;
@@ -133,14 +133,14 @@
   position: absolute;
 }
 
-.sideBar .div-8 {
+.expoadmin-sideBar .div-8 {
   height: 25px;
   left: 44px;
   position: absolute;
   width: 120px;
 }
 
-.sideBar .rectangle {
+.expoadmin-sideBar .rectangle {
   background-color: #007bff;
   border-radius: 0px 10px 10px 0px;
   height: 60px;
