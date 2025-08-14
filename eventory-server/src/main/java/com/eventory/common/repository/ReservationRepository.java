@@ -65,8 +65,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     FROM reservation r
     WHERE r.expo.expoId = :expoId
       AND (:code IS NULL OR r.code = :code)
-      AND (:startDate IS NULL OR r.paidAt >= :startDate)
-      AND (:endDate IS NULL OR r.paidAt <= :endDate)
+      AND (:startDate IS NULL OR r.payment.paidAt >= :startDate)
+      AND (:endDate IS NULL OR r.payment.paidAt <= :endDate)
     """)
     Page<Reservation> findByExpoIdAndReservationCode(@Param("expoId") Long expoId,
                                                      @Param("code") String code,
