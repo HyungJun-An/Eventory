@@ -11,6 +11,7 @@ import RegisterPage from './user/UserRegistration';
 import Main, { UserMainPage } from './user/userMain';
 import Navbar from './components/Navbar';
 import MainLayout from './components/MainLayout';
+import { SysExpoList } from './systemAdmin/SysExpoList';
 function App() {
 
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/signup" element={<RegisterPage />} />
         </Route>
         <Route path="/" element={<UserMainPage />} />
+        <Route path="/sys/expos" element={<SysExpoList />} />
       </Routes>
     </BrowserRouter>
   )
