@@ -1,9 +1,9 @@
 import React from "react";
-import "../../assets/css/RefundGroup.css";
+import "../../../assets/css/refund/RefundGroupWrapper.css";
 
-const RefundGroup = () => {
+const RefundGroupWrapper = () => {
   return (
-    <div className="refund-group">
+    <div className="refund-group-wrapper" data-model-id="11051:3063">
       <div className="text-wrapper-26">전체 내역</div>
 
       <div className="text-wrapper-27">환불 대기</div>
@@ -19,4 +19,4 @@ const RefundGroup = () => {
   );
 };
 
-export default RefundGroup;
+export default RefundGroupWrapper;

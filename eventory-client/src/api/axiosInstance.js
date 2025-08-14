@@ -14,7 +14,7 @@ import qs from "qs";
 const mode = import.meta.env.VITE_MODE;
 
 const api = axios.create({
-  baseURL: mode === "prod" ? "https://localhost:8080/api" : "/api",
+  baseURL: mode === "prod" ? "https://eventory.kro.kr:8080/api" : "/api",
   withCredentials: true,
   paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
 });

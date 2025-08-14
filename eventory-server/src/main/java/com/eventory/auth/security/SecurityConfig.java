@@ -35,7 +35,7 @@ public class SecurityConfig {
                         // 인증 없이 접근 허용
                         .requestMatchers(
                                 "/api/admin/login", "/api/admin/sys/login",
-                                "/api/auth/login", "/api/auth/register", "/api/auth/refresh",
+                                "/api/auth/login", "/api/auth/signup", "/api/auth/refresh",
                                 "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**",
                                 "/webjars/**", "/favicon.ico", "/error",
                                 "/api/user/expos", "/api/user/expos/**",
@@ -70,7 +70,13 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("http://localhost:5173", "https://localhost")); // 프론트 주소
+        config.setAllowedOriginPatterns(List.of(
+                "http://localhost:5173",
+                "http://localhost:8080",
+                "https://localhost",
+                "https://eventory.kro.kr",      // 포트 없이 도메인만
+                "https://eventory.kro.kr:8080"  // 명시적으로 포트 포함
+        ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // 크리덴셜 허용

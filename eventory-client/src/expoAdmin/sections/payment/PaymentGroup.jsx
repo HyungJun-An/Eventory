@@ -1,5 +1,5 @@
 import React from "react";
-import "../../assets/css/PaymentGroup.css";
+import "../../../assets/css/payment/PaymentGroup.css";
 
 const PaymentGroup = () => {
   return (

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import api from "../../api/axiosInstance";
-import WebsiteLogos from "../../components/WebsiteLogos";
-import "../../assets/css/Header.css";
+import api from "../api/axiosInstance";
+import WebsiteLogos from "./WebsiteLogos";
+import "../assets/css/Header.css";
 
 const Header = ({ expoId, setExpoId }) => {
   const [expos, setExpos] = useState([]);
