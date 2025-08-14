@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from 'recharts';
 import api from "../../../api/axiosInstance";
-import "../../../assets/css/Revenue/RevenueSalesChart.css";
+import "../../../assets/css/revenue/RevenueSalesChart.css";
 
 const RevenueSalesChart = ({ expoId }) => {
   const [dailyData, setDailyData] = useState([]);

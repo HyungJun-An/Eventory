@@ -2,7 +2,7 @@ import React from "react";
 import Element from "./sections/refund/RefundElement";
 import Group from "./sections/refund/RefundGroup";
 import SalesStats from "./sections/refund/RefundSalesStats";
-import "../assets/css/Refund/RefundPage.css";
+import "../assets/css/refund/RefundPage.css";
 
 const RefundPage = ({ expoId }) => {
   return (

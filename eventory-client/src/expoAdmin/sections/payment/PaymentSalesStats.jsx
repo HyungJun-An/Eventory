@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from "../../../api/axiosInstance";
-import "../../../assets/css/Payment/PaymentSalesStats.css";
+import "../../../assets/css/payment/PaymentSalesStats.css";
 
  const PaymentSalesStats = ({ expoId }) => {
   const [data, setData] = useState(null);
