@@ -25,7 +25,7 @@ const UserRegistration = () => {
                                 onClick={() => handleUserTypeSelect('company')}
                             >
                                 <img
-                                    src="https://c.animaapp.com/me6rzqglc3Fy3X/img/peoples-user-business.svg"
+                                    src= '/src/assets/img/peoples-user-business.svg'
                                     alt="Company"
                                     className="user-type-icon"
                                 />
@@ -43,7 +43,7 @@ const UserRegistration = () => {
                                 onClick={() => handleUserTypeSelect('customer')}
                             >
                                 <img
-                                    src="https://c.animaapp.com/me6rzqglc3Fy3X/img/base-mail-1.svg"
+                                    src="/src/assets/img/base-mail-1.svg"
                                     alt="Customer"
                                     className="user-type-icon"
                                 />
@@ -53,7 +53,7 @@ const UserRegistration = () => {
 
                         <div className="login-link">
                           <span className="login-text">Already have an account?</span>
-                          <Link to="/" className="login-link-text">Log In</Link>
+                          <Link to="/login" className="login-link-text">Log In</Link>
                         </div>
                     </div>
                 </div>

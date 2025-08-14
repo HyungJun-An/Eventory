@@ -4,6 +4,9 @@
   ENV NODE_ENV=development
 
   WORKDIR /app
+  #환경변수 설정
+  ARG VITE_MODE=prod
+  ENV VITE_MODE=${VITE_MODE}
 
   COPY package*.json ./
   RUN npm install

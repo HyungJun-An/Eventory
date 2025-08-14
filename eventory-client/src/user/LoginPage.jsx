@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import "../assets/css/LoginPage.css";
 import api from '../api/axiosInstance';
+import Register from './Register';
+
 export const LoginPage = () => {
   const [formData, setFormData] = useState({
     customerId: "",
@@ -116,7 +119,7 @@ export const LoginPage = () => {
 
             <p className="signup-link">
               <span className="signup-text">Don't have an account? </span>
-              <a href="#" className="signup-link-text">Sign Up</a>
+              <Link to="/register" className="signup-link-text">Sign Up</Link>
             </p>
           </form>
         </div>
