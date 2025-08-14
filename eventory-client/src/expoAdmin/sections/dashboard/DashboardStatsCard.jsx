@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import api from "../../api/axiosInstance";
+import api from "../../../api/axiosInstance";
 import {
   PageViewIcon,
   ReservationIcon,
   EntranceRateIcon,
 } from "./DashboardStatsIcons";
-import "../../assets/css/DashboardStatsCard.css";
+import "../../../assets/css/dashboard/DashboardStatsCard.css";
 
 // ──────────────────────────────────────────────────────────────
 // 간단 캐시: 같은 expoId에 대해 카드 3개가 동시에 마운트되어도

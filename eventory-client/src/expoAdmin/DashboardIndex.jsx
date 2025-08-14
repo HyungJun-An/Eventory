@@ -4,9 +4,9 @@ import {
   PageViewsCard,
   TotalReservationsCard,
   EntranceRateCard,
-} from "./sections/DashboardStatsCard.jsx";
-import ChartSection from "./sections/DashboardChartSection.jsx";
-import "../assets/css/DashboardIndex.css";
+} from "./sections/dashboard/DashboardStatsCard.jsx";
+import ChartSection from "./sections/dashboard/DashboardChartSection.jsx";
+import "../assets/css/dashboard/DashboardIndex.css";
 
 // 수정 완료되면 DashboardPage.jsx 로 변경 예정
 function DashboardIndex() {

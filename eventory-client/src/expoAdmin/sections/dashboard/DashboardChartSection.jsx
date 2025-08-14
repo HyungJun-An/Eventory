@@ -11,8 +11,8 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import api from "../../api/axiosInstance";
-import "../../assets/css/DashboardChartSection.css";
+import api from "../../../api/axiosInstance";
+import "../../../assets/css/dashboard/DashboardChartSection.css";
 
 function DashboardChartSection() {
   const [period, setPeriod] = useState("daily");
