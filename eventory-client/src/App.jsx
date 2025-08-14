@@ -6,12 +6,12 @@ import PaymentPage from './expoAdmin/PaymentPage';
 import RefundPage from './expoAdmin/RefundPage';
 import AdminLayout from './expoAdmin/sections/AdminLayout';
 import Dashboard from './expoAdmin/DashboardPage';
-import LoginPage from './user/LoginPage';
-import RegisterPage from './user/UserRegistration';
+import LoginPage from './auth/LoginPage';
+import RegisterPage from './auth/UserRegistration';
 import { UserMainPage } from './user/userMain';
 import MainLayout from './components/MainLayout';
-import RegisterCompany from './user/RegisterCompany';
-import RegisterCustomer from './user/RegisterCustomer';
+import RegisterCompany from './auth/RegisterCompany';
+import RegisterCustomer from './auth/RegisterCustomer';
 
 function App() {
   return (
