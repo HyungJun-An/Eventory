@@ -10,8 +10,8 @@ import LoginPage from './user/LoginPage';
 import RegisterPage from './user/UserRegistration';
 import { UserMainPage } from './user/userMain';
 import MainLayout from './components/MainLayout';
-import RegisterCompany from './user/RegisterCompany';
-import RegisterCustomer from './user/RegisterCustomer';
+import RegisterCompany from './auth/RegisterCompany';
+import RegisterCustomer from './auth/RegisterCustomer';
 
 function App() {
   return (
