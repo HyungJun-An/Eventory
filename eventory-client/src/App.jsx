@@ -8,13 +8,11 @@ import AdminLayout from './expoAdmin/sections/AdminLayout';
 import Dashboard from './expoAdmin/DashboardPage';
 import LoginPage from './user/LoginPage';
 import RegisterPage from './user/UserRegistration';
-import Main, { UserMainPage } from './user/userMain';
-import Navbar from './components/Navbar';
+import { UserMainPage } from './user/userMain';
 import MainLayout from './components/MainLayout';
 import Register from './user/Register';
 
 function App() {
-
   return (
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
@@ -23,11 +21,11 @@ function App() {
         <Route path="/admin/payment" element={<AdminLayout><PaymentPage /></AdminLayout>} />
         <Route path="/admin/refund" element={<AdminLayout><RefundPage /></AdminLayout>} />
         <Route element={<MainLayout />}>
+          <Route path="/" element={<UserMainPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<RegisterPage />} />
           <Route path="/register" element={<Register />} />
         </Route>
-        <Route path="/" element={<UserMainPage />} />
       </Routes>
     </BrowserRouter>
   )

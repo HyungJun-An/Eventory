@@ -1,32 +1,69 @@
-import React from "react";
+// src/user/userMain.jsx
+import React, { useEffect, useMemo, useState } from "react";
+import api from "../api/axiosInstance";
+import BannerCarousel from "../components/BannerCarousel";
+import ExpoCardList from "../components/ExpoCardList";
 import "../assets/css/UserMain.css";
 
+import banner1 from '../assets/demo/busanExpo.jpg';
+import banner2 from '../assets/demo/AiKorea.jpg';
+import banner3 from '../assets/demo/greenEnergy.jpg';
+
+import HeroSection from "../components/HeroSection";
+import Footer from "../components/Footer";
+
 export const UserMainPage = () => {
+  const [expos, setExpos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  // const base = import.meta.env.BASE_URL;
+
+  // Banner images (public/demo/*)
+  const bannerImages = [banner1, banner2, banner3];
+
+  useEffect(() => {
+    let mounted = true;
+    api.get("/user/expos")
+      .then(({ data }) => {
+        if (!mounted) return;
+        setExpos(Array.isArray(data) ? data : data?.items || []);
+      })
+      .catch(() => {
+        // 데모 데이터 (백엔드 미연동시 화면 확인용)
+        setExpos([
+          { id: 1, title: "World EXPO 2030", image_url: "/demo/busanExpo.jpg", start_date: "2025-08-20", end_date: "2025-09-20", location: "Busan" },
+          { id: 2, title: "AI & Robotics Fair", image_url: "/demo/AiKorea.jpg", start_date: "2025-10-05", end_date: "2025-10-09", location: "Seoul" },
+          { id: 3, title: "Green Energy Expo", image_url: "/demo/greenEnergy.jpg", start_date: "2025-07-01", end_date: "2025-08-30", location: "Busan" },
+        ]);
+      })
+      .finally(() => setLoading(false));
+    return () => { mounted = false; };
+  }, []);
+
+  const now = new Date();
+  const currentExpos = useMemo(() => expos.filter(e => {
+    const s = new Date(e.startDate || e.start_date);
+    const ed = new Date(e.endDate || e.end_date);
+    return !Number.isNaN(s.getTime()) && !Number.isNaN(ed.getTime()) && s <= now && now <= ed;
+  }), [expos]);
+
+  const upcomingExpos = useMemo(() => expos.filter(e => {
+    const s = new Date(e.startDate || e.start_date);
+    return !Number.isNaN(s.getTime()) && s > now;
+  }), [expos]);
+
   return (
     <div className="user-screen">
-      <div className="container">
-        {/* Hero Section */}
-        <img
-          className="hero-image"
-          alt="Hero"
-          src="https://c.animaapp.com/me6sahcjqNWWBm/img/frame-54.png"
-        />
+      <div className="userMain__container">
+        {/* 상단 파란 영역(필요 없으면 이 블록 삭제) */}
+        <HeroSection />
 
-        {/* Main Content Image */}
-        <img
-          className="main-content"
-          alt="Main Content"
-          src="https://c.animaapp.com/me6sahcjqNWWBm/img/frame-1171279273.png"
-        />
 
-        {/* Secondary Content */}
-        <img
-          className="secondary-content"
-          alt="Secondary Content"
-          src="https://c.animaapp.com/me6sahcjqNWWBm/img/frame-1171279566.png"
-        />
+        {/* Banner (캐러셀) */}
+        <div className="main-content">
+          <BannerCarousel images={bannerImages} />
+        </div>
 
-        {/* Benefits Section */}
+        {/* Our Benefits */}
         <div className="benefits-section">
           <div className="benefits-header">
             <div className="section-title">Our Benefits</div>
@@ -104,9 +141,18 @@ export const UserMainPage = () => {
           </div>
         </div>
 
-        {/* Steps Section */}
+        {/* Time is Running Out! (현재 진행) */}
+        <div className="expo-lists">
+          <ExpoCardList
+            title="Time is Running Out!"
+            items={currentExpos}
+            onItemClick={(expo) => console.log("click expo", expo)}
+          />
+        </div>
+
+        {/* 4 Easy Steps To Buy a Ticket */}
         <div className="steps-wrapper">
-          <div className="steps-section">
+          <div className="steps-section" >
             <div className="steps-header">
               <div className="steps-info">
                 <p className="steps-title">4 Easy Steps To Buy a Ticket!</p>
@@ -114,7 +160,6 @@ export const UserMainPage = () => {
                   Get Familiar with our 4 easy working process
                 </p>
               </div>
-              <button className="buy-ticket-btn">Buy Ticket</button>
             </div>
 
             <div className="steps-content">
@@ -127,9 +172,9 @@ export const UserMainPage = () => {
                       src="https://c.animaapp.com/me6sahcjqNWWBm/img/20944608-1-1.svg"
                     />
                     <div className="step-content">
-                      <div className="step-title">Choose A Concert</div>
+                      <div className="step-title">Choose A Expo</div>
                       <p className="step-description">
-                        You can see concert tickets in our website and check
+                        You can see expo tickets in our website and check
                         which one is good for you.
                       </p>
                     </div>
@@ -144,7 +189,7 @@ export const UserMainPage = () => {
                     <div className="step-content">
                       <div className="step-title">Choose Date & Time</div>
                       <p className="step-description">
-                        You Can check date and time of your favorite concert in
+                        You Can check date and time of your favorite expo in
                         our website
                       </p>
                     </div>
@@ -172,7 +217,7 @@ export const UserMainPage = () => {
                     <div className="step-title">Download Your Ticket!</div>
                     <p className="step-description">
                       After completing checkout process you can download your
-                      ticket and get ready for concert
+                      ticket and get ready for expo
                     </p>
                   </div>
                 </div>
@@ -181,167 +226,27 @@ export const UserMainPage = () => {
           </div>
         </div>
 
+<div className="expo-lists">
+        {upcomingExpos.length > 0 ? (
+  <ExpoCardList
+    title="Upcoming Expos"
+    items={upcomingExpos}
+    onItemClick={(expo) => console.log("click expo", expo)}
+  />
+) : (
+  <div className="expo-empty">No upcoming expos right now.</div>
+)}
+
+        {loading && (
+          <div style={{ textAlign: "center", padding: "8px 0", color: "#546179" }}>
+            Loading...
+          </div>
+        )}
+</div>
         {/* Footer */}
-        <img
-          className="footer"
-          alt="Footer"
-          src="https://c.animaapp.com/me6sahcjqNWWBm/img/footer.svg"
-        />
+        <Footer />
 
-        {/* FAQ Section */}
-        <div className="faq-wrapper">
-          <div className="faq-section">
-            <div className="faq-left">
-              <div className="faq-title">Frequent ly Asked Questions</div>
-              <div className="faq-contact">
-                <div className="contact-info">
-                  <div className="contact-item">
-                    <div className="contact-icon">
-                      <img
-                        alt="Mail"
-                        src="https://c.animaapp.com/me6sahcjqNWWBm/img/base-mail.svg"
-                      />
-                    </div>
-                    <div className="contact-text">helpcenter@ticketer.com</div>
-                  </div>
-
-                  <div className="contact-item">
-                    <div className="contact-icon">
-                      <img
-                        alt="Phone"
-                        src="https://c.animaapp.com/me6sahcjqNWWBm/img/base-phone-telephone.svg"
-                      />
-                    </div>
-                    <div className="contact-text">(010) 123-4567</div>
-                  </div>
-                </div>
-
-                <div className="contact-cta">
-                  <div className="cta-title">Still Have Questions?</div>
-                  <p className="cta-description">
-                    Can't find the answer you're looking for? Please contact our
-                    help center.
-                  </p>
-                  <button className="contact-btn">Contact Us</button>
-                </div>
-              </div>
-            </div>
-
-            <div className="faq-right">
-              <div className="faq-list">
-                <div className="faq-item expanded">
-                  <div className="faq-question">
-                    <p className="question-text">
-                      I haven't received any order confirmation yet. Did my
-                      booking go through?
-                    </p>
-                    <img
-                      className="arrow-icon"
-                      alt="Arrow Up"
-                      src="https://c.animaapp.com/me6sahcjqNWWBm/img/arrows-up-c.svg"
-                    />
-                  </div>
-                  <p className="faq-answer">
-                    Lorem ipsum dolor sit amet consectetur. Eleifend nunc habi
-                    loremut egestas. Convallis praesent egestas suscipit
-                    hendrerit sem eualiquet feugiat. Amet vulputate rhoncus
-                    falectus duis in ultricies pharetra.
-                  </p>
-                  <div className="divider" />
-                </div>
-
-                <div className="faq-item">
-                  <div className="faq-question">
-                    <p className="question-text">
-                      I am not able/do not want to attend an already booked
-                      event for personal reasons. Is there a possibility to
-                      cancel/rebook the tickets?
-                    </p>
-                    <img
-                      className="arrow-icon"
-                      alt="Arrow Down"
-                      src="https://c.animaapp.com/me6sahcjqNWWBm/img/arrows-down-c.svg"
-                    />
-                  </div>
-                  <div className="divider" />
-                </div>
-
-                <div className="faq-item">
-                  <div className="faq-question">
-                    <p className="question-text">
-                      I lost my e-Ticket. What can I do?
-                    </p>
-                    <img
-                      className="arrow-icon"
-                      alt="Arrow Down"
-                      src="https://c.animaapp.com/me6sahcjqNWWBm/img/arrows-down-c.svg"
-                    />
-                  </div>
-                  <div className="divider" />
-                </div>
-
-                <div className="faq-item">
-                  <div className="faq-question">
-                    <p className="question-text">
-                      An event was canceled/postponed/relocated, and I am not
-                      able/do not want to attend the event. Is it possible to
-                      cancel my tickets?
-                    </p>
-                    <img
-                      className="arrow-icon"
-                      alt="Arrow Down"
-                      src="https://c.animaapp.com/me6sahcjqNWWBm/img/arrows-down-c.svg"
-                    />
-                  </div>
-                  <div className="divider" />
-                </div>
-
-                <div className="faq-item last">
-                  <div className="faq-question">
-                    <p className="question-text">
-                      I've already ordered tickets and now want to add another
-                      one. Is it possible yet to sit together?
-                    </p>
-                    <img
-                      className="arrow-icon"
-                      alt="Arrow Down"
-                      src="https://c.animaapp.com/me6sahcjqNWWBm/img/arrows-down-c.svg"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <button className="read-more-btn">Read More</button>
-            </div>
-          </div>
-        </div>
-
-        {/* Sponsors Section */}
-        <div className="sponsors-section">
-          <img
-            className="sponsor-logo"
-            alt="Minty"
-            src="https://c.animaapp.com/me6sahcjqNWWBm/img/v1032-v547-minty-11-logo-1.png"
-          />
-          <img
-            className="sponsor-logo"
-            alt="Preview"
-            src="https://c.animaapp.com/me6sahcjqNWWBm/img/preview-1.png"
-          />
-          <div className="sponsor-placeholder" />
-          <div className="sponsor-placeholder" />
-          <div className="sponsor-placeholder" />
-          <div className="sponsor-placeholder" />
-          <div className="sponsor-placeholder" />
-          <div className="sponsor-placeholder" />
-        </div>
-
-        {/* Carousel */}
-        <img
-          className="carousel"
-          alt="Expo carousel"
-          src="https://c.animaapp.com/me6sahcjqNWWBm/img/expo-carousel.svg"
-        />
+        {/* FAQ / Sponsors 필요 시 아래로 이동 */}
       </div>
     </div>
   );
