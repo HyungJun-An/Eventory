@@ -33,8 +33,20 @@ public class SystemAdminService {
 	public Page<SysExpoResponseDto> findAllSysExpoPages(String status, String title, int page, int size) {
 		
 		Pageable pageable = PageRequest.of(page, size);
+		Page<Expo> expoPage;
 		
-		Page<Expo> expoPage = expoRepository.findAll(pageable);
+		if(status != null && !status.isBlank()) {
+			if(title != null && !title.isBlank()) {
+				expoPage = expoRepository.findByStatusAndTitleContaining(ExpoStatus.valueOf(status), title, pageable);
+			} else {
+				expoPage = expoRepository.findByStatus(ExpoStatus.valueOf(status), pageable);				
+			}
+		} else if(title != null && !title.isBlank()) {
+			expoPage = expoRepository.findByTitleContaining(title, pageable);
+		}
+		else {
+			expoPage = expoRepository.findAll(pageable);			
+		}
 		
 		return expoPage.map(expo -> {
 			ExpoCategory expoCategory = expoCategoryRepository.findByExpo(expo).orElseThrow(() -> new CustomException(CustomErrorCode.CATEGORY_NOT_FOUND));
