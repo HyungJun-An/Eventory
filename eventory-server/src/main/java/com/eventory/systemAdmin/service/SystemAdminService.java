@@ -80,8 +80,13 @@ public class SystemAdminService {
 	public Page<SysExpoAdminResponseDto> findAllExpoAdminPages(String keyword, int page, int size) {
 		
 		Pageable pageable = PageRequest.of(page, size);
+		Page<ExpoAdmin> expoAdminPage;
 		
-		Page<ExpoAdmin> expoAdminPage = expoAdminRepository.findAll(pageable);
+		if(keyword != null && !keyword.isBlank()) {
+			expoAdminPage = expoAdminRepository.findByNameContainingOrPhoneContainingOrEmailContaining(keyword, keyword, keyword, pageable);
+		} else {
+			expoAdminPage = expoAdminRepository.findAll(pageable);
+		}
 		
 		return expoAdminPage.map(admin -> {
 			Expo lastExpo = expoRepository.findFirstByExpoAdminOrderByCreatedAtDesc(admin).orElse(null);
