@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import {
   BarChart,
   Bar,
@@ -15,12 +16,33 @@ import api from "../../../api/axiosInstance";
 import "../../../assets/css/dashboard/DashboardChartSection.css";
 
 function DashboardChartSection() {
+  const { expoId } = useParams(); // URL에서 :expoId 값 가져옴
   const [period, setPeriod] = useState("daily");
   const [reservationData, setReservationData] = useState([]);
   const [ticketTypeData, setTicketTypeData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const expoId = 1; // TODO: 필요에 따라 props나 useParams로 치환 권장
+  // ---- 파일 다운로드 공통 유틸 (단일 선언) ----
+  function getFilenameFromDisposition(disposition, fallbackName) {
+    if (!disposition) return fallbackName;
+    // RFC 5987: filename*=UTF-8''...
+    const utf8Match = /filename\*\s*=\s*UTF-8''([^;]+)/i.exec(disposition);
+    if (utf8Match && utf8Match[1]) {
+      try {
+        return decodeURIComponent(utf8Match[1]);
+      } catch {
+        /* ignore */
+      }
+    }
+    // 일반 filename="..."
+    const asciiMatch =
+      /filename\s*=\s*"(.*?)"/i.exec(disposition) ||
+      /filename\s*=\s*([^;]+)/i.exec(disposition);
+    if (asciiMatch && asciiMatch[1]) {
+      return String(asciiMatch[1]).replace(/['"]/g, "").trim();
+    }
+    return fallbackName;
+  }
 
   // 예약 현황 데이터 가져오기
   const fetchReservationData = async (selectedPeriod) => {
@@ -76,70 +98,78 @@ function DashboardChartSection() {
     setPeriod(newPeriod);
   };
 
-  // 서버가 내려주는 Content-Disposition에서 파일명 파싱
-  const getFilenameFromDisposition = (disposition, fallback) => {
-    try {
-      if (!disposition) return fallback;
-      // filename*=UTF-8''... 우선 처리
-      const utf8Match = disposition.match(/filename\*\s*=\s*UTF-8''([^;]+)/i);
-      if (utf8Match) return decodeURIComponent(utf8Match[1]);
-
-      const asciiMatch = disposition.match(/filename\s*=\s*"?([^";]+)"?/i);
-      if (asciiMatch) return asciiMatch[1];
-
-      return fallback;
-    } catch {
-      return fallback;
-    }
-  };
-
-  // CSV 다운로드 (인증 포함)
+  // ---- CSV 다운로드 (백엔드: /api/admin/expos/{expoId}/dashboard/{period}/csv) ----
   const downloadCSV = async () => {
     try {
-      const res = await api.get(
-        `/admin/expos/${expoId}/dashboard/${period}/csv`,
-        { responseType: "blob" }
-      );
+      const urlPath = `/admin/expos/${expoId}/dashboard/${period}/csv`;
+      const res = await api.get(urlPath, {
+        responseType: "blob",
+        headers: { Accept: "text/csv; charset=UTF-8" },
+        // withCredentials: true, // 쿠키 세션이면 활성화
+      });
+
       const disposition = res.headers?.["content-disposition"];
       const fileName = getFilenameFromDisposition(
         disposition,
         `reservation_${period}_data.csv`
       );
-      const url = window.URL.createObjectURL(new Blob([res.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", fileName);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+
+      const blob = new Blob([res.data], { type: "text/csv;charset=utf-8" });
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.setAttribute("download", fileName);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(blobUrl);
     } catch (error) {
-      console.error("CSV download failed:", error);
+      if (error?.response?.status === 401 || error?.response?.status === 403) {
+        console.error("인증 오류로 CSV 다운로드 실패:", error);
+      } else {
+        console.error("CSV download failed:", error);
+      }
     }
   };
 
-  // 엑셀 다운로드 (인증 포함)
+  // ---- 엑셀 다운로드 (백엔드: /api/admin/expos/{expoId}/dashboard/{period}/excel) ----
   const downloadExcel = async () => {
     try {
-      const res = await api.get(
-        `/admin/expos/${expoId}/dashboard/${period}/excel`,
-        { responseType: "blob" }
-      );
+      const urlPath = `/admin/expos/${expoId}/dashboard/${period}/excel`;
+      const res = await api.get(urlPath, {
+        responseType: "blob",
+        headers: {
+          Accept:
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        },
+        // withCredentials: true, // 쿠키 세션이면 활성화
+      });
+
       const disposition = res.headers?.["content-disposition"];
       const fileName = getFilenameFromDisposition(
         disposition,
         `reservation_${period}_data.xlsx`
       );
-      const url = window.URL.createObjectURL(new Blob([res.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", fileName);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+
+      const blob = new Blob([res.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.setAttribute("download", fileName);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(blobUrl);
     } catch (error) {
-      console.error("Excel download failed:", error);
+      if (error?.response?.status === 401 || error?.response?.status === 403) {
+        console.error("인증 오류로 Excel 다운로드 실패:", error);
+      } else {
+        console.error("Excel download failed:", error);
+      }
     }
   };
 

@@ -7,7 +7,7 @@ import ChartSection from "./sections/dashboard/DashboardChartSection.jsx";
 import "../assets/css/dashboard/DashboardIndex.css";
 
 // 수정 완료되면 DashboardPage.jsx 로 변경 예정
-function DashboardIndex() {
+const DashboardIndex = ({ expoId }) => {
   return (
     <div className="dashboard-index main-container">
       <div className="content-wrapper">
@@ -16,18 +16,18 @@ function DashboardIndex() {
           <div className="content-padding">
             {/* Stats Cards Row */}
             <div className="stats-grid">
-              <PageViewsCard />
-              <TotalReservationsCard />
-              <EntranceRateCard />
+              <PageViewsCard expoId={expoId} />
+              <TotalReservationsCard expoId={expoId} />
+              <EntranceRateCard expoId={expoId} />
             </div>
 
             {/* Charts Section */}
-            <ChartSection />
+            <ChartSection expoId={expoId} />
           </div>
         </main>
       </div>
     </div>
   );
-}
+};
 
 export default DashboardIndex;
