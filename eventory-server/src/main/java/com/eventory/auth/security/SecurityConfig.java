@@ -35,7 +35,7 @@ public class SecurityConfig {
                         // 인증 없이 접근 허용
                         .requestMatchers(
                                 "/api/admin/login", "/api/admin/sys/login",
-                                "/api/auth/login", "/api/auth/register", "/api/auth/refresh",
+                                "/api/auth/login", "/api/auth/signup", "/api/auth/refresh",
                                 "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**",
                                 "/webjars/**", "/favicon.ico", "/error",
                                 "/api/user/expos", "/api/user/expos/**",

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import '../assets/css/Register.css'
+import React, { useEffect, useState } from "react";
+import '../assets/css/auth/Register.css'
 import api from '../api/axiosInstance';
 
 const RegisterForm = () => {
@@ -8,49 +8,75 @@ const RegisterForm = () => {
     name: "",
     email: "",
     password: "",
+    passVisible: false,
     confirmPassword: "",
+    confirmVisible: false,
     birth: "",
     gender: "",
-    phoneNumber: "",
+    phone: "",
     typeId: 4,
   });
 
+  useEffect(() => {
+    handleChange
+  })
+  
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-    setMsg(); 
+    setMsg();
+  };
+
+  const changePassVisible = () => {
+    setForm((prev) => ({
+      ...prev,
+      passVisible: !prev.passVisible,
+    }));
+  };
+
+  const changePassConfrimVisible = () => {
+    setForm((prev) => ({
+      ...prev,
+      confirmVisible: !prev.confirmVisible
+    }));
   };
   
   function setMsg() {
     const msg = document.getElementById("msg");
-    
 
-    if(form.password.length<8) {
-      msg.innerText="비밀번호는 최소 8자 이상입니다."  
+
+    if (form.password.length <=7) {
+      msg.innerText = "비밀번호는 최소 8자 이상입니다."
+      return;
     }
-    if(!form.password===form.confirmPassword) {
-      msg.innerText="비밀번호가 다릅니다."
+    else if (form.password !== form.confirmPassword) {
+      msg.innerText = "비밀번호가 다릅니다."
+      return;
     }
-    if(form.password.length>=8) {
-      if(form.password===form.confirmPassword) {
-        msg.innerText="사용할 수 있는 비밀번호 입니다."
+    
+    if (form.password.length >= 8 && form.confirmPassword.length >= 8 && form.password === form.confirmPassword) {
+      if (form.password === form.confirmPassword) {
+        msg.innerText = "사용할 수 있는 비밀번호 입니다."
+        return;
       }
     }
-  
-  }
 
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
     try {
-      const res = await api.post('/auth/signup', form, {
+      const { confirmPassword, ...signupData } = form
+      console.log(signupData);
+      const res = await api.post('/auth/signup', signupData, {
         headers: { 'Content-Type': 'application/json' },
       });
-      alert("성공")
+      alert("회원가입 성공");
+      location.href = '/login'
 
     } catch (err) {
       console.error('로그인 실패:', err);
-      alert('로그인 실패. 아이디/비밀번호를 확인하거나 잠시 후 다시 시도해주세요.');
+      alert('회원가입 실패. 아이디/비밀번호를 확인하거나 잠시 후 다시 시도해주세요.');
     }
   };
 
@@ -130,7 +156,7 @@ const RegisterForm = () => {
                   src="https://c.animaapp.com/me9i7i1uM2B4jc/img/base-lock.svg"
                 />
                 <input
-                  type="password"
+                  type= {form.passVisible ? "text" : "password"}
                   name="password"
                   value={form.password}
                   onChange={handleChange}
@@ -138,12 +164,14 @@ const RegisterForm = () => {
                   className="form-input"
                 />
                 <img
-                  className="design-component-instance-node-3"
+                  className="img"
                   alt="Base preview close"
-                  src="https://c.animaapp.com/me9i7i1uM2B4jc/img/base-preview-close-one.svg"
+                  src={ form.passVisible ? "https://www.svgrepo.com/show/331934/preview.svg"
+                      : "https://c.animaapp.com/me9i7i1uM2B4jc/img/base-preview-close-one.svg"}
+                  onClick={changePassVisible}
                 />
               </div>
-              <small id="msg">비밀번호는 8글자 이상이어야 합니다.</small>
+              <small id="msg">비밀번호는 최소 8자 이상입니다.</small>
             </div>
 
             {/* Confirm Password */}
@@ -156,7 +184,7 @@ const RegisterForm = () => {
                   src="https://c.animaapp.com/me9i7i1uM2B4jc/img/base-lock.svg"
                 />
                 <input
-                  type="password"
+                  type= {form.confirmVisible ? "text" : "password"}
                   name="confirmPassword"
                   value={form.confirmPassword}
                   onChange={handleChange}
@@ -164,9 +192,11 @@ const RegisterForm = () => {
                   className="form-input"
                 />
                 <img
-                  className="design-component-instance-node-3"
+                  className="img"
                   alt="Base preview close"
-                  src="https://c.animaapp.com/me9i7i1uM2B4jc/img/base-preview-close-one.svg"
+                  src={ form.confirmVisible ? "https://www.svgrepo.com/show/331934/preview.svg"
+                      : "https://c.animaapp.com/me9i7i1uM2B4jc/img/base-preview-close-one.svg"}
+                  onClick={changePassConfrimVisible}
                 />
               </div>
             </div>
@@ -176,7 +206,7 @@ const RegisterForm = () => {
               <div className="form-field">
                 <label htmlFor="birth">Birth Date</label>
                 <div className="input-wrapper">
-                  <input type="date" id="birth" name="birth" value={form.birth} onChange={handleChange}/>
+                  <input type="date" id="birth" name="birth" value={form.birth} onChange={handleChange} />
                 </div>
               </div>
 
@@ -185,7 +215,7 @@ const RegisterForm = () => {
                 <label htmlFor="gender">Gender</label>
                 <div className="input-wrapper">
 
-                  <select id="gender" name="gender" defaultValue="">
+                  <select id="gender" name="gender" value={form.gender} onChange={handleChange}>
                     <option value="" disabled>Select</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
@@ -204,8 +234,8 @@ const RegisterForm = () => {
                 />
                 <input
                   type="tel"
-                  name="phoneNumber"
-                  value={form.phoneNumber}
+                  name="phone"
+                  value={form.phone}
                   onChange={handleChange}
                   placeholder="Enter your phone number"
                   className="form-input"

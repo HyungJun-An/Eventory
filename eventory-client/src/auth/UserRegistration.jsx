@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../assets/css/UserRegistration.css';
+import '../assets/css/auth/UserRegistration.css';
 import { Link } from 'react-router-dom';
 
 const UserRegistration = () => {
@@ -16,10 +16,10 @@ const UserRegistration = () => {
                         <div className="user-type-options">
                             <button
                                 className={`user-type-btn `}
-                                onClick={() => window.location.href='/register/company'}
+                                onClick={() => window.location.href = '/register/company'}
                             >
                                 <img
-                                    src= '/src/assets/img/peoples-user-business.svg'
+                                    src="https://www.svgrepo.com/show/488127/company.svg"
                                     alt="Company"
                                     className="user-type-icon"
                                 />
@@ -33,11 +33,11 @@ const UserRegistration = () => {
                             </div>
 
                             <button
-                                className={`user-type-btn` }
-                                onClick={() => window.location.href='/register/customer'}
+                                className={`user-type-btn`}
+                                onClick={() => window.location.href = '/register/customer'}
                             >
                                 <img
-                                    src="/src/assets/img/base-mail-1.svg"
+                                    src="https://c.animaapp.com/me2azzmxxO3KsY/img/peoples-user.svg"
                                     alt="Customer"
                                     className="user-type-icon"
                                 />
@@ -46,8 +46,8 @@ const UserRegistration = () => {
                         </div>
 
                         <div className="login-link">
-                          <span className="login-text">Already have an account?</span>
-                          <Link to="/login" className="login-link-text">Log In</Link>
+                            <span className="login-text">Already have an account?</span>
+                            <Link to="/login" className="login-link-text">Log In</Link>
                         </div>
                     </div>
                 </div>
