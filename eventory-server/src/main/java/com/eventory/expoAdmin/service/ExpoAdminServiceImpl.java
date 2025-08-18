@@ -1,5 +1,6 @@
 package com.eventory.expoAdmin.service;
 
+import com.eventory.auth.repository.UserTypeRepository;
 import com.eventory.common.entity.*;
 import com.eventory.expoAdmin.dto.*;
 import com.eventory.common.repository.*;
