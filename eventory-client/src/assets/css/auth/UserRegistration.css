@@ -1,5 +1,7 @@
-.user-registration .user-registration {
+.user-registration {
   background-color: #f6f6f6;
+}
+.user-registration .user-registration {
   width: 100vw;
   height: 100vh;
   font-family: 'Inter', Helvetica, sans-serif;
@@ -43,6 +45,12 @@
   box-sizing: border-box;
 }
 .input-wrapper .img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.input-wrapper .input-img {
   width: 24px;
   height: 24px;
   cursor: pointer;
