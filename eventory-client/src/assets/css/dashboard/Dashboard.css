@@ -3,45 +3,55 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 100%;
+  width: 100vw;
 }
 
 .dashboard .overlap-wrapper {
-  background-color: #ffffff;
-  height: 1175px;
-  overflow: hidden;
-  width: 1440px;
+  width: 90vw;             /* 화면 폭의 90% */
+  height: 90vh;            /* 화면 높이의 90% */
+  margin-left: 250px;      /* 사이드바 공간 확보 */
+  margin-top: 101px;       /* 헤더 공간 확보 */
+  padding: 20px;
+  position: relative;
+  overflow-x: hidden;      /* 가로 넘침 방지 */
+  overflow-y: auto;        /* 세로 스크롤 가능 */
+  box-sizing: border-box;
+  background-color: #f4f6f9;
 }
 
 .dashboard .overlap {
-  height: 1184px;
+  height: 100%;
   position: relative;
 }
 
-.dashboard .overlap-group {
-  background-color: #f4f6f9;
-  height: 1083px;
-  left: 250px;
-  position: absolute;
-  top: 101px;
-  width: 1190px;
+.dashboard .group {
+  display: flex;              /* 자식들을 flex로 배치 */
+  flex-direction: column;     /* 기본은 세로 배열 */
+  gap: 20px;                  /* 요소 간 간격 */
+  width: 100%;                /* 부모 폭 맞춤 */
+  max-height: 90vh;           /* 화면 높이 기준 최대 */
+  overflow-y: auto;           /* 세로 스크롤 가능 */
+  box-sizing: border-box;
 }
 
+
 .dashboard .group {
-  height: 446px;
-  left: 40px;
-  position: absolute;
-  top: 328px;
-  width: 1110px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .dashboard .weekly-activity {
-  height: 445px;
-  left: 0;
-  position: absolute;
-  top: 2px;
-  width: 732px;
+  height: auto;
+  flex: 1 1 60%;       /* 기본 60% */
+  min-height: 400px; /* 최소 높이 지정 */
+  min-width: 300px;    /* 최소 폭 */
+  width: 100%;
+  position: relative;  /* absolute 제거 */
 }
+
 
 .dashboard .text-wrapper {
   color: #343a40;
@@ -63,6 +73,22 @@
   position: absolute;
   top: 45px;
   width: 730px;
+}
+
+.dashboard .overlap-group {
+  position: relative;  /* absolute 제거 */
+  left: auto;
+  top: auto;
+  width: 90vw;         /* 화면 기준 폭 */
+  min-width: 320px;    /* 최소 폭 설정 */
+  max-width: 1440px;
+  height: 90vh;        /* 화면 기준 높이 */
+  overflow-x: auto;    /* 가로 스크롤 허용 */
+  display: flex;       /* flex 배치 */
+  flex-wrap: wrap;     /* 화면 좁으면 아래로 내려가게 */
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .dashboard .overlap-group-wrapper {
@@ -195,45 +221,69 @@
 }
 
 .dashboard .expense-stats {
-  height: 445px;
-  left: 760px;
-  position: absolute;
-  top: 0;
-  width: 352px;
+  flex: 1 1 35%;       /* 기본 35% */
+  min-width: 250px;
+  position: relative;  /* absolute 제거 */
+}
+
+.dashboard .overlap-wrapper img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto; /* 가운데 정렬 */
 }
 
 .dashboard .group-4 {
-  height: 402px;
-  left: -6px;
-  position: absolute;
-  top: 45px;
-  width: 363px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto; /* 가운데 정렬 */
 }
 
 .dashboard .group-5 {
+  display: flex;
+  justify-content: space-between;
+  /* 카드 간 균등 분배 */
+  align-items: stretch;
+  /* 높이 동일하게 */
+  gap: 20px;
+  /* 카드 사이 간격 */
   height: 190px;
-  left: 38px;
-  position: absolute;
-  top: 54px;
-  width: 1110px;
+  width: 100%;
+  /* 부모 너비에 맞춤 */
+  position: relative;
+  /* absolute → relative로 변경 */
+  top: auto;
+  left: auto;
+  margin: 20px 0;
+  /* 여백 추가 */
 }
 
 .dashboard .group-6 {
-  background-color: #ffffff;
-  border-radius: 25px;
-  height: 190px;
-  left: 760px;
-  position: absolute;
-  top: 0;
-  width: 350px;
+  flex: 1;
+    min-width: 200px;
+    background-color: #fff;
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.dashboard .group-7 {
-  height: 111px;
-  left: 66px;
-  position: relative;
-  top: 39px;
-  width: 221px;
+.dashboard .group-10 {
+    flex: 1;
+    min-width: 200px;
+    background-color: #fff;
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.dashboard .group-13 {
+  flex: 1;
+  min-width: 200px;
+  background-color: #fff;
+  border-radius: 25px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .dashboard .group-8 {
@@ -245,15 +295,28 @@
 }
 
 .dashboard .text-wrapper-7 {
-  color: #343a40;
-  font-family: "Inter", Helvetica;
-  font-size: 24px;
-  font-weight: 400;
-  left: 0;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  width: 99px;
+  position: relative;
+  left: auto;
+  top: auto;
+  width: auto;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+
+.dashboard .text-wrapper-11 {
+  position: relative;
+  left: auto;
+  top: auto;
+  width: auto;
+  text-align: center;
+  font-size: 28px;
+  /* 크기 증가 */
+  font-weight: 600;
+  /* 두껍게 */
+  margin-bottom: 10px;
 }
 
 .dashboard .text-wrapper-8 {
@@ -270,29 +333,12 @@
 }
 
 .dashboard .group-9 {
-  height: 111px;
-  left: 0;
   position: absolute;
-  top: 0;
-  width: 110px;
-}
-
-.dashboard .group-10 {
-  background-color: #ffffff;
-  border-radius: 25px;
-  height: 190px;
-  left: 380px;
-  position: absolute;
-  top: 0;
-  width: 350px;
-}
-
-.dashboard .group-11 {
-  height: 111px;
-  left: 45px;
-  position: relative;
-  top: 40px;
-  width: 261px;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 60px;
+  width: 60px;
 }
 
 .dashboard .group-12 {
@@ -329,22 +375,40 @@
   width: 138px;
 }
 
-.dashboard .group-13 {
-  background-color: #ffffff;
-  border-radius: 25px;
-  height: 190px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 350px;
+.dashboard .group-7 {
+  height: auto;
+  position: relative;
+  top: auto;
+  left: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard .group-10 {
+  height: auto;
+  position: relative;
+  top: auto;
+  left: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .dashboard .group-14 {
-  height: 111px;
-  left: 45px;
+  height: auto;
   position: relative;
-  top: 40px;
-  width: 272px;
+  top: auto;
+  left: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .dashboard .group-15 {
@@ -355,18 +419,6 @@
   width: 155px;
 }
 
-.dashboard .text-wrapper-11 {
-  color: #343a40;
-  font-family: "Inter", Helvetica;
-  font-size: 24px;
-  font-weight: 400;
-  left: 0;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  top: 43px;
-  width: 146px;
-}
 
 .dashboard .text-wrapper-12 {
   color: #718ebf;
@@ -735,4 +787,23 @@
   position: absolute;
   top: 0;
   width: 1px;
+}
+
+/* 화면 충분히 넓으면 가로 배열 */
+@media (min-width: 1000px) {
+  .dashboard .group {
+    flex-direction: row;      /* 넓으면 가로 */
+    align-items: flex-start;  /* 위쪽 정렬 */
+    flex-wrap: wrap;          /* 필요하면 줄바꿈 */
+  }
+  
+  .dashboard .weekly-activity {
+    flex: 1 1 60%;            /* 기본 폭 60% */
+    min-width: 300px;
+  }
+
+  .dashboard .expense-stats {
+    flex: 1 1 35%;            /* 기본 폭 35% */
+    min-width: 250px;
+  }
 }

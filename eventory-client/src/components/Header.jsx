@@ -84,6 +84,37 @@ const Header = ({ expoId, setExpoId }) => {
 
         <div className="group-3">
 
+          <div className="overlap-wrapper">
+            <div className="overlap-2">
+              <span className="text-wrapper-9">박람회 선택</span>
+              <img
+                className="vector"
+                alt="Vector"
+                src="https://c.animaapp.com/mdwrr278Hhu1fG/img/vector.svg"
+                onClick={fetchExpos}
+                style={{
+                  cursor: "pointer",
+                  position: "relative",
+                  zIndex: 9999,
+                }}
+              />
+              {isDropdownOpen && (
+                <select
+                  className="expo-select"
+                  onChange={handleChange}
+                  value={expoId || ""}
+                >
+                  <option value="">박람회 선택</option>
+                  {expos.map((expo) => (
+                    <option key={expo.expoId} value={expo.expoId}>
+                      {expo.title}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+          </div>
+          
           {/* Profile image with dropdown */}
           <div className="header__profile-container">
             <button
@@ -145,37 +176,7 @@ const Header = ({ expoId, setExpoId }) => {
               </div>
             )}
           </div>
-
-          <div className="overlap-wrapper">
-            <div className="overlap-2">
-              <span className="text-wrapper-9">박람회 선택</span>
-              <img
-                className="vector"
-                alt="Vector"
-                src="https://c.animaapp.com/mdwrr278Hhu1fG/img/vector.svg"
-                onClick={fetchExpos}
-                style={{
-                  cursor: "pointer",
-                  position: "relative",
-                  zIndex: 9999,
-                }}
-              />
-              {isDropdownOpen && (
-                <select
-                  className="expo-select"
-                  onChange={handleChange}
-                  value={expoId || ""}
-                >
-                  <option value="">박람회 선택</option>
-                  {expos.map((expo) => (
-                    <option key={expo.expoId} value={expo.expoId}>
-                      {expo.title}
-                    </option>
-                  ))}
-                </select>
-              )}
-            </div>
-          </div>
+          
         </div>
       </div>
 

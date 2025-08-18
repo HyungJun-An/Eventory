@@ -35,7 +35,7 @@ public class SecurityConfig {
                         // 인증 없이 접근 허용
                         .requestMatchers(
                                 "/api/admin/login", "/api/admin/sys/login",
-                                "/api/auth/login", "/api/auth/signup", "/api/auth/refresh",
+                                "/api/auth/login", "/api/auth/signup", "/api/auth/refresh", "/api/auth/logout",
                                 "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**",
                                 "/webjars/**", "/favicon.ico", "/error",
                                 "/api/user/expos", "/api/user/expos/**",
@@ -46,8 +46,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/sys/logout").authenticated()
                         .requestMatchers("/api/admin/logout").authenticated()
                         // 관리자 전용 도메인
-                        .requestMatchers("/api/sys/expo/**").hasRole("SYSTEM_ADMIN") 
-                        .requestMatchers("/api/admin/expo/**").hasRole("EXPO_ADMIN")
+                        .requestMatchers("/api/sys/expos/**").hasRole("SYSTEM_ADMIN")
+                        .requestMatchers("/api/admin/expos/**").hasRole("EXPO_ADMIN")
                         // 나머지 전부 보호
                         .anyRequest().authenticated()
                 )
