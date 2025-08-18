@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
-import "../assets/css/LoginPage.css";
+import "../assets/css/auth/LoginPage.css";
 import api from '../api/axiosInstance';
 import Register from './RegisterCompany';
 

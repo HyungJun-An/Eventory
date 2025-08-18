@@ -1,6 +1,5 @@
 package com.eventory.expoAdmin.service;
 
-import com.eventory.auth.security.CustomUserPrincipal;
 import com.eventory.expoAdmin.dto.*;
 import jakarta.validation.Valid;
 

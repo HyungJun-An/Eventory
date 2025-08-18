@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => ({
       // React 개발 서버에서 /library 로 시작하는 모든 요청을
       // 백엔드(Spring Boot)로 포워딩
       "/api": {
-        target: "https://localhost:8080",
+        target: "http://localhost:8080",
         changeOrigin: true,
         secure: false,
       },

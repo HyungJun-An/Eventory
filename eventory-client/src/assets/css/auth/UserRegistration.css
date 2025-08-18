@@ -1,12 +1,14 @@
 .user-registration {
   background-color: #f6f6f6;
+}
+.user-registration .user-registration {
   width: 100vw;
   height: 100vh;
   font-family: 'Inter', Helvetica, sans-serif;
 }
 
 /* Main Content Styles */
-.main-content {
+.user-registration .main-content {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,7 +16,7 @@
 
 }
 
-.registration-card {
+.user-registration .registration-card {
   background-color: white;
   border-radius: 16px 0 0 16px;
   width: 626px;
@@ -24,7 +26,7 @@
   justify-content: center;
 }
 
-.registration-form {
+.user-registration .registration-form {
   width: 400px;
   display: flex;
   flex-direction: column;
@@ -32,7 +34,37 @@
   gap: 15px;
 }
 
-.form-title {
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid #6a6a6a;
+  border-radius: 16px;
+  background-color: white;
+  box-sizing: border-box;
+}
+.input-wrapper .img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.input-wrapper .input-img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+.input-wrapper .form-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #505050;
+  background: transparent;
+  min-width: 0;
+}
+.user-registration .form-title {
   color: #222222;
   font-size: 16px;
   font-weight: 400;
@@ -41,14 +73,14 @@
   margin-bottom: 20px;
 }
 
-.user-type-options {
+.user-registration .user-type-options {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.user-type-btn {
+.user-registration .user-type-btn {
   width: 100%;
   height: 50px;
   border: 1px solid #6a6a6a;
@@ -60,46 +92,46 @@
   gap: 8px;
   padding: 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.user-registration .2s ease;
 }
 
-.user-type-btn:hover {
+.user-registration .user-type-btn:hover {
   border-color: #007bff;
   background-color: #f8f9fa;
 }
 
-.user-type-btn.selected {
+.user-registration .user-type-btn.user-registration .selected {
   border-color: #007bff;
   background-color: #e3f2fd;
 }
 
-.user-type-icon {
+.user-registration .user-type-icon {
   width: 20px;
   height: 20px;
 }
 
-.user-type-btn span {
+.user-registration .user-type-btn span {
   color: #505050;
   font-size: 14px;
   font-weight: 400;
   text-align: center;
 }
 
-.divider {
+.user-registration .divider {
   display: flex;
   align-items: center;
   gap: 8px;
   width: 100%;
 }
 
-.divider-line {
+.user-registration .divider-line {
   flex: 1;
   height: 1px;
   background-color: #b6b6b6;
   border-radius: 1px;
 }
 
-.divider-text {
+.user-registration .divider-text {
   color: #222222;
   font-size: 14px;
   font-weight: 400;
@@ -107,7 +139,7 @@
   text-align: center;
 }
 
-.login-link {
+.user-registration .login-link {
   display: flex;
   align-items: center;
   gap: 16px;
@@ -115,27 +147,27 @@
   margin-top: 20px;
 }
 
-.login-text {
+.user-registration .login-text {
   color: #6a6a6a;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
 }
 
-.login-link-text {
+.user-registration .login-link-text {
   color: #222222;
   font-size: 16px;
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: color 0.user-registration .2s ease;
 }
 
-.login-link-text:hover {
+.user-registration .login-link-text:hover {
   color: #007bff;
 }
 
-.card-wrapper {
+.user-registration .card-wrapper {
   display: flex;
   justify-content: center;
   width: 90%;

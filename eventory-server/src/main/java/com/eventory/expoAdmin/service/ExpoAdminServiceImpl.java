@@ -1,6 +1,5 @@
 package com.eventory.expoAdmin.service;
 
-import com.eventory.auth.security.CustomUserPrincipal;
 import com.eventory.common.entity.*;
 import com.eventory.expoAdmin.dto.*;
 import com.eventory.common.repository.*;
@@ -8,7 +7,6 @@ import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.service.mapper.ExpoMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
@@ -21,9 +19,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import com.eventory.common.exception.CustomErrorCode;
-import com.eventory.common.exception.CustomException;
 
 @Service
 @RequiredArgsConstructor
@@ -66,9 +61,23 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         }
     }
 
+    // 현재 로그인한 사용자가 박람회 담당자인지 확인
+    private void checkExpo_ExpoAdminAccess(Long expoId, Long expoAdminId) {
+        if (!expoAdminId.equals(expoId)) {
+            throw new CustomException(CustomErrorCode.FORBIDDEN_ACCESS);
+        }
+    }
+
     // 대시보드 카드
     @Override
-    public DashboardResponseDto findDashboardSummary(Long expoId) {
+    public DashboardResponseDto findDashboardSummary(Long expoAdminId, Long expoId) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+
         assertValidExpoId(expoId);
         // 페이지 조회 수
         Long viewCount = expoStatisticsRepository.findById(expoId)
@@ -114,7 +123,14 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 일별 예약 수 (최근 7일간 일별 예약 수 (오늘 기준 지난 7일(6일 전 ~ 오늘)))
     @Override
-    public List<ReservationStatResponseDto> findDailyReservationStats(Long expoId) {
+    public List<ReservationStatResponseDto> findDailyReservationStats(Long expoAdminId, Long expoId) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+
         assertValidExpoId(expoId);
         LocalDate today = LocalDate.now();
         LocalDate startDate = today.minusDays(6); // 총 7일
@@ -137,7 +153,14 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 주별 예약 수 (최근 4주간 주차별 예약 수 (오늘 기준 최근 4주 (주 단위 구간)))
     @Override
-    public List<ReservationStatResponseDto> findWeeklyReservationStats(Long expoId) {
+    public List<ReservationStatResponseDto> findWeeklyReservationStats(Long expoAdminId, Long expoId) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+
         assertValidExpoId(expoId);
         LocalDate baseSunday = LocalDate.now().with(DayOfWeek.SUNDAY); // 오늘이 포함된 주의 일요일
 
@@ -162,7 +185,14 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 월별 예약 수 (최근 4개월 간 월별 예약 수 (오늘 기준 최근 4개월 (월 단위))
     @Override
-    public List<ReservationStatResponseDto> findMonthlyReservationStats(Long expoId) {
+    public List<ReservationStatResponseDto> findMonthlyReservationStats(Long expoAdminId, Long expoId) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+
         assertValidExpoId(expoId);
         YearMonth currentMonth = YearMonth.now(); // 기준: 현재 월
 
@@ -188,7 +218,14 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 공통 통계 생성기 (지정된 기간의 통계를 조회해 DTO로 변환)
     @Override
-    public StatReportRowResponseDto buildStatDto(Long expoId, LocalDate start, LocalDate end, String label) {
+    public StatReportRowResponseDto buildStatDto(Long expoAdminId, Long expoId, LocalDate start, LocalDate end, String label) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+
         assertValidExpoId(expoId);
         assertValidRange(start, end);
 
@@ -213,7 +250,14 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 일간 통계 리포트 (최근 7일간, 오늘 기준 지난 7일(6일 전 ~ 오늘까지 하루 단위로 7개의 통계 리포트 생성))
     @Override
-    public List<StatReportRowResponseDto> findDailyReportData(Long expoId) {
+    public List<StatReportRowResponseDto> findDailyReportData(Long expoAdminId, Long expoId) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+
         assertValidExpoId(expoId);
 
         LocalDate today = LocalDate.now();
@@ -222,14 +266,21 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         return IntStream.rangeClosed(0, 6) // 0..6 (오름차순) => startDate -> today
                 .mapToObj(i -> {
                     LocalDate date = startDate.plusDays(i);
-                    return buildStatDto(expoId, date, date, labelDaily(date));
+                    return buildStatDto(expoAdminId, expoId, date, date, labelDaily(date));
                 })
                 .toList();
     }
 
     // 주간 통계 리포트 (최근 4주 간, 주 단위(월~일) 통계 리포트 생성)
     @Override
-    public List<StatReportRowResponseDto> findWeeklyReportData(Long expoId) {
+    public List<StatReportRowResponseDto> findWeeklyReportData(Long expoAdminId, Long expoId) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+
         assertValidExpoId(expoId);
         LocalDate baseSunday = LocalDate.now().with(DayOfWeek.SUNDAY); // 오늘이 포함된 주의 일요일을 기준
 
@@ -239,14 +290,21 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
             LocalDate start = baseSunday.minusWeeks(i).with(DayOfWeek.MONDAY);
             LocalDate end = start.plusDays(6);
 
-            result.add(buildStatDto(expoId, start, end, labelWeek(start, end)));
+            result.add(buildStatDto(expoAdminId, expoId, start, end, labelWeek(start, end)));
         }
         return result;
     }
 
     // 월간 통계 리포트 (최근 4개월 간, 월 단위 통계 리포트 생성)
     @Override
-    public List<StatReportRowResponseDto> findMonthlyReportData(Long expoId) {
+    public List<StatReportRowResponseDto> findMonthlyReportData(Long expoAdminId, Long expoId) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+
         assertValidExpoId(expoId);
         YearMonth currentMonth = YearMonth.now(); // 기준: 현재 월
 
@@ -256,21 +314,21 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
             YearMonth ym = currentMonth.minusMonths(i);
             LocalDate start = ym.atDay(1);
             LocalDate end = ym.atEndOfMonth();
-            result.add(buildStatDto(expoId, start, end, labelMonth(ym)));
+            result.add(buildStatDto(expoAdminId, expoId, start, end, labelMonth(ym)));
         }
         return result;
     }
 
     // 내부 헬퍼 메서드
     // period(daily/weekly/monthly)에 따라 실제 통계 데이터 조회
-    private List<StatReportRowResponseDto> findReportData(Long expoId, String period) {
+    private List<StatReportRowResponseDto> findReportData(Long expoAdminId, Long expoId, String period) {
         if (period == null)
             throw new CustomException(CustomErrorCode.INVALID_PERIOD);
 
         return switch (period.toLowerCase()) {
-            case "daily" -> findDailyReportData(expoId);
-            case "weekly" -> findWeeklyReportData(expoId);
-            case "monthly" -> findMonthlyReportData(expoId);
+            case "daily" -> findDailyReportData(expoAdminId, expoId);
+            case "weekly" -> findWeeklyReportData(expoAdminId, expoId);
+            case "monthly" -> findMonthlyReportData(expoAdminId, expoId);
             default -> throw new CustomException(CustomErrorCode.INVALID_PERIOD);
         };
     }
@@ -319,9 +377,16 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 통계 데이터를 .csv 형식으로 응답 (텍스트 기반)
     @Override
-    public FileDownloadDto exportCsvReport(Long expoId, String period) {
+    public FileDownloadDto exportCsvReport(Long expoAdminId, Long expoId, String period) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+
         String expoName = findExpoName(expoId); // 박람회명 조회
-        List<StatReportRowResponseDto> data = findReportData(expoId, period); // 일/주/월 기준에 따라 통계 데이터를 조회
+        List<StatReportRowResponseDto> data = findReportData(expoAdminId, expoId, period); // 일/주/월 기준에 따라 통계 데이터를 조회
 
         String safeExpoName = sanitizeForFilename(expoName);
         String dateStr = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // 오늘 날짜 포맷팅
@@ -388,13 +453,20 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 통계 데이터를 .xlsx 형식으로 응답 (엑셀 전용 포맷)
     @Override
-    public FileDownloadDto exportExcelReport(Long expoId, String period) {
+    public FileDownloadDto exportExcelReport(Long expoAdminId, Long expoId, String period) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+
         String expoName = findExpoName(expoId); // 박람회명 조회
         String safeExpoName = sanitizeForFilename(expoName);
         String dateStr = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // 오늘 날짜 포맷팅
         String baseName = safeExpoName + "-" + period + "-dashboard-report-" + dateStr + ".xlsx"; // 박람회명-period-dashboard-report-2025-08-08
 
-        List<StatReportRowResponseDto> data = findReportData(expoId, period); // 일/주/월 기준에 따라 통계 데이터를 조회
+        List<StatReportRowResponseDto> data = findReportData(expoAdminId, expoId, period); // 일/주/월 기준에 따라 통계 데이터를 조회
         String headerLabel = resolvePeriodHeader(period);
 
         try (Workbook workbook = new XSSFWorkbook(); // 엑셀 새 워크북 생성
@@ -464,7 +536,14 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 티켓 종류별(FREE/PAID) 예약 비율 조회 (RESERVED 상태만 집계)
     @Override
-    public List<TicketTypeRatioResponseDto> findTicketTypeRatios(Long expoId) {
+    public List<TicketTypeRatioResponseDto> findTicketTypeRatios(Long expoAdminId, Long expoId) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+
         assertValidExpoId(expoId);
 
         try {
