@@ -32,6 +32,30 @@
   gap: 15px;
 }
 
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid #6a6a6a;
+  border-radius: 16px;
+  background-color: white;
+  box-sizing: border-box;
+}
+.input-wrapper .img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+.input-wrapper .form-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #505050;
+  background: transparent;
+  min-width: 0;
+}
 .user-registration .form-title {
   color: #222222;
   font-size: 16px;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../assets/css/auth/Register.css'
 import api from '../api/axiosInstance';
 
@@ -8,31 +8,53 @@ const RegisterForm = () => {
     name: "",
     email: "",
     password: "",
+    passVisible: false,
     confirmPassword: "",
+    confirmVisible: false,
     birth: "",
     gender: "",
     phone: "",
     typeId: 4,
   });
 
+  useEffect(() => {
+    handleChange
+  })
+  
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     setMsg();
   };
 
+  const changePassVisible = () => {
+    setForm((prev) => ({
+      ...prev,
+      passVisible: !prev.passVisible,
+    }));
+  };
+
+  const changePassConfrimVisible = () => {
+    setForm((prev) => ({
+      ...prev,
+      confirmVisible: !prev.confirmVisible
+    }));
+  };
+  
   function setMsg() {
     const msg = document.getElementById("msg");
 
 
-    if (form.password.length < 8) {
+    if (form.password.length <=7) {
       msg.innerText = "비밀번호는 최소 8자 이상입니다."
       return;
     }
-    if (!form.password === form.confirmPassword) {
+    else if (form.password !== form.confirmPassword) {
       msg.innerText = "비밀번호가 다릅니다."
       return;
     }
+    
     if (form.password.length >= 8 && form.confirmPassword.length >= 8 && form.password === form.confirmPassword) {
       if (form.password === form.confirmPassword) {
         msg.innerText = "사용할 수 있는 비밀번호 입니다."
@@ -41,7 +63,6 @@ const RegisterForm = () => {
     }
 
   }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -135,7 +156,7 @@ const RegisterForm = () => {
                   src="https://c.animaapp.com/me9i7i1uM2B4jc/img/base-lock.svg"
                 />
                 <input
-                  type="password"
+                  type= {form.passVisible ? "text" : "password"}
                   name="password"
                   value={form.password}
                   onChange={handleChange}
@@ -143,9 +164,11 @@ const RegisterForm = () => {
                   className="form-input"
                 />
                 <img
-                  className="design-component-instance-node-3"
+                  className="img"
                   alt="Base preview close"
-                  src="https://c.animaapp.com/me9i7i1uM2B4jc/img/base-preview-close-one.svg"
+                  src={ form.passVisible ? "https://www.svgrepo.com/show/331934/preview.svg"
+                      : "https://c.animaapp.com/me9i7i1uM2B4jc/img/base-preview-close-one.svg"}
+                  onClick={changePassVisible}
                 />
               </div>
               <small id="msg">비밀번호는 최소 8자 이상입니다.</small>
@@ -161,7 +184,7 @@ const RegisterForm = () => {
                   src="https://c.animaapp.com/me9i7i1uM2B4jc/img/base-lock.svg"
                 />
                 <input
-                  type="password"
+                  type= {form.confirmVisible ? "text" : "password"}
                   name="confirmPassword"
                   value={form.confirmPassword}
                   onChange={handleChange}
@@ -169,9 +192,11 @@ const RegisterForm = () => {
                   className="form-input"
                 />
                 <img
-                  className="design-component-instance-node-3"
+                  className="img"
                   alt="Base preview close"
-                  src="https://c.animaapp.com/me9i7i1uM2B4jc/img/base-preview-close-one.svg"
+                  src={ form.confirmVisible ? "https://www.svgrepo.com/show/331934/preview.svg"
+                      : "https://c.animaapp.com/me9i7i1uM2B4jc/img/base-preview-close-one.svg"}
+                  onClick={changePassConfrimVisible}
                 />
               </div>
             </div>
