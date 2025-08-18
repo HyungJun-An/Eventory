@@ -157,7 +157,7 @@ public class SalesAdminServiceImpl implements SalesAdminService {
 
     // 결제 내역 관리 - 페이징 O
     @Override
-    public List<PaymentResponseDto> findAllPayments(Long expoAdminId, Long expoId, String code, Integer page, Integer size) {
+    public List<PaymentResponseDto> findAllPayments(Long expoAdminId, Long expoId, String code, LocalDate startDate, LocalDate endDate, Integer page, Integer size) {
         // 기본키(expoId)로 Expo 조회
         Expo expo = expoRepository.findById(expoId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
@@ -171,7 +171,7 @@ public class SalesAdminServiceImpl implements SalesAdminService {
         Pageable pageable = PageRequest.of(actualPage, actualSize);
 
         // 특정 박람회(expoId)에 해당하는 예약 조회
-        Page<Reservation> reservations = reservationRepository.findByExpoIdAndReservationCode(expoId, code, pageable);
+        Page<Reservation> reservations = reservationRepository.findByExpoIdAndReservationCode(expoId, code, startDate, endDate, pageable);
 
         // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
         return reservations.stream()
@@ -181,7 +181,7 @@ public class SalesAdminServiceImpl implements SalesAdminService {
 
     // 결제 내역 관리 - 페이징 X
     @Override
-    public List<PaymentResponseDto> findAllPayments(Long expoAdminId, Long expoId, String code) {
+    public List<PaymentResponseDto> findAllPayments(Long expoAdminId, Long expoId) {
         // 기본키(expoId)로 Expo 조회
         Expo expo = expoRepository.findById(expoId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
@@ -190,7 +190,7 @@ public class SalesAdminServiceImpl implements SalesAdminService {
         checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
 
         // 특정 박람회(expoId)에 해당하는 예약 조회
-        List<Reservation> reservations = reservationRepository.findByExpoIdAndReservationCode(expoId, code);
+        List<Reservation> reservations = reservationRepository.findByExpoIdAndReservationCode(expoId);
 
         // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
         return reservations.stream()
