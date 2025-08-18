@@ -7,7 +7,7 @@ const ExpoAdminSideBar = () => {
 
   return (
     <div className="expoadmin-sideBar">
-      <div className="div-8">
+      <div className="div-8" onClick={() => navigate("/admin/dashboard")}>
         <div className="text-wrapper-2">대시보드</div>
 
         <img
@@ -17,7 +17,7 @@ const ExpoAdminSideBar = () => {
         />
       </div>
 
-      <div className="div-2">
+      <div className="div-2" onClick={() => navigate("/admin/reservation")}>
         <div className="text-wrapper-2">예약 관리</div>
 
         <img
@@ -27,7 +27,7 @@ const ExpoAdminSideBar = () => {
         />
       </div>
 
-      <div className="div-7">
+      <div className="div-7" onClick={()=> navigate("/admin/contents")}>
         <div className="text-wrapper-6">콘텐츠 관리</div>
 
         <img
@@ -37,7 +37,7 @@ const ExpoAdminSideBar = () => {
         />
       </div>
 
-      <div className="div-3">
+      <div className="div-3" onClick={() => navigate("/admin/booth")}>
         <div className="text-wrapper-2">부스 관리</div>
 
         <img

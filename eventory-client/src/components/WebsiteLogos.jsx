@@ -9,7 +9,7 @@ const WebsiteLogos = ({
   removebgPreviewClassNameOverride,
 }) => {
   return (
-    <div className={`website-logos ${className}`}>
+    <div className={`website-logos ${className}`} onClick={()=>window.location.href="/"}>
       <img
         className={`removebg-preview ${removebgPreviewClassName}`}
         alt="Removebg preview"

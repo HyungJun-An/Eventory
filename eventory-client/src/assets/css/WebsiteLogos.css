@@ -6,6 +6,7 @@
   justify-content: center;
   position: relative;
   width: 128px;
+  cursor: pointer;
 }
 
 .website-logos .removebg-preview {

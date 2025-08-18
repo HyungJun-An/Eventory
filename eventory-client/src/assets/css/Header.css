@@ -1,19 +1,19 @@
 .header {
   background-color: transparent;
-  height: 101px;
   left: 0;
-  position: absolute;
+  position: relative;
   top: 0;
-  width: 1440px;
+  width: 100vw;
+  z-index: 9999;
 }
 
 .header .overlap {
   background-color: #ffffff;
-  height: 100px;
+  height: 100%;
   left: 0;
   position: absolute;
   top: 0;
-  width: 1440px;
+  width: 100%;
 }
 
 .header .group-2 {
@@ -69,11 +69,15 @@
 }
 
 .header .group-3 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
+  left: 80vw;
   height: 46px;
-  left: 1027px;
   position: absolute;
-  top: 28px;
-  width: 375px;
+  top: 3vh;
+  width: 20vw;
 }
 
 .header .overlap-group-wrapper {
@@ -109,10 +113,8 @@
 
 .header .overlap-wrapper {
   height: 46px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 191px;
+  position: relative;
+  display: flex;
 }
 
 .header .overlap-2 {
@@ -120,28 +122,33 @@
   border-radius: 9px;
   height: 46px;
   position: relative;
-  width: 189px;
+  width: 10vw;
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  gap: 8px;
 }
 
 .header .vector {
   height: 5px;
-  left: 65px;
-  position: absolute;
-  top: 9px;
   width: 11px;
+  position: relative;
+  top: auto;
+  left: auto;
 }
 
 .header .text-wrapper-9 {
   color: #343a40;
-  font-family: "Inter", Helvetica;
   font-size: 18px;
   font-weight: 500;
-  left: 50px;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
-  top: 12px;
-  width: 89px;
+  position: relative;
+  top: auto;
+  left: auto;
+  width: auto;
 }
 
 .header .rectangle-2 {
@@ -150,7 +157,6 @@
   left: 250px;
   position: absolute;
   top: 100px;
-  width: 1190px;
 }
 
 .header .expo-select {
@@ -161,7 +167,7 @@
 
 .header__profile-container {
   position: relative;
-  left: 30px;
+  margin-right: 3vw;
   z-index: 9999;
 }
 
