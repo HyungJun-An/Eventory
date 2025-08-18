@@ -4,6 +4,7 @@ import com.eventory.auth.security.CustomUserPrincipal;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.dto.*;
+import com.eventory.expoAdmin.service.BoothService;
 import com.eventory.expoAdmin.service.ExpoAdminService;
 import com.eventory.expoAdmin.service.ExpoInfoService;
 import com.eventory.expoAdmin.service.SalesAdminService;
@@ -30,6 +31,7 @@ public class ExpoAdminController {
     private final ExpoAdminService expoAdminService;
     private final SalesAdminService salesAdminService;
     private final ExpoInfoService expoInfoService;
+    private final BoothService boothService;
 
     // 박람회 신청
     @PostMapping("/expos")
@@ -244,6 +246,20 @@ public class ExpoAdminController {
     public ResponseEntity<Void> updateExpoBanner(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId, @Valid @RequestBody BannerUpdateRequestDto requestDto) {
         Long expoAdminId = expoAdmin.getId();
         expoInfoService.updateExpoBanner(expoAdminId, expoId, requestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    // 특정 박람회에 대한 부스 신청 목록 조회
+    @GetMapping("/expos/{expoId}/booths")
+    public ResponseEntity<List<BoothResponseDto>> findAllBooths(@PathVariable Long expoId) {
+        List<BoothResponseDto> booths = boothService.findAllBooths(expoId);
+        return ResponseEntity.ok(booths);
+    }
+
+    // 특정 박람회에 대한 특정 부스 상태 변경
+    @PutMapping("/expos/{expoId}/booths/{boothId}")
+    public ResponseEntity<Void> updateBooth(@PathVariable Long expoId, @PathVariable Long boothId, @Valid @RequestBody BoothRequestDto requestDto) {
+        boothService.updateBooth(expoId, boothId, requestDto);
         return ResponseEntity.ok().build();
     }
 }

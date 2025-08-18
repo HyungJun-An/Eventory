@@ -1,5 +1,6 @@
 package com.eventory.common.entity;
 
+import com.eventory.expoAdmin.dto.BoothRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -70,4 +71,9 @@ public class Booth {
 
     @Column(name = "reason", length = 255, nullable = true)
     private String reason;
+
+    public void updateStatus(BoothRequestDto requestDto) {
+        this.status = requestDto.getStatus();
+        this.reason = requestDto.getReason();
+    }
 }
