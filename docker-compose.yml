@@ -9,11 +9,6 @@ services:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/Eventory?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME=EventoryUser
-      - SPRING_DATASOURCE_PASSWORD=1234
-    depends_on:
-      - db
     restart: unless-stopped
 
   eventory-client:
@@ -24,24 +19,12 @@ services:
       - "80:80"
       - "443:443"
     restart: always
-    volumes:
-      - ./eventory-client/dist:/usr/share/nginx/html:ro
-      - ./eventory-client/ssl/certificate.crt:/etc/ssl/certificate.crt:ro
-      - ./eventory-client/ssl/private.key:/etc/ssl/private.key:ro
-      - ./eventory-client/default.conf:/etc/nginx/conf.d/default.conf:ro
 
-  db:
-    image: mysql:8.0
-    environment:
-      MYSQL_ROOT_PASSWORD: 'C0mpl3x!P@ssw0rd#2025'
-      MYSQL_DATABASE: Eventory
-      MYSQL_USER: EventoryUser
-      MYSQL_PASSWORD: 1234
+  redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    container_name: redis-server
     ports:
-      - "3306:3306"
-    volumes:
-      - db-data:/var/lib/mysql
+      - "6380:6379"
     restart: unless-stopped
-
-volumes:
-  db-data:
