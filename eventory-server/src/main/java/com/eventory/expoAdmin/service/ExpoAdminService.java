@@ -1,6 +1,8 @@
 package com.eventory.expoAdmin.service;
 
 import com.eventory.expoAdmin.dto.*;
+import jakarta.validation.Valid;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -23,4 +25,6 @@ public interface ExpoAdminService {
     FileDownloadDto exportExcelReport(Long expoAdminId, Long expoId, String period);
 
     List<TicketTypeRatioResponseDto> findTicketTypeRatios(Long expoAdminId, Long expoId);
+
+    void createExpo(@Valid ExpoCreateRequestDto requestDto);
 }

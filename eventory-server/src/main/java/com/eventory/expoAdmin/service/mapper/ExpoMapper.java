@@ -167,4 +167,23 @@ public class ExpoMapper {
                 .reason(banner.getReason())
                 .build();
     }
+
+    public BoothResponseDto toBoothResponseDto(Booth booth) {
+        return BoothResponseDto.builder()
+                .boothId(booth.getBoothId())
+                .expoId(booth.getExpo().getExpoId())
+                .userId(booth.getUser().getUserId())
+                .title(booth.getTitle())
+                .imageUrl(booth.getImageUrl())
+                .location(booth.getLocation())
+                .managerName(booth.getManagerName())
+                .department(booth.getDepartment())
+                .phone(booth.getPhone())
+                .email(booth.getEmail())
+                .createdAt(booth.getCreatedAt())
+                .updatedAt(booth.getUpdatedAt())
+                .status(booth.getStatus())
+                .reason(booth.getReason())
+                .build();
+    }
 }
