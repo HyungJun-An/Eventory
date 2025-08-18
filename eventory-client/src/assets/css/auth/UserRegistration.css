@@ -47,6 +47,12 @@
   height: 24px;
   cursor: pointer;
 }
+
+.input-wrapper .input-img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
 .input-wrapper .form-input {
   flex: 1;
   border: none;
