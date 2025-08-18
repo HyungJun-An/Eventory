@@ -121,8 +121,9 @@ public class ExpoAdminController {
 
     // 대시보드 카드 조회
     @GetMapping("/expos/{expoId}/dashboard/summary")
-    public ResponseEntity<DashboardResponseDto> findDashboardSummary(@PathVariable Long expoId) {
-        DashboardResponseDto summary = expoAdminService.findDashboardSummary(expoId);
+    public ResponseEntity<DashboardResponseDto> findDashboardSummary(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId) {
+        Long expoAdminId = expoAdmin.getId();
+        DashboardResponseDto summary = expoAdminService.findDashboardSummary(expoAdminId, expoId);
         return ResponseEntity.ok(summary);
     }
 

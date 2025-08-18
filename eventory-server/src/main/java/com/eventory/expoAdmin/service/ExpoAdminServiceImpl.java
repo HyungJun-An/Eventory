@@ -64,9 +64,23 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         }
     }
 
+    // 현재 로그인한 사용자가 박람회 담당자인지 확인
+    private void checkExpo_ExpoAdminAccess(Long expoId, Long expoAdminId) {
+        if (!expoAdminId.equals(expoId)) {
+            throw new CustomException(CustomErrorCode.FORBIDDEN_ACCESS);
+        }
+    }
+
     // 대시보드 카드
     @Override
-    public DashboardResponseDto findDashboardSummary(Long expoId) {
+    public DashboardResponseDto findDashboardSummary(Long expoAdminId, Long expoId) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+
         assertValidExpoId(expoId);
         // 페이지 조회 수
         Long viewCount = expoStatisticsRepository.findById(expoId)

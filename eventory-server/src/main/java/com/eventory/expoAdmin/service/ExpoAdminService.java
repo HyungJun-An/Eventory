@@ -8,7 +8,7 @@ import java.util.List;
 public interface ExpoAdminService {
     List<ExpoResponseDto> findAllExpos(Long expoAdminId);
 
-    DashboardResponseDto findDashboardSummary(Long expoId);
+    DashboardResponseDto findDashboardSummary(Long expoAdminId, Long expoId);
 
     List<ReservationStatResponseDto> findDailyReservationStats(Long expoId);
     List<ReservationStatResponseDto> findWeeklyReservationStats(Long expoId);
