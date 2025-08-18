@@ -32,6 +32,8 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
     private final ExpoStatisticsRepository expoStatisticsRepository;
     private final ReservationRepository reservationRepository;
     private final CheckInLogRepository checkInLogRepository;
+    private final UserTypeRepository userTypeRepository;
+    private final ExpoAdminRepository expoAdminRepository;
     private final ExpoMapper expoMapper;
 
     // 해당 박람회 관리자에 속하는 전체 박람회 목록
@@ -514,5 +516,38 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
             // 예상치 못한 모든 예외 → 공통 예외 코드(TICKET_TYPE_STATS_FAILED)로 감싸서 던짐
             throw new CustomException(CustomErrorCode.TICKET_TYPE_STATS_FAILED);
         }
+    }
+
+    // 박람회 신청
+    @Override
+    public void createExpo(ExpoCreateRequestDto requestDto) {
+
+        UserType userType = userTypeRepository.findById(2L)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_USER_TYPE));
+
+        ExpoAdmin expoAdmin = ExpoAdmin.builder()
+                .type(userType)
+                .customerId(requestDto.getTitle())
+                .password("password")
+                .name(requestDto.getName())
+                .email(requestDto.getEmail())
+                .phone(requestDto.getPhone())
+                .build();
+
+        expoAdminRepository.save(expoAdmin);
+
+        Expo expo = Expo.builder()
+                .title(requestDto.getTitle())
+                .imageUrl(requestDto.getImageUrl())
+                .description(requestDto.getDescription())
+                .startDate(requestDto.getStartDate())
+                .endDate(requestDto.getEndDate())
+                .location(requestDto.getLocation())
+                .visibility(false)
+                .status(ExpoStatus.PENDING)
+                .price(requestDto.getPrice())
+                .build();
+
+        expoRepository.save(expo);
     }
 }

@@ -31,6 +31,13 @@ public class ExpoAdminController {
     private final SalesAdminService salesAdminService;
     private final ExpoInfoService expoInfoService;
 
+    // 박람회 신청
+    @PostMapping("/expos")
+    public ResponseEntity<Void> createExpo(@Valid @RequestBody ExpoCreateRequestDto requestDto) {
+        expoAdminService.createExpo(requestDto);
+        return ResponseEntity.ok().build();
+    }
+
     // 해당 박람회 관리자에 속하는 전체 박람회 목록
     @GetMapping("/expos")
     public ResponseEntity<List<ExpoResponseDto>> findAllExpos(@AuthenticationPrincipal CustomUserPrincipal expoAdmin) {
@@ -202,7 +209,7 @@ public class ExpoAdminController {
 
     // 특정 박람회 정보 수정
     @PutMapping("/expos/{expoId}")
-    public ResponseEntity<Void> updateExpoInfo(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId, @Valid @RequestBody ExpoRequestDto requestDto) {
+    public ResponseEntity<Void> updateExpoInfo(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId, @Valid @RequestBody ExpoUpdateRequestDto requestDto) {
         Long expoAdminId = expoAdmin.getId();
         expoInfoService.updateExpoInfo(expoAdminId, expoId, requestDto);
         return ResponseEntity.ok().build();
