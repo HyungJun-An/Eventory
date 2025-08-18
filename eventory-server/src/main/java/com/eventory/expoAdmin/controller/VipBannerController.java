@@ -1,49 +1,47 @@
-package com.eventory.expoAdmin.controller;
+package com.eventory.vipbanner.controller;
 
-import com.eventory.expoAdmin.entity.VipBanner;
-import com.eventory.expoAdmin.service.VipBannerService;
+import com.eventory.vipbanner.dto.VipBannerResponseDto;
+import com.eventory.vipbanner.service.VipBannerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/vip-banners")
+@RequestMapping("/sys/vip-banners")
 @RequiredArgsConstructor
 public class VipBannerController {
 
     private final VipBannerService vipBannerService;
 
-    @GetMapping
-    public ResponseEntity<List<VipBanner>> getAllBanners() {
-        return ResponseEntity.ok(vipBannerService.getAllBanners());
+    // 배너 목록 조회
+    @GetMapping("/{expoAdminId}")
+    public ResponseEntity<List<VipBannerResponseDto>> findVipBanners(@PathVariable Long expoAdminId) {
+        return ResponseEntity.ok(vipBannerService.findVipBanners(expoAdminId));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<VipBanner> getBanner(@PathVariable Long id) {
-        return ResponseEntity.ok(vipBannerService.getBannerById(id));
-    }
-
-    @PostMapping("/{id}/approve")
-    public ResponseEntity<Void> approveBanner(@PathVariable Long id) {
-        vipBannerService.approveBanner(id);
+    // 배너 승인
+    @PutMapping("/{vipBannerId}/approve")
+    public ResponseEntity<Void> updateVipBannerApprove(@PathVariable Long vipBannerId) {
+        vipBannerService.updateVipBannerApprove(vipBannerId);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{id}/reject")
-    public ResponseEntity<Void> rejectBanner(@PathVariable Long id, @RequestParam String reason) {
-        vipBannerService.rejectBanner(id, reason);
+    // 배너 거절
+    @PutMapping("/{vipBannerId}/reject")
+    public ResponseEntity<Void> updateVipBannerReject(@PathVariable Long vipBannerId, @RequestParam String reason) {
+        vipBannerService.updateVipBannerReject(vipBannerId, reason);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}/period")
-    public ResponseEntity<Void> updatePeriod(
-            @PathVariable Long id,
-            @RequestParam LocalDateTime start,
-            @RequestParam LocalDateTime end) {
-        vipBannerService.updateBannerPeriod(id, start, end);
+    // 배너 기간 수정
+    @PutMapping("/{vipBannerId}/period")
+    public ResponseEntity<Void> updateVipBannerPeriod(
+            @PathVariable Long vipBannerId,
+            @RequestParam String startDate,
+            @RequestParam String endDate) {
+        vipBannerService.updateVipBannerPeriod(vipBannerId, startDate, endDate);
         return ResponseEntity.ok().build();
     }
 }

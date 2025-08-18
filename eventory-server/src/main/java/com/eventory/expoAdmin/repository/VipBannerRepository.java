@@ -1,12 +1,10 @@
-package com.eventory.expoAdmin.repository;
+package com.eventory.vipbanner.repository;
 
-import com.eventory.expoAdmin.entity.VipBanner;
+import com.eventory.vipbanner.entity.VipBanner;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 public interface VipBannerRepository extends JpaRepository<VipBanner, Long> {
-    List<VipBanner> findByStatusOrderByCreatedAtDesc(VipBanner.BannerStatus status);
+    List<VipBanner> findByExpoAdminIdOrderByCreatedAtDesc(Long expoAdminId);
 }
-
-
