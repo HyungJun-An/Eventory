@@ -9,22 +9,22 @@ import java.util.List;
 public interface ExpoAdminService {
     List<ExpoResponseDto> findAllExpos(Long expoAdminId);
 
-    DashboardResponseDto findDashboardSummary(Long expoId);
+    DashboardResponseDto findDashboardSummary(Long expoAdminId, Long expoId);
 
-    List<ReservationStatResponseDto> findDailyReservationStats(Long expoId);
-    List<ReservationStatResponseDto> findWeeklyReservationStats(Long expoId);
-    List<ReservationStatResponseDto> findMonthlyReservationStats(Long expoId);
+    List<ReservationStatResponseDto> findDailyReservationStats(Long expoAdminId, Long expoId);
+    List<ReservationStatResponseDto> findWeeklyReservationStats(Long expoAdminId, Long expoId);
+    List<ReservationStatResponseDto> findMonthlyReservationStats(Long expoAdminId, Long expoId);
 
-    StatReportRowResponseDto buildStatDto(Long expoId, LocalDate start, LocalDate end, String label);
+    StatReportRowResponseDto buildStatDto(Long expoAdminId, Long expoId, LocalDate start, LocalDate end, String label);
 
-    List<StatReportRowResponseDto> findDailyReportData(Long expoId);
-    List<StatReportRowResponseDto> findWeeklyReportData(Long expoId);
-    List<StatReportRowResponseDto> findMonthlyReportData(Long expoId);
+    List<StatReportRowResponseDto> findDailyReportData(Long expoAdminId, Long expoId);
+    List<StatReportRowResponseDto> findWeeklyReportData(Long expoAdminId, Long expoId);
+    List<StatReportRowResponseDto> findMonthlyReportData(Long expoAdminId, Long expoId);
 
-    FileDownloadDto exportCsvReport(Long expoId, String period);
-    FileDownloadDto exportExcelReport(Long expoId, String period);
+    FileDownloadDto exportCsvReport(Long expoAdminId, Long expoId, String period);
+    FileDownloadDto exportExcelReport(Long expoAdminId, Long expoId, String period);
 
-    List<TicketTypeRatioResponseDto> findTicketTypeRatios(Long expoId);
+    List<TicketTypeRatioResponseDto> findTicketTypeRatios(Long expoAdminId, Long expoId);
 
     void createExpo(@Valid ExpoCreateRequestDto requestDto);
 }
