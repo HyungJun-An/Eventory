@@ -51,7 +51,7 @@ public class BoothServiceImpl implements BoothService {
 
         // 현재 로그인한 사용자가 박람회 담당자인지 확인
         checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
-        
+
         // 부스 조회
         Booth booth = boothRepository.findById(boothId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_BOOTH));

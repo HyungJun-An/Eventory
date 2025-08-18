@@ -605,16 +605,20 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         UserType userType = userTypeRepository.findById(2L)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_USER_TYPE));
 
-        ExpoAdmin expoAdmin = ExpoAdmin.builder()
-                .type(userType)
-                .customerId(requestDto.getTitle())
-                .password("password")
-                .name(requestDto.getName())
-                .email(requestDto.getEmail())
-                .phone(requestDto.getPhone())
-                .build();
+        ExpoAdmin expoAdmin = expoAdminRepository.findByName(requestDto.getName())
+                .orElse(null);
 
-        expoAdminRepository.save(expoAdmin);
+        if (expoAdmin == null) {
+            ExpoAdmin newAdmin = ExpoAdmin.builder()
+                    .type(userType)
+                    .customerId(requestDto.getTitle())
+                    .password("password")
+                    .name(requestDto.getName())
+                    .email(requestDto.getEmail())
+                    .phone(requestDto.getPhone())
+                    .build();
+            expoAdminRepository.save(newAdmin);
+        }
 
         Expo expo = Expo.builder()
                 .title(requestDto.getTitle())
@@ -626,6 +630,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
                 .visibility(false)
                 .status(ExpoStatus.PENDING)
                 .price(requestDto.getPrice())
+                .expoAdmin(expoAdmin)
                 .build();
 
         expoRepository.save(expo);
