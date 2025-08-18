@@ -83,17 +83,6 @@ const Header = ({ expoId, setExpoId }) => {
         </div>
 
         <div className="group-3">
-          <div className="overlap-group-wrapper">
-            <div className="overlap-group">
-              <div
-                className="text-wrapper-8"
-                style={{ cursor: "pointer" }}
-                onClick={handleLogout}
-              >
-                로그아웃
-              </div>
-            </div>
-          </div>
 
           {/* Profile image with dropdown */}
           <div className="header__profile-container">
