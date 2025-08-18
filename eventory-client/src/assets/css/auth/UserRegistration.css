@@ -1,5 +1,7 @@
-.user-registration .user-registration {
+.user-registration {
   background-color: #f6f6f6;
+}
+.user-registration .user-registration {
   width: 100vw;
   height: 100vh;
   font-family: 'Inter', Helvetica, sans-serif;
