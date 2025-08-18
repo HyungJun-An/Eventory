@@ -1,9 +1,11 @@
+/* 사이드바 고정 + 메인 콘텐츠 간격 조정 */
 .expoadmin-sideBar {
-  height: 409px;
+  position:absolute;
+  width: 10vw;
+  top: 10vh;
   left: 0;
-  position: absolute;
-  top: 131px;
-  width: 183px;
+  z-index: 100; /* 9999 → 100으로 조정 */
+  background: white; /* 배경 추가 */
 }
 
 .expoadmin-sideBar .div-2 {
@@ -12,6 +14,7 @@
   position: absolute;
   top: 64px;
   width: 124px;
+  cursor: pointer;
 }
 
 .expoadmin-sideBar .img {
@@ -40,6 +43,7 @@
   position: absolute;
   top: 192px;
   width: 124px;
+  cursor: pointer;
 }
 
 .expoadmin-sideBar .text-wrapper-2 {
@@ -57,6 +61,7 @@
   position: absolute;
   top: 256px;
   width: 125px;
+  cursor: pointer;
 }
 
 .expoadmin-sideBar .credit-card {
@@ -82,6 +87,7 @@
   position: absolute;
   top: 321px;
   width: 125px;
+  cursor: pointer;
 }
 
 .expoadmin-sideBar .text-wrapper-4 {
@@ -100,6 +106,7 @@
   position: absolute;
   top: 384px;
   width: 125px;
+  cursor: pointer;
 }
 
 .expoadmin-sideBar .text-wrapper-5 {
@@ -121,6 +128,7 @@
   position: absolute;
   top: 129px;
   width: 141px;
+  cursor: pointer;
 }
 
 .expoadmin-sideBar .text-wrapper-6 {
@@ -138,6 +146,7 @@
   left: 44px;
   position: absolute;
   width: 120px;
+  cursor: pointer;
 }
 
 .expoadmin-sideBar .rectangle {

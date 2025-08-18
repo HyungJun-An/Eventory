@@ -21,6 +21,7 @@ function App() {
         <Route path="/admin/sales" element={<AdminLayout><RevenuePage /></AdminLayout>} />
         <Route path="/admin/payment" element={<AdminLayout><PaymentPage /></AdminLayout>} />
         <Route path="/admin/refund" element={<AdminLayout><RefundPage /></AdminLayout>} />
+        <Route path="/test" element={<AdminLayout></AdminLayout>} />
         <Route element={<MainLayout />}>
           <Route path="/" element={<UserMainPage />} />
           <Route path="/login" element={<LoginPage />} />
