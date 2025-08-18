@@ -161,6 +161,8 @@
 
 .header__profile-container {
   position: relative;
+  left: 30px;
+  z-index: 9999;
 }
 
 .header__profile-button {
