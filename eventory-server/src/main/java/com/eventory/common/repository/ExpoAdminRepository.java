@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface ExpoAdminRepository extends JpaRepository<ExpoAdmin, Long> {
     Optional<ExpoAdmin> findByCustomerId(String customerId);
-    Optional<ExpoAdmin> findByName(String name);
+    Optional<ExpoAdmin> findByEmail(String email);
 }

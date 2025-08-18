@@ -605,7 +605,7 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
         UserType userType = userTypeRepository.findById(2L)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_USER_TYPE));
 
-        ExpoAdmin expoAdmin = expoAdminRepository.findByName(requestDto.getName())
+        ExpoAdmin expoAdmin = expoAdminRepository.findByEmail(requestDto.getEmail())
                 .orElse(null);
 
         if (expoAdmin == null) {
