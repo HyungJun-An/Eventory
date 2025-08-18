@@ -5,7 +5,6 @@ import com.eventory.common.entity.BannerStatus;
 import com.eventory.common.repository.BannerRepository;
 import com.eventory.systemadmin.dto.BannerDetailResponseDto;
 import com.eventory.systemadmin.dto.BannerUpdateRequestDto;
-import com.eventory.systemadmin.dto.BannerDecisionRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,7 +63,7 @@ public class BannerService {
     }
 
     // 배너 승인/반려
-    public void updateBannerDecision(Long bannerId, BannerDecisionRequestDto requestDto) {
+    public void updateBannerDecision(Long bannerId, com.eventory.systemadmin.dto.BannerDecisionRequestDto requestDto) {
         Banner banner = bannerRepository.findById(bannerId)
                 .orElseThrow(() -> new IllegalArgumentException("배너를 찾을 수 없습니다."));
 

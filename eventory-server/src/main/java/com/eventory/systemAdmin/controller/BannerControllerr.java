@@ -2,8 +2,6 @@ package com.eventory.systemadmin.controller;
 
 import com.eventory.systemadmin.dto.BannerDetailResponseDto;
 import com.eventory.systemadmin.dto.BannerUpdateRequestDto;
-import com.eventory.systemadmin.dto.BannerDecisionRequestDto;
-import com.eventory.systemadmin.service.BannerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +12,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/sys/banners")
 @RequiredArgsConstructor
-public class BannerController {
+public class BannerControllerr {
 
-    private final BannerService bannerService;
+    private final com.eventory.systemadmin.service.BannerService bannerService;
 
     // VIP 배너 목록 조회
     @GetMapping
@@ -43,7 +41,7 @@ public class BannerController {
     @PutMapping("/{bannerId}/decision")
     public ResponseEntity<Void> updateBannerDecision(
             @PathVariable Long bannerId,
-            @Valid @RequestBody BannerDecisionRequestDto requestDto) {
+            @Valid @RequestBody com.eventory.systemadmin.dto.BannerDecisionRequestDto requestDto) {
         bannerService.updateBannerDecision(bannerId, requestDto);
         return ResponseEntity.ok().build();
     }
