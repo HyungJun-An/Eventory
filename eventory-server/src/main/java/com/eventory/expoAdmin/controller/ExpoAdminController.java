@@ -251,15 +251,17 @@ public class ExpoAdminController {
 
     // 특정 박람회에 대한 부스 신청 목록 조회
     @GetMapping("/expos/{expoId}/booths")
-    public ResponseEntity<List<BoothResponseDto>> findAllBooths(@PathVariable Long expoId) {
-        List<BoothResponseDto> booths = boothService.findAllBooths(expoId);
+    public ResponseEntity<List<BoothResponseDto>> findAllBooths(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId) {
+        Long expoAdminId = expoAdmin.getId();
+        List<BoothResponseDto> booths = boothService.findAllBooths(expoAdminId, expoId);
         return ResponseEntity.ok(booths);
     }
 
     // 특정 박람회에 대한 특정 부스 상태 변경
     @PutMapping("/expos/{expoId}/booths/{boothId}")
-    public ResponseEntity<Void> updateBooth(@PathVariable Long expoId, @PathVariable Long boothId, @Valid @RequestBody BoothRequestDto requestDto) {
-        boothService.updateBooth(expoId, boothId, requestDto);
+    public ResponseEntity<Void> updateBooth(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId, @PathVariable Long boothId, @Valid @RequestBody BoothRequestDto requestDto) {
+        Long expoAdminId = expoAdmin.getId();
+        boothService.updateBooth(expoAdminId, expoId, boothId, requestDto);
         return ResponseEntity.ok().build();
     }
 }
