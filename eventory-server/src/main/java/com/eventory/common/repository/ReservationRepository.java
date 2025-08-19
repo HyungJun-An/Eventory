@@ -171,4 +171,97 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     """)
     List<Object[]> aggregateTicketTypeCountsReserved(@Param("expoId") Long expoId, @Param("zero") BigDecimal zero);
 
+    // 예약자 명단
+    // DESC (created_at DESC)
+    @Query(
+            value = """
+        SELECT
+          r.reservation_id   AS reservationId,
+          r.code             AS code,
+          u.name             AS userName,
+          u.phone            AS phone,
+          p.amount           AS payAmount,
+          p.status           AS payStatus,
+          r.created_at       AS reservedAt,
+          COUNT(t.ticket_id) AS totalTickets,
+          SUM(CASE WHEN t.status = TRUE THEN 1 ELSE 0 END) AS checkedCount,
+          MAX(cl.time)       AS lastCheckinAt
+        FROM reservation r
+          JOIN `user` u           ON u.user_id = r.user_id
+          JOIN payment p          ON p.payment_id = r.payment_id
+          LEFT JOIN qr_code q     ON q.reservation_id = r.reservation_id
+          LEFT JOIN ticket t      ON t.qr_id = q.qr_id
+          LEFT JOIN checkin_log cl ON cl.ticket_id = t.ticket_id
+        WHERE r.expo_id = :expoId
+          AND r.status <> 'CANCELLED'
+          AND p.status <> 'REFUNDED'
+          AND (:search IS NULL
+               OR r.code  LIKE CONCAT('%', :search, '%')
+               OR u.name  LIKE CONCAT('%', :search, '%')
+               OR u.phone LIKE CONCAT('%', :search, '%')
+          )
+        GROUP BY r.reservation_id
+        HAVING
+           (:status = 'ALL')
+        OR (:status = 'CHECKED_IN'
+            AND SUM(CASE WHEN t.status THEN 1 ELSE 0 END) = COUNT(t.ticket_id)
+            AND COUNT(t.ticket_id) > 0)
+        OR (:status = 'NOT_CHECKED_IN'
+            AND NOT (
+               SUM(CASE WHEN t.status THEN 1 ELSE 0 END) = COUNT(t.ticket_id)
+               AND COUNT(t.ticket_id) > 0
+            ))
+        ORDER BY r.created_at DESC
+      """,
+            countQuery = """
+        SELECT COUNT(*) FROM (
+          SELECT r.reservation_id
+          FROM reservation r
+            JOIN `user` u           ON u.user_id = r.user_id
+            JOIN payment p          ON p.payment_id = r.payment_id
+            LEFT JOIN qr_code q     ON q.reservation_id = r.reservation_id
+            LEFT JOIN ticket t      ON t.qr_id = q.qr_id
+          WHERE r.expo_id = :expoId
+            AND r.status <> 'CANCELLED'
+            AND p.status <> 'REFUNDED'
+            AND (:search IS NULL
+                 OR r.code  LIKE CONCAT('%', :search, '%')
+                 OR u.name  LIKE CONCAT('%', :search, '%')
+                 OR u.phone LIKE CONCAT('%', :search, '%')
+            )
+          GROUP BY r.reservation_id
+          HAVING
+             (:status = 'ALL')
+          OR (:status = 'CHECKED_IN'
+              AND SUM(CASE WHEN t.status THEN 1 ELSE 0 END) = COUNT(t.ticket_id)
+              AND COUNT(t.ticket_id) > 0)
+          OR (:status = 'NOT_CHECKED_IN'
+              AND NOT (
+                 SUM(CASE WHEN t.status THEN 1 ELSE 0 END) = COUNT(t.ticket_id)
+                 AND COUNT(t.ticket_id) > 0
+              ))
+        ) x
+      """,
+            nativeQuery = true
+    )
+    Page<ReservationRowProjection> findPageDesc(@Param("expoId") Long expoId,
+                                                @Param("status") String status,
+                                                @Param("search") String search,
+                                                Pageable pageable);
+
+
+    // --- Projection (이 파일 안에 둬서 파일 수 최소화) ---
+    interface ReservationRowProjection {
+        Long getReservationId();
+        String getCode();
+        String getUserName();
+        String getPhone();
+        BigDecimal getPayAmount();
+        String getPayStatus(); // "PAID" / "REFUNDED"
+        LocalDateTime getReservedAt();
+        Integer getTotalTickets();
+        Integer getCheckedCount();
+        LocalDateTime getLastCheckinAt();
+    }
+
 }

@@ -4,9 +4,12 @@ import com.eventory.auth.repository.UserTypeRepository;
 import com.eventory.common.entity.*;
 import com.eventory.expoAdmin.dto.*;
 import com.eventory.common.repository.*;
+import com.eventory.common.repository.ReservationRepository.ReservationRowProjection;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.service.mapper.ExpoMapper;
+import jakarta.validation.Valid;
+import org.springframework.data.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -634,5 +637,28 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
                 .build();
 
         expoRepository.save(expo);
+    }
+
+    // 예약자 명단
+    @Override
+    public ReservationListResponseDto findReservationList(Long expoId, @Valid ReservationListRequestDto req) {
+
+        assertValidExpoId(expoId);
+
+        Pageable pageable = PageRequest.of(req.getPage(), req.getSize());
+
+        Page<ReservationRowProjection> page = reservationRepository.findPageDesc(expoId, req.getStatus(), req.getSearch(), pageable);
+
+        List<ReservationListResponseDto.Item> content = page.getContent().stream()
+                .map(expoMapper::toItem)
+                .toList();
+
+        return new ReservationListResponseDto(
+                req.getPage(),
+                req.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                content
+        );
     }
 }

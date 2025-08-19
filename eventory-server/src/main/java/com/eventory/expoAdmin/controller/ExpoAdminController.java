@@ -264,4 +264,11 @@ public class ExpoAdminController {
         boothService.updateBooth(expoAdminId, expoId, boothId, requestDto);
         return ResponseEntity.ok().build();
     }
+
+    // 예약자 명단
+    @GetMapping("/expos/{expoId}/reservations")
+    public ResponseEntity<ReservationListResponseDto> findReservationList(@PathVariable Long expoId, @Valid @ModelAttribute ReservationListRequestDto request) {
+        ReservationListResponseDto list = expoAdminService.findReservationList(expoId, request);
+        return ResponseEntity.ok(list);
+    }
 }

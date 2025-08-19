@@ -27,4 +27,6 @@ public interface ExpoAdminService {
     List<TicketTypeRatioResponseDto> findTicketTypeRatios(Long expoAdminId, Long expoId);
 
     void createExpo(@Valid ExpoCreateRequestDto requestDto);
+
+    ReservationListResponseDto findReservationList(Long expoId, @Valid ReservationListRequestDto req);
 }
