@@ -305,6 +305,7 @@ export const SysExpoList = () => {
                 ></img>
               </div>
             </div>
+            {/* 테스트용 */}
             <div>Status: {statusFilter}</div>
             <div>CurrentPage: {currentPage}</div>
             {/* Main Wrapper */}
