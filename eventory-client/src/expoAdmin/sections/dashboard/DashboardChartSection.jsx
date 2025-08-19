@@ -15,8 +15,14 @@ import {
 import api from "../../../api/axiosInstance";
 import "../../../assets/css/dashboard/DashboardChartSection.css";
 
-function DashboardChartSection() {
-  const { expoId } = useParams(); // URL에서 :expoId 값 가져옴
+/**
+ * expoId는 우선 props로 받고, 없으면 URL(:expoId)에서 가져옵니다.
+ * 이렇게 하면 Index에서 prop으로 내려줘도, 라우트 파라미터로만 써도 모두 안전하게 동작합니다.
+ */
+function DashboardChartSection({ expoId: expoIdProp }) {
+  const { expoId: expoIdParam } = useParams();
+  const expoId = expoIdProp ?? expoIdParam; // ✅ props 우선, 없으면 URL
+
   const [period, setPeriod] = useState("daily");
   const [reservationData, setReservationData] = useState([]);
   const [ticketTypeData, setTicketTypeData] = useState([]);
@@ -46,15 +52,16 @@ function DashboardChartSection() {
 
   // 예약 현황 데이터 가져오기
   const fetchReservationData = async (selectedPeriod) => {
+    if (!expoId) return; // 🔒 expoId 없으면 호출 금지
     try {
       const response = await api.get(
-        `/admin/expos/${expoId}/dashboard/stats`,
-        { params: { period: selectedPeriod } } // ✅ 쿼리 파라미터는 params로
+        `/admin/expos/${encodeURIComponent(expoId)}/dashboard/stats`,
+        { params: { period: selectedPeriod } } // ✅ 쿼리는 params로
       );
       setReservationData(response.data);
     } catch (error) {
       console.error("Failed to fetch reservation data:", error);
-      // 에러 시 더미 데이터 사용
+      // TODO: 운영 전 더미데이터 제거 권장
       setReservationData([
         { label: "08/05 (화)", reservationCount: 12 },
         { label: "08/06 (수)", reservationCount: 19 },
@@ -69,14 +76,15 @@ function DashboardChartSection() {
 
   // 티켓 타입별 데이터 가져오기
   const fetchTicketTypeData = async () => {
+    if (!expoId) return; // 🔒
     try {
       const response = await api.get(
-        `/admin/expos/${expoId}/dashboard/ticket-types`
+        `/admin/expos/${encodeURIComponent(expoId)}/dashboard/ticket-types`
       );
       setTicketTypeData(response.data);
     } catch (error) {
       console.error("Failed to fetch ticket type data:", error);
-      // 에러 시 더미 데이터 사용
+      // TODO: 운영 전 더미데이터 제거 권장
       setTicketTypeData([
         { type: "FREE", reservationCount: 15, peopleCount: 45, percentage: 60 },
         { type: "PAID", reservationCount: 10, peopleCount: 30, percentage: 40 },
@@ -85,14 +93,14 @@ function DashboardChartSection() {
   };
 
   useEffect(() => {
+    if (!expoId) return; // 🔒 expoId 없으면 API 호출하지 않음
     const fetchData = async () => {
       setLoading(true);
       await Promise.all([fetchReservationData(period), fetchTicketTypeData()]);
       setLoading(false);
     };
-
     fetchData();
-  }, [period]);
+  }, [expoId, period]); // ✅ expoId를 의존성에 포함
 
   const handlePeriodChange = (newPeriod) => {
     setPeriod(newPeriod);
@@ -100,12 +108,14 @@ function DashboardChartSection() {
 
   // ---- CSV 다운로드 (백엔드: /api/admin/expos/{expoId}/dashboard/{period}/csv) ----
   const downloadCSV = async () => {
+    if (!expoId) return; // 🔒
     try {
-      const urlPath = `/admin/expos/${expoId}/dashboard/${period}/csv`;
+      const urlPath = `/admin/expos/${encodeURIComponent(
+        expoId
+      )}/dashboard/${period}/csv`;
       const res = await api.get(urlPath, {
         responseType: "blob",
         headers: { Accept: "text/csv; charset=UTF-8" },
-        // withCredentials: true, // 쿠키 세션이면 활성화
       });
 
       const disposition = res.headers?.["content-disposition"];
@@ -135,15 +145,17 @@ function DashboardChartSection() {
 
   // ---- 엑셀 다운로드 (백엔드: /api/admin/expos/{expoId}/dashboard/{period}/excel) ----
   const downloadExcel = async () => {
+    if (!expoId) return; // 🔒
     try {
-      const urlPath = `/admin/expos/${expoId}/dashboard/${period}/excel`;
+      const urlPath = `/admin/expos/${encodeURIComponent(
+        expoId
+      )}/dashboard/${period}/excel`;
       const res = await api.get(urlPath, {
         responseType: "blob",
         headers: {
           Accept:
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         },
-        // withCredentials: true, // 쿠키 세션이면 활성화
       });
 
       const disposition = res.headers?.["content-disposition"];
@@ -186,31 +198,38 @@ function DashboardChartSection() {
 
   // 커스텀 툴팁 컴포넌트
   const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="custom-tooltip">
-          <p className="tooltip-label">{`${label}`}</p>
-          <p className="tooltip-value">{`예약수: ${payload[0].value}`}</p>
-        </div>
-      );
-    }
-    return null;
+    return active && payload && payload.length ? (
+      <div className="custom-tooltip">
+        <p className="tooltip-label">{`${label}`}</p>
+        <p className="tooltip-value">{`예약수: ${payload[0].value}`}</p>
+      </div>
+    ) : null;
   };
 
   // 파이 차트 커스텀 툴팁
   const PieTooltip = ({ active, payload }) => {
-    if (active && payload && payload.length) {
-      const data = payload[0].payload;
-      return (
-        <div className="pie-tooltip">
-          <p className="tooltip-label">{data.name}</p>
-          <p className="tooltip-value">{`인원수: ${data.value}명`}</p>
-          <p className="tooltip-percentage">{`비율: ${data.percentage}%`}</p>
-        </div>
-      );
-    }
-    return null;
+    return active && payload && payload.length ? (
+      <div className="pie-tooltip">
+        <p className="tooltip-label">{payload[0].payload.name}</p>
+        <p className="tooltip-value">{`인원수: ${payload[0].payload.value}명`}</p>
+        <p className="tooltip-percentage">{`비율: ${payload[0].payload.percentage}%`}</p>
+      </div>
+    ) : null;
   };
+
+  // expoId 없으면 화면만 그리고 API는 건너뜀 (사용자에게 안내)
+  if (!expoId) {
+    return (
+      <div className="dashboard-chart">
+        <div className="chart-section">
+          <div className="chart-card" style={{ padding: 16 }}>
+            유효한 박람회 ID가 없습니다. 경로 예:{" "}
+            <code>/admin/expos/1/dashboard</code>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard-chart">

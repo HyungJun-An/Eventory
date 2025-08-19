@@ -1,107 +1,59 @@
-import "../assets/css/dashboard/Dashboard.css";
+import { useParams } from "react-router-dom";
+import {
+  PageViewsCard,
+  TotalReservationsCard,
+  EntranceRateCard,
+} from "./sections/dashboard/DashboardStatsCard.jsx";
+import ChartSection from "./sections/dashboard/DashboardChartSection.jsx";
+import "../assets/css/dashboard/DashboardIndex.css";
 
-const Dashboard = () => {
-  return (
-    <div className="dashboard" data-model-id="11194:16485">
-      <div className="overlap-wrapper">
-        <div className="overlap">
-          <div className="overlap-group">
-            <div className="group">
-              <div className="weekly-activity">
-                <div className="text-wrapper">예약 현황</div>
+/**
+ * expoId는 우선 props로 받되, 없으면 라우터 파라미터(:expoId)로 대체한다.
+ * 이렇게 하면 상위에서 expoId를 내려주지 않아도 URL만 맞으면 동작한다.
+ */
+const DashboardPage = ({ expoId: expoIdProp }) => {
+  const { expoId: expoIdParam } = useParams();
+  const expoId = expoIdProp ?? expoIdParam; // props > URL 파라미터
 
-                <div className="group-wrapper">
-                  <div className="overlap-group-wrapper">
-                    <div className="div">
-                      <div className="overlap-2">
-                        <div className="text-wrapper-2">일별</div>
-                      </div>
-
-                      <div className="text-wrapper-3">주별</div>
-
-                      <div className="text-wrapper-4">월별</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="group-2">
-                  <div className="overlap-3">
-                    <div className="text-wrapper-5">CSV 다운로드</div>
-                  </div>
-                </div>
-
-                <div className="group-3">
-                  <div className="overlap-4">
-                    <div className="text-wrapper-6">엑셀 다운로드</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="expense-stats">
-                <div className="text-wrapper">티켓 종류별 예약 비율</div>
-
-                <img
-                  className="group-4"
-                  alt="Group"
-                  src="https://c.animaapp.com/mdwrp9urLhB6f1/img/group-399.png"
-                />
-              </div>
+  // expoId가 없을 때는 API 호출 컴포넌트 렌더링을 막는다(400 방지)
+  if (!expoId) {
+    return (
+      <div className="dashboard-index main-container">
+        <div className="content-wrapper">
+          <main className="main-content">
+            <div className="content-padding">
+              <p style={{ padding: "16px" }}>
+                유효한 박람회 ID가 없습니다. 경로 예:{" "}
+                <code>/admin/expos/1/dashboard</code>
+              </p>
             </div>
-
-            <div className="group-5">
-              <div className="group-6">
-                <div className="group-7">
-                  <div className="group-8">
-                    <div className="text-wrapper-7">5.80%</div>
-
-                    <div className="text-wrapper-8">입장률</div>
-                  </div>
-
-                  <img
-                    className="group-9"
-                    alt="Group"
-                    src="https://c.animaapp.com/mdwrp9urLhB6f1/img/group-307.png"
-                  />
-                </div>
-              </div>
-
-              <div className="group-10">
-                <div className="group-11">
-                  <div className="group-12">
-                    <div className="text-wrapper-9">1,250</div>
-
-                    <div className="text-wrapper-10">총 예약 수</div>
-                  </div>
-
-                  <img
-                    className="group-9"
-                    alt="Group"
-                    src="https://c.animaapp.com/mdwrp9urLhB6f1/img/group-305.png"
-                  />
-                </div>
-              </div>
-
-              <div className="group-13">
-                <div className="group-14">
-                  <div className="group-15">
-                    <div className="text-wrapper-11">150,000</div>
-
-                    <div className="text-wrapper-12">페이지 조회 수</div>
-                  </div>
-
-                  <img
-                    className="group-9"
-                    alt="Group"
-                    src="https://c.animaapp.com/mdwrp9urLhB6f1/img/group-303.png"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+          </main>
         </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="dashboard-index main-container">
+      <div className="content-wrapper">
+        {/* Main Content */}
+        <main className="main-content">
+          <div className="content-padding">
+            {/* Stats Cards Row */}
+            <div className="stats-grid">
+              {/* 하위 컴포넌트에 expoId를 명시적으로 전달 (안전) */}
+              <PageViewsCard expoId={expoId} />
+              <TotalReservationsCard expoId={expoId} />
+              <EntranceRateCard expoId={expoId} />
+            </div>
+
+            {/* Charts Section */}
+            <ChartSection expoId={expoId} />
+          </div>
+        </main>
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default DashboardPage;
