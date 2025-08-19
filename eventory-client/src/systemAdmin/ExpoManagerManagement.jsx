@@ -7,7 +7,8 @@ import { Button, message } from "antd";
 import Divider from "../components/Divider";
 import SysAdminButton from "../components/SysAdminButton";
 import ExpoDetailModal from "./ExpoDetailModal";
-import { getManagers } from "../api/sysExpoAdminApi"
+import { getManagers } from "../api/sysExpoAdminApi";
+import ManagerInfoEditModal from "./managerInfoEditModal";
 
 export const ExpoManagerManagement = () => {
   const [firstPage, setFirstPage] = useState(1);
@@ -16,6 +17,7 @@ export const ExpoManagerManagement = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalId, setModalId] = useState();
   const [searchText, setSearchText] = useState("");
+  const [showManagerEditModal, setShowManagerEditModal] = useState(true);
   const [managers, setManagers] = useState([
     {
       id: 1,
@@ -48,12 +50,12 @@ export const ExpoManagerManagement = () => {
   }, []);
 
   async function fetchDataOnPageChange() {
-      try {
-        let manager = await getManagers(searchText, currentPage - 1, 20);
-        setManagers(manager.content);
-        setPagesize(manager.totalPage);
-      } catch (error) {}
-    }
+    try {
+      let manager = await getManagers(searchText, currentPage - 1, 20);
+      setManagers(manager.content);
+      setPagesize(manager.totalPage);
+    } catch (error) {}
+  }
 
   useEffect(() => {
     fetchDataOnPageChange();
@@ -97,7 +99,7 @@ export const ExpoManagerManagement = () => {
         <SysAdminButton
           onClick={() => {
             setShowModal(true);
-            setModalId(manager.id)
+            setModalId(manager.id);
           }}
           text="보기"
           textColor={"#232323"}
@@ -113,6 +115,11 @@ export const ExpoManagerManagement = () => {
           closeModal={() => setShowModal(false)}
           id={modalId}
         ></ExpoDetailModal>
+      )}
+      {showManagerEditModal && (
+        <ManagerInfoEditModal
+          onClose={() => setShowManagerEditModal(false)}
+        ></ManagerInfoEditModal>
       )}
       (
       <div className="wrapper">
@@ -150,7 +157,7 @@ export const ExpoManagerManagement = () => {
             </div>
             <div
               onClick={() => {
-fetchDataOnPageChange()
+                fetchDataOnPageChange();
               }}
             >
               <img
