@@ -1,0 +1,151 @@
+.expoadmin-sideBar {
+  height: 409px;
+  left: 0;
+  position: absolute;
+  top: 131px;
+  width: 183px;
+}
+
+.expoadmin-sideBar .div-2 {
+  height: 25px;
+  left: 44px;
+  position: absolute;
+  top: 64px;
+  width: 124px;
+}
+
+.expoadmin-sideBar .img {
+  height: 25px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 25px;
+}
+
+.expoadmin-sideBar .text-wrapper {
+  color: #343a4080;
+  font-family: var(--heading-three-medium-18p-font-family);
+  font-size: var(--heading-three-medium-18p-font-size);
+  font-style: var(--heading-three-medium-18p-font-style);
+  font-weight: var(--heading-three-medium-18p-font-weight);
+  left: 51px;
+  letter-spacing: var(--heading-three-medium-18p-letter-spacing);
+  line-height: var(--heading-three-medium-18p-line-height);
+  position: absolute;
+}
+
+.expoadmin-sideBar .div-3 {
+  height: 25px;
+  left: 44px;
+  position: absolute;
+  top: 192px;
+  width: 124px;
+}
+
+.expoadmin-sideBar .text-wrapper-2 {
+  color: #343a4080;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 51px;
+  position: absolute;
+}
+
+.expoadmin-sideBar .div-4 {
+  height: 26px;
+  left: 43px;
+  position: absolute;
+  top: 256px;
+  width: 125px;
+}
+
+.expoadmin-sideBar .credit-card {
+  height: 26px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 26px;
+}
+
+.expoadmin-sideBar .text-wrapper-3 {
+  color: #007bff;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 52px;
+  position: absolute;
+}
+
+.expoadmin-sideBar .div-5 {
+  height: 25px;
+  left: 43px;
+  position: absolute;
+  top: 321px;
+  width: 125px;
+}
+
+.expoadmin-sideBar .text-wrapper-4 {
+  color: #343a4080;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 52px;
+  letter-spacing: 0;
+  position: absolute;
+}
+
+.expoadmin-sideBar .div-6 {
+  height: 25px;
+  left: 43px;
+  position: absolute;
+  top: 384px;
+  width: 125px;
+}
+
+.expoadmin-sideBar .text-wrapper-5 {
+  color: #343a4080;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 52px;
+  letter-spacing: 0;
+  position: absolute;
+  width: 71px;
+  white-space: nowrap;
+  overflow: hidden; 
+}
+
+.expoadmin-sideBar .div-7 {
+  height: 25px;
+  left: 44px;
+  position: absolute;
+  top: 129px;
+  width: 141px;
+}
+
+.expoadmin-sideBar .text-wrapper-6 {
+  color: #343a4080;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 51px;
+  letter-spacing: 0;
+  position: absolute;
+}
+
+.expoadmin-sideBar .div-8 {
+  height: 25px;
+  left: 44px;
+  position: absolute;
+  width: 120px;
+}
+
+.expoadmin-sideBar .rectangle {
+  background-color: #007bff;
+  border-radius: 0px 10px 10px 0px;
+  height: 60px;
+  left: 0;
+  position: absolute;
+  top: 239px;
+  width: 6px;
+}

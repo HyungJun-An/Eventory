@@ -1,0 +1,738 @@
+.dashboard {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.dashboard .overlap-wrapper {
+  background-color: #ffffff;
+  height: 1175px;
+  overflow: hidden;
+  width: 1440px;
+}
+
+.dashboard .overlap {
+  height: 1184px;
+  position: relative;
+}
+
+.dashboard .overlap-group {
+  background-color: #f4f6f9;
+  height: 1083px;
+  left: 250px;
+  position: absolute;
+  top: 101px;
+  width: 1190px;
+}
+
+.dashboard .group {
+  height: 446px;
+  left: 40px;
+  position: absolute;
+  top: 328px;
+  width: 1110px;
+}
+
+.dashboard .weekly-activity {
+  height: 445px;
+  left: 0;
+  position: absolute;
+  top: 2px;
+  width: 732px;
+}
+
+.dashboard .text-wrapper {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 22px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+}
+
+.dashboard .group-wrapper {
+  background-image: url(https://c.animaapp.com/mdwrp9urLhB6f1/img/group-240.png);
+  background-size: 100% 100%;
+  height: 400px;
+  left: 0;
+  position: absolute;
+  top: 45px;
+  width: 730px;
+}
+
+.dashboard .overlap-group-wrapper {
+  height: 45px;
+  left: 489px;
+  position: relative;
+  top: 10px;
+  width: 235px;
+}
+
+.dashboard .div {
+  background-color: #f4f6f9;
+  border-radius: 9px;
+  height: 45px;
+  position: relative;
+  width: 229px;
+}
+
+.dashboard .overlap-2 {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 0px 0px transparent, 0px 0px 0px transparent,
+    0px 0px 0px transparent, 0px 0px 0px transparent, 0px 1px 3px #0000001a,
+    0px 1px 2px #0000001a;
+  height: 37px;
+  left: 4px;
+  position: absolute;
+  top: 4px;
+  width: 74px;
+}
+
+.dashboard .text-wrapper-2 {
+  color: #007bff;
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-weight: 500;
+  left: 25px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: center;
+  top: 7px;
+  white-space: nowrap;
+}
+
+.dashboard .text-wrapper-3 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-weight: 500;
+  left: 103px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: center;
+  top: 11px;
+  white-space: nowrap;
+}
+
+.dashboard .text-wrapper-4 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-weight: 500;
+  left: 177px;
+  letter-spacing: 0;
+  line-height: 21px;
+  position: absolute;
+  text-align: center;
+  top: 11px;
+  white-space: nowrap;
+}
+
+.dashboard .group-2 {
+  height: 33px;
+  left: 453px;
+  position: absolute;
+  top: 0;
+  width: 132px;
+}
+
+.dashboard .overlap-3 {
+  border: 1px solid;
+  border-color: #007bff;
+  border-radius: 9px;
+  height: 33px;
+  position: relative;
+  width: 130px;
+}
+
+.dashboard .text-wrapper-5 {
+  color: #007bff;
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-weight: 500;
+  left: 22px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 7px;
+}
+
+.dashboard .group-3 {
+  height: 33px;
+  left: 600px;
+  position: absolute;
+  top: 0;
+  width: 132px;
+}
+
+.dashboard .overlap-4 {
+  border: 1px solid;
+  border-color: #28a745;
+  border-radius: 9px;
+  height: 33px;
+  position: relative;
+  width: 130px;
+}
+
+.dashboard .text-wrapper-6 {
+  color: #28a745;
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-weight: 500;
+  left: 23px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 7px;
+}
+
+.dashboard .expense-stats {
+  height: 445px;
+  left: 760px;
+  position: absolute;
+  top: 0;
+  width: 352px;
+}
+
+.dashboard .group-4 {
+  height: 402px;
+  left: -6px;
+  position: absolute;
+  top: 45px;
+  width: 363px;
+}
+
+.dashboard .group-5 {
+  height: 190px;
+  left: 38px;
+  position: absolute;
+  top: 54px;
+  width: 1110px;
+}
+
+.dashboard .group-6 {
+  background-color: #ffffff;
+  border-radius: 25px;
+  height: 190px;
+  left: 760px;
+  position: absolute;
+  top: 0;
+  width: 350px;
+}
+
+.dashboard .group-7 {
+  height: 111px;
+  left: 66px;
+  position: relative;
+  top: 39px;
+  width: 221px;
+}
+
+.dashboard .group-8 {
+  height: 81px;
+  left: 122px;
+  position: absolute;
+  top: 16px;
+  width: 103px;
+}
+
+.dashboard .text-wrapper-7 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 24px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  width: 99px;
+}
+
+.dashboard .text-wrapper-8 {
+  color: #718ebf;
+  font-family: "Inter", Helvetica;
+  font-size: 22px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  width: 99px;
+}
+
+.dashboard .group-9 {
+  height: 111px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 110px;
+}
+
+.dashboard .group-10 {
+  background-color: #ffffff;
+  border-radius: 25px;
+  height: 190px;
+  left: 380px;
+  position: absolute;
+  top: 0;
+  width: 350px;
+}
+
+.dashboard .group-11 {
+  height: 111px;
+  left: 45px;
+  position: relative;
+  top: 40px;
+  width: 261px;
+}
+
+.dashboard .group-12 {
+  height: 81px;
+  left: 122px;
+  position: absolute;
+  top: 16px;
+  width: 142px;
+}
+
+.dashboard .text-wrapper-9 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 24px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 43px;
+  width: 102px;
+}
+
+.dashboard .text-wrapper-10 {
+  color: #718ebf;
+  font-family: "Inter", Helvetica;
+  font-size: 22px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  width: 138px;
+}
+
+.dashboard .group-13 {
+  background-color: #ffffff;
+  border-radius: 25px;
+  height: 190px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 350px;
+}
+
+.dashboard .group-14 {
+  height: 111px;
+  left: 45px;
+  position: relative;
+  top: 40px;
+  width: 272px;
+}
+
+.dashboard .group-15 {
+  height: 81px;
+  left: 121px;
+  position: absolute;
+  top: 16px;
+  width: 155px;
+}
+
+.dashboard .text-wrapper-11 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 24px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 43px;
+  width: 146px;
+}
+
+.dashboard .text-wrapper-12 {
+  color: #718ebf;
+  font-family: "Inter", Helvetica;
+  font-size: 22px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  width: 151px;
+}
+
+.dashboard .overlap-5 {
+  height: 1184px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1440px;
+}
+
+.dashboard .header {
+  background-color: transparent;
+  height: 101px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1440px;
+}
+
+.dashboard .overlap-6 {
+  background-color: #ffffff;
+  height: 100px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1440px;
+}
+
+.dashboard .group-16 {
+  height: 36px;
+  left: 43px;
+  position: absolute;
+  top: 33px;
+  width: 351px;
+}
+
+.dashboard .group-17 {
+  height: 34px;
+  left: 247px;
+  position: absolute;
+  top: 0;
+  width: 106px;
+}
+
+.dashboard .text-wrapper-13 {
+  color: #007bff;
+  font-family: "Inter", Helvetica;
+  font-size: 28px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+}
+
+.dashboard .logo {
+  height: 36px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 157px;
+}
+
+.dashboard .website-logos-instance {
+  gap: 9.81px !important;
+  height: 36px !important;
+  width: 157px !important;
+}
+
+.dashboard .design-component-instance-node {
+  height: 27.44px !important;
+  width: 30.66px !important;
+}
+
+.dashboard .website-logos-2 {
+  height: 24.84px !important;
+  width: 110.39px !important;
+}
+
+.dashboard .group-18 {
+  height: 46px;
+  left: 1252px;
+  position: absolute;
+  top: 28px;
+  width: 150px;
+}
+
+.dashboard .overlap-group-2 {
+  background-color: var(--white);
+  border: 1px solid;
+  border-color: #007bff;
+  border-radius: 9px;
+  height: 46px;
+  position: relative;
+  width: 148px;
+}
+
+.dashboard .text-wrapper-14 {
+  color: #007bff;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 38px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 11px;
+  width: 70px;
+}
+
+.dashboard .group-19 {
+  height: 46px;
+  left: 1025px;
+  position: absolute;
+  top: 28px;
+  width: 191px;
+}
+
+.dashboard .overlap-7 {
+  background-color: #f4f6f9;
+  border-radius: 9px;
+  height: 46px;
+  position: relative;
+  width: 189px;
+}
+
+.dashboard .vector {
+  height: 5px;
+  left: 158px;
+  position: absolute;
+  top: 22px;
+  width: 11px;
+}
+
+.dashboard .text-wrapper-15 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 50px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 12px;
+  width: 89px;
+}
+
+.dashboard .rectangle {
+  background-color: #e5eef4;
+  height: 1px;
+  left: 250px;
+  position: absolute;
+  top: 100px;
+  width: 1190px;
+}
+
+.dashboard .sidebar-menu {
+  height: 1184px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 250px;
+}
+
+.dashboard .group-20 {
+  height: 426px;
+  left: 0;
+  position: absolute;
+  top: 100px;
+  width: 183px;
+}
+
+.dashboard .group-21 {
+  height: 25px;
+  left: 44px;
+  position: absolute;
+  top: 81px;
+  width: 124px;
+}
+
+.dashboard .img-2 {
+  height: 25px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 25px;
+}
+
+.dashboard .text-wrapper-16 {
+  color: #b1b1b1;
+  font-family: var(--heading-three-medium-18p-font-family);
+  font-size: var(--heading-three-medium-18p-font-size);
+  font-style: var(--heading-three-medium-18p-font-style);
+  font-weight: var(--heading-three-medium-18p-font-weight);
+  left: 51px;
+  letter-spacing: var(--heading-three-medium-18p-letter-spacing);
+  line-height: var(--heading-three-medium-18p-line-height);
+  position: absolute;
+  top: 2px;
+}
+
+.dashboard .group-22 {
+  height: 25px;
+  left: 44px;
+  position: absolute;
+  top: 209px;
+  width: 124px;
+}
+
+.dashboard .text-wrapper-17 {
+  color: #b1b1b1;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 51px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 2px;
+}
+
+.dashboard .group-23 {
+  height: 26px;
+  left: 43px;
+  position: absolute;
+  top: 273px;
+  width: 125px;
+}
+
+.dashboard .credit-card {
+  height: 26px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 26px;
+}
+
+.dashboard .text-wrapper-18 {
+  color: #b1b1b1;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 52px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 2px;
+}
+
+.dashboard .group-24 {
+  height: 25px;
+  left: 43px;
+  position: absolute;
+  top: 338px;
+  width: 125px;
+}
+
+.dashboard .text-wrapper-19 {
+  color: #b1b1b1;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 52px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 1px;
+}
+
+.dashboard .group-25 {
+  height: 25px;
+  left: 43px;
+  position: absolute;
+  top: 401px;
+  width: 125px;
+}
+
+.dashboard .text-wrapper-20 {
+  color: #b1b1b1;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 52px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 2px;
+  width: 71px;
+}
+
+.dashboard .group-26 {
+  height: 25px;
+  left: 44px;
+  position: absolute;
+  top: 146px;
+  width: 141px;
+}
+
+.dashboard .text-wrapper-21 {
+  color: #b1b1b1;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 51px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 1px;
+}
+
+.dashboard .group-27 {
+  height: 60px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 164px;
+}
+
+.dashboard .home {
+  height: 25px;
+  left: 44px;
+  position: absolute;
+  top: 17px;
+  width: 25px;
+}
+
+.dashboard .text-wrapper-22 {
+  color: #007bff;
+  font-family: "Inter", Helvetica;
+  font-size: 18px;
+  font-weight: 500;
+  left: 95px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 19px;
+}
+
+.dashboard .rectangle-2 {
+  background-color: #007bff;
+  border-radius: 0px 10px 10px 0px;
+  height: 60px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 6px;
+}
+
+.dashboard .rectangle-3 {
+  background-color: #e6eff5;
+  height: 1184px;
+  left: 249px;
+  position: absolute;
+  top: 0;
+  width: 1px;
+}

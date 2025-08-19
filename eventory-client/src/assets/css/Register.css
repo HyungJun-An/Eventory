@@ -1,0 +1,176 @@
+/* RegisterForm.css */
+.register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #f2f2f2;
+  /* 배경 회색 */
+  font-family: 'Arial', sans-serif;
+}
+
+.frame {
+  background-color: #fff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  width: 50%;
+}
+
+.frame-wrapper form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input.colored {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #d1d1d1;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.div-4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.div-4 .rectangle {
+  flex: 1;
+  height: 1px;
+  background-color: #d1d1d1;
+}
+
+.div-4 .text-wrapper {
+  font-size: 12px;
+  color: #888;
+}
+
+.div-2 label {
+  color: black;
+  display: block;
+  margin-right: 0%;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.input-instance.input-3 {
+  width: 100%;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #d1d1d1;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.input-wrapper {
+  display: flex;
+  width: 100%;
+  padding: 10px;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #6a6a6a;
+  border-radius: 16px;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.div-2 small {
+  font-size: 12px;
+  color: #999;
+  margin-top: 4px;
+  display: block;
+}
+
+.search-box-date-picker {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d1d1;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.buttons {
+  background-color: #3578e5;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.text-wrapper-5 {
+  text-align: center;
+  font-size: 12px;
+  color: #555;
+}
+
+.text-wrapper-5 a {
+  color: #3578e5;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+
+.form-group {
+  display: flex;
+  flex-direction: row;
+  /* 가로 배치 */
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  /* 줄바꿈 방지 */
+  width: 100%;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 200px;
+  /* 너무 좁아지는 것 방지 */
+}
+
+.form-field label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: black;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 8px 10px;
+  background: white;
+}
+
+.input-wrapper svg {
+  color: #555;
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.input-wrapper input[type="date"],
+.input-wrapper select {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  flex: 1;
+  color: #333;
+  cursor: pointer;
+}

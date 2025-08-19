@@ -1,0 +1,580 @@
+/* 페이지 배경만 */
+.user-screen {
+  width: 100%;
+  background: #fff;
+}
+
+/* 이 페이지 전용 중앙 그리드(기둥) */
+.userMain__container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1440px; /* 페이지 전체 폭 */
+  margin: 0 auto; /* 중앙 정렬 */
+  padding: 0 24px; /* 좌우 가이드 여백 */
+  display: flex;
+  flex-direction: column; /* 섹션이 위→아래로 쌓임 */
+  gap: 72px; /* 섹션 간 간격 */
+}
+
+/* ── Hero (상단 파란 영역 이미지) : 컨테이너 패딩을 무시하고 화면 양끝까지 */
+/* .userMain__container .hero-image {
+  display: block;
+  width: 100%;
+  margin: 0;
+  height: 656px; */
+/* object-fit: inherit; */
+/* 필요하면 아래로 살짝 크롭
+  object-position: center 120px; 
+  */
+/* } */
+
+/* Hero (이미지 대체, 진짜 UI) */
+.hero {
+  background: #0a2540; /* 파란 배경 */
+  min-height: 600px;
+  padding: 24px 24px; /* 위아래 여백 */
+  color: #fff;
+  display: grid;
+  place-items: center; /* 내용 중앙 정렬 */
+  gap: 20px;
+}
+.hero__inner {
+  max-width: 1000px; /* 캐러셀과 폭 맞춤 */
+
+  text-align: center;
+}
+.hero__title {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+.hero__subtitle {
+  opacity: 0.8;
+  margin: 0 0 24px;
+}
+.hero__form {
+  display: grid;
+  grid-template-columns: minmax(280px, 420px) 200px 200px 140px;
+  gap: 12px;
+  width: max-content;
+  margin: 0 auto;
+  justify-items: stretch;
+}
+.hero__input {
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid #d6dbe5;
+  padding: 0 12px;
+  background: #fff;
+  color: #1b2430;
+}
+.hero__btn {
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: #1a73e8;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* 반응형(좁을 때 한 줄씩) */
+@media (max-width: 900px) {
+  .hero__form {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Banner 캐러셀 (가운데 1440px) */
+.userMain__container .main-content {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  height: 810px;
+  margin: 0 auto;
+}
+
+/* 과거 절대배치 쓰던 섹션은 사용 안 함 */
+.user-screen .secondary-content {
+  display: none;
+}
+
+/* ── Benefits */
+.userMain__container .benefits-section {
+  width: 100%;
+  max-width: 1232px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.userMain__container .benefits-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 제목/부제 가운데 */
+  gap: 4px;
+}
+.userMain__container .section-title {
+  color: var(--black);
+  font-family: var(--h4-font-family);
+  font-size: var(--h4-font-size);
+  font-style: var(--h4-font-style);
+  font-weight: var(--h4-font-weight);
+  letter-spacing: var(--h4-letter-spacing);
+  line-height: var(--h4-line-height);
+  margin-top: -1px;
+}
+.userMain__container .section-subtitle {
+  color: var(--neutralgray-700);
+  font-family: var(--body-SM-font-family);
+  font-size: var(--body-SM-font-size);
+  font-style: var(--body-SM-font-style);
+  font-weight: var(--body-SM-font-weight);
+  letter-spacing: var(--body-SM-letter-spacing);
+  line-height: var(--body-SM-line-height);
+  text-align: center;
+}
+.userMain__container .benefits-grid {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  width: 100%;
+  /* 필요하면 카드 좌우 벌리기
+     justify-content: space-between;
+  */
+}
+.userMain__container .benefit-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  height: 179px;
+  width: 292px;
+}
+.userMain__container .benefit-icon {
+  height: 80px;
+  width: 100px;
+}
+.userMain__container .benefit-title {
+  color: var(--black);
+  font-family: var(--h4-font-family);
+  font-size: var(--h4-font-size);
+  font-style: var(--h4-font-style);
+  font-weight: var(--h4-font-weight);
+  letter-spacing: var(--h4-letter-spacing);
+  line-height: var(--h4-line-height);
+}
+.userMain__container .benefit-description {
+  color: var(--neutralgray-700);
+  font-family: var(--body-XS-font-family);
+  font-size: var(--body-XS-font-size);
+  font-style: var(--body-XS-font-style);
+  font-weight: var(--body-XS-font-weight);
+  letter-spacing: var(--body-XS-letter-spacing);
+  line-height: var(--body-XS-line-height);
+  text-align: center;
+}
+
+/* ── 진행/예정 카드 섹션 (가운데 1232px) */
+.userMain__container .expo-lists {
+  width: 100%;
+  max-width: 1232px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+.userMain__container .expo-card-list {
+  margin: 0;
+}
+
+.expo-empty {
+  padding: 24px;
+  text-align: center;
+  color: #546179;
+  background: #f6f7f9;
+  border-radius: 12px;
+}
+
+/* ── 4 Steps (배경 풀블리드 느낌을 위해 컨테이너 패딩 무시) */
+.userMain__container .steps-wrapper {
+  width: calc(100% + 48px);
+  margin-left: -24px;
+  margin-right: -24px;
+  background-color: var(--neutralgray-50);
+  padding: 70px 24px; /* 좌우 24로 대칭 */
+  display: block; /* 섹션 래핑은 아래에서 */
+}
+.userMain__container .steps-section {
+  max-width: 1232px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column; /* Benefits처럼 위→아래 */
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+}
+.userMain__container .steps-header {
+  flex: initial; /* 고정폭 해제 */
+  max-width: none; /* 최대폭 제한 해제 */
+  height: auto; /* 높이 고정 해제 */
+  align-items: center;
+}
+.userMain__container .steps-info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+.userMain__container .steps-title {
+  color: var(--black);
+  font-family: var(--h4-font-family);
+  font-size: var(--h4-font-size);
+  font-style: var(--h4-font-style);
+  font-weight: var(--h4-font-weight);
+  letter-spacing: var(--h4-letter-spacing);
+  line-height: var(--h4-line-height);
+  margin-top: -1px;
+}
+.userMain__container .steps-subtitle {
+  color: var(--neutralgray-700);
+  font-family: var(--body-SM-font-family);
+  font-size: var(--body-SM-font-size);
+  font-style: var(--body-SM-font-style);
+  font-weight: var(--body-SM-font-weight);
+  letter-spacing: var(--body-SM-letter-spacing);
+  line-height: var(--body-SM-line-height);
+}
+.userMain__container .buy-ticket-btn {
+  align-items: center;
+  background-color: var(--primaryprimary);
+  border: none;
+  border-radius: 16px;
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  font-family: var(--button-SM-font-family);
+  font-size: var(--button-SM-font-size);
+  font-style: var(--button-SM-font-style);
+  font-weight: var(--button-SM-font-weight);
+  gap: 4px;
+  height: 40px;
+  justify-content: center;
+  letter-spacing: var(--button-SM-letter-spacing);
+  line-height: var(--button-SM-line-height);
+  padding: 8px 24px;
+  text-align: center;
+  width: 140px;
+}
+
+/* 내부 그림 라인 + 아이템의 잔여 좌표 제거(왼쪽 쏠림 방지) */
+.userMain__container .steps-content {
+  width: 100%;
+  height: auto;
+  position: relative;
+  margin: 0 auto; /* ← 중앙 */
+  display: grid;
+  place-items: center;
+}
+.userMain__container .steps-background {
+  background-image: url(https://c.animaapp.com/me6sahcjqNWWBm/img/vector-7.svg);
+  background-size: 100% 100%;
+  background-position: center;
+  width: 922px;
+  max-width: 100%;
+  height: 214px;
+  position: relative;
+  top: 0; /* -1px → 0 */
+  left: 0; /* 이미 0이면 유지 */
+  margin: 0 auto; /* 중앙 */
+}
+.userMain__container .steps-grid {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  width: 798px;
+  max-width: 100%;
+  position: relative;
+  top: 0; /* 6px → 0 */
+  left: 0;
+  margin: 0 auto; /* 중앙 */
+}
+.userMain__container .step-item {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.userMain__container .step-icon {
+  height: 80px;
+  width: 80px;
+}
+.userMain__container .step-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+.userMain__container .step-title {
+  color: var(--black);
+  font-family: var(--h6-font-family);
+  font-size: var(--h6-font-size);
+  font-style: var(--h6-font-style);
+  font-weight: var(--h6-font-weight);
+  letter-spacing: var(--h6-letter-spacing);
+  line-height: var(--h6-line-height);
+  margin-top: -1px;
+  text-align: center;
+}
+.userMain__container .step-description {
+  color: var(--neutralgray-700);
+  font-family: var(--body-XS-font-family);
+  font-size: var(--body-XS-font-size);
+  font-style: var(--body-XS-font-style);
+  font-weight: var(--body-XS-font-weight);
+  letter-spacing: var(--body-XS-letter-spacing);
+  line-height: var(--body-XS-line-height);
+  text-align: center;
+}
+
+/* ── FAQ (배경 풀블리드) */
+.userMain__container .faq-wrapper {
+  width: calc(100% + 48px);
+  margin-left: -24px;
+  margin-right: -24px;
+  background-color: var(--neutralgray-50);
+  padding: 47px 78px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+.userMain__container .faq-section {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+.userMain__container .faq-left {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 80px;
+  height: 478px;
+  max-width: 400px;
+}
+.userMain__container .faq-title {
+  color: var(--black);
+  font-family: var(--h4-font-family);
+  font-size: var(--h4-font-size);
+  font-style: var(--h4-font-style);
+  font-weight: var(--h4-font-weight);
+  letter-spacing: var(--h4-letter-spacing);
+  line-height: var(--h4-line-height);
+  margin-top: -1px;
+}
+.userMain__container .faq-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  width: 100%;
+}
+.userMain__container .contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+}
+.userMain__container .contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+.userMain__container .contact-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--neutralgray-100);
+  border-radius: 8px;
+  height: 44px;
+  width: 44px;
+  padding: 10px;
+}
+.userMain__container .contact-text {
+  color: var(--black);
+  flex: 1;
+  font-family: var(--body-LG-font-family);
+  font-size: var(--body-LG-font-size);
+  font-style: var(--body-LG-font-style);
+  font-weight: var(--body-LG-font-weight);
+  letter-spacing: var(--body-LG-letter-spacing);
+  line-height: var(--body-LG-line-height);
+}
+.userMain__container .contact-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+.userMain__container .cta-title {
+  color: var(--black);
+  font-family: var(--h5-font-family);
+  font-size: var(--h5-font-size);
+  font-style: var(--h5-font-style);
+  font-weight: var(--h5-font-weight);
+  letter-spacing: var(--h5-letter-spacing);
+  line-height: var(--h5-line-height);
+  margin-top: -1px;
+}
+.userMain__container .cta-description {
+  color: var(--neutralgray-700);
+  font-family: var(--body-MD-font-family);
+  font-size: var(--body-MD-font-size);
+  font-style: var(--body-MD-font-style);
+  font-weight: var(--body-MD-font-weight);
+  letter-spacing: var(--body-MD-letter-spacing);
+  line-height: var(--body-MD-line-height);
+}
+.userMain__container .contact-btn {
+  align-items: center;
+  background-color: var(--primaryprimary);
+  border: none;
+  border-radius: 16px;
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  font-family: var(--button-SM-font-family);
+  font-size: var(--button-SM-font-size);
+  font-style: var(--button-SM-font-style);
+  font-weight: var(--button-SM-font-weight);
+  gap: 4px;
+  height: 40px;
+  justify-content: center;
+  letter-spacing: var(--button-SM-letter-spacing);
+  line-height: var(--button-SM-line-height);
+  padding: 8px 24px;
+  text-align: center;
+  width: 140px;
+}
+.userMain__container .faq-right {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 60px;
+}
+.userMain__container .faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  align-items: flex-end;
+}
+.userMain__container .faq-item {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+.userMain__container .faq-item.expanded {
+  gap: 8px;
+}
+.userMain__container .faq-item.last {
+  align-items: center;
+  justify-content: center;
+}
+.userMain__container .faq-question {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: flex-start;
+}
+.userMain__container .question-text {
+  color: var(--black);
+  flex: 1;
+  font-family: var(--body-LG-font-family);
+  font-size: var(--body-LG-font-size);
+  font-style: var(--body-LG-font-style);
+  font-weight: var(--body-LG-font-weight);
+  letter-spacing: var(--body-LG-letter-spacing);
+  line-height: var(--body-LG-line-height);
+  margin-top: -1px;
+}
+.userMain__container .arrow-icon {
+  height: 24px;
+  width: 24px;
+}
+.userMain__container .faq-answer {
+  color: var(--neutralgray-700);
+  font-family: var(--body-SM-font-family);
+  font-size: var(--body-SM-font-size);
+  font-style: var(--body-SM-font-style);
+  font-weight: var(--body-SM-font-weight);
+  letter-spacing: var(--body-SM-letter-spacing);
+  line-height: var(--body-SM-line-height);
+}
+.userMain__container .divider {
+  background-color: var(--neutralgray-100);
+  border-radius: 1px;
+  height: 1px;
+  width: 100%;
+}
+.userMain__container .read-more-btn {
+  display: inline-flex;
+  align-items: center;
+  background-color: transparent;
+  border: 1px solid #007bff;
+  border-radius: 16px;
+  color: var(--primaryprimary);
+  cursor: pointer;
+  font-family: var(--button-SM-font-family);
+  font-size: var(--button-SM-font-size);
+  font-style: var(--button-SM-font-style);
+  font-weight: var(--button-SM-font-weight);
+  gap: 4px;
+  height: 40px;
+  justify-content: center;
+  letter-spacing: var(--button-SM-letter-spacing);
+  line-height: var(--button-SM-line-height);
+  padding: 8px 24px;
+  text-align: center;
+}
+
+/* ── Sponsors */
+.userMain__container .sponsors-section {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+  opacity: 0.5;
+  width: 100%;
+  max-width: 1232px;
+  margin: 0 auto;
+}
+.userMain__container .sponsor-logo {
+  height: 120px;
+  width: 120px;
+  object-fit: cover;
+}
+.userMain__container .sponsor-placeholder {
+  background-color: var(--neutralgray-100);
+  border-radius: 8px;
+  height: 120px;
+  width: 120px;
+}
+
+/* 더 이상 쓰지 않는 예전 placeholder 캐러셀 숨김 */
+.user-screen .carousel {
+  display: none !important;
+}
+
+/* 푸터 이미지(필요 시 풀블리드) */
+/* .userMain__container .footer {
+  display: block;
+  width: calc(100% + 48px);
+  margin-left: -24px;
+  margin-right: -24px;
+  height: 705px;
+  object-fit: cover;
+} */
