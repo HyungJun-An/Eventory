@@ -4,12 +4,14 @@ import com.eventory.auth.security.CustomUserPrincipal;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.dto.*;
+import com.eventory.expoAdmin.service.BoothService;
 import com.eventory.expoAdmin.service.ExpoAdminService;
 import com.eventory.expoAdmin.service.ExpoInfoService;
 import com.eventory.expoAdmin.service.SalesAdminService;
 import com.eventory.expoAdmin.web.FileResponseUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.core.io.Resource;
@@ -17,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +31,14 @@ public class ExpoAdminController {
     private final ExpoAdminService expoAdminService;
     private final SalesAdminService salesAdminService;
     private final ExpoInfoService expoInfoService;
+    private final BoothService boothService;
+
+    // 박람회 신청
+    @PostMapping("/expos")
+    public ResponseEntity<Void> createExpo(@Valid @RequestBody ExpoCreateRequestDto requestDto) {
+        expoAdminService.createExpo(requestDto);
+        return ResponseEntity.ok().build();
+    }
 
     // 해당 박람회 관리자에 속하는 전체 박람회 목록
     @GetMapping("/expos")
@@ -64,6 +75,8 @@ public class ExpoAdminController {
             @AuthenticationPrincipal CustomUserPrincipal expoAdmin,
             @PathVariable Long expoId,
             @RequestParam(required = false) String code,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size) {
 
@@ -72,9 +85,9 @@ public class ExpoAdminController {
         List<PaymentResponseDto> paymentResponseDto;
 
         if (page!=null && size!=null) { // 페이징 O
-            paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId, code, page, size);
+            paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId, code, startDate, endDate, page, size);
         } else { // 페이징 X
-            paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId, code);
+            paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId);
         }
 
         return ResponseEntity.ok(paymentResponseDto);
@@ -86,7 +99,7 @@ public class ExpoAdminController {
 
         Long expoAdminId = expoAdmin.getId();
 
-        List<PaymentResponseDto> paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId, null);
+        List<PaymentResponseDto> paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId);
 
         Resource excel = salesAdminService.downloadPaymentsExcel(paymentResponseDto);
 
@@ -206,7 +219,7 @@ public class ExpoAdminController {
 
     // 특정 박람회 정보 수정
     @PutMapping("/expos/{expoId}")
-    public ResponseEntity<Void> updateExpoInfo(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId, @Valid @RequestBody ExpoRequestDto requestDto) {
+    public ResponseEntity<Void> updateExpoInfo(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId, @Valid @RequestBody ExpoUpdateRequestDto requestDto) {
         Long expoAdminId = expoAdmin.getId();
         expoInfoService.updateExpoInfo(expoAdminId, expoId, requestDto);
         return ResponseEntity.ok().build();
@@ -234,5 +247,29 @@ public class ExpoAdminController {
         Long expoAdminId = expoAdmin.getId();
         expoInfoService.updateExpoBanner(expoAdminId, expoId, requestDto);
         return ResponseEntity.ok().build();
+    }
+
+    // 특정 박람회에 대한 부스 신청 목록 조회
+    @GetMapping("/expos/{expoId}/booths")
+    public ResponseEntity<List<BoothResponseDto>> findAllBooths(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId) {
+        Long expoAdminId = expoAdmin.getId();
+        List<BoothResponseDto> booths = boothService.findAllBooths(expoAdminId, expoId);
+        return ResponseEntity.ok(booths);
+    }
+
+    // 특정 박람회에 대한 특정 부스 상태 변경
+    @PutMapping("/expos/{expoId}/booths/{boothId}")
+    public ResponseEntity<Void> updateBooth(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId, @PathVariable Long boothId, @Valid @RequestBody BoothRequestDto requestDto) {
+        Long expoAdminId = expoAdmin.getId();
+        boothService.updateBooth(expoAdminId, expoId, boothId, requestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    // 예약자 명단
+    @GetMapping("/expos/{expoId}/reservations")
+    public ResponseEntity<ReservationListResponseDto> findReservationList(@AuthenticationPrincipal CustomUserPrincipal expoAdmin,  @PathVariable Long expoId, @Valid @ModelAttribute ReservationListRequestDto requestDto) {
+        Long expoAdminId = expoAdmin.getId();
+        ReservationListResponseDto list = expoAdminService.findReservationList(expoAdminId, expoId, requestDto);
+        return ResponseEntity.ok(list);
     }
 }

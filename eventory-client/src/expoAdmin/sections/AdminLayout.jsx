@@ -10,13 +10,15 @@ const AdminLayout = ({ children }) => {
   });
 
     return (
+        <>
+        <SideBar />
         <div className="admin-layout">
-            <SideBar />
-            <div className="main-content">
+        <div className="main-content">
                 <Header expoId={expoId} setExpoId={setExpoId}/>
                 {childrenWithProps}
             </div>
         </div>
+        </>
     );
 };
 

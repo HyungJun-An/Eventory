@@ -62,7 +62,7 @@ public class ExpoInfoServiceImpl implements ExpoInfoService {
 
     // 특정 박람회 정보 수정
     @Override
-    public void updateExpoInfo(Long expoAdminId, Long expoId, ExpoRequestDto requestDto) {
+    public void updateExpoInfo(Long expoAdminId, Long expoId, ExpoUpdateRequestDto requestDto) {
         // 기본키(expoId)로 Expo 조회
         Expo expo = expoRepository.findById(expoId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));

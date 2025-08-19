@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import api from "../api/axiosInstance";
 import WebsiteLogos from "./WebsiteLogos";
 import "../assets/css/Header.css";
+import LogoutButton from "./LogoutButton";
 
 const Header = ({ expoId, setExpoId }) => {
   const [expos, setExpos] = useState([]);
@@ -84,6 +85,37 @@ const Header = ({ expoId, setExpoId }) => {
 
         <div className="group-3">
 
+          <div className="overlap-wrapper">
+            <div className="overlap-2">
+              <span className="text-wrapper-9">박람회 선택</span>
+              <img
+                className="vector"
+                alt="Vector"
+                src="https://c.animaapp.com/mdwrr278Hhu1fG/img/vector.svg"
+                onClick={fetchExpos}
+                style={{
+                  cursor: "pointer",
+                  position: "relative",
+                  zIndex: 9999,
+                }}
+              />
+              {isDropdownOpen && (
+                <select
+                  className="expo-select"
+                  onChange={handleChange}
+                  value={expoId || ""}
+                >
+                  <option value="">박람회 선택</option>
+                  {expos.map((expo) => (
+                    <option key={expo.expoId} value={expo.expoId}>
+                      {expo.title}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+          </div>
+          
           {/* Profile image with dropdown */}
           <div className="header__profile-container">
             <button
@@ -123,59 +155,13 @@ const Header = ({ expoId, setExpoId }) => {
 
                 <div className="header__menu-divider"></div>
 
-                <button
-                  onClick={() => handleMenuItemClick("로그아웃")}
-                  className="header__menu-item header__menu-item--logout"
-                >
-                  <svg
-                    className="header__menu-icon"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                    />
-                  </svg>
+                <LogoutButton className="header__menu-item header__menu-item--logout">
                   로그아웃
-                </button>
+                </LogoutButton>
               </div>
             )}
           </div>
-
-          <div className="overlap-wrapper">
-            <div className="overlap-2">
-              <span className="text-wrapper-9">박람회 선택</span>
-              <img
-                className="vector"
-                alt="Vector"
-                src="https://c.animaapp.com/mdwrr278Hhu1fG/img/vector.svg"
-                onClick={fetchExpos}
-                style={{
-                  cursor: "pointer",
-                  position: "relative",
-                  zIndex: 9999,
-                }}
-              />
-              {isDropdownOpen && (
-                <select
-                  className="expo-select"
-                  onChange={handleChange}
-                  value={expoId || ""}
-                >
-                  <option value="">박람회 선택</option>
-                  {expos.map((expo) => (
-                    <option key={expo.expoId} value={expo.expoId}>
-                      {expo.title}
-                    </option>
-                  ))}
-                </select>
-              )}
-            </div>
-          </div>
+          
         </div>
       </div>
 
