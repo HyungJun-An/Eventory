@@ -5,12 +5,12 @@ import { defineConfig } from "vite";
 export default defineConfig(async ({ mode }) => {
   const plugins = [react()];
 
-  if (mode === "development") {
-    // const { screenGraphPlugin } = await import(
-    //   "@animaapp/vite-plugin-screen-graph"
-    // );
-    // plugins.push(screenGraphPlugin());
-  }
+  // if (mode === "development") {
+  //   // const { screenGraphPlugin } = await import(
+  //   //   "@animaapp/vite-plugin-screen-graph"
+  //   // );
+  //   // plugins.push(screenGraphPlugin());
+  // }
 
   return {
     plugins,

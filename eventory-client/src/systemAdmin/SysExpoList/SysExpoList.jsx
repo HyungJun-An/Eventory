@@ -53,10 +53,17 @@ export const SysExpoList = () => {
     fetchData();
   }, []);
 
+  async function fetchDataOnPageChange() {
+    try {
+      let expoData = await getExpos("", searchText, currentPage - 1, 20);
+      setExpos(expoData.content);
+      setPagesize(expoData.totalPage);
+    } catch (error) {}
+  }
+
   useEffect(() => {
     async function fetchData() {
       try {
-        
         let expoData = await getExpos("", searchText, currentPage - 1, 20);
         setExpos(expoData.content);
         setPagesize(expoData.totalPage);
@@ -66,13 +73,13 @@ export const SysExpoList = () => {
   }, [currentPage]);
 
   async function fetchDataOnDataChange() {
-      try {
-        let expoData = await getExpos("", searchText, 0, 20);
-        console.log("Data: ", expoData)
-        setExpos(expoData.content);
-        setPagesize(expoData.totalPage);
-      } catch (error) {}
-    }
+    try {
+      let expoData = await getExpos("", searchText, 0, 20);
+      console.log("Data: ", expoData);
+      setExpos(expoData.content);
+      setPagesize(expoData.totalPage);
+    } catch (error) {}
+  }
 
   const closeModal = () => {
     setShowModal(false);
@@ -107,7 +114,7 @@ export const SysExpoList = () => {
 
   const getExpobyTitle = () => {
     // setCurrentPage(1);
-    fetchDataOnDataChange()
+    fetchDataOnDataChange();
   };
 
   const openApproveNotification = (placement) => {
@@ -216,220 +223,219 @@ export const SysExpoList = () => {
     <>
       {contextHolder}
       <div className="wrapper">
-        {!showModal && (
-          <div style={{ marginTop: "5vh", marginLeft: "3vw" }}>
+        <div style={{ marginTop: "5vh", marginLeft: "3vw" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            {/* 전체 대기 승인 거절 버튼그룹 */}
             <div
+              className="statusButtonGroup"
               style={{
                 display: "flex",
                 flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              {/* 전체 대기 승인 거절 버튼그룹 */}
-              <div
-                className="statusButtonGroup"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  gap: "0vw",
-                  backgroundColor: "white",
-                  padding: "0.2rem",
-                  borderRadius: "0.5rem",
-                  width: "fit-content",
-                }}
-              >
-                <div
-                  onClick={() => handleStatusChange("ALL")}
-                  className={
-                    statusFilter == "ALL"
-                      ? "statusButton-active"
-                      : "statusButton-deactive"
-                  }
-                >
-                  전체
-                </div>
-                <div
-                  onClick={() => handleStatusChange("PENDING")}
-                  className={
-                    statusFilter == "PENDING"
-                      ? "statusButton-active"
-                      : "statusButton-deactive"
-                  }
-                >
-                  대기
-                </div>
-                <div
-                  onClick={() => handleStatusChange("APPROVED")}
-                  className={
-                    statusFilter == "APPROVED"
-                      ? "statusButton-active"
-                      : "statusButton-deactive"
-                  }
-                >
-                  승인
-                </div>
-                <div
-                  onClick={() => handleStatusChange("REJECTED")}
-                  className={
-                    statusFilter == "REJECTED"
-                      ? "statusButton-active"
-                      : "statusButton-deactive"
-                  }
-                >
-                  거절
-                </div>
-              </div>
-              {/* 박람회명 검색창 */}
-              <div
-                style={{
-                  marginLeft: "1vw",
-                  marginRight: "0.5vw",
-                  color: "#8BA3CB",
-                  backgroundColor: "white",
-                  padding: "0.7rem 1.5rem",
-                  borderRadius: "1.5rem",
-                }}
-              >
-                <input
-                  name=""
-                  type="text"
-                  style={{
-                    border: "none",
-                    outline: "none",
-                  }}
-                  placeholder="박람회명을 입력해주세요."
-                  text={searchText}
-                  onChange={handleSearchTextChange}
-                />
-              </div>
-              <div
-                onClick={() => {
-                  getExpobyTitle();
-                }}
-              >
-                <img
-                  style={{ marginTop: "0.5rem", cursor: "pointer" }}
-                  src="https://img.icons8.com/?size=30&id=e4NkZ7kWAD7f&format=png&color=007bff"
-                ></img>
-              </div>
-            </div>
-            {/* 테스트용 */}
-            <div>Status: {statusFilter}</div>
-            <div>CurrentPage: {currentPage}</div>
-            {/* Main Wrapper */}
-            <div
-              style={{
+                gap: "0vw",
                 backgroundColor: "white",
-                marginRight: "2vw",
-                borderRadius: "1.5rem",
-                marginBottom: "5vh",
-                marginTop: "3vh",
-                minHeight: "65vh",
-                maxHeight: "65vh",
-                padding: "1rem 0rem",
-              }}
-            >
-              {/* 박람회 헤더 */}
-              <div className="mainThemeColor expoTable-row">
-                <div style={{ justifySelf: "start" }}>박람회명</div>
-                <div>카테고리</div>
-                <div>신청일</div>
-                <div>상태</div>
-                <div>상세정보</div>
-                <div>승인</div>
-                <div>거절</div>
-              </div>
-              <Divider></Divider>
-              {expoItems}
-            </div>
-            {/* Paging */}
-            <div
-              className="blue"
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                gap: "1rem",
-                marginRight: "5vw",
-                justifyContent: "flex-end",
-                alignContent: "center",
-                marginBottom: "3vh",
-                cursor: "pointer",
-                alignItems: "center",
+                padding: "0.2rem",
+                borderRadius: "0.5rem",
+                width: "fit-content",
               }}
             >
               <div
-                style={{ userSelect: "none" }}
-                onClick={() => handlePrevNext("prev")}
-              >
-                {"< Previous"}
-              </div>
-              <div
-                onClick={() => handlePageClick(firstPage)}
+                onClick={() => handleStatusChange("ALL")}
                 className={
-                  currentPage === firstPage
+                  statusFilter == "ALL"
+                    ? "statusButton-active"
+                    : "statusButton-deactive"
+                }
+              >
+                전체
+              </div>
+              <div
+                onClick={() => handleStatusChange("PENDING")}
+                className={
+                  statusFilter == "PENDING"
+                    ? "statusButton-active"
+                    : "statusButton-deactive"
+                }
+              >
+                대기
+              </div>
+              <div
+                onClick={() => handleStatusChange("APPROVED")}
+                className={
+                  statusFilter == "APPROVED"
+                    ? "statusButton-active"
+                    : "statusButton-deactive"
+                }
+              >
+                승인
+              </div>
+              <div
+                onClick={() => handleStatusChange("REJECTED")}
+                className={
+                  statusFilter == "REJECTED"
+                    ? "statusButton-active"
+                    : "statusButton-deactive"
+                }
+              >
+                거절
+              </div>
+            </div>
+            {/* 박람회명 검색창 */}
+            <div
+              style={{
+                marginLeft: "1vw",
+                marginRight: "0.5vw",
+                color: "#8BA3CB",
+                backgroundColor: "white",
+                padding: "0.7rem 1.5rem",
+                borderRadius: "1.5rem",
+              }}
+            >
+              <input
+                name=""
+                type="text"
+                style={{
+                  border: "none",
+                  outline: "none",
+                }}
+                placeholder="박람회명을 입력해주세요."
+                text={searchText}
+                onChange={handleSearchTextChange}
+              />
+            </div>
+            <div
+              onClick={() => {
+                getExpobyTitle();
+              }}
+            >
+              <img
+                style={{ marginTop: "0.5rem", cursor: "pointer" }}
+                src="https://img.icons8.com/?size=30&id=e4NkZ7kWAD7f&format=png&color=007bff"
+              ></img>
+            </div>
+          </div>
+          {/* 테스트용 */}
+          <div>Status: {statusFilter}</div>
+          <div>CurrentPage: {currentPage}</div>
+          {/* Main Wrapper */}
+          <div
+            style={{
+              backgroundColor: "white",
+              marginRight: "2vw",
+              borderRadius: "1.5rem",
+              marginBottom: "5vh",
+              marginTop: "3vh",
+              minHeight: "65vh",
+              maxHeight: "65vh",
+              padding: "1rem 0rem",
+            }}
+          >
+            {/* 박람회 헤더 */}
+            <div className="mainThemeColor expoTable-row">
+              <div style={{ justifySelf: "start" }}>박람회명</div>
+              <div>카테고리</div>
+              <div>신청일</div>
+              <div>상태</div>
+              <div>상세정보</div>
+              <div>승인</div>
+              <div>거절</div>
+            </div>
+            <Divider></Divider>
+            {expoItems}
+          </div>
+          {/* Paging */}
+          <div
+            className="blue"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: "1rem",
+              marginRight: "5vw",
+              justifyContent: "flex-end",
+              alignContent: "center",
+              marginBottom: "3vh",
+              cursor: "pointer",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{ userSelect: "none" }}
+              onClick={() => handlePrevNext("prev")}
+            >
+              {"< Previous"}
+            </div>
+            <div
+              onClick={() => handlePageClick(firstPage)}
+              className={
+                currentPage === firstPage
+                  ? "pagingButton-active"
+                  : "pagingButton-deactive"
+              }
+            >
+              {firstPage}
+            </div>
+            {firstPage + 1 < pageSize && (
+              <div
+                onClick={() => handlePageClick(firstPage + 1)}
+                className={
+                  currentPage === firstPage + 1
                     ? "pagingButton-active"
                     : "pagingButton-deactive"
                 }
               >
-                {firstPage}
+                {firstPage + 1}
               </div>
-              {firstPage + 1 < pageSize && (
-                <div
-                  onClick={() => handlePageClick(firstPage + 1)}
-                  className={
-                    currentPage === firstPage + 1
-                      ? "pagingButton-active"
-                      : "pagingButton-deactive"
-                  }
-                >
-                  {firstPage + 1}
-                </div>
-              )}
-              {firstPage + 2 < pageSize && (
-                <div
-                  onClick={() => handlePageClick(firstPage + 2)}
-                  className={
-                    currentPage === firstPage + 2
-                      ? "pagingButton-active"
-                      : "pagingButton-deactive"
-                  }
-                >
-                  {firstPage + 2}
-                </div>
-              )}
-              {firstPage + 3 < pageSize && (
-                <div
-                  onClick={() => handlePageClick(firstPage + 3)}
-                  className={
-                    currentPage === firstPage + 3
-                      ? "pagingButton-active"
-                      : "pagingButton-deactive"
-                  }
-                >
-                  {firstPage + 3}
-                </div>
-              )}
-              {firstPage + 4 < pageSize && (
-                <div
-                  onClick={() => handlePageClick(firstPage + 4)}
-                  className={
-                    currentPage === firstPage + 4
-                      ? "pagingButton-active"
-                      : "pagingButton-deactive"
-                  }
-                >
-                  {firstPage + 4}
-                </div>
-              )}
+            )}
+            {firstPage + 2 < pageSize && (
               <div
-                style={{ userSelect: "none" }}
-                onClick={() => handlePrevNext("next")}
+                onClick={() => handlePageClick(firstPage + 2)}
+                className={
+                  currentPage === firstPage + 2
+                    ? "pagingButton-active"
+                    : "pagingButton-deactive"
+                }
               >
-                {"Next >"}
+                {firstPage + 2}
               </div>
+            )}
+            {firstPage + 3 < pageSize && (
+              <div
+                onClick={() => handlePageClick(firstPage + 3)}
+                className={
+                  currentPage === firstPage + 3
+                    ? "pagingButton-active"
+                    : "pagingButton-deactive"
+                }
+              >
+                {firstPage + 3}
+              </div>
+            )}
+            {firstPage + 4 < pageSize && (
+              <div
+                onClick={() => handlePageClick(firstPage + 4)}
+                className={
+                  currentPage === firstPage + 4
+                    ? "pagingButton-active"
+                    : "pagingButton-deactive"
+                }
+              >
+                {firstPage + 4}
+              </div>
+            )}
+            <div
+              style={{ userSelect: "none" }}
+              onClick={() => handlePrevNext("next")}
+            >
+              {"Next >"}
             </div>
           </div>
-        )}
+        </div>
+        )
         {showModal && (
           <RejectModal
             id={rejectingExpoId}

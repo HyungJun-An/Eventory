@@ -114,8 +114,9 @@ export const ExpoDetailModal = ({ id = 1, closeModal, openRejectNoti }) => {
         title="개최한 박람회"
         open={true}
         // onOk={closeModal}
-        cancelText={"취소"}
-        okText={"확인"}
+        // cancelText={"취소"}
+        // okText={"확인"}
+        footer={null}
         onCancel={closeModal}
         width="60%"
       >
