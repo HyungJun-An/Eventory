@@ -4,7 +4,7 @@ import { defineConfig } from "vite";
 import { screenGraphPlugin } from "@animaapp/vite-plugin-screen-graph";
 
 export default defineConfig(({ mode }) => {
-  const isProd = mode === "development";
+  const isProd = mode === "production";
   return {
     plugins: [
       react(),
