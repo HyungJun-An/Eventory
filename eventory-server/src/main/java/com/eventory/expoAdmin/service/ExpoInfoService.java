@@ -10,7 +10,7 @@ public interface ExpoInfoService {
 
     ExpoResponseDto findExpoInfo(Long expoAdminId, Long expoId);
 
-    void updateExpoInfo(Long expoAdminId, Long expoId, @Valid ExpoRequestDto requestDto);
+    void updateExpoInfo(Long expoAdminId, Long expoId, @Valid ExpoUpdateRequestDto requestDto);
 
     void createExpoBanner(Long expoAdminId, Long expoId, @Valid BannerCreateRequestDto requestDto);
 

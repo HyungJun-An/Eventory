@@ -51,12 +51,18 @@ public enum CustomErrorCode {
     REPORT_EXPORT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "D004", "리포트 내보내기에 실패했습니다."),
     TICKET_TYPE_STATS_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "D005", "티켓 타입 통계 집계 중 오류가 발생했습니다."),
     NOT_FOUND_EXPO_ADMIN(HttpStatus.NOT_FOUND, "D006", "박람회 관리자 계정을 찾을 수 없습니다"),
+    NOT_FOUND_BOOTH(HttpStatus.NOT_FOUND, "D007", "해당 부스를 찾을 수 없습니다."),
 
     // 박람회 관리자 마이페이지 P
     NOT_FOUND_MANAGER(HttpStatus.NOT_FOUND, "P001", "해당 박람회 담당자를 찾을 수 없습니다."),
     NOT_FOUND_EXPO(HttpStatus.NOT_FOUND, "P002", "해당 박람회를 찾을 수 없습니다."),
     NOT_FOUND_BANNER(HttpStatus.NOT_FOUND, "P003", "해당 배너를 찾을 수 없습니다."),
-    FORBIDDEN_ACCESS(HttpStatus.FORBIDDEN, "P004", "해당 박람회에 접근 권한이 없습니다");
+    FORBIDDEN_ACCESS(HttpStatus.FORBIDDEN, "P004", "해당 박람회에 접근 권한이 없습니다"),
+    NOT_FOUND_USER_TYPE(HttpStatus.BAD_REQUEST, "P005", "해당 사용자 타입을 찾을 수 없습니다."),
+
+    // 참가 업체 C
+    FORBIDDEN_COMPANY_USER(HttpStatus.FORBIDDEN, "C001", "companyUser계정이 아닙니다."),
+    NOT_FOUND_COMPANY(HttpStatus.NOT_FOUND, "C002", "해당 참가업체를 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String errorCode;

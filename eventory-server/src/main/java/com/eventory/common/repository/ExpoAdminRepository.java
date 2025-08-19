@@ -16,4 +16,7 @@ public interface ExpoAdminRepository extends JpaRepository<ExpoAdmin, Long> {
     Page<ExpoAdmin> findByNameContainingOrPhoneContainingOrEmailContaining(String nameKeyword, String phoneKeyword, String emailKeyword, Pageable pageable);
 
 	void deleteByCustomerId(String CustomerId);
+
+    Optional<ExpoAdmin> findByEmail(String email);
+
 }

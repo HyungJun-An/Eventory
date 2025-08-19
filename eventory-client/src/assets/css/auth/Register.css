@@ -1,4 +1,4 @@
-/* RegisterForm.css */
+/* RegisterForm.register .css */
 .register {
   display: flex;
   justify-content: center;
@@ -10,21 +10,21 @@
   font-family: 'Arial', sans-serif;
 }
 
-.frame {
+.register .frame {
   background-color: #fff;
   padding: 40px 30px;
   border-radius: 12px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.register .1);
   width: 50%;
 }
 
-.frame-wrapper form {
+.register .frame-wrapper form {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.input.colored {
+.register .input.register .colored {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,7 +37,7 @@
   font-weight: 500;
 }
 
-.div-4 {
+.register .div-4 {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -45,18 +45,18 @@
   margin: 10px 0;
 }
 
-.div-4 .rectangle {
+.register .div-4 .register .rectangle {
   flex: 1;
   height: 1px;
   background-color: #d1d1d1;
 }
 
-.div-4 .text-wrapper {
+.register .div-4 .register .text-wrapper {
   font-size: 12px;
   color: #888;
 }
 
-.div-2 label {
+.register .div-2 label {
   color: black;
   display: block;
   margin-right: 0%;
@@ -64,7 +64,7 @@
   font-weight: 500;
 }
 
-.input-instance.input-3 {
+.register .input-instance.register .input-3 {
   width: 100%;
   padding: 10px;
   background-color: white;
@@ -73,7 +73,7 @@
   font-size: 14px;
 }
 
-.input-wrapper {
+.register .input-wrapper {
   display: flex;
   width: 100%;
   padding: 10px;
@@ -85,14 +85,14 @@
   box-sizing: border-box;
 }
 
-.div-2 small {
+.register .div-2 small {
   font-size: 12px;
-  color: #999;
+  color: red;
   margin-top: 4px;
   display: block;
 }
 
-.search-box-date-picker {
+.register .search-box-date-picker {
   width: 100%;
   padding: 10px;
   border: 1px solid #d1d1d1;
@@ -100,7 +100,7 @@
   font-size: 14px;
 }
 
-.buttons {
+.register .buttons {
   background-color: #3578e5;
   color: #fff;
   padding: 12px;
@@ -111,20 +111,20 @@
   margin-top: 10px;
 }
 
-.text-wrapper-5 {
+.register .text-wrapper-5 {
   text-align: center;
   font-size: 12px;
   color: #555;
 }
 
-.text-wrapper-5 a {
+.register .text-wrapper-5 a {
   color: #3578e5;
   text-decoration: none;
   font-weight: 500;
 }
 
 
-.form-group {
+.register .form-group {
   display: flex;
   flex-direction: row;
   /* 가로 배치 */
@@ -135,7 +135,7 @@
   width: 100%;
 }
 
-.form-field {
+.register .form-field {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -143,13 +143,13 @@
   /* 너무 좁아지는 것 방지 */
 }
 
-.form-field label {
+.register .form-field label {
   font-size: 14px;
   margin-bottom: 6px;
   color: black;
 }
 
-.input-wrapper {
+.register .input-wrapper {
   display: flex;
   align-items: center;
   border: 1px solid #ccc;
@@ -158,14 +158,14 @@
   background: white;
 }
 
-.input-wrapper svg {
+.register .input-wrapper svg {
   color: #555;
   margin-right: 8px;
   font-size: 16px;
 }
 
-.input-wrapper input[type="date"],
-.input-wrapper select {
+.register .input-wrapper input[type="date"],
+.register .input-wrapper select {
   border: none;
   outline: none;
   background: transparent;

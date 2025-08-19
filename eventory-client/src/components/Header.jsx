@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import api from "../api/axiosInstance";
 import WebsiteLogos from "./WebsiteLogos";
 import "../assets/css/Header.css";
+import LogoutButton from "./LogoutButton";
 
 const Header = ({ expoId, setExpoId }) => {
   const [expos, setExpos] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const profileMenuRef = useRef(null);
+  const profileButtonRef = useRef(null);
 
   const fetchExpos = async () => {
     try {
@@ -32,6 +36,34 @@ const Header = ({ expoId, setExpoId }) => {
     setExpoId(selectedExpoId); // 부모로 전달
   };
 
+  // 외부 클릭 시 메뉴 닫기
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target) &&
+        profileButtonRef.current &&
+        !profileButtonRef.current.contains(event.target)
+      ) {
+        setIsProfileMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleProfileClick = () => {
+    setIsProfileMenuOpen(!isProfileMenuOpen);
+  };
+
+  const handleMenuItemClick = (action) => {
+    console.log(`${action} 클릭됨`); // 실제 구현에서는 각각의 기능을 구현
+    setIsProfileMenuOpen(false);
+  };
+
   return (
     <header className="header">
       <div className="overlap">
@@ -52,11 +84,6 @@ const Header = ({ expoId, setExpoId }) => {
         </div>
 
         <div className="group-3">
-          <div className="overlap-group-wrapper">
-            <div className="overlap-group">
-              <div className="text-wrapper-8" style={{ cursor: "pointer" }} onClick={handleLogout}>로그아웃</div>
-            </div>
-          </div>
 
           <div className="overlap-wrapper">
             <div className="overlap-2">
@@ -66,20 +93,75 @@ const Header = ({ expoId, setExpoId }) => {
                 alt="Vector"
                 src="https://c.animaapp.com/mdwrr278Hhu1fG/img/vector.svg"
                 onClick={fetchExpos}
-                style={{ cursor: "pointer", position: "relative", zIndex: 9999 }}
+                style={{
+                  cursor: "pointer",
+                  position: "relative",
+                  zIndex: 9999,
+                }}
               />
               {isDropdownOpen && (
-              <select className="expo-select" onChange={handleChange} value={expoId || ""}>
-                <option value="">박람회 선택</option>
-                {expos.map((expo) => (
-                  <option key={expo.expoId} value={expo.expoId}>
-                    {expo.title}
-                  </option>
-                ))}
-              </select>
+                <select
+                  className="expo-select"
+                  onChange={handleChange}
+                  value={expoId || ""}
+                >
+                  <option value="">박람회 선택</option>
+                  {expos.map((expo) => (
+                    <option key={expo.expoId} value={expo.expoId}>
+                      {expo.title}
+                    </option>
+                  ))}
+                </select>
               )}
             </div>
           </div>
+          
+          {/* Profile image with dropdown */}
+          <div className="header__profile-container">
+            <button
+              ref={profileButtonRef}
+              onClick={handleProfileClick}
+              className="header__profile-button"
+            >
+              <img
+                src="https://api.builder.io/api/v1/image/assets/TEMP/a5ac4ea72b9d86e6309ab90b90ced1fddc46b50b?width=277"
+                alt="Profile"
+                className="header__profile-image"
+              />
+            </button>
+
+            {/* Profile Dropdown Menu */}
+            {isProfileMenuOpen && (
+              <div ref={profileMenuRef} className="header__dropdown-menu">
+                <button
+                  onClick={() => handleMenuItemClick("관리자정보")}
+                  className="header__menu-item"
+                >
+                  <svg
+                    className="header__menu-icon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                  </svg>
+                  관리자정보
+                </button>
+
+                <div className="header__menu-divider"></div>
+
+                <LogoutButton className="header__menu-item header__menu-item--logout">
+                  로그아웃
+                </LogoutButton>
+              </div>
+            )}
+          </div>
+          
         </div>
       </div>
 

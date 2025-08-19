@@ -2,19 +2,13 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
-export default defineConfig(async ({ mode }) => {
-  const plugins = [react()];
-
-  // if (mode === "development") {
-  //   // const { screenGraphPlugin } = await import(
-  //   //   "@animaapp/vite-plugin-screen-graph"
-  //   // );
-  //   // plugins.push(screenGraphPlugin());
-  // }
-
+export default defineConfig(({ mode }) => {
+  const isProd = mode === "production";
   return {
-    plugins,
-    extensions: ["js", "jsx"],
+    plugins: [
+      react(),
+      screenGraphPlugin
+    ],
 
     publicDir: "./static",
     base: "/",
@@ -22,7 +16,9 @@ export default defineConfig(async ({ mode }) => {
     server: {
       proxy: {
         "/api": {
-          target: "https://localhost:8080",
+          target: isProd
+            ? "https://localhost:8080" // prod일 땐 https
+            : "http://localhost:8080", // dev일 땐 http
           changeOrigin: true,
           secure: false,
         },

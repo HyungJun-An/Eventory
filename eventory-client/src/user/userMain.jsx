@@ -20,24 +20,59 @@ export const UserMainPage = () => {
   // Banner images (public/demo/*)
   const bannerImages = [banner1, banner2, banner3];
 
-  useEffect(() => {
-    let mounted = true;
-    api.get("/user/expos")
-      .then(({ data }) => {
-        if (!mounted) return;
-        setExpos(Array.isArray(data) ? data : data?.items || []);
-      })
-      .catch(() => {
-        // 데모 데이터 (백엔드 미연동시 화면 확인용)
-        setExpos([
-          { id: 1, title: "World EXPO 2030", image_url: "/demo/busanExpo.jpg", start_date: "2025-08-20", end_date: "2025-09-20", location: "Busan" },
-          { id: 2, title: "AI & Robotics Fair", image_url: "/demo/AiKorea.jpg", start_date: "2025-10-05", end_date: "2025-10-09", location: "Seoul" },
-          { id: 3, title: "Green Energy Expo", image_url: "/demo/greenEnergy.jpg", start_date: "2025-07-01", end_date: "2025-08-30", location: "Busan" },
-        ]);
-      })
-      .finally(() => setLoading(false));
-    return () => { mounted = false; };
-  }, []);
+useEffect(() => {
+  let mounted = true;
+
+  const demo = [
+    { id: 1, title: "World EXPO 2030", image_url: "/demo/busanExpo.jpg", start_date: "2025-08-20", end_date: "2025-09-20", location: "Busan" },
+    { id: 2, title: "AI & Robotics Fair", image_url: "/demo/AiKorea.jpg", start_date: "2025-10-05", end_date: "2025-10-09", location: "Seoul" },
+    { id: 3, title: "Green Energy Expo", image_url: "/demo/greenEnergy.jpg", start_date: "2025-07-01", end_date: "2025-08-30", location: "Busan" },
+  ];
+
+  api.get("/user/expos")
+    .then(({ data }) => {
+      if (!mounted) return;
+
+      // 1) 리스트 형태 보정
+      const list = Array.isArray(data) ? data : data?.items || [];
+
+      // 2) 키 이름 정규화 (서버/데모/기존 UI 키 전부 흡수)
+      const normalized = list.map(x => ({
+        id: x.id ?? x.expoId,                                    // id 통일
+        title: x.title ?? x.expoName,                             // 제목 통일
+        imageUrl: x.imageUrl ?? x.image_url ?? x.thumbnailUrl,    // 이미지 통일
+        startDate: x.startDate ?? x.start_date,                   // 시작일 통일
+        endDate: x.endDate ?? x.end_date,                         // 종료일 통일
+        location: x.location,
+        categories: x.categories ?? x.categoryNames ?? [],
+      }));
+
+      // 3) 빈 배열이면 데모로 대체
+      setExpos(normalized.length > 0 ? normalized : demo.map(d => ({
+        id: d.id,
+        title: d.title,
+        imageUrl: d.image_url,
+        startDate: d.start_date,
+        endDate: d.end_date,
+        location: d.location,
+      })));
+    })
+    .catch(() => {
+      // 요청 자체가 실패했을 때 데모 주입
+      if (!mounted) return;
+      setExpos(demo.map(d => ({
+        id: d.id,
+        title: d.title,
+        imageUrl: d.image_url,
+        startDate: d.start_date,
+        endDate: d.end_date,
+        location: d.location,
+      })));
+    })
+    .finally(() => setLoading(false));
+
+  return () => { mounted = false; };
+}, []);
 
   const now = new Date();
   const currentExpos = useMemo(() => expos.filter(e => {

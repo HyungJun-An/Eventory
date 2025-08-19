@@ -1,14 +1,16 @@
 package com.eventory.common.entity;
 
-import com.eventory.expoAdmin.dto.ExpoRequestDto;
+import com.eventory.expoAdmin.dto.ExpoUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList; // 필드에 new ArrayList<>()
 
@@ -16,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "expo")
@@ -74,6 +77,9 @@ public class Expo {
     @Column(name = "reason", length = 255, nullable = true)
     private String reason;
 
+    @Column(name = "price", nullable = false)
+    private BigDecimal price;
+
     @OneToMany(mappedBy = "expo", fetch = FetchType.LAZY)
     private List<ExpoCategory> expoCategories = new ArrayList<>();
 
@@ -99,7 +105,7 @@ public class Expo {
     	this.reason = reason;
     }
   
-    public void updateExpo(ExpoRequestDto requestDto) {
+    public void updateExpo(ExpoUpdateRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.imageUrl = requestDto.getImageUrl();
         this.description = requestDto.getDescription();
