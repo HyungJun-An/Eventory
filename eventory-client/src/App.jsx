@@ -13,6 +13,7 @@ import MainLayout from "./components/MainLayout";
 import { SysExpoList } from "./systemAdmin/SysExpoList";
 import RegisterCompany from "./user/RegisterCompany";
 import RegisterCustomer from "./user/RegisterCustomer";
+import ExpoManagerManagement from "./systemAdmin/ExpoManagerManagement";
 
 function App() {
   return (
@@ -62,6 +63,10 @@ function App() {
         <Route
           path="/sys/expos"
           element={<AdminLayout>{<SysExpoList />}</AdminLayout>}
+        />
+        <Route
+          path="/sys/manage"
+          element={<AdminLayout>{<ExpoManagerManagement />}</AdminLayout>}
         />
       </Routes>
     </BrowserRouter>
