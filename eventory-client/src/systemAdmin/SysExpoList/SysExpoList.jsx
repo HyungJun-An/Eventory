@@ -56,6 +56,7 @@ export const SysExpoList = () => {
   useEffect(() => {
     async function fetchData() {
       try {
+        
         let expoData = await getExpos("", searchText, currentPage - 1, 20);
         setExpos(expoData.content);
         setPagesize(expoData.totalPage);
@@ -63,6 +64,15 @@ export const SysExpoList = () => {
     }
     fetchData();
   }, [currentPage]);
+
+  async function fetchDataOnDataChange() {
+      try {
+        let expoData = await getExpos("", searchText, 0, 20);
+        console.log("Data: ", expoData)
+        setExpos(expoData.content);
+        setPagesize(expoData.totalPage);
+      } catch (error) {}
+    }
 
   const closeModal = () => {
     setShowModal(false);
@@ -96,7 +106,8 @@ export const SysExpoList = () => {
   };
 
   const getExpobyTitle = () => {
-    getExpos((title = searchText)); // add statusFilter
+    // setCurrentPage(1);
+    fetchDataOnDataChange()
   };
 
   const openApproveNotification = (placement) => {
@@ -293,10 +304,7 @@ export const SysExpoList = () => {
               </div>
               <div
                 onClick={() => {
-                  getExpobyTitle;
-                  setStatusFilter("ALL");
-                  setCurrentPage(1);
-                  setFirstPage(1);
+                  getExpobyTitle();
                 }}
               >
                 <img
