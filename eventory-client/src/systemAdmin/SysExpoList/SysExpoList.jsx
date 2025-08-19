@@ -53,14 +53,6 @@ export const SysExpoList = () => {
     fetchData();
   }, []);
 
-  async function fetchDataOnPageChange() {
-    try {
-      let expoData = await getExpos("", searchText, currentPage - 1, 20);
-      setExpos(expoData.content);
-      setPagesize(expoData.totalPage);
-    } catch (error) {}
-  }
-
   useEffect(() => {
     async function fetchData() {
       try {
@@ -72,7 +64,7 @@ export const SysExpoList = () => {
     fetchData();
   }, [currentPage]);
 
-  async function fetchDataOnDataChange() {
+  async function fetchDataOnPataChange() {
     try {
       let expoData = await getExpos("", searchText, 0, 20);
       setExpos(expoData.content);
@@ -112,8 +104,7 @@ export const SysExpoList = () => {
   };
 
   const getExpobyTitle = () => {
-    // setCurrentPage(1);
-    fetchDataOnDataChange();
+    fetchDataOnPataChange();
   };
 
   const openApproveNotification = (placement) => {
@@ -446,20 +437,5 @@ export const SysExpoList = () => {
     </>
   );
 };
-
-// export function Divider({ verticalMargin = "0.8rem" }) {
-//   return (
-//     <hr
-//       className="mainThemeColor"
-//       style={{
-//         borderTop: "1px solid #E6EFF5",
-//         margin: "0.7rem 2rem 0.7rem 2rem",
-//         marginTop: verticalMargin,
-//         marginBottom: verticalMargin,
-//       }}
-//       class="dashed"
-//     ></hr>
-//   );
-// }
 
 export default SysExpoList;
