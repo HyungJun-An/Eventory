@@ -63,7 +63,8 @@ const ExpoAdminSideBar = () => {
         </div>
       </div>
 
-      <div className="div-6" onClick={() => navigate("/admin/refund")}>
+      <div className={`div-6 ${path === "/admin/refund" ? "active" : ""}`} 
+      onClick={() => navigate("/admin/refund")}>
         <div className="text-wrapper-5">환불 처리</div>
         <div className="icon-wrapper">
         <RefundIcon active={path === "/admin/refund"} />
