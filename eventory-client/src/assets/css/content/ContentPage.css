@@ -1,0 +1,46 @@
+.content-page {
+  align-items: start;
+  background-color: #ffffff;
+  display: grid;
+  justify-items: center;
+  width: 100vw;
+}
+
+.content-page .overlap-wrapper {
+  background-color: #ffffff;
+  height: 1500px;
+  overflow: hidden;
+  width: 1440px;
+}
+
+.content-page .overlap-3 {
+  height: 1602px;
+  position: relative;
+  top: -1px;
+}
+
+.content-page .group-instance-wrapper {
+  background-color: #f4f6f9;
+  height: 1500px;
+  left: 250px;
+  position: absolute;
+  top: 102px;
+  width: 1190px;
+}
+
+.content-page .overlap-4 {
+  height: 1063px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1440px;
+}
+
+.content-page .rectangle-3 {
+  background-color: #e6eff5;
+  height: 1062px;
+  left: 249px;
+  position: absolute;
+  top: 1px;
+  width: 1px;
+}
