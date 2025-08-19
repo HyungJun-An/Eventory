@@ -31,6 +31,8 @@ public class SecurityConfig {
                 // ✅ CSRF 전체 비활성화 대신 웹훅 경로만 예외 처리
                 .csrf(csrf -> csrf.ignoringRequestMatchers(
                         "/api/portone-webhook",
+                        "/api/payment/complete",
+                        "/api/payment/ready",
                         "/api/auth/login",
                         "/api/admin/login",
                         "/api/admin/sys/login",
@@ -50,7 +52,7 @@ public class SecurityConfig {
                                 "/session/**", "/actuator/**"
                         ).permitAll()
                         // ✅ 웹훅 및 결제 콜백 엔드포인트 공개 허용
-                        .requestMatchers("/api/portone-webhook", "/api/payments/complete", "/api/payments/ready").permitAll()
+                        .requestMatchers("/api/portone-webhook", "/api/payment/complete", "/api/payment/ready").permitAll()
                         // ✅ 박람회 신청 엔드포인트 POST는 공개 허용
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/admin/expos").permitAll()
                         .requestMatchers("/api/auth/me").authenticated() // me는 인증만 필요
