@@ -40,7 +40,7 @@
   /* 스크롤 생기는 것 방지 */
 }
 
-.login-page .login-section {
+/*.login-page .login-section {
   background-color: white;
   flex: 1;
   min-width: 400px;
@@ -48,6 +48,17 @@
   align-items: center;
   justify-content: center;
   padding: 60px;
+  box-sizing: border-box;
+}*/
+.login-page .login-section {
+  display: flex;
+  flex-direction: column;   /* ← 추가 */
+  align-items: center;      /* 가운데 정렬 유지 */
+  justify-content: center;
+  padding: 60px;
+  background-color: white;
+  flex: 1;
+  min-width: 400px;
   box-sizing: border-box;
 }
 
@@ -235,4 +246,29 @@
   font-size: 16px;
   font-weight: 500;
   line-height: normal;
+}
+
+/* 탭 컨테이너를 폼과 같은 폭(최대 400px)으로 중앙정렬 */
+.login-target-tabs.center-tabs {
+  display: flex;
+  justify-content: center;  /* 중앙 정렬 */
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;   /* ← 폼(.login-form)과 동일 */
+  margin: 0 auto 20px;  /* 로그인 폼과 간격 */
+}
+
+.tab-btn {
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.2;
+  border: none;
+  background: #f3f3f3;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.tab-btn.active {
+  background: #007bff;
+  color: white;
 }

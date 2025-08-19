@@ -3,6 +3,7 @@ package com.eventory.common.entity;
 import com.eventory.expoAdmin.dto.BoothRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,6 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "booth")
@@ -75,5 +77,16 @@ public class Booth {
     public void updateStatus(BoothRequestDto requestDto) {
         this.status = requestDto.getStatus();
         this.reason = requestDto.getReason();
+    }
+
+    public void updateBooth(com.eventory.companyUser.dto.BoothRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.imageUrl = requestDto.getImageUrl();
+        this.location = requestDto.getLocation();
+        this.managerName = requestDto.getManagerName();
+        this.department = requestDto.getDepartment();
+        this.phone = requestDto.getPhone();
+        this.email = requestDto.getEmail();
+        this.updatedAt = LocalDateTime.now();
     }
 }

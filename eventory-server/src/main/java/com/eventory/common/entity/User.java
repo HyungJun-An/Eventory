@@ -1,5 +1,6 @@
 package com.eventory.common.entity;
 
+import com.eventory.companyUser.dto.UserRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -77,4 +78,8 @@ public class User {
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime updatedAt;
 
+    public void updateUser(UserRequestDto requestDto) {
+        this.name = requestDto.getName();
+        this.updatedAt = LocalDateTime.now();
+    }
 }
