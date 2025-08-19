@@ -4,6 +4,7 @@ import com.eventory.common.entity.*;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.common.repository.ReservationRepository;
+import com.eventory.common.repository.ReservationRepository.ReservationRowProjection;
 import com.eventory.expoAdmin.dto.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -185,5 +186,36 @@ public class ExpoMapper {
                 .status(booth.getStatus())
                 .reason(booth.getReason())
                 .build();
+    }
+
+    // 예약자 명단
+    public ReservationListResponseDto.Item toItem(ReservationRowProjection p) {
+        // 티켓 종류: 금액>0 AND payStatus='PAID' => "유료", 나머지 "무료"
+        String ticketType = (p.getPayAmount() != null
+                && p.getPayAmount().compareTo(BigDecimal.ZERO) > 0
+                && "PAID".equalsIgnoreCase(p.getPayStatus()))
+                ? "유료" : "무료";
+
+        // 총 티켓 수/체크인 수 안전 처리
+        // Projection에서 COUNT/SUM이 null로 넘어올 수도 있으니, null이면 0으로 치환
+        int total = p.getTotalTickets() == null ? 0 : p.getTotalTickets();
+        int checked = p.getCheckedCount() == null ? 0 : p.getCheckedCount();
+
+        // 티켓이 있고(total > 0) + 모든 티켓 체크인됨 → "입장 완료"
+        String rowStatus = (total > 0 && checked == total) ? "입장 완료" : "미입장";
+
+        // Projection에서 가져온 필드 + 위에서 계산한 값들을 합쳐 Item DTO 객체를 생성
+        return new ReservationListResponseDto.Item(
+                p.getReservationId(),
+                p.getUserName(),
+                p.getPhone(),
+                p.getCode(),
+                ticketType,
+                p.getReservedAt(),
+                rowStatus,
+                p.getLastCheckinAt(),
+                total,
+                checked
+        );
     }
 }

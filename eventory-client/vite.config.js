@@ -3,27 +3,31 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { screenGraphPlugin } from "@animaapp/vite-plugin-screen-graph";
 
-export default defineConfig(({ mode }) => ({
-  plugins: [
-    react(),
-    mode === "development" && screenGraphPlugin(),
-  ].filter(Boolean),
+export default defineConfig(({ mode }) => {
+  const isProd = mode === "development";
+  return {
+    plugins: [
+      react(),
+      screenGraphPlugin
+    ],
 
-  publicDir: "./static",
-  base: "/",
+    publicDir: "./static",
+    base: "/",
 
-  server: {
-    proxy: {
-      // React 개발 서버에서 /library 로 시작하는 모든 요청을
-      // 백엔드(Spring Boot)로 포워딩
-      "/api": {
-        target: "http://localhost:8080",
-        changeOrigin: true,
-        secure: false,
+    server: {
+      proxy: {
+        "/api": {
+          target: isProd
+            ? "https://localhost:8080" // prod일 땐 https
+            : "http://localhost:8080", // dev일 땐 http
+          changeOrigin: true,
+          secure: false,
+        },
       },
     },
-  },
-  optimizeDeps: {
-    include: ["jwt-decode"],
-  },
-}));
+
+    optimizeDeps: {
+      include: ["jwt-decode"],
+    },
+  };
+});
