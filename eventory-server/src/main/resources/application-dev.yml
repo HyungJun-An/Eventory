@@ -59,6 +59,6 @@ portone:
   v2-secret: ${PORTONE_V2_SECRET:c5MSq0aZdgwXtuBfyDABbirsLnZDW7Id4lRe9JFGOxSDilH3tLJcc3EYylYKSgttsgIQ8VYIm8GWZKaB}
   webhook-secret: ${PORTONE_WEBHOOK_SECRET:whsec_+EMFLQUMun7Wu0Vg6XTVpFVG69KNdRgP52uD9lk/f8g=}
   # KG이니시스
-  store-id: ${PORTONE_STORE_ID:INIpayTest}
+  store-id: ${PORTONE_STORE_ID:store-422148d1-ed84-41f1-a064-2d7cb82ca08c}
   channel-key: ${PORTONE_CHANNEL_KEY:channel-key-0c25fd05-bc9f-4f12-bfc3-f871a6bdef64}
 

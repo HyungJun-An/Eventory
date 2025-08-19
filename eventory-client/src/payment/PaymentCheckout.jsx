@@ -14,7 +14,7 @@ export default function PaymentCheckout() {
   // 데모 입력값(실제론 장바구니/선택 정보로 구성)
   const demoReq = useMemo(() => ({
     userId: 1,
-    expoId: 101,
+    expoId: 3,
     people: 1,
     orderName: 'Eventory 입장권(1인)',
     totalAmount: 1000, // KRW는 정수 금액
@@ -43,9 +43,9 @@ export default function PaymentCheckout() {
         payMethod: ready.payMethod ?? 'CARD',
         redirectUrl: ready.redirectUrl, // 모바일 리디렉션 대비
         customer: {
-          fullName: '홍길동',
-          phoneNumber: '01012345678',
-          email: 'gildong@example.com',
+          fullName: '정현해',
+          phoneNumber: '01059504782',
+          email: 'coachofgi@gmail.com',
         },
       });
 
