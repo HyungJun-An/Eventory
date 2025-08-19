@@ -1,9 +1,7 @@
 package com.eventory.common.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -15,6 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity(name = "payment")
 @Table(name = "payment")
+@Builder
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 public class Payment {
 

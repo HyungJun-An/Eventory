@@ -12,6 +12,8 @@ import { UserMainPage } from './user/userMain';
 import MainLayout from './components/MainLayout';
 import RegisterCompany from './auth/RegisterCompany';
 import RegisterCustomer from './auth/RegisterCustomer';
+import PaymentCheckout from './payment/PaymentCheckout';
+import { PaymentRedirect } from './payment/PaymentRedirect';
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
           <Route path="/signup" element={<RegisterPage/>} />
           <Route path="/register/company" element={<RegisterCompany/>} />
           <Route path="/register/customer" element={<RegisterCustomer/>} />
+          <Route path="/payment" element={<PaymentCheckout />} />
+          <Route path="/payment/redirect" element={<PaymentRedirect />} />
         </Route>
       </Routes>
     </BrowserRouter>

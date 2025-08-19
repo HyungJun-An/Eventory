@@ -2,6 +2,7 @@ package com.eventory.common.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity(name = "reservation")
 @Table(name = "reservation")
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Reservation {
 
@@ -37,13 +39,14 @@ public class Reservation {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 255, nullable = false)
-    private ReservationStatus status;
+    private ReservationStatus status; // RESERVED, CANCELLED
 
     @Column(name = "code", length = 255, nullable = false)
-    private String code;
+    private String code; // 내부 예약코드 (예: RES-YYYYMMDD-xxxxx)
+
 
     @Column(name = "people", nullable = false)
-    private Integer people;
+    private Integer people; // 인원
 
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)

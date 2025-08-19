@@ -43,7 +43,6 @@ logging:
 
 jwt:
   secret: F4y6UozXgQIUW0NmQ2DI71Zbr1FQnFFu
-#  expiration: 3600000 # 1시간
   access-token-validity: 900000      # 15분
   refresh-token-validity: 604800000  # 7일
 
@@ -54,4 +53,12 @@ springdoc:
     enabled: true
     path: /swagger-ui.html
   override-with-generic-response: false
+
+portone:
+  api-base-url: https://api.portone.io
+  v2-secret: ${PORTONE_V2_SECRET:c5MSq0aZdgwXtuBfyDABbirsLnZDW7Id4lRe9JFGOxSDilH3tLJcc3EYylYKSgttsgIQ8VYIm8GWZKaB}
+  webhook-secret: ${PORTONE_WEBHOOK_SECRET:whsec_+EMFLQUMun7Wu0Vg6XTVpFVG69KNdRgP52uD9lk/f8g=}
+  # KG이니시스
+  store-id: ${PORTONE_STORE_ID:INIpayTest}
+  channel-key: ${PORTONE_CHANNEL_KEY:channel-key-0c25fd05-bc9f-4f12-bfc3-f871a6bdef64}
 

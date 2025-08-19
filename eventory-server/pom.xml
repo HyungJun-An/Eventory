@@ -98,6 +98,24 @@
             <version>2.5.0</version>
         </dependency>
 
+        <!-- PortOne Server SDK  -->
+        <dependency>
+            <groupId>io.portone</groupId>
+            <artifactId>server-sdk</artifactId>
+            <version>0.19.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-reactor-netty</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
         <!-- 테스트 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
