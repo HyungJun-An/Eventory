@@ -4,6 +4,7 @@ import { Modal, notification } from "antd";
 import SysAdminButton from "../components/SysAdminButton";
 import Divider from "../components/Divider";
 import "../assets/css/systemAdmin/ExpoDetailModal.css";
+import { getExposByManager } from "../api/sysExpoAdminApi"
 
 export const ExpoDetailModal = ({ id = 1, closeModal, openRejectNoti }) => {
   const [firstPage, setFirstPage] = useState(1);
@@ -37,9 +38,9 @@ export const ExpoDetailModal = ({ id = 1, closeModal, openRejectNoti }) => {
     // initial fetch
     async function fetchInitData() {
       try {
-        // let expoData = await getExpos();
-        // setExpos(expoData.content);
-        // setPagesize(expoData.totalPage);
+        let expoData = await getExposByManager(id);
+        setExpos(expoData.content);
+        setPagesize(expoData.totalPage);
       } catch (error) {}
     }
     fetchInitData();
@@ -48,9 +49,9 @@ export const ExpoDetailModal = ({ id = 1, closeModal, openRejectNoti }) => {
   useEffect(() => {
     async function fetchDataOnPageChange() {
       try {
-        // let expoData = await getExpos("", searchText, currentPage - 1, 20);
-        // setExpos(expoData.content);
-        // setPagesize(expoData.totalPage);
+        let expoData = await getExposByManager(id, currentPage - 1, 20);
+        setExpos(expoData.content);
+        setPagesize(expoData.totalPage);
       } catch (error) {}
     }
     fetchDataOnPageChange();

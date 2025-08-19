@@ -75,7 +75,6 @@ export const SysExpoList = () => {
   async function fetchDataOnDataChange() {
     try {
       let expoData = await getExpos("", searchText, 0, 20);
-      console.log("Data: ", expoData);
       setExpos(expoData.content);
       setPagesize(expoData.totalPage);
     } catch (error) {}

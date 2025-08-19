@@ -52,7 +52,7 @@ public class SystemAdminService {
 		
 		return expoPage.map(expo -> {
 			ExpoCategory expoCategory = expoCategoryRepository.findByExpo(expo).orElse(null);
-			return SysExpoResponseDto.from(expo, expoCategory != null ? expoCategory.getCategory().getName() : "");
+			return SysExpoResponseDto.from(expo, expoCategory != null ? expoCategory.getCategory().getName() : "없음");
 		});
 
 	}
@@ -119,9 +119,8 @@ public class SystemAdminService {
 		Page<Expo> expoPage = expoRepository.findByExpoAdmin(admin, pageable);
 		
 		return expoPage.map(expo -> {
-			ExpoCategory expoCategory = expoCategoryRepository.findByExpo(expo).orElseThrow(() -> new CustomException(CustomErrorCode.CATEGORY_NOT_FOUND));
-			String category = expoCategory.getCategory().getName();
-			return SysExpoResponseDto.from(expo, category);
+			ExpoCategory expoCategory = expoCategoryRepository.findByExpo(expo).orElse(null);
+			return SysExpoResponseDto.from(expo, expoCategory != null ? expoCategory.getCategory().getName() : "없음");
 		});
 	}
 

@@ -7,6 +7,7 @@ import { Button, message } from "antd";
 import Divider from "../components/Divider";
 import SysAdminButton from "../components/SysAdminButton";
 import ExpoDetailModal from "./ExpoDetailModal";
+import { getManagers } from "../api/sysExpoAdminApi"
 
 export const ExpoManagerManagement = () => {
   const [firstPage, setFirstPage] = useState(1);
@@ -14,6 +15,7 @@ export const ExpoManagerManagement = () => {
   const [pageSize, setPagesize] = useState(10);
   const [showModal, setShowModal] = useState(false);
   const [modalId, setModalId] = useState();
+  const [searchText, setSearchText] = useState("");
   const [managers, setManagers] = useState([
     {
       id: 1,
@@ -37,7 +39,7 @@ export const ExpoManagerManagement = () => {
     // initial fetch
     async function fetchInitData() {
       try {
-        // let manager = await getExpos();
+        let manager = await getManagers();
         setManagers(manager.content);
         setPagesize(manager.totalPage);
       } catch (error) {}
@@ -45,14 +47,15 @@ export const ExpoManagerManagement = () => {
     fetchInitData();
   }, []);
 
-  useEffect(() => {
-    async function fetchDataOnPageChange() {
+  async function fetchDataOnPageChange() {
       try {
-        // let expoData = await getExpos("", searchText, currentPage - 1, 20);
-        // setExpos(expoData.content);
-        // setPagesize(expoData.totalPage);
+        let manager = await getManagers(searchText, currentPage - 1, 20);
+        setManagers(manager.content);
+        setPagesize(manager.totalPage);
       } catch (error) {}
     }
+
+  useEffect(() => {
     fetchDataOnPageChange();
   }, [currentPage]);
 
@@ -74,6 +77,10 @@ export const ExpoManagerManagement = () => {
     setCurrentPage(pageNum);
   };
 
+  const handleSearchTextChange = (e) => {
+    setSearchText(e.target.value);
+  };
+
   const managerList = managers.map((manager) => (
     <>
       <div
@@ -90,7 +97,7 @@ export const ExpoManagerManagement = () => {
         <SysAdminButton
           onClick={() => {
             setShowModal(true);
-            // setModalId()
+            setModalId(manager.id)
           }}
           text="보기"
           textColor={"#232323"}
@@ -138,14 +145,12 @@ export const ExpoManagerManagement = () => {
                   outline: "none",
                 }}
                 placeholder="검색어를 입력해주세요."
+                onChange={handleSearchTextChange}
               />
             </div>
             <div
               onClick={() => {
-                getExpobyTitle;
-                setStatusFilter("ALL");
-                setCurrentPage(1);
-                setFirstPage(1);
+fetchDataOnPageChange()
               }}
             >
               <img
