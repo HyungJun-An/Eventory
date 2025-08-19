@@ -56,4 +56,3 @@ public class BannerServiceImpl implements BannerService {
         return banner;
     }
 }
-
