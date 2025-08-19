@@ -1,7 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import api from "../../../api/axiosInstance";
 import "../../../assets/css/refund/RefundElement.css";
 
-const RefundElement = () => {
+const RefundElement = ({ expoId }) => {
+
+  const [refunds, setRefunds] = useState([]);
+
+  useEffect(() => {
+    if (!expoId) return;
+
+    const fetchRefunds = async () => {
+      try {
+        const response = await api.get(`/api/admin/expos/${expoId}/refund`, {
+          params: {
+            page: 0,
+            size: 7,
+          },
+        });
+        setRefunds(response.data);
+      } catch (error) {
+        console.error("환불 조회 실패:", error);
+      }
+    };
+
+    fetchRefunds();
+  }, [expoId]);
+
   return (
     <div className="refund-element">
       <div className="navbar">
@@ -20,181 +44,24 @@ const RefundElement = () => {
         <div className="text-wrapper-16">환불 상태</div>
       </div>
 
-      <div className="navbar-2">
-        <div className="text-wrapper-17">$100,000</div>
+      {refunds.length === 0 && <div className="text-wrapper-17">환불 내역이 없습니다.</div>}
 
-        <div className="text-wrapper-18">01.</div>
-
-        <div className="text-wrapper-19">$40,500</div>
-
-        <div className="text-wrapper-20">8 Months</div>
-
-        <div className="text-wrapper-21">12%</div>
-
-        <div className="text-wrapper-22">$2,000 / month</div>
-
-        <div className="group-5">
-          <div className="overlap-group-2">
-            <div className="text-wrapper-23">요청됨</div>
-
-            <div className="rectangle-3" />
-          </div>
-        </div>
-      </div>
-
-      <div className="group-6">
-        <div className="text-wrapper-17">$500,000</div>
-
-        <div className="text-wrapper-18">02.</div>
-
-        <div className="text-wrapper-19">$250,000</div>
-
-        <div className="text-wrapper-20">36 Months</div>
-
-        <div className="text-wrapper-21">10%</div>
-
-        <div className="text-wrapper-22">$8,000 / month</div>
-
-        <div className="group-5">
-          <div className="overlap-group-2">
-            <div className="text-wrapper-24">승인됨</div>
-
-            <div className="rectangle-4" />
-          </div>
-        </div>
-      </div>
-
-      <div className="rectangle-5" />
-
-      <div className="rectangle-6" />
-
-      <div className="group-7">
-        <div className="group-8">
-          <div className="text-wrapper-17">$900,000</div>
-
-          <div className="text-wrapper-18">03.</div>
-
-          <div className="text-wrapper-19">$40,500</div>
-
-          <div className="text-wrapper-20">12 Months</div>
-
-          <div className="text-wrapper-21">12%</div>
-
-          <div className="text-wrapper-22">$5,000 / month</div>
-
+      {refunds.map((refund, index) => (
+        <div className="navbar-2" key={refund.paymentId}>
+          <div className="text-wrapper-17">{refund.amount}</div>
+          <div className="text-wrapper-18">{String(index + 1).padStart(2, "0")}</div>
+          <div className="text-wrapper-19">{refund.paymentMethod}</div>
+          <div className="text-wrapper-20">{refund.paymentTime}</div>
+          <div className="text-wrapper-21">{refund.reason}</div>
+          <div className="text-wrapper-22">{refund.status}</div>
           <div className="group-5">
             <div className="overlap-group-2">
-              <div className="text-wrapper-25">반려됨</div>
-
-              <div className="rectangle-7" />
+              <div className="text-wrapper-23">{refund.status}</div>
+              <div className={`rectangle-${refund.status === "요청됨" ? 3 : refund.status === "승인됨" ? 4 : 7}`} />
             </div>
           </div>
         </div>
-
-        <div className="rectangle-8" />
-      </div>
-
-      <div className="group-9">
-        <div className="group-8">
-          <div className="text-wrapper-17">$50,000</div>
-
-          <div className="text-wrapper-18">04.</div>
-
-          <div className="text-wrapper-19">$40,500</div>
-
-          <div className="text-wrapper-20">25 Months</div>
-
-          <div className="text-wrapper-21">5%</div>
-
-          <div className="text-wrapper-22">$2,000 / month</div>
-
-          <div className="group-5">
-            <div className="overlap-group-2">
-              <div className="text-wrapper-24">승인됨</div>
-
-              <div className="rectangle-4" />
-            </div>
-          </div>
-        </div>
-
-        <div className="rectangle-8" />
-      </div>
-
-      <div className="group-10">
-        <div className="text-wrapper-17">$50,000</div>
-
-        <div className="text-wrapper-18">05.</div>
-
-        <div className="text-wrapper-19">$40,500</div>
-
-        <div className="text-wrapper-20">5 Months</div>
-
-        <div className="text-wrapper-21">16%</div>
-
-        <div className="text-wrapper-22">$10,000 / month</div>
-
-        <div className="group-5">
-          <div className="overlap-group-2">
-            <div className="text-wrapper-24">승인됨</div>
-
-            <div className="rectangle-4" />
-          </div>
-        </div>
-      </div>
-
-      <div className="rectangle-9" />
-
-      <div className="rectangle-10" />
-
-      <div className="group-11">
-        <div className="group-12">
-          <div className="text-wrapper-17">$80,000</div>
-
-          <div className="text-wrapper-18">06.</div>
-
-          <div className="text-wrapper-19">$25,500</div>
-
-          <div className="text-wrapper-20">14 Months</div>
-
-          <div className="text-wrapper-21">8%</div>
-
-          <div className="text-wrapper-22">$2,000 / month</div>
-
-          <div className="group-5">
-            <div className="overlap-group-2">
-              <div className="text-wrapper-24">승인됨</div>
-
-              <div className="rectangle-4" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="group-13">
-        <div className="group-12">
-          <div className="text-wrapper-17">$12,000</div>
-
-          <div className="text-wrapper-18">07.</div>
-
-          <div className="text-wrapper-19">$5,500</div>
-
-          <div className="text-wrapper-20">9 Months</div>
-
-          <div className="text-wrapper-21">13%</div>
-
-          <div className="text-wrapper-22">$500 / month</div>
-
-          <div className="group-5">
-            <div className="overlap-group-2">
-              <div className="text-wrapper-24">승인됨</div>
-
-              <div className="rectangle-4" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="rectangle-11" />
+      ))}
     </div>
   );
 };
