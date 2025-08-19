@@ -14,7 +14,7 @@ import RegisterCompany from './auth/RegisterCompany';
 import RegisterCustomer from './auth/RegisterCustomer';
 import PaymentCheckout from './payment/PaymentCheckout';
 import { PaymentRedirect } from './payment/PaymentRedirect';
-
+import ContentPage from './expoAdmin/ContentPage';
 function App() {
   return (
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
@@ -23,7 +23,7 @@ function App() {
         <Route path="/admin/sales" element={<AdminLayout><RevenuePage /></AdminLayout>} />
         <Route path="/admin/payment" element={<AdminLayout><PaymentPage /></AdminLayout>} />
         <Route path="/admin/refund" element={<AdminLayout><RefundPage /></AdminLayout>} />
-        <Route path="/test" element={<AdminLayout></AdminLayout>} />
+        <Route path="/admin/contents" element={<AdminLayout><ContentPage/></AdminLayout>} />
         <Route element={<MainLayout />}>
           <Route path="/" element={<UserMainPage />} />
           <Route path="/login" element={<LoginPage />} />
