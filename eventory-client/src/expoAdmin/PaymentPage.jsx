@@ -19,7 +19,8 @@ const PaymentPage = ({ expoId }) => {
         const res = await api.get(`/admin/expos/${expoId}/payment`, {
           params: { page, size: pageSize },
         });
-        setPayments(res.data);
+        setPayments(res.data.content);
+        setTotalPages(res.data.totalPages);
       } catch (err) {
         console.error(err);
       }

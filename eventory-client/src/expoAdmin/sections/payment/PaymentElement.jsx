@@ -14,7 +14,7 @@ const PaymentElement = ({ payments, page, pageSize }) => {
             <div className="text-wrapper-4">{p.people}</div>
             <div className="text-wrapper-5">{p.method}</div>
             <div className="text-wrapper-6">{p.amount}</div>
-            <div className="text-wrapper-7">{p.paidAt}</div>
+            <div className="text-wrapper-7">{new Date(p.paidAt).toLocaleString()}</div>
             <div className={`rectangle-${index + 3}`} />
           </div>
         ))
