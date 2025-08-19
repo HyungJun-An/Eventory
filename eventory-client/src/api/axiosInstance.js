@@ -15,9 +15,9 @@ const mode = import.meta.env.VITE_MODE;
 
 const api = axios.create({
     baseURL: mode === "prod"
-        ? "https://eventory.kro.kr:8090/api"
+        ? "https://eventory.kro.kr:8080/api"
         //    : "/api",
-        : "http://localhost:8090/api",   // ← dev도 백엔드로 직통
+        : "http://localhost:8080/api",   // ← dev도 백엔드로 직통
     withCredentials: true,
     paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
 });
