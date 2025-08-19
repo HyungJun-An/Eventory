@@ -28,5 +28,5 @@ public interface ExpoAdminService {
 
     void createExpo(@Valid ExpoCreateRequestDto requestDto);
 
-    ReservationListResponseDto findReservationList(Long expoId, @Valid ReservationListRequestDto req);
+    ReservationListResponseDto findReservationList(Long expoAdminId, Long expoId, @Valid ReservationListRequestDto requestDto);
 }

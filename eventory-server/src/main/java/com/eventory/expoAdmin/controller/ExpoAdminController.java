@@ -267,8 +267,9 @@ public class ExpoAdminController {
 
     // 예약자 명단
     @GetMapping("/expos/{expoId}/reservations")
-    public ResponseEntity<ReservationListResponseDto> findReservationList(@PathVariable Long expoId, @Valid @ModelAttribute ReservationListRequestDto request) {
-        ReservationListResponseDto list = expoAdminService.findReservationList(expoId, request);
+    public ResponseEntity<ReservationListResponseDto> findReservationList(@AuthenticationPrincipal CustomUserPrincipal expoAdmin,  @PathVariable Long expoId, @Valid @ModelAttribute ReservationListRequestDto requestDto) {
+        Long expoAdminId = expoAdmin.getId();
+        ReservationListResponseDto list = expoAdminService.findReservationList(expoAdminId, expoId, requestDto);
         return ResponseEntity.ok(list);
     }
 }

@@ -641,24 +641,44 @@ public class ExpoAdminServiceImpl implements ExpoAdminService {
 
     // 예약자 명단
     @Override
-    public ReservationListResponseDto findReservationList(Long expoId, @Valid ReservationListRequestDto req) {
+    public ReservationListResponseDto findReservationList(Long expoAdminId, Long expoId, @Valid ReservationListRequestDto requestDto) {
+        // 기본키(expoId)로 Expo 조회
+        Expo expo = expoRepository.findById(expoId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
+
+        // 현재 로그인한 사용자가 박람회 담당자인지 확인
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
 
         assertValidExpoId(expoId);
 
-        Pageable pageable = PageRequest.of(req.getPage(), req.getSize());
+        // 페이지네이션 객체 생성
+        // page: 요청에서 넘어온 페이지 번호 / size: 요청에서 넘어온 페이지 크기
+        // sort는 Repository 쿼리 자체에 ORDER BY r.created_at DESC가 박혀 있으므로 여기선 지정 안 함
+        Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getSize());
 
-        Page<ReservationRowProjection> page = reservationRepository.findPageDesc(expoId, req.getStatus(), req.getSearch(), pageable);
+        // 네이티브 쿼리 실행 → Projection(Page<ReservationRowProjection>)으로 결과 반환
+        Page<ReservationRowProjection> page = reservationRepository.findListDesc(
+                expoId,          // 어떤 박람회인지
+                requestDto.getStatus(), // ALL / CHECKED_IN / NOT_CHECKED_IN
+                requestDto.getSearch(), // 검색어 (null일 수도 있음)
+                pageable         // 페이징 정보
+        );
 
+        // Projection → DTO 변환
+        // 각 Projection을 expoMapper.toItem()으로 변환
+        // (DB 값 → "유료/무료", "입장 완료/미입장" 등 프론트 맞춤 DTO로 바꿈)
         List<ReservationListResponseDto.Item> content = page.getContent().stream()
                 .map(expoMapper::toItem)
                 .toList();
 
+        // 최종 응답 DTO 생성
+        // 프론트에서 한눈에 예약자 명단을 보여줄 수 있도록 페이지 정보 + 총 데이터 개수 + 명단 리스트(content)를 담아 반환
         return new ReservationListResponseDto(
-                req.getPage(),
-                req.getSize(),
-                page.getTotalElements(),
-                page.getTotalPages(),
-                content
+                requestDto.getPage(),        // 현재 페이지 번호
+                requestDto.getSize(),        // 페이지 크기
+                page.getTotalElements(), // 전체 예약 건수
+                page.getTotalPages(), // 전체 페이지 수
+                content                // 실제 예약자 명단 데이터
         );
     }
 }

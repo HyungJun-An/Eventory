@@ -172,7 +172,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Object[]> aggregateTicketTypeCountsReserved(@Param("expoId") Long expoId, @Param("zero") BigDecimal zero);
 
     // 예약자 명단
-    // DESC (created_at DESC)
+    // 네이티브 쿼리(nativeQuery=true)를 사용해서 통계용 집계를 한 번에 가져옴
+    // 결과는 Projection(ReservationRowProjection)으로 매핑, 정렬은 created_at DESC 고정
     @Query(
             value = """
         SELECT
@@ -244,13 +245,15 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
       """,
             nativeQuery = true
     )
-    Page<ReservationRowProjection> findPageDesc(@Param("expoId") Long expoId,
+    Page<ReservationRowProjection> findListDesc(@Param("expoId") Long expoId,
                                                 @Param("status") String status,
                                                 @Param("search") String search,
                                                 Pageable pageable);
 
 
     // --- Projection (이 파일 안에 둬서 파일 수 최소화) ---
+    // 네이티브 쿼리 결과를 인터페이스 기반으로 매핑
+    // 엔티티를 만들지 않고도 가벼운 결과 매핑이 가능, 불필요한 컬럼 로딩 방지
     interface ReservationRowProjection {
         Long getReservationId();
         String getCode();

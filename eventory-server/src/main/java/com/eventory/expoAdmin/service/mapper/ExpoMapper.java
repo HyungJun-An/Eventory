@@ -196,10 +196,15 @@ public class ExpoMapper {
                 && "PAID".equalsIgnoreCase(p.getPayStatus()))
                 ? "유료" : "무료";
 
+        // 총 티켓 수/체크인 수 안전 처리
+        // Projection에서 COUNT/SUM이 null로 넘어올 수도 있으니, null이면 0으로 치환
         int total = p.getTotalTickets() == null ? 0 : p.getTotalTickets();
         int checked = p.getCheckedCount() == null ? 0 : p.getCheckedCount();
+
+        // 티켓이 있고(total > 0) + 모든 티켓 체크인됨 → "입장 완료"
         String rowStatus = (total > 0 && checked == total) ? "입장 완료" : "미입장";
 
+        // Projection에서 가져온 필드 + 위에서 계산한 값들을 합쳐 Item DTO 객체를 생성
         return new ReservationListResponseDto.Item(
                 p.getReservationId(),
                 p.getUserName(),

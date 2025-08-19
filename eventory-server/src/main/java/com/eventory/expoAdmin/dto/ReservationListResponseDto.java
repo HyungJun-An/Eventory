@@ -4,7 +4,7 @@ import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-// 예약자 명단
+// 예약자 명단 응답
 public class ReservationListResponseDto {
 
     @NotNull
@@ -14,13 +14,13 @@ public class ReservationListResponseDto {
     private Integer size;
 
     @NotNull
-    private Long totalElements;
+    private Long totalElements; // 전체 예약 건수
 
     @NotNull
-    private Integer totalPages;
+    private Integer totalPages; // 전체 페이지 수
 
     @NotNull
-    private List<Item> content;
+    private List<Item> content; // 실제 예약자 명단 리스트 (Item 객체들의 모음)
 
     public ReservationListResponseDto(Integer page, Integer size, Long totalElements, Integer totalPages, List<Item> content) {
         this.page = page; this.size = size; this.totalElements = totalElements; this.totalPages = totalPages; this.content = content;
@@ -33,17 +33,35 @@ public class ReservationListResponseDto {
     public Integer getTotalPages() { return totalPages; }
     public List<Item> getContent() { return content; }
 
-    public static class Item {
-        @NotNull private Long reservationId;
-        @NotBlank private String name;          // 예약자명
-        @NotBlank private String phone;
-        @NotBlank private String code;          // 예약코드
-        @NotBlank private String ticketType;    // "유료" | "무료"
-        @NotNull private LocalDateTime reservedAt;
-        @NotBlank private String status;        // "입장 완료" | "미입장"
-        private LocalDateTime lastCheckinAt;    // null 가능
-        @NotNull private Integer totalTickets;
-        @NotNull private Integer checkedInCount;
+    public static class Item { // (한 사람/한 예약 단위 데이터)
+        @NotNull
+        private Long reservationId;
+
+        @NotBlank
+        private String name;          // 예약자명
+
+        @NotBlank
+        private String phone;
+
+        @NotBlank
+        private String code;          // 예약번호(코드)
+
+        @NotBlank
+        private String ticketType;    // "유료" | "무료"
+
+        @NotNull
+        private LocalDateTime reservedAt; // 예약 생성 시각
+
+        @NotBlank
+        private String status;        // "입장 완료" | "미입장"
+
+        private LocalDateTime lastCheckinAt;    // 마지막 체크인 시간 (없으면 null)
+
+        @NotNull
+        private Integer totalTickets; // 예약한 총 티켓 수
+
+        @NotNull
+        private Integer checkedInCount; // 체크인된 티켓 수
 
         public Item(Long reservationId, String name, String phone, String code, String ticketType,
                     LocalDateTime reservedAt, String status, LocalDateTime lastCheckinAt,
