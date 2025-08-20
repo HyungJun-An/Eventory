@@ -6,6 +6,7 @@ export function SysAdminButton({
   onClick,
   borderColor,
   padding = "0.4rem 2.5rem",
+  borderRadius = "1rem",
 }) {
   return (
     <button
@@ -16,7 +17,7 @@ export function SysAdminButton({
         borderColor: borderColor,
         color: textColor,
         padding: padding,
-        borderRadius: "1rem",
+        borderRadius: borderRadius,
         width: "fit-content",
         justifySelf: "center",
         backgroundColor: color,
