@@ -14,6 +14,7 @@ import { SysExpoList } from "./systemAdmin/SysExpoList";
 import RegisterCompany from "./user/RegisterCompany";
 import RegisterCustomer from "./user/RegisterCustomer";
 import ExpoManagerManagement from "./systemAdmin/ExpoManagerManagement";
+import SysDashboard from "./systemAdmin/SysDashboard";
 
 function App() {
   return (
@@ -67,6 +68,10 @@ function App() {
         <Route
           path="/sys/manage"
           element={<AdminLayout>{<ExpoManagerManagement />}</AdminLayout>}
+        />
+        <Route
+          path="/sys/dashboard"
+          element={<AdminLayout>{<SysDashboard />}</AdminLayout>}
         />
       </Routes>
     </BrowserRouter>
