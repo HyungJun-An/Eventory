@@ -25,12 +25,23 @@ const formatPercent = (val) => {
   return `${n.toFixed(1)}%`;
 };
 
-// 공통 훅: URL 파라미터에서 expoId 읽고, 요약 데이터를 1회 호출/캐싱
-function useDashboardSummary() {
+/**
+ * 공통 훅
+ * - expoId는 props로 받은 값을 우선 사용, 없으면 URL(:expoId) 사용
+ * - expoId가 없으면 API 호출하지 않음(가드)
+ */
+function useDashboardSummary(expoIdProp) {
   const { expoId: expoIdParam } = useParams() || {};
-  const expoId = expoIdParam ?? "1"; // 파라미터 없을 때 기본값
+  const expoId = expoIdProp ?? expoIdParam; // ✅ props > URL
 
   const [state, setState] = useState(() => {
+    if (!expoId) {
+      return {
+        data: null,
+        error: new Error("expoId not found"),
+        loading: false,
+      };
+    }
     const entry = summaryCache.get(expoId);
     return {
       data: entry?.data ?? null,
@@ -40,11 +51,20 @@ function useDashboardSummary() {
   });
 
   useEffect(() => {
+    if (!expoId) {
+      setState({
+        data: null,
+        error: new Error("expoId not found"),
+        loading: false,
+      });
+      return;
+    }
+
     let active = true;
     const entry = summaryCache.get(expoId);
 
+    // 캐시 히트: 즉시 반영
     if (entry?.data || entry?.error) {
-      // 이미 완료된 캐시가 있으면 즉시 반영
       setState({
         data: entry.data ?? null,
         error: entry.error ?? null,
@@ -57,20 +77,19 @@ function useDashboardSummary() {
       // 진행 중인 요청이 있으면 해당 promise를 기다림
       setState((s) => ({ ...s, loading: true }));
       entry.promise
-        .then((data) => {
-          if (active) setState({ data, error: null, loading: false });
-        })
-        .catch((err) => {
-          if (active) setState({ data: null, error: err, loading: false });
-        });
+        .then(
+          (data) => active && setState({ data, error: null, loading: false })
+        )
+        .catch(
+          (err) =>
+            active && setState({ data: null, error: err, loading: false })
+        );
       return;
     }
 
     // 최초 요청: promise를 캐시에 저장하여 중복 방지
-    // ✅ api 인스턴스 사용 (baseURL: '/api' 또는 'https://.../api')
-    //    여기서는 URL을 '/admin/...' 로 호출하면 최종적으로 '/api/admin/...' 이 됩니다.
     const promise = api
-      .get(`/admin/expos/${expoId}/dashboard/summary`)
+      .get(`/admin/expos/${encodeURIComponent(expoId)}/dashboard/summary`)
       .then((res) => {
         const data = res?.data ?? null;
         summaryCache.set(expoId, { data, error: null, promise: null });
@@ -84,13 +103,12 @@ function useDashboardSummary() {
     summaryCache.set(expoId, { data: null, error: null, promise });
 
     setState((s) => ({ ...s, loading: true }));
+
     promise
-      .then((data) => {
-        if (active) setState({ data, error: null, loading: false });
-      })
-      .catch((err) => {
-        if (active) setState({ data: null, error: err, loading: false });
-      });
+      .then((data) => active && setState({ data, error: null, loading: false }))
+      .catch(
+        (err) => active && setState({ data: null, error: err, loading: false })
+      );
 
     return () => {
       active = false;
@@ -100,9 +118,9 @@ function useDashboardSummary() {
   return { ...state, expoId };
 }
 
-// ▼▼▼ 카드 컴포넌트(각각 공통 훅을 사용하지만 네트워크 요청은 1회) ▼▼▼
-export function PageViewsCard() {
-  const { data, loading, error } = useDashboardSummary();
+// ▼▼▼ 카드 컴포넌트(이제 expoId props를 받아 훅에 전달) ▼▼▼
+export function PageViewsCard({ expoId }) {
+  const { data, loading, error } = useDashboardSummary(expoId);
   const value = loading
     ? "로딩중..."
     : error
@@ -117,8 +135,8 @@ export function PageViewsCard() {
   );
 }
 
-export function TotalReservationsCard() {
-  const { data, loading, error } = useDashboardSummary();
+export function TotalReservationsCard({ expoId }) {
+  const { data, loading, error } = useDashboardSummary(expoId);
   const value = loading
     ? "로딩중..."
     : error
@@ -133,8 +151,8 @@ export function TotalReservationsCard() {
   );
 }
 
-export function EntranceRateCard() {
-  const { data, loading, error } = useDashboardSummary();
+export function EntranceRateCard({ expoId }) {
+  const { data, loading, error } = useDashboardSummary(expoId);
   const value = loading
     ? "로딩중..."
     : error

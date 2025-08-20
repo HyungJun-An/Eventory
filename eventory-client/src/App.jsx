@@ -17,6 +17,7 @@ import { PaymentRedirect } from './payment/PaymentRedirect';
 import ContentPage from './expoAdmin/ContentPage';
 import { SysExpoList } from "./systemAdmin/SysExpoList";
 import ExpoManagerManagement from "./systemAdmin/ExpoManagerManagement";
+
 function App() {
   return (
     <BrowserRouter
@@ -24,20 +25,54 @@ function App() {
     >
       <Routes>
         {/******************* 어드민 영역 ***********************/}
-        <Route path="/admin/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
-        <Route path="/admin/sales" element={<AdminLayout><RevenuePage /></AdminLayout>} />
-        <Route path="/admin/payment" element={<AdminLayout><PaymentPage /></AdminLayout>} />
-        <Route path="/admin/refund" element={<AdminLayout><RefundPage /></AdminLayout>} />
-        <Route path="/admin/contents" element={<AdminLayout><ContentPage/></AdminLayout>} />
-
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminLayout>
+              <Dashboard />
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/admin/sales"
+          element={
+            <AdminLayout>
+              <RevenuePage />
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/admin/payment"
+          element={
+            <AdminLayout>
+              <PaymentPage />
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/admin/refund"
+          element={
+            <AdminLayout>
+              <RefundPage />
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/admin/contents"
+          element={
+            <AdminLayout>
+              <ContentPage />
+            </AdminLayout>
+          }
+        />
 
         {/****************** 일반 사용자 영역 ********************/}
         <Route element={<MainLayout />}>
           <Route path="/" element={<UserMainPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<RegisterPage/>} />
-          <Route path="/register/company" element={<RegisterCompany/>} />
-          <Route path="/register/customer" element={<RegisterCustomer/>} />
+          <Route path="/signup" element={<RegisterPage />} />
+          <Route path="/register/company" element={<RegisterCompany />} />
+          <Route path="/register/customer" element={<RegisterCustomer />} />
           <Route path="/payment" element={<PaymentCheckout />} />
           <Route path="/payment/redirect" element={<PaymentRedirect />} />
         </Route>
