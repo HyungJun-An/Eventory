@@ -163,60 +163,59 @@ export const SysExpoList = () => {
     });
   };
 
-  const expoItems = expos.map(
-    (expo) =>
-      (statusFilter === "ALL" || expo.status === statusFilter) && (
-        <>
-          <div
-            className=" expoTable-row"
-            style={{
-              alignItems: "center",
-            }}
-          >
-            <div style={{ justifySelf: "start" }}>{expo.title}</div>
-            <div>{expo.category}</div>
-            <div>{expo.createdAt.slice(0, 10)}</div>
-            <div
-              className={
-                expo.status === "APPROVED"
-                  ? "blue"
-                  : expo.status === "PENDING"
-                  ? "black"
-                  : "red"
-              }
-            >
-              {expo.status === "APPROVED"
-                ? "승인"
-                : expo.status === "PENDING"
-                ? "대기"
-                : "거절"}
-            </div>
-            <SysAdminButton text="보기" textColor={"#232323"}></SysAdminButton>
-            <SysAdminButton
-              onClick={() => {
-                openApproveNotification("bottomRight");
-                approveExpo(expo.id);
-              }}
-              disable={expo.status !== "PENDING"}
-              text="승인"
-              textColor={expo.status === "PENDING" ? "#007BFF" : "white"}
-              color={expo.status === "PENDING" ? "white" : "#D9D9D9"}
-            ></SysAdminButton>
-            <SysAdminButton
-              onClick={() => {
-                setRejectingExpoId(expo.id);
-                setShowModal(true);
-              }}
-              disable={expo.status !== "PENDING"}
-              text="거절"
-              textColor={expo.status === "PENDING" ? "#FE5C73" : "white"}
-              color={expo.status === "PENDING" ? "white" : "#D9D9D9"}
-            ></SysAdminButton>
-          </div>
-          <Divider verticalMargin="1rem"></Divider>
-        </>
-      )
-  );
+  const expoItems = expos
+  .filter(expo => statusFilter === "ALL" || expo.status === statusFilter)
+  .map((expo, index) => (
+    <React.Fragment key={expo.id || index}>
+      <div
+        className="expoTable-row"
+        style={{
+          alignItems: "center",
+        }}
+      >
+        <div style={{ justifySelf: "start" }}>{expo.title}</div>
+        <div>{expo.category}</div>
+        <div>{expo.createdAt.slice(0, 10)}</div>
+        <div
+          className={
+            expo.status === "APPROVED"
+              ? "blue"
+              : expo.status === "PENDING"
+              ? "black"
+              : "red"
+          }
+        >
+          {expo.status === "APPROVED"
+            ? "승인"
+            : expo.status === "PENDING"
+            ? "대기"
+            : "거절"}
+        </div>
+        <SysAdminButton text="보기" textColor={"#232323"} />
+        <SysAdminButton
+          onClick={() => {
+            openApproveNotification("bottomRight");
+            approveExpo(expo.id);
+          }}
+          disable={expo.status !== "PENDING"}
+          text="승인"
+          textColor={expo.status === "PENDING" ? "#007BFF" : "white"}
+          color={expo.status === "PENDING" ? "white" : "#D9D9D9"}
+        />
+        <SysAdminButton
+          onClick={() => {
+            setRejectingExpoId(expo.id);
+            setShowModal(true);
+          }}
+          disable={expo.status !== "PENDING"}
+          text="거절"
+          textColor={expo.status === "PENDING" ? "#FE5C73" : "white"}
+          color={expo.status === "PENDING" ? "white" : "#D9D9D9"}
+        />
+      </div>
+      <Divider verticalMargin="1rem" />
+    </React.Fragment>
+  ));
 
   return (
     <>
