@@ -182,7 +182,11 @@ export const SysExpoList = () => {
                 ? "대기"
                 : "거절"}
             </div>
-            <SysAdminButton text="보기" textColor={"#232323"}></SysAdminButton>
+            <SysAdminButton
+              text="보기"
+              textColor={"#232323"}
+              borderColor={"#232323"}
+            ></SysAdminButton>
             <SysAdminButton
               onClick={() => {
                 openApproveNotification("bottomRight");
@@ -192,6 +196,7 @@ export const SysExpoList = () => {
               text="승인"
               textColor={expo.status === "PENDING" ? "#007BFF" : "white"}
               color={expo.status === "PENDING" ? "white" : "#D9D9D9"}
+              borderColor={expo.status === "PENDING" ? "#007BFF" : "white"}
             ></SysAdminButton>
             <SysAdminButton
               onClick={() => {
@@ -202,6 +207,7 @@ export const SysExpoList = () => {
               text="거절"
               textColor={expo.status === "PENDING" ? "#FE5C73" : "white"}
               color={expo.status === "PENDING" ? "white" : "#D9D9D9"}
+              borderColor={expo.status === "PENDING" ? "#FE5C73" : "white"}
             ></SysAdminButton>
           </div>
           <Divider verticalMargin="1rem"></Divider>

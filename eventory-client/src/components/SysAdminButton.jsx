@@ -4,6 +4,8 @@ export function SysAdminButton({
   color = "white",
   disable,
   onClick,
+  borderColor,
+  padding = "0.4rem 2.5rem",
 }) {
   return (
     <button
@@ -11,9 +13,9 @@ export function SysAdminButton({
       disabled={disable}
       style={{
         outline: "none",
-        borderColor: textColor,
+        borderColor: borderColor,
         color: textColor,
-        padding: "0.4rem 2.5rem",
+        padding: padding,
         borderRadius: "1rem",
         width: "fit-content",
         justifySelf: "center",

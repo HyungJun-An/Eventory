@@ -16,8 +16,9 @@ export const ExpoManagerManagement = () => {
   const [pageSize, setPagesize] = useState(10);
   const [showModal, setShowModal] = useState(false);
   const [modalId, setModalId] = useState();
+  const [manager, setManager] = useState();
   const [searchText, setSearchText] = useState("");
-  const [showManagerEditModal, setShowManagerEditModal] = useState(true);
+  const [showManagerEditModal, setShowManagerEditModal] = useState(false);
   const [managers, setManagers] = useState([
     {
       id: 1,
@@ -91,9 +92,33 @@ export const ExpoManagerManagement = () => {
           alignItems: "center",
         }}
       >
-        <div>{manager.name}</div>
-        <div>{manager.phone}</div>
-        <div>{manager.email}</div>
+        <div
+          className="pointer"
+          onClick={() => {
+            setShowManagerEditModal(true);
+            setManager(manager);
+          }}
+        >
+          {manager.name}
+        </div>
+        <div
+          className="pointer"
+          onClick={() => {
+            setShowManagerEditModal(true);
+            setManager(manager);
+          }}
+        >
+          {manager.phone}
+        </div>
+        <div
+          className="pointer"
+          onClick={() => {
+            setShowManagerEditModal(true);
+            setManager(manager);
+          }}
+        >
+          {manager.email}
+        </div>
         <div>{manager.createdAt.slice(0, 10)}</div>
         <div>{manager.lastAppliedAt.slice(0, 10)}</div>
         <SysAdminButton
@@ -103,6 +128,7 @@ export const ExpoManagerManagement = () => {
           }}
           text="보기"
           textColor={"#232323"}
+          borderColor={"#232323"}
         ></SysAdminButton>
       </div>
       <Divider verticalMargin="1rem"></Divider>
@@ -119,6 +145,7 @@ export const ExpoManagerManagement = () => {
       {showManagerEditModal && (
         <ManagerInfoEditModal
           onClose={() => setShowManagerEditModal(false)}
+          manager={manager}
         ></ManagerInfoEditModal>
       )}
       (
