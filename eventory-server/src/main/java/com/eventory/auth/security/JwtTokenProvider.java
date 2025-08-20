@@ -50,6 +50,8 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + accessTokenValidityInMs);
 
+        System.out.println("⭐" + role);
+
         return Jwts.builder()
                 .setSubject(String.valueOf(userId))
                 .claim("role", role)
@@ -60,13 +62,13 @@ public class JwtTokenProvider {
     }
 
     // 관리자 토큰: role + userType 클레임 포함
-    public String createAccessTokenWithRole(Long adminId, String role, String userType) {
+    public String createAccessTokenWithRole(Long adminId, String role) {
+        System.out.println("⭐"  + role);
         Date now = new Date();
         Date exp = new Date(now.getTime() + accessTokenValidityInMs);
         return Jwts.builder()
                 .setSubject(String.valueOf(adminId))
                 .claim("role", role)
-                .claim("userType", userType) // userType 추가
                 .setIssuedAt(now)
                 .setExpiration(exp)
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -164,9 +166,5 @@ public class JwtTokenProvider {
             // 서명 불일치, 포맷 오류 등 모든 잘못된 토큰
             return 0L;
         }
-    }
-
-    public String getUserTypeFromToken(String refreshToken) {
-        return (String) parseClaims(refreshToken).get("userType");
     }
 }

@@ -45,21 +45,38 @@ public class AuthController {
     }
 
     /** 리프레시 토큰 재발급 */
+//    @PostMapping("/refresh")
+//    public ResponseEntity<LoginResponse> refreshToken(HttpServletRequest request) {
+//        // 1. Authorization 헤더에서 "Bearer " 이후의 토큰 값 추출
+//        String authHeader = request.getHeader("Authorization");
+//        String refreshToken = (StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer "))
+//                ? authHeader.substring(7) // "Bearer " 다음부터 토큰 문자열 잘라내기
+//                : null;
+//        // 2. RefreshToken 값이 없으면 예외 처리
+//        if (!StringUtils.hasText(refreshToken)) {
+//            throw new CustomException(CustomErrorCode.INVALID_REFRESH_TOKEN); // 잘못된 요청 예외
+//        }
+//        // 3. AuthService를 통해 새로운 AccessToken 발급
+//        LoginResponse newTokens = authService.refreshAccessToken(refreshToken);
+//        // 4. 발급된 토큰 응답 반환
+//        return ResponseEntity.ok(newTokens);
+//    }
     @PostMapping("/refresh")
-    public ResponseEntity<LoginResponse> refreshToken(HttpServletRequest request) {
-        // 1. Authorization 헤더에서 "Bearer " 이후의 토큰 값 추출
-        String authHeader = request.getHeader("Authorization");
-        String refreshToken = (StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer "))
-                ? authHeader.substring(7) // "Bearer " 다음부터 토큰 문자열 잘라내기
-                : null;
-        // 2. RefreshToken 값이 없으면 예외 처리
-        if (!StringUtils.hasText(refreshToken)) {
-            throw new CustomException(CustomErrorCode.INVALID_REFRESH_TOKEN); // 잘못된 요청 예외
+    public ResponseEntity<LoginResponse> refresh(
+            @RequestHeader(value = "Authorization", required = false) String auth,
+            @RequestHeader(value = "X-Refresh-Token", required = false) String refreshHeader) {
+        // 1) 우선순위: X-Refresh-Token (UUID)
+        String refresh = StringUtils.hasText(refreshHeader) ? refreshHeader : null;
+
+        if (refresh == null && StringUtils.hasText(auth) && auth.startsWith("Bearer ")) {
+            // Bearer <uuid> 도 허용 (이전 호환)
+            refresh = auth.substring(7);
         }
-        // 3. AuthService를 통해 새로운 AccessToken 발급
-        LoginResponse newTokens = authService.refreshAccessToken(refreshToken);
-        // 4. 발급된 토큰 응답 반환
-        return ResponseEntity.ok(newTokens);
+
+        if (!StringUtils.hasText(refresh)) {
+            throw new CustomException(CustomErrorCode.INVALID_REFRESH_TOKEN);
+        }
+        return ResponseEntity.ok(authService.refreshAccessToken(refresh));
     }
 
     /** 로그아웃 */
