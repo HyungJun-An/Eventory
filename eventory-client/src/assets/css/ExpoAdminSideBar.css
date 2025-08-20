@@ -24,6 +24,13 @@
   top: 0;
   width: 25px;
 }
+.expoadmin-sideBar .icon-wrapper {
+  height: 25px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 25px;
+}
 
 .expoadmin-sideBar .text-wrapper {
   color: #343a4080;
@@ -74,6 +81,7 @@
 
 .expoadmin-sideBar .text-wrapper-3 {
   color: #007bff;
+  color: #343a4080;
   font-family: "Inter", Helvetica;
   font-size: 18px;
   font-weight: 500;
@@ -149,12 +157,15 @@
   cursor: pointer;
 }
 
-.expoadmin-sideBar .rectangle {
-  background-color: #007bff;
-  border-radius: 0px 10px 10px 0px;
-  height: 60px;
-  left: 0;
-  position: absolute;
-  top: 239px;
-  width: 6px;
+
+
+/* 텍스트 색상 (동일한 짙은 파란색) */
+.expoadmin-sideBar .div-2.active .text-wrapper-2,
+.expoadmin-sideBar .div-3.active .text-wrapper-2,
+.expoadmin-sideBar .div-4.active .text-wrapper-3,
+.expoadmin-sideBar .div-5.active .text-wrapper-4,
+.expoadmin-sideBar .div-6.active .text-wrapper-5,
+.expoadmin-sideBar .div-7.active .text-wrapper-6,
+.expoadmin-sideBar .div-8.active .text-wrapper-2 {
+  color: #0044ff !important;
 }
