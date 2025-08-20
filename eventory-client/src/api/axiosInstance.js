@@ -3,7 +3,7 @@ import qs from "qs";
 
 /**
  * 공통 Axios 인스턴스 (Vite + React, JS 버전)
- * - baseURL: /api(prod) | http://localhost:8090/api(dev)
+ * - baseURL: /api(prod) | http://localhost:8080/api(dev)
  * - withCredentials: true (HttpOnly RefreshToken 쿠키 사용 전제)
  * - 요청 시 AccessToken 자동 부착(localStorage)
  * - 401이면 RefreshToken으로 1회 자동 재발급 후 원요청 재시도
@@ -13,7 +13,7 @@ import qs from "qs";
 const mode = import.meta.env.VITE_MODE;
 
 export const api = axios.create({
-    baseURL: mode === "prod" ? "https://eventory.kro.kr:8090/api" : "http://localhost:8090/api",
+    baseURL: mode === "prod" ? "https://eventory.kro.kr:8080/api" : "http://localhost:8080/api",
     withCredentials: true,
     paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
 });
