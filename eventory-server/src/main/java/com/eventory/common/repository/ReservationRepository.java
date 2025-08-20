@@ -79,7 +79,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     FROM reservation r
     WHERE r.expo.expoId = :expoId
     """)
-    List<Reservation> findByExpoIdAndReservationCode(@Param("expoId") Long expoId);
+    List<Reservation> findByExpoIdAndReservation(@Param("expoId") Long expoId);
 
     // RESERVED 상태인 총 인원 수
     @Query("""

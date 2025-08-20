@@ -8,6 +8,8 @@ const Header = ({ expoId, setExpoId }) => {
   const [expos, setExpos] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [profileData, setProfileData] = useState(null);
   const profileMenuRef = useRef(null);
   const profileButtonRef = useRef(null);
 
@@ -18,16 +20,6 @@ const Header = ({ expoId, setExpoId }) => {
       setIsDropdownOpen((prev) => !prev); // 목록 토글
     } catch (error) {
       console.error("박람회 목록 불러오기 실패", error);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await api.post("/auth/logout");
-      console.log("로그아웃 성공");
-      window.location.href = "/";
-    } catch (error) {
-      console.error("로그아웃 실패", error);
     }
   };
 
@@ -59,9 +51,22 @@ const Header = ({ expoId, setExpoId }) => {
     setIsProfileMenuOpen(!isProfileMenuOpen);
   };
 
-  const handleMenuItemClick = (action) => {
-    console.log(`${action} 클릭됨`); // 실제 구현에서는 각각의 기능을 구현
+  const handleMenuItemClick = async (action) => {
+    if (action === "관리자정보") {
+      try {
+        const response = await api.get("/admin/profile");
+        setProfileData(response.data);
+        setIsProfileModalOpen(true);
+      } catch (error) {
+        console.error("관리자 정보 조회 실패", error);
+      }
+    }
     setIsProfileMenuOpen(false);
+  };
+
+  const closeModal = () => {
+    setIsProfileModalOpen(false);
+    setProfileData(null);
   };
 
   return (
@@ -84,7 +89,6 @@ const Header = ({ expoId, setExpoId }) => {
         </div>
 
         <div className="group-3">
-
           <div className="overlap-wrapper">
             <div className="overlap-2">
               <span className="text-wrapper-9">박람회 선택</span>
@@ -115,7 +119,7 @@ const Header = ({ expoId, setExpoId }) => {
               )}
             </div>
           </div>
-          
+
           {/* Profile image with dropdown */}
           <div className="header__profile-container">
             <button
@@ -161,11 +165,78 @@ const Header = ({ expoId, setExpoId }) => {
               </div>
             )}
           </div>
-          
         </div>
       </div>
 
       <div className="rectangle-2" />
+      {/* Profile Modal */}
+      {isProfileModalOpen && profileData && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2>관리자 정보 수정</h2>
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                try {
+                  await api.put("/admin/profile", {
+                    name: profileData.name,
+                    email: profileData.email,
+                    phone: profileData.phone,
+                  });
+                  alert("관리자 정보가 수정되었습니다.");
+                  setIsProfileModalOpen(false);
+                } catch (error) {
+                  console.error("관리자 정보 수정 실패", error);
+                  alert(
+                    "수정 실패: " + error.response?.data?.message || error.message
+                  );
+                }
+              }}
+            >
+              <label>
+                이름:
+                <input
+                  type="text"
+                  value={profileData.name}
+                  onChange={(e) =>
+                    setProfileData({ ...profileData, name: e.target.value })
+                  }
+                  required
+                />
+              </label>
+              <label>
+                이메일:
+                <input
+                  type="email"
+                  value={profileData.email}
+                  onChange={(e) =>
+                    setProfileData({ ...profileData, email: e.target.value })
+                  }
+                  required
+                />
+              </label>
+              <label>
+                전화번호:
+                <input
+                  type="text"
+                  value={profileData.phone}
+                  onChange={(e) =>
+                    setProfileData({ ...profileData, phone: e.target.value })
+                  }
+                  required
+                />
+              </label>
+
+              <div className="modal-buttons">
+                <button type="submit">수정</button>
+                <button type="button" onClick={closeModal}>
+                  닫기
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

@@ -1,5 +1,6 @@
 package com.eventory.expoAdmin.service;
 
+import com.eventory.auth.security.CustomUserPrincipal;
 import com.eventory.common.entity.*;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
@@ -157,13 +158,13 @@ public class SalesAdminServiceImpl implements SalesAdminService {
 
     // 결제 내역 관리 - 페이징 O
     @Override
-    public Page<PaymentResponseDto> findAllPayments(Long expoAdminId, Long expoId, String code, LocalDate startDate, LocalDate endDate, Integer page, Integer size) {
+    public Page<PaymentResponseDto> findAllPayments(CustomUserPrincipal expoAdmin, Long expoId, String code, LocalDate startDate, LocalDate endDate, Integer page, Integer size) {
         // 기본키(expoId)로 Expo 조회
         Expo expo = expoRepository.findById(expoId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
 
         // 현재 로그인한 사용자가 박람회 담당자인지 확인
-        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdmin.getId());
 
         // 7개씩 페이징
         int actualPage = (page != null) ? page : 0;
@@ -179,16 +180,16 @@ public class SalesAdminServiceImpl implements SalesAdminService {
 
     // 결제 내역 관리 - 페이징 X
     @Override
-    public List<PaymentResponseDto> findAllPayments(Long expoAdminId, Long expoId) {
+    public List<PaymentResponseDto> findAllPayments(CustomUserPrincipal expoAdmin, Long expoId) {
         // 기본키(expoId)로 Expo 조회
         Expo expo = expoRepository.findById(expoId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
 
         // 현재 로그인한 사용자가 박람회 담당자인지 확인
-        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdminId);
+        checkExpo_ExpoAdminAccess(expo.getExpoAdmin().getExpoAdminId(), expoAdmin.getId());
 
         // 특정 박람회(expoId)에 해당하는 예약 조회
-        List<Reservation> reservations = reservationRepository.findByExpoIdAndReservationCode(expoId);
+        List<Reservation> reservations = reservationRepository.findByExpoIdAndReservation(expoId);
 
         // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
         return reservations.stream()
@@ -315,8 +316,8 @@ public class SalesAdminServiceImpl implements SalesAdminService {
     }
 
     // 현재 로그인한 사용자가 박람회 담당자인지 확인
-    private void checkExpo_ExpoAdminAccess(Long expoId, Long expoAdminId) {
-        if (!expoAdminId.equals(expoId)) {
+    private void checkExpo_ExpoAdminAccess(Long expoOwnerAdminId, Long loggedInAdminId) {
+        if (!expoOwnerAdminId.equals(loggedInAdminId)) {
             throw new CustomException(CustomErrorCode.FORBIDDEN_ACCESS);
         }
     }
