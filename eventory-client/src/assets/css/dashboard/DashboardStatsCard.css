@@ -1,38 +1,39 @@
 .dashboard-stats.stats-card {
   background: white;
-  border-radius: 25px;
-  padding: 1.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  border-radius: 16px;              /* FIX: 25px → 16px (모서리 둥근 정도 축소) */
+  padding: 1rem;                    /* FIX: 1.5rem → 1rem (패딩 축소) */
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08),
+              0 1px 2px 0 rgba(0, 0, 0, 0.04); /* FIX: 그림자 살짝 약화 */
   border: 1px solid #f3f4f6;
 }
 
 @media (min-width: 640px) {
   .dashboard-stats.stats-card {
-    padding: 2rem;
+    padding: 1.25rem;   /* FIX: 2rem → 1.25rem */
   }
 }
 
 @media (min-width: 1024px) {
   .dashboard-stats.stats-card {
-    padding: 2.5rem;
+    padding: 1.5rem;    /* FIX: 2.5rem → 1.5rem */
   }
 }
 
 .dashboard-stats .stats-card-content {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;          /* FIX: 1rem → 0.75rem */
 }
 
 @media (min-width: 640px) {
   .dashboard-stats .stats-card-content {
-    gap: 1.5rem;
+    gap: 1rem;           /* FIX: 1.5rem → 1rem */
   }
 }
 
 @media (min-width: 1024px) {
   .dashboard-stats .stats-card-content {
-    gap: 2rem;
+    gap: 1.25rem;        /* FIX: 2rem → 1.25rem */
   }
 }
 
@@ -41,24 +42,22 @@
 }
 
 .dashboard-stats .icon-wrapper {
-  width: 4rem;
-  height: 4rem;
-  transform: scale(0.75);
+  width: 3rem;           /* FIX: 4rem → 3rem */
+  height: 3rem;          /* FIX: 4rem → 3rem */
+  transform: scale(1);   /* FIX: scale 조정 제거 */
 }
 
 @media (min-width: 640px) {
   .dashboard-stats .icon-wrapper {
-    width: 5rem;
-    height: 5rem;
-    transform: scale(0.9);
+    width: 3.5rem;       /* FIX: 5rem → 3.5rem */
+    height: 3.5rem;
   }
 }
 
 @media (min-width: 1024px) {
   .dashboard-stats .icon-wrapper {
-    width: 110px;
-    height: 111px;
-    transform: scale(1);
+    width: 4rem;         /* FIX: 110px → 4rem (≈64px) */
+    height: 4rem;
   }
 }
 
@@ -82,7 +81,7 @@
 }
 
 .dashboard-stats .title {
-  font-size: 1.125rem;
+  font-size: 1rem;       /* FIX: 1.125rem → 1rem */
   font-weight: 400;
   color: var(--dashboard-text-light, #6b7280);
   font-family: Inter, sans-serif;
@@ -91,18 +90,18 @@
 
 @media (min-width: 640px) {
   .dashboard-stats .title {
-    font-size: 1.25rem;
+    font-size: 1.125rem; /* FIX: 1.25rem → 1.125rem */
   }
 }
 
 @media (min-width: 1024px) {
   .dashboard-stats .title {
-    font-size: 22px;
+    font-size: 1.25rem;  /* FIX: 22px → 1.25rem (≈20px) */
   }
 }
 
 .dashboard-stats .value {
-  font-size: 1.25rem;
+  font-size: 1.125rem;   /* FIX: 1.25rem → 1.125rem */
   font-weight: 600;
   color: var(--foreground, #000000);
   font-family: Inter, sans-serif;
@@ -110,13 +109,13 @@
 
 @media (min-width: 640px) {
   .dashboard-stats .value {
-    font-size: 1.5rem;
+    font-size: 1.25rem;  /* FIX: 1.5rem → 1.25rem */
   }
 }
 
 @media (min-width: 1024px) {
   .dashboard-stats .value {
-    font-size: 1.5rem;
+    font-size: 1.375rem; /* FIX: 1.5rem → 1.375rem */
   }
 }
 

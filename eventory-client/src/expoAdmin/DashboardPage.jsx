@@ -5,7 +5,7 @@ import {
   EntranceRateCard,
 } from "./sections/dashboard/DashboardStatsCard.jsx";
 import ChartSection from "./sections/dashboard/DashboardChartSection.jsx";
-import "../assets/css/dashboard/DashboardIndex.css";
+import "../assets/css/dashboard/DashboardPage.css";
 
 /**
  * expoId는 우선 props로 받되, 없으면 라우터 파라미터(:expoId)로 대체한다.

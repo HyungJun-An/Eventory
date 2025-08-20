@@ -1,0 +1,107 @@
+/* === 레이아웃 상수: Header/Sidebar 크기를 여기서만 제어 === */
+/* FIX: 헤더/사이드바가 absolute로 떠 있으므로, 본문을 오프셋으로 밀어준다 */
+:root {
+  --header-height: 10vh;  /* Header.css의 height와 동일 */
+  --sidebar-width: 18vw;  /* ExpoAdminSideBar.css의 width와 동일 */
+}
+
+.dashboard-index.main-container {
+  min-height: 100vh;
+  background: var(--dashboard-bg, #f9fafb);
+  font-family: Inter, sans-serif;
+
+    /* FIX: 헤더 높이만큼 본문 전체를 아래로 내림(헤더 침범 방지) */
+  padding-top: calc(var(--header-height) - 100px);
+}
+
+/* FIX: 사이드바가 absolute로 겹치므로, 본문을 좌측으로 밀어줌(사이드바 침범 방지) */
+.dashboard-index .content-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-left: var(--sidebar-width);
+  position: relative; /* stacking context 안정화 */
+  min-width: 0;       /* 그리드/차트 overflow 방지 */
+}
+
+@media (min-width: 1024px) {
+  .dashboard-index .content-wrapper {
+    flex-direction: row;
+  }
+}
+
+/* (기존) optional: 별도 사이드 컨테이너가 있을 때 대비 */
+.dashboard-index .sidebar-container {
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .dashboard-index .sidebar-container {
+    width: 250px;
+  }
+}
+
+/* 메인 영역 */
+.dashboard-index .main-content {
+  flex: 1;
+  min-height: calc(100vh - 101px);
+  background: var(--dashboard-bg, #f9fafb);
+
+  /* FIX: grid 컨텍스트에서 차트/표가 넘치지 않도록 */
+  min-width: 0;
+  overflow: visible;
+}
+
+.dashboard-index .content-padding {
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .dashboard-index .content-padding {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dashboard-index .content-padding {
+    padding: 2.5rem;
+  }
+}
+
+/* 카드 그리드 */
+.dashboard-index .stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .dashboard-index .stats-grid {
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .dashboard-index .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .dashboard-index .stats-grid {
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .dashboard-index .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* FIX: Recharts가 grid 안에서 width 계산을 잘못해서 삐져나오는 경우 방지 */
+.recharts-wrapper,
+.recharts-responsive-container {
+  min-width: 0;
+}

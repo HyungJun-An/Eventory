@@ -6,7 +6,7 @@
   margin-top: 1.5rem;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1024px) {
   .dashboard-chart .chart-section {
     grid-template-columns: 2fr 1fr;
     gap: 2rem;
