@@ -28,6 +28,8 @@ function DashboardChartSection({ expoId: expoIdProp }) {
   const [ticketTypeData, setTicketTypeData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [expoName, setExpoName] = useState("");
+
   // ---- 파일 다운로드 공통 유틸 (단일 선언) ----
   function getFilenameFromDisposition(disposition, fallbackName) {
     if (!disposition) return fallbackName;
@@ -49,6 +51,55 @@ function DashboardChartSection({ expoId: expoIdProp }) {
     }
     return fallbackName;
   }
+
+  // 파일명 안전 처리 + 오늘 날짜 포맷 + 로컬 파일명 생성
+  const sanitizeForFilename = (name) =>
+    (name || "")
+      .replace(/[\\/:*?"<>|]/g, "") // Windows 금지문자 제거
+      .replace(/\s+/g, " ") // 공백 정리
+      .trim();
+
+  const formatToday = () => {
+    const d = new Date();
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  const buildLocalReportName = (ext) => {
+    const safeExpo = sanitizeForFilename(expoName) || "expo";
+    return `${safeExpo}-${period}-dashboard-report-${formatToday()}.${ext}`;
+  };
+
+  // 박람회명 가져오기 (우선 단건 → 실패 시 목록에서 조회)
+  const fetchExpoName = async () => {
+    if (!expoId) return;
+    try {
+      // 단건 상세가 있다면: /admin/expos/{expoId}
+      const detail = await api.get(
+        `/admin/expos/${encodeURIComponent(expoId)}`
+      );
+      if (detail?.data?.name) {
+        setExpoName(detail.data.name);
+        return;
+      }
+    } catch (err) {
+      console.warn("Failed to fetch expo detail:", err);
+    }
+    try {
+      // fallback: /admin/expos 목록에서 찾아보기 (id 필드명이 다르면 맞게 수정)
+      const list = await api.get(`/admin/expos`);
+      const found =
+        Array.isArray(list?.data) &&
+        list.data.find(
+          (x) => String(x.id ?? x.expoId) === String(expoId) // id 키 이름 유연 처리
+        );
+      if (found?.name) setExpoName(found.name);
+    } catch (err) {
+      console.warn("Failed to fetch expo name:", err);
+    }
+  };
 
   // 예약 현황 데이터 가져오기
   const fetchReservationData = async (selectedPeriod) => {
@@ -96,7 +147,12 @@ function DashboardChartSection({ expoId: expoIdProp }) {
     if (!expoId) return; // 🔒 expoId 없으면 API 호출하지 않음
     const fetchData = async () => {
       setLoading(true);
-      await Promise.all([fetchReservationData(period), fetchTicketTypeData()]);
+      // [CHANGED] 박람회명도 함께 로드
+      await Promise.all([
+        fetchExpoName(),
+        fetchReservationData(period),
+        fetchTicketTypeData(),
+      ]);
       setLoading(false);
     };
     fetchData();
@@ -119,10 +175,13 @@ function DashboardChartSection({ expoId: expoIdProp }) {
       });
 
       const disposition = res.headers?.["content-disposition"];
+      console.log("Content-Disposition raw =>", disposition); // 네트워크 탭/콘솔 모두 확인
+      // 헤더가 없으면 로컬 조립 파일명 사용
       const fileName = getFilenameFromDisposition(
         disposition,
-        `reservation_${period}_data.csv`
+        buildLocalReportName("csv")
       );
+      console.log("Parsed filename =>", fileName);
 
       const blob = new Blob([res.data], { type: "text/csv;charset=utf-8" });
       const blobUrl = window.URL.createObjectURL(blob);
@@ -159,10 +218,13 @@ function DashboardChartSection({ expoId: expoIdProp }) {
       });
 
       const disposition = res.headers?.["content-disposition"];
+      console.log("Content-Disposition raw =>", disposition); // 네트워크 탭/콘솔 모두 확인
+      // 헤더가 없으면 로컬 조립 파일명 사용
       const fileName = getFilenameFromDisposition(
         disposition,
-        `reservation_${period}_data.xlsx`
+        buildLocalReportName("xlsx")
       );
+      console.log("Parsed filename =>", fileName);
 
       const blob = new Blob([res.data], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -186,7 +248,7 @@ function DashboardChartSection({ expoId: expoIdProp }) {
   };
 
   // 파이 차트 색상
-  const PIE_COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300"];
+  const PIE_COLORS = ["#FFC107", "#007BFF", "#ffc658", "#ff7300"];
 
   // 파이 차트 데이터 변환 (peopleCount 기준)
   const pieChartData = ticketTypeData.map((item, index) => ({
@@ -305,7 +367,7 @@ function DashboardChartSection({ expoId: expoIdProp }) {
                     <Tooltip content={<CustomTooltip />} />
                     <Bar
                       dataKey="reservationCount"
-                      fill="#8884d8"
+                      fill="#007BFF"
                       radius={[4, 4, 0, 0]}
                       name="예약수"
                     />
