@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './assets/css/App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./assets/css/App.css";
 
 import RevenuePage from './expoAdmin/RevenuePage';
 import PaymentPage from './expoAdmin/PaymentPage';
@@ -15,9 +15,13 @@ import RegisterCustomer from './auth/RegisterCustomer';
 import PaymentCheckout from './payment/PaymentCheckout';
 import { PaymentRedirect } from './payment/PaymentRedirect';
 import ContentPage from './expoAdmin/ContentPage';
+import { SysExpoList } from "./systemAdmin/SysExpoList";
+import ExpoManagerManagement from "./systemAdmin/ExpoManagerManagement";
 function App() {
   return (
-    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+    <BrowserRouter
+      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+    >
       <Routes>
         {/******************* 어드민 영역 ***********************/}
         <Route path="/admin/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
@@ -37,9 +41,17 @@ function App() {
           <Route path="/payment" element={<PaymentCheckout />} />
           <Route path="/payment/redirect" element={<PaymentRedirect />} />
         </Route>
+        <Route
+          path="/sys/expos"
+          element={<AdminLayout>{<SysExpoList />}</AdminLayout>}
+        />
+        <Route
+          path="/sys/manage"
+          element={<AdminLayout>{<ExpoManagerManagement />}</AdminLayout>}
+        />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;
