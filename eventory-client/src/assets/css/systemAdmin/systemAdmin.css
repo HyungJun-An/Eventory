@@ -1,0 +1,72 @@
+.wrapper {
+  background-color: #f5f7fa;
+  width: 100vw;
+  height: 100vh;
+  margin-left: 15vw;
+  margin-right: 6vw;
+  margin-top: 13vh;
+}
+.statusButtonGroup {
+  background-color: white;
+}
+
+.statusButton-active {
+  background-color: #f5f7fa;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.statusButton-deactive {
+  background-color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  color: #718ebf;
+}
+
+.mainThemeColor {
+  color: #718ebf;
+}
+
+.blue {
+  color: #007bff;
+}
+
+.red {
+  color: #fe5c73;
+}
+
+.black {
+  color: "#232323";
+}
+
+.white {
+  color: white;
+}
+.expoTable-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin: 0rem 2rem;
+}
+
+.pagingButton-active {
+  color: white;
+  padding: 0.2rem 0.7rem;
+  background-color: #007bff;
+  border-radius: 0.4rem;
+}
+
+.pagingButton-deactive {
+  color: #007bff;
+  padding: 0.2rem 0.7rem;
+  background-color: white;
+  border-radius: 0.4rem;
+}
+
+.main {
+  /* margin-left: 5vw; */
+
+  margin-top: 15vh;
+}

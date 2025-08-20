@@ -1,20 +1,23 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./assets/css/App.css";
 
-import RevenuePage from "./expoAdmin/RevenuePage";
-import PaymentPage from "./expoAdmin/PaymentPage";
-import RefundPage from "./expoAdmin/RefundPage";
-import AdminLayout from "./expoAdmin/sections/AdminLayout";
-import Dashboard from "./expoAdmin/DashboardPage";
-import LoginPage from "./auth/LoginPage";
-import RegisterPage from "./auth/UserRegistration";
-import { UserMainPage } from "./user/userMain";
-import MainLayout from "./components/MainLayout";
-import RegisterCompany from "./auth/RegisterCompany";
-import RegisterCustomer from "./auth/RegisterCustomer";
-import PaymentCheckout from "./payment/PaymentCheckout";
-import { PaymentRedirect } from "./payment/PaymentRedirect";
-import ContentPage from "./expoAdmin/ContentPage";
+import RevenuePage from './expoAdmin/RevenuePage';
+import PaymentPage from './expoAdmin/PaymentPage';
+import RefundPage from './expoAdmin/RefundPage';
+import AdminLayout from './expoAdmin/sections/AdminLayout';
+import Dashboard from './expoAdmin/DashboardPage';
+import LoginPage from './auth/LoginPage';
+import RegisterPage from './auth/UserRegistration';
+import { UserMainPage } from './user/userMain';
+import MainLayout from './components/MainLayout';
+import RegisterCompany from './auth/RegisterCompany';
+import RegisterCustomer from './auth/RegisterCustomer';
+import PaymentCheckout from './payment/PaymentCheckout';
+import { PaymentRedirect } from './payment/PaymentRedirect';
+import ContentPage from './expoAdmin/ContentPage';
+import { SysExpoList } from "./systemAdmin/SysExpoList";
+import ExpoManagerManagement from "./systemAdmin/ExpoManagerManagement";
+
 function App() {
   return (
     <BrowserRouter
@@ -73,6 +76,14 @@ function App() {
           <Route path="/payment" element={<PaymentCheckout />} />
           <Route path="/payment/redirect" element={<PaymentRedirect />} />
         </Route>
+        <Route
+          path="/sys/expos"
+          element={<AdminLayout>{<SysExpoList />}</AdminLayout>}
+        />
+        <Route
+          path="/sys/manage"
+          element={<AdminLayout>{<ExpoManagerManagement />}</AdminLayout>}
+        />
       </Routes>
     </BrowserRouter>
   );

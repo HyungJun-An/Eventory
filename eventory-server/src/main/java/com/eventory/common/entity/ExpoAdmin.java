@@ -59,4 +59,10 @@ public class ExpoAdmin {
         this.phone = requestDto.getPhone();
         this.updatedAt = LocalDateTime.now();
     }
+    
+    public void createAccount(String id, String password) {
+    	this.customerId = id;
+    	this.password = password;
+    	this.updatedAt = LocalDateTime.now();
+    }
 }

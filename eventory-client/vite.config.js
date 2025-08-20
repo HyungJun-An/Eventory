@@ -1,7 +1,6 @@
 // vite.config.js
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import { screenGraphPlugin } from "@animaapp/vite-plugin-screen-graph";
 
 export default defineConfig(({ mode }) => {
   const isProd = mode === "production";
@@ -25,7 +24,6 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-
     optimizeDeps: {
       include: ["jwt-decode"],
     },

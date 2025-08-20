@@ -89,8 +89,15 @@ public class Expo {
         return expoCategories.isEmpty() ? null : expoCategories.get(0).getCategory();
     }
 
+    public void approveAndConnectAdmin(ExpoAdmin admin) {
+    	this.status = ExpoStatus.APPROVED;
+    	this.visibility = true;
+    	this.expoAdmin = admin;
+    }
+    
     public void approve() {
     	this.status = ExpoStatus.APPROVED;
+    	this.visibility = true;
     }
     
     public void reject(String reason) {

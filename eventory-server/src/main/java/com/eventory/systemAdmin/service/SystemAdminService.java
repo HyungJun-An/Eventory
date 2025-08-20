@@ -3,6 +3,7 @@ package com.eventory.systemAdmin.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.eventory.common.entity.Expo;
@@ -29,17 +30,29 @@ public class SystemAdminService {
 	private final ExpoRepository expoRepository;
 	private final ExpoCategoryRepository expoCategoryRepository;
 	private final ExpoAdminRepository expoAdminRepository;
+	private final BCryptPasswordEncoder passwordEncoder;
 
 	public Page<SysExpoResponseDto> findAllSysExpoPages(String status, String title, int page, int size) {
 		
 		Pageable pageable = PageRequest.of(page, size);
+		Page<Expo> expoPage;
 		
-		Page<Expo> expoPage = expoRepository.findAll(pageable);
+		if(status != null && !status.isBlank()) {
+			if(title != null && !title.isBlank()) {
+				expoPage = expoRepository.findByStatusAndTitleContaining(ExpoStatus.valueOf(status), title, pageable);
+			} else {
+				expoPage = expoRepository.findByStatus(ExpoStatus.valueOf(status), pageable);				
+			}
+		} else if(title != null && !title.isBlank()) {
+			expoPage = expoRepository.findByTitleContaining(title, pageable);
+		}
+		else {
+			expoPage = expoRepository.findAll(pageable);			
+		}
 		
 		return expoPage.map(expo -> {
-			ExpoCategory expoCategory = expoCategoryRepository.findByExpo(expo).orElseThrow(() -> new CustomException(CustomErrorCode.CATEGORY_NOT_FOUND));
-			String category = expoCategory.getCategory().getName();
-			return SysExpoResponseDto.from(expo, category);
+			ExpoCategory expoCategory = expoCategoryRepository.findByExpo(expo).orElse(null);
+			return SysExpoResponseDto.from(expo, expoCategory != null ? expoCategory.getCategory().getName() : "없음");
 		});
 
 	}
@@ -54,12 +67,28 @@ public class SystemAdminService {
 		}
 		
 		if(requestDto.getStatus().equals(ExpoStatus.APPROVED.toString())) {
-			expo.approve();
-			// 관리자 계정 존재 확인 로직 및 계정 이메일 전송
+			if(expo.getExpoAdmin() == null) {				
+				ExpoAdmin admin = expoAdminRepository.findByCustomerId(expo.getTitle()).orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO_ADMIN));
+				String customerId = RandomGenerator.generateRandomId(8);
+		        String rawPassword = RandomGenerator.generateRandomPassword(12);
+		        String encodedPassword = passwordEncoder.encode(rawPassword);
+				admin.createAccount(customerId, encodedPassword);
+				expo.approveAndConnectAdmin(admin);
+				
+				// 이메일 전송
+			} else {
+				expo.approve();				
+			}
+			
 		} else if(requestDto.getStatus().equals(ExpoStatus.REJECTED.toString())){
 			if(requestDto.getReason().isBlank() || requestDto.getReason() == null) {
 				throw new CustomException(CustomErrorCode.REASON_REQUIRED);
 			}
+			
+			if(expo.getExpoAdmin() == null) {
+				expoAdminRepository.deleteByCustomerId(expo.getTitle());
+			}
+			
 			expo.reject(requestDto.getReason());
 		}
 		
@@ -68,8 +97,13 @@ public class SystemAdminService {
 	public Page<SysExpoAdminResponseDto> findAllExpoAdminPages(String keyword, int page, int size) {
 		
 		Pageable pageable = PageRequest.of(page, size);
+		Page<ExpoAdmin> expoAdminPage;
 		
-		Page<ExpoAdmin> expoAdminPage = expoAdminRepository.findAll(pageable);
+		if(keyword != null && !keyword.isBlank()) {
+			expoAdminPage = expoAdminRepository.findByNameContainingOrPhoneContainingOrEmailContaining(keyword, keyword, keyword, pageable);
+		} else {
+			expoAdminPage = expoAdminRepository.findAll(pageable);
+		}
 		
 		return expoAdminPage.map(admin -> {
 			Expo lastExpo = expoRepository.findFirstByExpoAdminOrderByCreatedAtDesc(admin).orElse(null);
@@ -85,9 +119,8 @@ public class SystemAdminService {
 		Page<Expo> expoPage = expoRepository.findByExpoAdmin(admin, pageable);
 		
 		return expoPage.map(expo -> {
-			ExpoCategory expoCategory = expoCategoryRepository.findByExpo(expo).orElseThrow(() -> new CustomException(CustomErrorCode.CATEGORY_NOT_FOUND));
-			String category = expoCategory.getCategory().getName();
-			return SysExpoResponseDto.from(expo, category);
+			ExpoCategory expoCategory = expoCategoryRepository.findByExpo(expo).orElse(null);
+			return SysExpoResponseDto.from(expo, expoCategory != null ? expoCategory.getCategory().getName() : "없음");
 		});
 	}
 
