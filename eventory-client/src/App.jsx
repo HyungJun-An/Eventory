@@ -6,6 +6,7 @@ import PaymentPage from './expoAdmin/PaymentPage';
 import RefundPage from './expoAdmin/RefundPage';
 import AdminLayout from './expoAdmin/sections/AdminLayout';
 import Dashboard from './expoAdmin/DashboardPage';
+import Reservation from './expoAdmin/ReservationPage';
 import LoginPage from './auth/LoginPage';
 import RegisterPage from './auth/UserRegistration';
 import { UserMainPage } from './user/userMain';
@@ -30,6 +31,14 @@ function App() {
           element={
             <AdminLayout>
               <Dashboard />
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/admin/reservation"
+          element={
+            <AdminLayout>
+              <Reservation />
             </AdminLayout>
           }
         />
