@@ -5,6 +5,7 @@ import com.eventory.expoAdmin.dto.RefundRequestDto;
 import com.eventory.expoAdmin.dto.RefundResponseDto;
 import com.eventory.expoAdmin.dto.SalesResponseDto;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,7 +18,7 @@ public interface SalesAdminService {
     List<Map<String, Object>> findDailySales(Long expoAdminId, Long expoId);
     List<RefundResponseDto> findAllRefunds(Long expoAdminId, Long expoId, String status, Integer page, Integer size);
 
-    List<PaymentResponseDto> findAllPayments(Long expoAdminId, Long expoId, String reservationCode, LocalDate startDate, LocalDate endDate, Integer page, Integer size);
+    Page<PaymentResponseDto> findAllPayments(Long expoAdminId, Long expoId, String reservationCode, LocalDate startDate, LocalDate endDate, Integer page, Integer size);
     List<PaymentResponseDto> findAllPayments(Long expoAdminId, Long expoId);
 
     void updateRefundStatus(Long refundId, RefundRequestDto request);

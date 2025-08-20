@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -97,11 +98,10 @@ public class AuthServiceImpl implements AuthService {
 
         // AccessToken, RefreshToken 생성 후
         String accessToken = jwtTokenProvider.createAccessToken(user.getUserId(), user.getUserType().getName());
-        String refreshToken = jwtTokenProvider.createRefreshToken();
+        String refreshToken = UUID.randomUUID().toString();
 
-        // Redis 저장
-        redisTemplate.opsForValue()
-                .set("refresh:" + user.getUserId(), refreshToken, Duration.ofDays(7));
+        // Redis 저장 (7일)
+        tokenStore.saveRefreshToken(user.getUserId(), refreshToken, Duration.ofDays(7).toMillis());
 
         return new LoginResponse(accessToken, refreshToken);
     }
@@ -109,27 +109,24 @@ public class AuthServiceImpl implements AuthService {
     // 토큰 재발급
     @Override
     public LoginResponse refreshAccessToken(String refreshToken) {
-        // 1. 토큰 유효성 확인
-        if (!jwtTokenProvider.validateToken(refreshToken)) {
+        // 1. 토큰 유효성 확인 : JWT 파싱 금지. UUID이므로 Redis로만 검증
+        Long userId = tokenStore.findUserIdByRefresh(refreshToken);
+        if (userId == null) {
             throw new CustomException(CustomErrorCode.INVALID_REFRESH_TOKEN);
         }
 
-        // 2. userId 추출
-        Long userId = Long.parseLong(jwtTokenProvider.getSubject(refreshToken));
+        // 사용자 조회로 role 확보
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.MEMBER_NOT_EXIST));
 
-        // 3. Redis에 저장된 RefreshToken 확인
-        String redisKey = "refresh:" + userId;
-        String savedToken = redisTemplate.opsForValue().get(redisKey);
+        String newAccess = jwtTokenProvider.createAccessToken(user.getUserId(), user.getUserType().getName());
+        // 회전 정책(권장): 기존 refresh 삭제 후 새로 발급
+        String newRefresh = UUID.randomUUID().toString();
 
-        // Redis에 저장된 refresh:{userId}가 있을 때만 재발급 허용
-        if (!refreshToken.equals(savedToken)) {
-            throw new CustomException(CustomErrorCode.REFRESH_TOKEN_MISMATCH);
-        }
+        tokenStore.deleteByRefresh(refreshToken);
+        tokenStore.saveRefreshToken(user.getUserId(), newRefresh, Duration.ofDays(7).toMillis());
 
-        // 4. 새로운 AccessToken 발급
-        String role = jwtTokenProvider.getRoleFromToken(refreshToken);
-        String newAccessToken = jwtTokenProvider.createAccessToken(userId, role);
-        return new LoginResponse(newAccessToken, refreshToken); // RefreshToken은 그대로 전달
+        return new LoginResponse(newAccess, newRefresh);
     }
 
     @Override
@@ -139,9 +136,6 @@ public class AuthServiceImpl implements AuthService {
         // 2) 토큰 유효성 & 클레임 파싱
         Claims claims = jwtTokenProvider.parseClaims(accessToken); // 만료여도 parseClaims 처리하도록 구현되어 있어야 함
         Long userId = Long.valueOf(String.valueOf(claims.getSubject())); // subject에 userId 저장한 구조
-        if (userId == null) {
-            throw new CustomException(CustomErrorCode.INVALID_ACCESS_TOKEN);
-        }
 
         // 3) DB 또는 캐시에서 userId로 userType 조회 (3=companyUser, 4=generalUser만 허용)
         Integer typeId = userRepository.findById(userId)

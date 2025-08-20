@@ -7,6 +7,7 @@ import com.eventory.auth.tokenStore.TokenStore;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.common.repository.ExpoAdminRepository;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,7 +48,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String BLACKLIST_PREFIX = "blacklist:access:";
     private static final String[] WHITELIST = {
             // Auth & Admin login endpoints
-            "/api/auth/login", "/api/auth/register", "/api/auth/refresh",
+            "/api/auth/login", "/api/auth/register",
+            "/api/auth/refresh", "/api/admin/refresh",
             "/api/admin/login", "/api/admin/sys/login",
             // Public resources & docs
             "/swagger-ui", "/swagger-resources", "/v3/api-docs",
@@ -71,114 +73,106 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        // 0) CORS preflight는 바로 통과
+        // 0) Refresh 엔드포인트는 UUID 헤더를 사용하므로 필터 스킵
+        String uri = request.getRequestURI();
+        if (uri.startsWith("/api/auth/refresh")
+                || uri.startsWith("/api/admin/refresh")
+                || uri.startsWith("/api/admin/sys/refresh")) {
+            filterChain.doFilter(request, response);
+            return; // UUID를 JWT로 파싱하지 않음
+        }
+
+
+// 1) CORS preflight는 바로 통과
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String uri = request.getRequestURI();
-        // 1) 공개 경로는 필터 우회
-        if (isWhitelisted(uri)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
 
-        // 2) Authorization 헤더 없으면 그냥 통과 (permitAll 된 곳/비보호 자원 접근 허용)
+// 2) Authorization 헤더 없으면 그냥 통과 (permitAll 자원 접근 허용)
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (header == null || !header.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
+
+// 3) Bearer 토큰 추출 및 형식 가드(JWT는 점 2개 포함)
         String token = header.substring(7);
+        int p1 = token.indexOf('.');
+        int p2 = (p1 < 0) ? -1 : token.indexOf('.', p1 + 1);
+        if (p1 < 0 || p2 < 0) {
+            unauthorized(response, "Invalid token format");
+            return;
+        }
+
 
         try {
-            // 3) 블랙리스트 토큰 거부 (로그아웃 처리된 토큰)
+// 4) 블랙리스트 토큰(로그아웃 처리된 토큰) 거부
             if (redisTemplate.hasKey(BLACKLIST_PREFIX + token)) {
                 unauthorized(response, "Logged-out token");
                 return;
             }
 
-            // 4) 토큰 유효성 검증
+
+// 5) 토큰 유효성 검증
             if (!jwtTokenProvider.validateToken(token)) {
                 unauthorized(response, "Invalid token");
                 return;
             }
 
-            // 5) 클레임에서 식별자/역할 추출
-            // "generalUser" | "companyUser" | "expoAdmin" | "systemAdmin"
-            String rawRole = jwtTokenProvider.getRoleFromToken(token);
-            Long userId = jwtTokenProvider.getUserIdFromToken(token);
 
-            // ROLE_ 접두 들어오면 내부 키로 정규화
-            String role = rawRole;
-            if (role != null && role.startsWith("ROLE_")) {
-                role = role.substring(5).toLowerCase(); // "SYSTEM_ADMIN" -> "system_admin"
-                if (role.equals("system_admin")) role = "systemAdmin";
-                else if (role.equals("expo_admin")) role = "expoAdmin";
-                else if (role.equals("general_user") || role.equals("companyuser")) role = "generalUser";
+// 6) 클레임에서 식별자/역할 추출
+            String role = jwtTokenProvider.getRoleFromToken(token); // 예: ROLE_EXPO_ADMIN
+            Long userId = jwtTokenProvider.getUserIdFromToken(token);
+            System.out.println("⭐ Jwt필터 " + role);
+
+
+// 7) 역할별 엔티티 로딩 → CustomUserPrincipal 구성 → SecurityContext에 설정
+            UsernamePasswordAuthenticationToken authentication = null;
+            switch (role) {
+                case "ROLE_GENERAL_USER":
+                    authentication = userRepository.findById(userId)
+                            .map(u -> new UsernamePasswordAuthenticationToken(
+                                    CustomUserPrincipal.fromUser(u), null,
+                                    CustomUserPrincipal.authoritiesOf("ROLE_GENERAL_USER")))
+                            .orElse(null);
+                    break;
+                case "ROLE_EXPO_ADMIN":
+                    authentication = expoAdminRepository.findById(userId)
+                            .map(a -> new UsernamePasswordAuthenticationToken(
+                                    CustomUserPrincipal.fromExpoAdmin(a), null,
+                                    CustomUserPrincipal.authoritiesOf("ROLE_EXPO_ADMIN")))
+                            .orElse(null);
+                    break;
+                case "ROLE_SYSTEM_ADMIN":
+                    authentication = systemAdminRepository.findById(userId)
+                            .map(s -> new UsernamePasswordAuthenticationToken(
+                                    CustomUserPrincipal.fromSystemAdmin(s), null,
+                                    CustomUserPrincipal.authoritiesOf("ROLE_SYSTEM_ADMIN")))
+                            .orElse(null);
+                    break;
+                default:
+                    authentication = null; // 알 수 없는 권한이면 인증 미설정
             }
 
-            // 6) 역할별로 해당 엔티티 로딩 → CustomUserPrincipal 구성 → SecurityContext에 심음
-            UsernamePasswordAuthenticationToken authentication = switch (role) {
-                case "generalUser", "companyUser" -> userRepository.findById(userId)
-                        .map(u -> new UsernamePasswordAuthenticationToken(
-                                // fromUser는 그대로 유지 (프록시 이슈가 있으면 오버로드 버전 사용)
-                                CustomUserPrincipal.fromUser(u), null,
-                                CustomUserPrincipal.authoritiesOf("ROLE_GENERAL_USER")))
-                        .orElse(null);
-                case "expoAdmin" -> expoAdminRepository.findById(userId)
-                        .map(a -> new UsernamePasswordAuthenticationToken(
-                                CustomUserPrincipal.fromExpoAdmin(a), null,
-                                CustomUserPrincipal.authoritiesOf("ROLE_EXPO_ADMIN")))
-                        .orElse(null);
-                case "systemAdmin" -> systemAdminRepository.findById(userId)
-                        .map(a -> new UsernamePasswordAuthenticationToken(
-                                CustomUserPrincipal.fromSystemAdmin(a), null,
-                                CustomUserPrincipal.authoritiesOf("ROLE_SYSTEM_ADMIN")))
-                        .orElse(null);
-                default -> null; // 미정의 역할 → 인증 안 심음
-            };
 
-            // 엔티티 없거나 역할 못 읽으면 인증 미설정 상태로 통과 → 보호 자원에서는 401/403 처리됨
             if (authentication != null) {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 
+
+// 8) 다음 필터로 진행
             filterChain.doFilter(request, response);
+
+
+        } catch (ExpiredJwtException e) {
+            unauthorized(response, "Expired token");
         } catch (Exception e) {
             unauthorized(response, "Unauthorized token");
         }
-    }
-
-    private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7); // "Bearer " 이후 토큰
-        }
-        return null;
-    }
-
-    private void filterFilterChain(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
-        chain.doFilter(request, response);
-    }
-
-    private String normalizeRole(String raw) {
-        if (raw == null) return "";
-        return "companyUser".equalsIgnoreCase(raw) ? "generalUser" : raw; // 통일
-    }
-
-    private boolean isWhitelisted(String uri) {
-        if (uri == null) return false;
-        for (String open : WHITELIST) {
-            if (uri.equals(open) || uri.startsWith(open)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void unauthorized(HttpServletResponse response, String message) throws IOException {

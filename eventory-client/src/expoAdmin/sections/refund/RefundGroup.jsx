@@ -1,7 +1,7 @@
 import React from "react";
 import "../../../assets/css/refund/RefundGroup.css";
 
-const RefundGroup = () => {
+const RefundGroup = ({ expoId }) => {
   return (
     <div className="refund-group">
       <div className="text-wrapper-26">전체 내역</div>

@@ -16,10 +16,11 @@ const PaymentPage = ({ expoId }) => {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const res = await api.get(`/expos/${expoId}/payment`, {
+        const res = await api.get(`/admin/expos/${expoId}/payment`, {
           params: { page, size: pageSize },
         });
-        setPayments(res.data);
+        setPayments(res.data.content);
+        setTotalPages(res.data.totalPages);
       } catch (err) {
         console.error(err);
       }

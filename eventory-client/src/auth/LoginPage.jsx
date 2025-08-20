@@ -62,6 +62,17 @@ export default function LoginPage() {
             const accessToken = res?.data?.accessToken;
             const refreshToken = res?.data?.refreshToken || null;
             if (!accessToken) throw new Error("토큰이 없습니다");
+
+            // ⭐ 관리자/일반 구분해서 저장 키 다르게
+            if (loginTarget === "EXPO_ADMIN" || loginTarget === "SYSTEM_ADMIN") {
+            localStorage.setItem("adminAccessToken", accessToken);
+            if (refreshToken) localStorage.setItem("adminRefreshToken", refreshToken);
+            } else {
+            localStorage.setItem("accessToken", accessToken);
+            if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
+            }
+
+            // 전역 상태 갱신
             login({ accessToken, refreshToken, target: loginTarget });
 
             // 대상별 리다이렉트 (기존 경로 사용)

@@ -7,6 +7,8 @@
 }
 
 .series-chart .group-5 {
+  background-color: #ffffff;
+  border-radius: 25px;
   height: 329px;
   left: 0;
   position: absolute;
@@ -285,6 +287,8 @@
 }
 
 .series-chart .group-8 {
+  background-color: #ffffff;
+  border-radius: 25px;
   height: 329px;
   left: 570px;
   position: absolute;

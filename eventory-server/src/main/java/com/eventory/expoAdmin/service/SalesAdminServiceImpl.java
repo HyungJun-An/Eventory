@@ -157,7 +157,7 @@ public class SalesAdminServiceImpl implements SalesAdminService {
 
     // 결제 내역 관리 - 페이징 O
     @Override
-    public List<PaymentResponseDto> findAllPayments(Long expoAdminId, Long expoId, String code, LocalDate startDate, LocalDate endDate, Integer page, Integer size) {
+    public Page<PaymentResponseDto> findAllPayments(Long expoAdminId, Long expoId, String code, LocalDate startDate, LocalDate endDate, Integer page, Integer size) {
         // 기본키(expoId)로 Expo 조회
         Expo expo = expoRepository.findById(expoId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_EXPO));
@@ -174,9 +174,7 @@ public class SalesAdminServiceImpl implements SalesAdminService {
         Page<Reservation> reservations = reservationRepository.findByExpoIdAndReservationCode(expoId, code, startDate, endDate, pageable);
 
         // 스트림 각 요소를 dto객체로 변환 후 다시 List로 반환
-        return reservations.stream()
-                .map(expoMapper::toPaymentResponseDto)
-                .collect(Collectors.toList());
+        return reservations.map(expoMapper::toPaymentResponseDto);
     }
 
     // 결제 내역 관리 - 페이징 X

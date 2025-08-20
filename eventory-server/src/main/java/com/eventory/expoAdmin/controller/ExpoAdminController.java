@@ -11,6 +11,7 @@ import com.eventory.expoAdmin.service.SalesAdminService;
 import com.eventory.expoAdmin.web.FileResponseUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -71,7 +72,7 @@ public class ExpoAdminController {
 
     // 결제 내역 관리
     @GetMapping("/expos/{expoId}/payment")
-    public ResponseEntity<List<PaymentResponseDto>> findAllPayments(
+    public ResponseEntity<?> findAllPayments(
             @AuthenticationPrincipal CustomUserPrincipal expoAdmin,
             @PathVariable Long expoId,
             @RequestParam(required = false) String code,
@@ -82,15 +83,13 @@ public class ExpoAdminController {
 
         Long expoAdminId = expoAdmin.getId();
 
-        List<PaymentResponseDto> paymentResponseDto;
-
         if (page!=null && size!=null) { // 페이징 O
-            paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId, code, startDate, endDate, page, size);
+            Page<PaymentResponseDto> paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId, code, startDate, endDate, page, size);
+            return ResponseEntity.ok(paymentResponseDto);
         } else { // 페이징 X
-            paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId);
+            List<PaymentResponseDto> paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId);
+            return ResponseEntity.ok(paymentResponseDto);
         }
-
-        return ResponseEntity.ok(paymentResponseDto);
     }
 
     // 결제 내역 엑셀 다운로드

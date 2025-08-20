@@ -6,4 +6,6 @@ public interface TokenStore {
     void saveRefreshToken(Long userId, String refreshToken, long ttlMillis);
     String findRefreshToken(Long userId);
     void deleteRefreshToken(Long userId);
+    Long findUserIdByRefresh(String refreshToken);
+    void deleteByRefresh(String refreshToken);
 }

@@ -28,32 +28,23 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                // ✅ CSRF 전체 비활성화 대신 웹훅 경로만 예외 처리
-                .csrf(csrf -> csrf.ignoringRequestMatchers(
-                        "/api/portone-webhook",
-                        "/api/payment/complete",
-                        "/api/payment/ready",
-                        "/api/auth/login",
-                        "/api/admin/login",
-                        "/api/admin/sys/login",
-                        "/api/auth/refresh"
-                ))
+                .csrf(AbstractHttpConfigurer::disable)
                 // 세션을 사용하지 않음 (JWT는 서버에 사용자 상태를 저장하지 않음 → 무상태 Stateless)
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // 인증 없이 접근 허용
                         .requestMatchers(
-                                "/api/admin/login", "/api/admin/sys/login",
-                                "/api/auth/login", "/api/auth/register", "/api/auth/refresh",
+                                "/api/admin/login", "/api/admin/sys/login", "/api/auth/login",
+                                "/api/auth/register", "/api/admin/refresh", "/api/auth/refresh",
                                 "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**",
                                 "/webjars/**", "/favicon.ico", "/error",
                                 "/api/user/expos", "/api/user/expos/**",
                                 "/session/**", "/actuator/**"
                         ).permitAll()
-                        // ✅ 웹훅 및 결제 콜백 엔드포인트 공개 허용
-                        .requestMatchers("/api/portone-webhook", "/api/payment/complete", "/api/payment/ready").permitAll()
-                        // ✅ 박람회 신청 엔드포인트 POST는 공개 허용
+                        // 웹훅 및 결제 콜백 엔드포인트 공개 허용
+                        .requestMatchers("/api/portone-webhook", "/api/payments/complete", "/api/payments/ready").permitAll()
+                        // 박람회 신청 엔드포인트 POST는 공개 허용
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/admin/expos").permitAll()
                         .requestMatchers("/api/auth/me").authenticated() // me는 인증만 필요
                         // 로그아웃은 인증 필요 (화이트리스트/permitAll 금지)
@@ -61,14 +52,13 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/logout").authenticated()
                         // 관리자 전용 도메인
                         .requestMatchers("/api/sys/expos/**").hasRole("SYSTEM_ADMIN")
+//                        .requestMatchers("/api/admin/expo/**").hasRole("EXPO_ADMIN")
                         .requestMatchers("/api/admin/expos/**").hasRole("EXPO_ADMIN")
                         // 나머지 전부 보호
                         .anyRequest().authenticated()
                 )
                 // JWT 필터 등록
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                // ✅ httpBasic 활성화 (테스트/추가 용도)
-                .httpBasic(Customizer.withDefaults());
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -99,5 +89,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-
 }

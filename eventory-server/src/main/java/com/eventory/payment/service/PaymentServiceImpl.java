@@ -59,10 +59,14 @@ public class PaymentServiceImpl implements PaymentService {
             throw new IllegalStateException("결제 상태가 PAID가 아님: " + pay.getStatus());
         }
 
-        // 2) payment 저장
+        // 2) payment 저장 (결제수단 표준화)
+        String payMethodRaw = pay.getPaymentMethod() != null ? pay.getPaymentMethod().getMethod() : null; // e.g. CARD / TRANSFER / EASY_PAY ...
+        String easyPayProvider = (pay.getEasyPay() != null) ? pay.getEasyPay().getProvider() : null; // e.g. KAKAOPAY / TOSSPAY / NAVERPAY ...
+        String method = mapMethod(payMethodRaw, easyPayProvider);
+
         Payment savedPay = paymentRepository.save(Payment.builder()
                 .amount(paid)
-                .method(pay.getPaymentMethod() != null ? pay.getPaymentMethod().getMethod() : "UNKNOWN")
+                .method(method)
                 .status(PaymentStatus.PAID)
                 .paidAt(LocalDateTime.now())
                 .build());
@@ -70,14 +74,12 @@ public class PaymentServiceImpl implements PaymentService {
         // ID만으로 프록시 참조 얻기 (즉시 쿼리 안 나감, 접근 시/flush 시 검증)
         User userRef = userRepository.getReferenceById(req.getUserId());
         Expo expoRef = expoRepository.getReferenceById(req.getExpoId());
-//        Payment paymentRef = paymentRepository.getReferenceById(savedPay.getPaymentId());
 
         // 3) reservation 생성 (결제 성공 시점에만 생성)
         String reservationCode = generateReservationCode();
         Reservation savedRes = reservationRepository.save(Reservation.builder()
                 .user(userRef)
                 .expo(expoRef)
-//                .payment(paymentRef)
                 .payment(savedPay)
                 .status(ReservationStatus.RESERVED)
                 .code(reservationCode)
@@ -86,7 +88,7 @@ public class PaymentServiceImpl implements PaymentService {
                 .updatedAt(LocalDateTime.now())
                 .build());
 
-        // TODO : 4) (다음 단계) QR 발급 & 메일 발송 트리거 → 별도 서비스에서 구현 예정
+        // 4) TODO : (다음 단계) QR 발급 & 메일 발송 트리거 → 별도 서비스에서 구현 예정
         // qrService.issueAndSend(savedRes.getId());
 
         return CompleteResponse.builder()
@@ -117,5 +119,36 @@ public class PaymentServiceImpl implements PaymentService {
     private String generateReservationCode() {
         String date = OffsetDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         return "RES-" + date + "-" + UUID.randomUUID().toString().substring(0, 6);
+    }
+
+    /**
+     * PortOne 응답(payMethod + easyPay.provider)을 우리 표기 문자열로 매핑
+     * - 간편결제(EASY_PAY)는 provider 기준으로 세분화 저장(KakaoPay, TossPay 등)
+     * - 일반수단은 표준 라벨로 통일하여 저장
+     */
+    private String mapMethod(String payMethod, String easyPayProvider) {
+        String methodUpper = payMethod == null ? "" : payMethod.trim().toUpperCase();
+
+        // 간편결제 분기: EASY_PAY + provider
+        if ("EASY_PAY".equals(methodUpper)) {
+            String provider = easyPayProvider == null ? "" : easyPayProvider.trim().toUpperCase();
+            return switch (provider) {
+                case "KAKAOPAY" -> "KakaoPay";
+                case "TOSSPAY" -> "TossPay";
+                case "NAVERPAY" -> "NaverPay";
+                case "APPLEPAY" -> "ApplePay";
+                case "SAMSUNGPAY" -> "SamsungPay";
+                default -> "EasyPay"; // 알 수 없는 간편결제 제공사
+            };
+        }
+
+        // 일반 결제수단 매핑
+        return switch (methodUpper) {
+            case "CARD" -> "Credit Card"; // 신용/체크카드
+            case "TRANSFER" -> "Bank Transfer"; // 계좌이체
+            case "VBANK", "VIRTUAL_ACCOUNT" -> "Virtual Account"; // 가상계좌
+            case "PHONE" -> "Mobile Phone"; // 휴대폰 결제
+            default -> "UNKNOWN"; // 마지막 안전망
+        };
     }
 }
