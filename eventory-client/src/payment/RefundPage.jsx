@@ -25,8 +25,6 @@ export default function RefundPage({ reservationId, onSuccess }) {
       setMessage("환불 요청 중...");
 
       await axios.post(`/api/payment/${reservationId}/refund`, {
-          reservationId,
-          portonePaymentId,  // 서버에 같이 전달
           reason,
       }, {
         withCredentials: true,
@@ -48,15 +46,17 @@ export default function RefundPage({ reservationId, onSuccess }) {
 
       <div>
         <label className="block text-sm font-medium mb-1">환불 사유</label>
-        <textarea
-          className="w-full border rounded-lg p-2"
-          rows={3}
-          value={reason}
-          onChange={(e) => setReason(e.target.value)}
-          placeholder="환불 요청 사유를 입력하세요"
-        />
-      </div>
 
+      </div>
+      <div>
+          <textarea
+                    className="w-full border rounded-lg p-2"
+                    rows={3}
+                    value={reason}
+                    onChange={(e) => setReason(e.target.value)}
+                    placeholder="환불 요청 사유를 입력하세요"
+                  />
+      </div>
       <div className="flex items-center space-x-2">
         <input
           type="checkbox"
