@@ -43,7 +43,7 @@ const PaymentPage = ({ expoId }) => {
           <div className="overlap-6">
             <div className="text-wrapper-31">결제 내역 관리</div>
 
-            <button
+            {/*<button
               onClick={() => page > 0 && setPage(page - 1)}
               disabled={page === 0}
             >
@@ -54,7 +54,7 @@ const PaymentPage = ({ expoId }) => {
               disabled={page + 1 >= totalPages}
             >
               Next
-            </button>
+            </button>*/}
 
             {expoId && (
               <>

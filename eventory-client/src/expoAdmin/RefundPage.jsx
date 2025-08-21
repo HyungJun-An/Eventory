@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Element from "./sections/refund/RefundElement";
 import Group from "./sections/refund/RefundGroup";
 import SalesStats from "./sections/refund/RefundSalesStats";
 import "../assets/css/refund/RefundPage.css";
 
 const RefundPage = ({ expoId }) => {
+
+  const [status, setStatus] = useState("ALL");
+
   return (
     <div className="refund-page" data-model-id="11051:3062">
       <div className="overlap-wrapper-2">
@@ -20,8 +23,8 @@ const RefundPage = ({ expoId }) => {
             {expoId && (
               <>
                 <SalesStats expoId={expoId} />
-                <Group expoId={expoId} />
-                <Element expoId={expoId} />
+                <Group onStatusChange={setStatus}/>
+                <Element expoId={expoId} status={status}/>
               </>
             )}
             <div className="view-2">

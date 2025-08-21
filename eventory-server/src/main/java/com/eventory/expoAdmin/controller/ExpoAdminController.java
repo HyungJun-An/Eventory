@@ -121,7 +121,7 @@ public class ExpoAdminController {
     }
 
     // 환불 상태 변경
-    @PatchMapping("/refund/{refundId}/status")
+    @PatchMapping("/refund/{refundId}")
     public ResponseEntity<Void> updateRefundStatus(@PathVariable Long refundId, @Valid @RequestBody RefundRequestDto request) {
         salesAdminService.updateRefundStatus(refundId, request);
         return ResponseEntity.ok().build();
