@@ -1,0 +1,41 @@
+/* 루트 스코프: 다른 페이지 영향 방지 */
+.company-profile {
+  padding: 24px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.company-profile .cp-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.company-profile .cp-error {
+  color: #c0392b;
+  margin-bottom: 12px;
+}
+.company-profile .cp-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+.company-profile .cp-label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+}
+.company-profile .cp-input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+.company-profile .cp-actions {
+  margin-top: 12px;
+}
+.company-profile .cp-primary {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  background: #111;
+  color: #fff;
+  cursor: pointer;
+}

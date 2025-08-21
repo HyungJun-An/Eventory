@@ -1,0 +1,53 @@
+.booth-edit {
+  padding: 24px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.booth-edit .be-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.booth-edit .be-error {
+  color: #c0392b;
+  margin-bottom: 12px;
+}
+.booth-edit .be-form {
+  display: grid;
+  gap: 12px;
+}
+.booth-edit .be-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.booth-edit .be-label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+}
+.booth-edit .be-input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+.booth-edit .be-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.booth-edit .be-primary {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  background: #111;
+  color: #fff;
+  cursor: pointer;
+}
+.booth-edit .be-secondary {
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: #f3f3f3;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
