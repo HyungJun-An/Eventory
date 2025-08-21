@@ -3,11 +3,10 @@ package com.eventory.expoAdmin.controller;
 import com.eventory.auth.security.CustomUserPrincipal;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
+import com.eventory.common.repository.ExpoAdminRepository;
+import com.eventory.common.repository.ExpoRepository;
 import com.eventory.expoAdmin.dto.*;
-import com.eventory.expoAdmin.service.BoothService;
-import com.eventory.expoAdmin.service.ExpoAdminService;
-import com.eventory.expoAdmin.service.ExpoInfoService;
-import com.eventory.expoAdmin.service.SalesAdminService;
+import com.eventory.expoAdmin.service.*;
 import com.eventory.expoAdmin.web.FileResponseUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +32,7 @@ public class ExpoAdminController {
     private final SalesAdminService salesAdminService;
     private final ExpoInfoService expoInfoService;
     private final BoothService boothService;
+    private final ContentsAdminService contentsAdminService;
 
     // 박람회 신청
     @PostMapping("/expos")
@@ -49,6 +49,14 @@ public class ExpoAdminController {
         return ResponseEntity.ok(expos);
     }
 
+    @GetMapping("/expos/{expoId}/contents")
+    public ResponseEntity<ContentsResponseDto> findExpoContents(
+            @AuthenticationPrincipal CustomUserPrincipal expoAdmin,
+            @PathVariable Long expoId) {
+        Long adminId = (expoAdmin != null) ? expoAdmin.getId() : null;
+        ContentsResponseDto contentsResponseDto = contentsAdminService.findExpoContents(adminId);
+        return ResponseEntity.ok(contentsResponseDto);
+    }
     // 누적 매출, 총 결제 건수, 총 환불 건수
     @GetMapping("/expos/{expoId}/sales")
     public ResponseEntity<SalesResponseDto> findSalesStatistics(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId) {

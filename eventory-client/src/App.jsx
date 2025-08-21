@@ -17,6 +17,9 @@ import RegisterCustomer from './auth/RegisterCustomer';
 import PaymentCheckout from './payment/PaymentCheckout';
 import { PaymentRedirect } from './payment/PaymentRedirect';
 import ReservationDetail from "./payment/TestReservationDetail";
+import CompanyProfile from "./companyUser/Profile";
+import BoothList from "./companyUser/BoothList";
+import BoothEdit from "./companyUser/BoothEdit";
 
 import ContentPage from './expoAdmin/ContentPage';
 import { SysExpoList } from "./systemAdmin/SysExpoList";
@@ -98,6 +101,11 @@ function App() {
           <Route path="/payment" element={<PaymentCheckout />} />
           <Route path="/payment/redirect" element={<PaymentRedirect />} />
           <Route path="/payment/reservation/:id" element={<ReservationDetail />} />
+          {/* company user 영역 추가 */}
+          <Route path="/company/profile" element={<CompanyProfile />} />
+          <Route path="/company/booths" element={<BoothList />} />
+          <Route path="/company/booths/new" element={<BoothEdit />} />
+          <Route path="/company/booths/:boothId/edit" element={<BoothEdit />} />
         </Route>
         <Route
           path="/sys/expos"

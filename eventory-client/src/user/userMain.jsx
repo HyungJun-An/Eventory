@@ -6,8 +6,8 @@ import ExpoCardList from "../components/ExpoCardList";
 import "../assets/css/UserMain.css";
 
 import banner1 from '../assets/demo/busanExpo.jpg';
-import banner2 from '../assets/demo/AiKorea.jpg';
-import banner3 from '../assets/demo/greenEnergy.jpg';
+import banner2 from '../assets/demo/start_up.png';
+import banner3 from '../assets/demo/game.jpg';
 
 import HeroSection from "./sections/HeroSection";
 import Footer from "./sections/Footer";

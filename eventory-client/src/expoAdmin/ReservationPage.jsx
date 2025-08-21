@@ -49,7 +49,8 @@ function ReservationPage() {
       {/* Table Container */}
       <div className="table-container">
         <div className="table-wrapper">
-          <ReservationTable />
+          {/* [ADDED] 활성 필터를 prop으로 내려줌 */}
+          <ReservationTable activeFilter={activeFilter} /> {/* [ADDED] */}
         </div>
         <Pagination />
       </div>

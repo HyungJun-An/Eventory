@@ -19,4 +19,5 @@ public interface ExpoAdminRepository extends JpaRepository<ExpoAdmin, Long> {
 
     Optional<ExpoAdmin> findByEmail(String email);
 
+    Optional<ExpoAdmin> findByExpoAdminId(Long expoAdminId);
 }

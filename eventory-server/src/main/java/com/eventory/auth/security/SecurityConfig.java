@@ -77,10 +77,10 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(List.of(
                 "http://localhost:5173",
-                "http://localhost:8090",
+                "http://localhost:8080",
                 "https://localhost",
                 "https://eventory.kro.kr",      // 포트 없이 도메인만
-                "https://eventory.kro.kr:8090"  // 명시적으로 포트 포함
+                "https://eventory.kro.kr:8080"  // 명시적으로 포트 포함
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
