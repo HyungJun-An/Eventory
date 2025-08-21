@@ -25,7 +25,7 @@
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  top: 0;
+  top: -30px;
 }
 
 .series-chart .group-6 {

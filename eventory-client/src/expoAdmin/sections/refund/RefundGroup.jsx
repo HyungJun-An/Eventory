@@ -9,12 +9,14 @@ const RefundGroup = ({ onStatusChange }) => {
     onStatusChange(status);
   };
 
+  const getColor = (status) => (selected === status ? "#007BFF" : "#343A40");
+
   return (
     <div className="refund-group">
       <div
         className={`text-wrapper-26 ${selected === "ALL" ? "active" : ""}`}
         onClick={() => handleClick("ALL")}
-        style={{ cursor: "pointer" }}
+        style={{ cursor: "pointer", color: getColor("ALL") }}
       >
         전체 내역
       </div>
@@ -22,7 +24,7 @@ const RefundGroup = ({ onStatusChange }) => {
       <div
         className={`text-wrapper-27 ${selected === "PENDING" ? "active" : ""}`}
         onClick={() => handleClick("PENDING")}
-        style={{ cursor: "pointer" }}
+        style={{ cursor: "pointer", color: getColor("PENDING") }}
       >
         환불 대기
       </div>
@@ -30,7 +32,7 @@ const RefundGroup = ({ onStatusChange }) => {
       <div
         className={`text-wrapper-28 ${selected === "APPROVED" ? "active" : ""}`}
         onClick={() => handleClick("APPROVED")}
-        style={{ cursor: "pointer" }}
+        style={{ cursor: "pointer", color: getColor("APPROVED") }}
       >
         환불 완료
       </div>
@@ -38,7 +40,18 @@ const RefundGroup = ({ onStatusChange }) => {
       <div className="overlap-3">
         <div className="rectangle-12" />
 
-        <div className="rectangle-13" />
+        <div
+          className="rectangle-13"
+          style={{
+            left:
+              selected === "ALL"
+                ? "0"
+                : selected === "PENDING"
+                ? "130px"
+                : "240px",
+            transition: "left 0.3s ease",
+          }}
+        />
       </div>
     </div>
   );

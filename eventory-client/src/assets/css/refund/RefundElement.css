@@ -440,3 +440,17 @@
   color: red;
   margin-top: 5px;
 }
+
+.refund-element .text-wrapper-27 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 100px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 8px;
+  white-space: nowrap;
+  margin-top: 70px;
+}
