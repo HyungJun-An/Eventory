@@ -7,6 +7,7 @@ import com.eventory.common.repository.PaymentRepository;
 import com.eventory.common.repository.ReservationRepository;
 import com.eventory.config.PortOneProperties;
 import com.eventory.payment.dto.*;
+import com.eventory.qr.service.QrService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final ReservationRepository reservationRepository;
     private final UserRepository userRepository;
     private final ExpoRepository expoRepository;
+    private final QrService qrService;
 
     public ReadyResponse ready(ReadyRequest req, String baseRedirectUrl) {
         // 실제 서비스에서는 서버에서 금액 재계산하여 req.totalAmount와 비교/대체 권장
@@ -89,8 +91,8 @@ public class PaymentServiceImpl implements PaymentService {
                 .updatedAt(LocalDateTime.now())
                 .build());
 
-        // 4) TODO : (다음 단계) QR 발급 & 메일 발송 트리거 → 별도 서비스에서 구현 예정
-        // qrService.issueAndSend(savedRes.getId());
+        // 4) QR 발급 & 메일 발송 트리거 → 별도 서비스에서 구현 예정
+        qrService.issueAndSend(savedRes.getReservationId());
 
         return CompleteResponse.builder()
                 .paymentPk(savedPay.getPaymentId())

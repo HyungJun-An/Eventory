@@ -38,7 +38,7 @@ public class SecurityConfig {
                                 "/api/admin/login", "/api/admin/sys/login", "/api/auth/login",
                                 "/api/auth/register", "/api/admin/refresh", "/api/auth/refresh",
                                 "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**",
-                                "/webjars/**", "/favicon.ico", "/error",
+                                "/webjars/**", "/favicon.ico", "/error", "/api/checkin/**",
                                 "/api/user/expos", "/api/user/expos/**",
                                 "/session/**", "/actuator/**"
                         ).permitAll()

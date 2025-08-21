@@ -151,6 +151,24 @@
             <version>3.5.4</version>
         </dependency>
 
+        <!-- QR 생성 -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.5.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.5.3</version>
+        </dependency>
+
+        <!-- 메일 발송 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
         <!-- Apache POI 기본 (.xls) -->
         <dependency>
             <groupId>org.apache.poi</groupId>
