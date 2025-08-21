@@ -16,6 +16,8 @@ import RegisterCompany from './auth/RegisterCompany';
 import RegisterCustomer from './auth/RegisterCustomer';
 import PaymentCheckout from './payment/PaymentCheckout';
 import { PaymentRedirect } from './payment/PaymentRedirect';
+import ReservationDetail from "./payment/TestReservationDetail";
+
 import ContentPage from './expoAdmin/ContentPage';
 import { SysExpoList } from "./systemAdmin/SysExpoList";
 import ExpoManagerManagement from "./systemAdmin/ExpoManagerManagement";
@@ -52,7 +54,7 @@ function App() {
             </AdminLayout>
           }
         />
-        
+
         <Route
           path="/admin/sales"
           element={
@@ -95,6 +97,7 @@ function App() {
           <Route path="/register/customer" element={<RegisterCustomer />} />
           <Route path="/payment" element={<PaymentCheckout />} />
           <Route path="/payment/redirect" element={<PaymentRedirect />} />
+          <Route path="/payment/reservation/:id" element={<ReservationDetail />} />
         </Route>
         <Route
           path="/sys/expos"
