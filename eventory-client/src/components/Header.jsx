@@ -91,18 +91,22 @@ const Header = ({ expoId, setExpoId }) => {
         <div className="group-3">
           <div className="overlap-wrapper">
             <div className="overlap-2">
-              <span className="text-wrapper-9">박람회 선택</span>
-              <img
-                className="vector"
-                alt="Vector"
-                src="https://c.animaapp.com/mdwrr278Hhu1fG/img/vector.svg"
-                onClick={fetchExpos}
-                style={{
-                  cursor: "pointer",
-                  position: "relative",
-                  zIndex: 9999,
-                }}
-              />
+              {!isDropdownOpen && (
+                <>
+                  <span className="text-wrapper-9">박람회 선택</span>
+                  <img
+                    className="vector"
+                    alt="Vector"
+                    src="https://c.animaapp.com/mdwrr278Hhu1fG/img/vector.svg"
+                    onClick={fetchExpos}
+                    style={{
+                      cursor: "pointer",
+                      position: "relative",
+                      zIndex: 9999,
+                    }}
+                  />
+                </>
+              )}
               {isDropdownOpen && (
                 <select
                   className="expo-select"
@@ -188,7 +192,8 @@ const Header = ({ expoId, setExpoId }) => {
                 } catch (error) {
                   console.error("관리자 정보 수정 실패", error);
                   alert(
-                    "수정 실패: " + error.response?.data?.message || error.message
+                    "수정 실패: " + error.response?.data?.message ||
+                      error.message
                   );
                 }
               }}

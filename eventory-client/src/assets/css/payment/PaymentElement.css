@@ -6,6 +6,8 @@
   position: absolute;
   top: 285px;
   width: 1110px;
+  display: flex;
+  flex-direction: column;
 }
 
 .payment-element .SL-no {
@@ -230,9 +232,11 @@
 .payment-element .navbar {
   height: 19px;
   left: 30px;
-  position: absolute;
+  position: relative;
   top: 76px;
   width: 1077px;
+  display: grid;
+  grid-template-columns: 80px 120px 150px 100px 120px 120px 180px;
 }
 
 .payment-element .rectangle-9 {
@@ -250,6 +254,8 @@
   position: absolute;
   top: 22px;
   width: 1010px;
+  display: grid;
+  grid-template-columns: 80px 120px 150px 100px 120px 120px 180px;
 }
 
 .payment-element .text-wrapper-19 {
