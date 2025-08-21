@@ -212,7 +212,15 @@ const Button = ({ variant = 'default', size = 'default', className = '', childre
   );
 };
 
-function ReservationTable() {
+// [CHANGED] activeFilter를 받아서 필터링 적용
+function ReservationTable({ activeFilter = 'all' }) { // [CHANGED]
+  // [ADDED] 탭 → 한국어 상태 매핑 및 필터링 로직
+  const filteredReservations = mockReservations.filter((r) => { // [ADDED]
+    if (activeFilter === 'entered') return r.entryStatus === '입장완료';
+    if (activeFilter === 'not-entered') return r.entryStatus === '미입장';
+    return true; // 'all'
+  });
+
   return (
     <div className="reservation-table-container">
       {/* Table Header */}
@@ -230,7 +238,8 @@ function ReservationTable() {
 
       {/* Table Rows */}
       <div className="table-body">
-        {mockReservations.map((reservation, index) => (
+        {/* [CHANGED] mockReservations → filteredReservations 로 대체 */}
+        {filteredReservations.map((reservation, index) => ( // [CHANGED]
           <div key={reservation.id}>
             {/* Desktop Layout */}
             <div className="table-row desktop-row">
@@ -297,7 +306,8 @@ function ReservationTable() {
               </div>
             </div>
 
-            {index < mockReservations.length - 1 && <div className="row-divider"></div>}
+            {/* [CHANGED] 구분선 조건도 filtered 기준으로 계산 */}
+            {index < filteredReservations.length - 1 && <div className="row-divider"></div>} {/* [CHANGED] */}
           </div>
         ))}
       </div>
