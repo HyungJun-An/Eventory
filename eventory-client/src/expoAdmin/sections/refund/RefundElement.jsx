@@ -6,7 +6,8 @@ const RefundElement = ({ expoId, status }) => {
   const [refunds, setRefunds] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedRefund, setSelectedRefund] = useState(null);
-  const [reason, setReason] = useState("");
+  const [reasonOption, setReasonOption] = useState(""); // 선택된 사유 옵션
+  const [customReason, setCustomReason] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -38,7 +39,8 @@ const RefundElement = ({ expoId, status }) => {
   const openModal = (refund) => {
     console.log("openModal refund:", refund);
     setSelectedRefund(refund);
-    setReason(""); // 사유 초기화
+    setReasonOption(""); 
+    setCustomReason("");
     setError("");
     setModalOpen(true);
   };
@@ -47,7 +49,8 @@ const RefundElement = ({ expoId, status }) => {
     setModalOpen(false);
     setSelectedRefund(null);
     setError("");
-    setReason("");
+    setReasonOption("");
+    setCustomReason("");
   };
 
   const handleStatusChange = async (newStatus) => {
@@ -56,16 +59,29 @@ const RefundElement = ({ expoId, status }) => {
       return;
     }
 
+    let finalReason = "";
     // 반려 선택 시 사유 입력 필수
-    if (newStatus === "REJECTED" && reason.trim() === "") {
-      setError("반려 사유를 입력해주세요.");
-      return;
+    if (newStatus === "REJECTED") {
+      if (!reasonOption) {
+        setError("반려 사유를 선택해주세요.");
+        return;
+      }
+      if (reasonOption === "기타" && customReason.trim() === "") {
+        setError("반려 사유를 입력해주세요.");
+        return;
+      }
+      finalReason =
+        reasonOption === "기간 초과"
+          ? "환불 요청 시점이 환불 가능 기간을 초과하였습니다."
+          : reasonOption === "정책 기반"
+          ? "환불 정책 기반으로 거절되었습니다."
+          : customReason;
     }
 
     try {
       await api.patch(`/admin/refund/${selectedRefund.refundId}`, {
         status: newStatus,
-        reason: reason || "승인/반려 처리",
+        reason: finalReason,
       });
       // 로컬 상태 업데이트
       setRefunds((prev) =>
@@ -95,7 +111,7 @@ const RefundElement = ({ expoId, status }) => {
 
         <div className="text-wrapper-14">결제 시각</div>
 
-        <div className="text-wrapper-15">환불 요청 사유</div>
+        <div className="text-wrapper-15">환불 사유</div>
 
         <div className="text-wrapper-16">환불 상태</div>
       </div>
@@ -143,13 +159,47 @@ const RefundElement = ({ expoId, status }) => {
 
             {selectedRefund.status === "PENDING" && (
               <div className="modal-row">
-                <label>반려 사유:</label>
-                <input
-                  type="text"
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  placeholder="반려 사유 입력"
-                />
+                <label>반려 사유 선택:</label>
+                <div>
+                  <label>
+                    <input
+                      type="radio"
+                      name="reason"
+                      value="기간 초과"
+                      checked={reasonOption === "기간 초과"}
+                      onChange={(e) => setReasonOption(e.target.value)}
+                    />
+                    환불 요청 시점이 환불 가능 기간을 초과하였습니다.
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="reason"
+                      value="정책 기반"
+                      checked={reasonOption === "정책 기반"}
+                      onChange={(e) => setReasonOption(e.target.value)}
+                    />
+                    환불 정책 기반으로 거절되었습니다.
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="reason"
+                      value="기타"
+                      checked={reasonOption === "기타"}
+                      onChange={(e) => setReasonOption(e.target.value)}
+                    />
+                    기타
+                  </label>
+                </div>
+                {reasonOption === "기타" && (
+                  <input
+                    type="text"
+                    value={customReason}
+                    onChange={(e) => setCustomReason(e.target.value)}
+                    placeholder="사유 입력"
+                  />
+                )}
               </div>
             )}
 
