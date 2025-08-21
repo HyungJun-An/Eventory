@@ -22,3 +22,31 @@ export async function getExposByManager(id, page, size) {
   }
   return res.json();
 }
+
+// 박람회 관리자 정보 수정
+export async function updateManager(id, name, phone, email) {
+  const res = await fetch(`${API_BASE_URL}/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ 
+      name: `${name}`,
+      phone: `${phone}`,
+      email: `${email}`
+    })
+  });
+  if (!res.ok) {
+    throw new Error("박람회 관리자 정보를 수정하지 못했습니다.");
+  }
+  return res;
+}
+
+// 박람회 관리자 정보 삭제
+export async function deleteManager(id) {
+  const res = await fetch(`${API_BASE_URL}/${id}`, {
+    method: "DELETE"
+  });
+  if (!res.ok) {
+    throw new Error("박람회 관리자 정보를 삭제하지 못했습니다.");
+  }
+  return res;
+}

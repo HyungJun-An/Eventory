@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { notification, Modal, Input } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import SysAdminButton from "../components/SysAdminButton";
+import { updateManager, deleteManager } from "../api/sysExpoAdminApi"
 
 export const ManagerInfoEditModal = ({ onClose, id, manager }) => {
   const [name, setName] = useState(manager.name);
@@ -12,13 +13,14 @@ export const ManagerInfoEditModal = ({ onClose, id, manager }) => {
   const handleSave = () => {
     console.log({ name: name, email: email, phone: phone });
     // save API
-    // saveEdit(manager.id)
+    updateManager(manager.id, name, phone, email);
     onClose();
   };
 
   const handleDelete = () => {
     console.log("delete");
     // Delete API
+    deleteManager(manager.id);
     onClose();
   };
 

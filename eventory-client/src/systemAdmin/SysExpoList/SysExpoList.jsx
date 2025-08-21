@@ -7,7 +7,7 @@ import { getExpos, approveExpo, rejectExpo } from "../../api/sysExpoApi";
 import RejectModal from "../RejectModal";
 import SysAdminButton from "../../components/SysAdminButton";
 import Divider from "../../components/Divider";
-import AdminSidebar from "../adminSidebar";
+import AdminSidebar from "../AdminSidebar";
 
 export const SysExpoList = () => {
   const [statusFilter, setStatusFilter] = useState("ALL");
@@ -65,7 +65,7 @@ export const SysExpoList = () => {
     fetchData();
   }, [currentPage]);
 
-  async function fetchDataOnPataChange() {
+  async function fetchDataOnDataChange() {
     try {
       let expoData = await getExpos("", searchText, 0, 20);
       setExpos(expoData.content);
@@ -105,7 +105,7 @@ export const SysExpoList = () => {
   };
 
   const getExpobyTitle = () => {
-    fetchDataOnPataChange();
+    fetchDataOnDataChange();
   };
 
   const openApproveNotification = (placement) => {
@@ -326,8 +326,8 @@ export const SysExpoList = () => {
               </div>
             </div>
             {/* 테스트용 */}
-            <div>Status: {statusFilter}</div>
-            <div>CurrentPage: {currentPage}</div>
+            {/* <div>Status: {statusFilter}</div>
+            <div>CurrentPage: {currentPage}</div> */}
             {/* Main Wrapper */}
             <div
               style={{

@@ -148,7 +148,7 @@ export const ExpoManagerManagement = () => {
           manager={manager}
         ></ManagerInfoEditModal>
       )}
-      (
+      
       <div className="wrapper">
         <div style={{ marginTop: "5vh", marginLeft: "3vw" }}>
           {/* 검색어창 */}
@@ -307,7 +307,7 @@ export const ExpoManagerManagement = () => {
           </div>
         </div>
       </div>
-      )
+      
     </>
   );
 };

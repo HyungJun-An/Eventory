@@ -91,7 +91,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
     },
   ];
 
-  async function fetChChartData() {
+  async function fetchChartData() {
     try {
       // Chart Data API
       // setChartData();
@@ -99,7 +99,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
   }
 
   useEffect(() => {
-    fetChChartData();
+    fetchChartData();
   }, [chartViewMode]);
 
   const handleChartModeChange = (e) => {};
