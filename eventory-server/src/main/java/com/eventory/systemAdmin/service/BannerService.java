@@ -11,4 +11,3 @@ public interface BannerService {
     Banner updateBannerPeriod(Long bannerId, BannerUpdateRequestDto requestDto);
     Banner approveBanner(Long bannerId, String status, String reason);
 }
-

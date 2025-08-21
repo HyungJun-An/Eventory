@@ -3,12 +3,12 @@ target/
 
 ### IntelliJ IDEA ###
 **/.idea/
-eventory-client/.idea/*
+eventory-clientttt/.idea/*
 eventory-server/.idea/*
 *.iws
 *.iml
 *.ipr
-eventory-client/.screen-graph.json
+eventory-clientttt/.screen-graph.json
 ### Eclipse ###
 .apt_generated
 .classpath
@@ -18,8 +18,8 @@ eventory-client/.screen-graph.json
 .springBeans
 .sts4-cache
 ### ssl 파일 ###
-/eventory-client/ssl/certificate.crt
-/eventory-client/ssl/private.key
+/eventory-clientttt/ssl/certificate.crt
+/eventory-clientttt/ssl/private.key
 /eventory-server/src/main/resources/keystore.p12
 
 ### NetBeans ###
