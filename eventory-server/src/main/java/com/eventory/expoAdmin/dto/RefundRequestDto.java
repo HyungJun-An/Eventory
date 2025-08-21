@@ -15,6 +15,5 @@ public class RefundRequestDto {
     @NotNull
     private RefundStatus status;
 
-    @NotBlank
     private String reason;
 }

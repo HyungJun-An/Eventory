@@ -39,7 +39,7 @@ const RefundElement = ({ expoId, status }) => {
   const openModal = (refund) => {
     console.log("openModal refund:", refund);
     setSelectedRefund(refund);
-    setReasonOption(""); 
+    setReasonOption("");
     setCustomReason("");
     setError("");
     setModalOpen(true);
@@ -52,6 +52,12 @@ const RefundElement = ({ expoId, status }) => {
     setReasonOption("");
     setCustomReason("");
   };
+
+  const STATUS_ENUM = {
+  승인: "APPROVED",
+  반려: "REJECTED",
+  대기: "PENDING",
+};
 
   const handleStatusChange = async (newStatus) => {
     if (!selectedRefund) {
@@ -78,11 +84,13 @@ const RefundElement = ({ expoId, status }) => {
           : customReason;
     }
 
+    const payload = {
+    status: STATUS_ENUM[newStatus] || newStatus, // enum 정확히 매칭
+    reason: newStatus === "REJECTED" ? finalReason : null,
+  };
+
     try {
-      await api.patch(`/admin/refund/${selectedRefund.refundId}`, {
-        status: newStatus,
-        reason: finalReason,
-      });
+      await api.patch(`/admin/refund/${selectedRefund.refundId}`, payload);
       // 로컬 상태 업데이트
       setRefunds((prev) =>
         prev.map((r) =>
@@ -209,7 +217,9 @@ const RefundElement = ({ expoId, status }) => {
               <button onClick={() => handleStatusChange("APPROVED")}>
                 승인
               </button>
-              <button onClick={() => handleStatusChange("REJECTED")}>반려</button>
+              <button onClick={() => handleStatusChange("REJECTED")}>
+                반려
+              </button>
               <button onClick={closeModal}>취소</button>
             </div>
           </div>
