@@ -53,7 +53,7 @@ public class SecurityConfig {
                         // 관리자 전용 도메인
                         .requestMatchers("/api/sys/expos/**").hasRole("SYSTEM_ADMIN")
 //                        .requestMatchers("/api/admin/expo/**").hasRole("EXPO_ADMIN")
-                        .requestMatchers("/api/admin/expos/**").hasRole("EXPO_ADMIN")
+                        .requestMatchers("/api/admin/**").hasRole("EXPO_ADMIN")
                         // 나머지 전부 보호
                         .anyRequest().authenticated()
                 )
@@ -82,7 +82,7 @@ public class SecurityConfig {
                 "https://eventory.kro.kr",      // 포트 없이 도메인만
                 "https://eventory.kro.kr:8090"  // 명시적으로 포트 포함
         ));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedMethods(List.of("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // 크리덴셜 허용
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

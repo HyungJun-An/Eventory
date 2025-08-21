@@ -57,13 +57,14 @@ public class ExpoMapper {
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_RESERVATION));
 
         return RefundResponseDto.builder()
-                        .code(reservation.getCode())
-                        .method(payment.getMethod())
-                        .amount(payment.getAmount())
-                        .paidAt(payment.getPaidAt())
-                        .reason(refund.getReason())
-                        .status(refund.getStatus())
-                        .build();
+                .refundId(refund.getRefundId())
+                .code(reservation.getCode())
+                .method(payment.getMethod())
+                .amount(payment.getAmount())
+                .paidAt(payment.getPaidAt())
+                .reason(refund.getReason())
+                .status(refund.getStatus())
+                .build();
     }
 
     public PaymentResponseDto toPaymentResponseDto(Reservation reservation) {

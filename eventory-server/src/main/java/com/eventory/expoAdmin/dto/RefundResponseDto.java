@@ -17,6 +17,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class RefundResponseDto {
 
+    @NotNull
+    private Long refundId;
+
     @NotBlank
     private String code;
 
