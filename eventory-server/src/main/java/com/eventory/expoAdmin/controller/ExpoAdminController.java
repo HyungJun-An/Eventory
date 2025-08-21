@@ -81,13 +81,11 @@ public class ExpoAdminController {
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size) {
 
-        Long expoAdminId = expoAdmin.getId();
-
         if (page!=null && size!=null) { // 페이징 O
-            Page<PaymentResponseDto> paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId, code, startDate, endDate, page, size);
+            Page<PaymentResponseDto> paymentResponseDto = salesAdminService.findAllPayments(expoAdmin, expoId, code, startDate, endDate, page, size);
             return ResponseEntity.ok(paymentResponseDto);
         } else { // 페이징 X
-            List<PaymentResponseDto> paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId);
+            List<PaymentResponseDto> paymentResponseDto = salesAdminService.findAllPayments(expoAdmin, expoId);
             return ResponseEntity.ok(paymentResponseDto);
         }
     }
@@ -96,9 +94,7 @@ public class ExpoAdminController {
     @PostMapping("/expos/{expoId}/payment/report")
     public ResponseEntity<Resource> downloadPaymentsExcel(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long expoId) {
 
-        Long expoAdminId = expoAdmin.getId();
-
-        List<PaymentResponseDto> paymentResponseDto = salesAdminService.findAllPayments(expoAdminId, expoId);
+        List<PaymentResponseDto> paymentResponseDto = salesAdminService.findAllPayments(expoAdmin, expoId);
 
         Resource excel = salesAdminService.downloadPaymentsExcel(paymentResponseDto);
 

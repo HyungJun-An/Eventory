@@ -285,3 +285,45 @@
     height: 60px;
   }
 }
+
+.header .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.header .modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  min-width: 300px;
+  max-width: 500px;
+}
+
+.header .modal-content h2 {
+  margin-top: 0;
+}
+
+.header .modal-content label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.header .modal-content input {
+  width: 100%;
+  padding: 5px;
+  margin-top: 3px;
+}
+
+.header .modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}

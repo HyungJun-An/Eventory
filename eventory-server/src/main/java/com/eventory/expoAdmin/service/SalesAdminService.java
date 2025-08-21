@@ -1,5 +1,6 @@
 package com.eventory.expoAdmin.service;
 
+import com.eventory.auth.security.CustomUserPrincipal;
 import com.eventory.expoAdmin.dto.PaymentResponseDto;
 import com.eventory.expoAdmin.dto.RefundRequestDto;
 import com.eventory.expoAdmin.dto.RefundResponseDto;
@@ -18,8 +19,8 @@ public interface SalesAdminService {
     List<Map<String, Object>> findDailySales(Long expoAdminId, Long expoId);
     List<RefundResponseDto> findAllRefunds(Long expoAdminId, Long expoId, String status, Integer page, Integer size);
 
-    Page<PaymentResponseDto> findAllPayments(Long expoAdminId, Long expoId, String reservationCode, LocalDate startDate, LocalDate endDate, Integer page, Integer size);
-    List<PaymentResponseDto> findAllPayments(Long expoAdminId, Long expoId);
+    Page<PaymentResponseDto> findAllPayments(CustomUserPrincipal expoAdmin, Long expoId, String reservationCode, LocalDate startDate, LocalDate endDate, Integer page, Integer size);
+    List<PaymentResponseDto> findAllPayments(CustomUserPrincipal expoAdmin, Long expoId);
 
     void updateRefundStatus(Long refundId, RefundRequestDto request);
 

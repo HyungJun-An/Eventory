@@ -11,7 +11,7 @@ const RefundElement = ({ expoId }) => {
 
     const fetchRefunds = async () => {
       try {
-        const response = await api.get(`/api/admin/expos/${expoId}/refund`, {
+        const response = await api.get(`/admin/expos/${expoId}/refund`, {
           params: {
             page: 0,
             size: 7,
