@@ -249,7 +249,7 @@ const RegisterForm = () => {
 
             {/* Next Button */}
             <button type="submit" className="buttons">
-              <span className="text-2">next</span>
+              <span className="text-2">Create an account</span>
             </button>
 
             {/* Login Link */}

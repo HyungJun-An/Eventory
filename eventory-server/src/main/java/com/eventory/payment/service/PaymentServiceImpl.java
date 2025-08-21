@@ -69,6 +69,7 @@ public class PaymentServiceImpl implements PaymentService {
                 .method(method)
                 .status(PaymentStatus.PAID)
                 .paidAt(LocalDateTime.now())
+                .portonePaymentId(req.getPaymentId()) // 포트원 자체 결제 id 저장
                 .build());
 
         // ID만으로 프록시 참조 얻기 (즉시 쿼리 안 나감, 접근 시/flush 시 검증)
@@ -96,22 +97,35 @@ public class PaymentServiceImpl implements PaymentService {
                 .reservationPk(savedRes.getReservationId())
                 .status("PAID")
                 .reservationCode(reservationCode)
+                .reservationId(savedRes.getReservationId())   // 프론트에서 navigate할 때 사용
+                .portonePaymentId(req.getPaymentId())         // PortOne 결제 건 ID (환불 시 사용)
                 .build();
     }
 
     @Transactional
     public void refund(Long reservationId, String reason) {
-        // 예약/결제 로드
+        // 3-1) 예약/결제 로드
         Reservation res = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new IllegalArgumentException("예약 없음"));
         Payment pay = paymentRepository.findById(res.getPayment().getPaymentId())
                 .orElseThrow(() -> new IllegalStateException("결제 없음"));
 
-        // PortOne 환불 호출 (전액 환불 예시)
-        portOne.cancelPayment("payment-unknown-on-merchant", // 실제 paymentId를 별도로 저장/매핑해두는 것을 권장
-                new PortOneCancelRequest(pay.getAmount(), reason)).block();
+        if (pay.getStatus() == PaymentStatus.REFUNDED) {
+            return; // 이미 환불된 결제는 멱등 처리
+        }
 
-        pay.setStatus(PaymentStatus.REFUNDED);
+        // 3-2) PortOne paymentId 확보(★ DB에 저장된 값 사용)
+        String portonePaymentId = pay.getPortonePaymentId();
+        if (portonePaymentId == null || portonePaymentId.isBlank())
+            throw new IllegalStateException("portonePaymentId 미저장 — 결제 완료 저장 로직 확인 필요");
+
+        // 3-3) 전액 환불(취소) 호출 — 부분 환불은 cancelAmount 조정하면 됨
+        PortOneCancelRequest cancelReq = new PortOneCancelRequest(pay.getAmount(), reason);
+        portOne.cancelPayment(portonePaymentId, cancelReq).block();
+
+        // 3-4) 로컬 상태 반영
+        pay.markRefunded();
+        res.setStatus(ReservationStatus.CANCELLED);
         reservationRepository.save(res);
         paymentRepository.save(pay);
     }
@@ -128,7 +142,6 @@ public class PaymentServiceImpl implements PaymentService {
      */
     private String mapMethod(String payMethod, String easyPayProvider) {
         String methodUpper = payMethod == null ? "" : payMethod.trim().toUpperCase();
-
         // 간편결제 분기: EASY_PAY + provider
         if ("EASY_PAY".equals(methodUpper)) {
             String provider = easyPayProvider == null ? "" : easyPayProvider.trim().toUpperCase();

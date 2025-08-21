@@ -7,8 +7,12 @@ import com.eventory.payment.dto.ReadyResponse;
 import com.eventory.payment.service.PaymentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,5 +33,20 @@ public class PaymentController {
     @PostMapping("/complete")
     public ResponseEntity<CompleteResponse> complete(@RequestBody @Valid CompleteRequest req) {
         return ResponseEntity.ok(paymentService.complete(req));
+    }
+
+    // ★ 결제 취소(환불) — 전액 환불 기본, reason 필수
+    @PostMapping("/{reservationId}/refund")
+    public ResponseEntity<Void> refund(@PathVariable Long reservationId,
+                                       @RequestBody @Validated RefundBody body) {
+        paymentService.refund(reservationId, body.getReason());
+        return ResponseEntity.ok().build();
+    }
+
+    @Getter
+    public static class RefundBody {
+        @NotNull
+        @NotBlank
+        private String reason;
     }
 }
