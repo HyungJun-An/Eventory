@@ -31,7 +31,7 @@ public class Expo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long expoId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "expo_admin_id", nullable = true)
     private ExpoAdmin expoAdmin;
 
