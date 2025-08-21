@@ -21,6 +21,8 @@ const Header = ({ expoId, setExpoId }) => {
         return "대시보드";
       case "/admin/reservation":
         return "예약 관리";
+      case "/admin/reservation/list":
+        return "예약자 명단";
       case "/admin/contents":
         return "콘텐츠 관리";
       case "/admin/booth":
