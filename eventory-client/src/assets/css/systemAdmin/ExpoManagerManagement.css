@@ -12,3 +12,7 @@
   grid-template-columns: repeat(6, 1fr);
   margin: 0rem 2rem;
 }
+
+.pointer {
+  cursor: pointer;
+}

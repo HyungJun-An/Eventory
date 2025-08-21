@@ -24,6 +24,8 @@ import BoothEdit from "./companyUser/BoothEdit";
 import ContentPage from './expoAdmin/ContentPage';
 import { SysExpoList } from "./systemAdmin/SysExpoList";
 import ExpoManagerManagement from "./systemAdmin/ExpoManagerManagement";
+import SysDashboard from "./systemAdmin/SysDashboard";
+import AdminSidebar from "./systemAdmin/AdminSidebar";
 
 function App() {
   return (
@@ -109,12 +111,18 @@ function App() {
         </Route>
         <Route
           path="/sys/expos"
-          element={<AdminLayout>{<SysExpoList />}</AdminLayout>}
+          // element={<AdminLayout>{<SysExpoList />}</AdminLayout>}
+          element={<SysExpoList></SysExpoList>}
         />
         <Route
           path="/sys/manage"
           element={<AdminLayout>{<ExpoManagerManagement />}</AdminLayout>}
         />
+        <Route
+          path="/sys/dashboard"
+          element={<AdminLayout>{<SysDashboard />}</AdminLayout>}
+        />
+        <Route path="/sys/sidebar" element={<AdminSidebar></AdminSidebar>} />
       </Routes>
     </BrowserRouter>
   );
