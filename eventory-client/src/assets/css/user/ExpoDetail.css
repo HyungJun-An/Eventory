@@ -1,0 +1,147 @@
+.expo-detail {
+  padding: 24px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* 상단 단계 인디케이터 */
+.expo-detail .ed-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 8px 0 20px;
+}
+.expo-detail .ed-step {
+  text-align: center;
+  font-size: 13px;
+  padding: 8px 10px;
+  border: 1px dashed #e2e2e2;
+  border-radius: 999px;
+  color: #666;
+}
+.expo-detail .ed-step--active {
+  border-style: solid;
+  color: #111;
+  font-weight: 600;
+}
+
+/* 메인 그리드 */
+.expo-detail .ed-main {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.expo-detail .ed-left {
+  position: relative;
+}
+.expo-detail .ed-image {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.expo-detail .ed-title {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0 0 8px;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.expo-detail .ed-verified {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle at 30% 30%, #77f 0 30%, transparent 31%),
+    #8899ff;
+  border-radius: 50%;
+}
+
+.expo-detail .ed-datetime {
+  color: #444;
+  margin-bottom: 6px;
+}
+.expo-detail .ed-time {
+  margin-left: 6px;
+  color: #888;
+  font-size: 13px;
+}
+.expo-detail .ed-price {
+  color: #8b5cf6;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.expo-detail .ed-notice {
+  background: #fff5f5;
+  border: 1px solid #ffdede;
+  color: #a33;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin: 10px 0;
+}
+
+.expo-detail .ed-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 10px 0 14px;
+}
+.expo-detail .ed-tag {
+  font-size: 12px;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  padding: 4px 8px;
+  background: #fafafa;
+}
+
+.expo-detail .ed-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+}
+.expo-detail .ed-info {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+}
+.expo-detail .ed-info-label {
+  font-size: 12px;
+  color: #777;
+  margin-bottom: 2px;
+}
+.expo-detail .ed-info-value {
+  font-weight: 600;
+  color: #222;
+}
+
+.expo-detail .ed-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+}
+.expo-detail .ed-primary {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 12px;
+  background: #111;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+/* 상세 설명 */
+.expo-detail .ed-desc {
+  margin-top: 24px;
+  border-top: 1px solid #eee;
+  padding-top: 16px;
+  color: #333;
+  line-height: 1.7;
+}
