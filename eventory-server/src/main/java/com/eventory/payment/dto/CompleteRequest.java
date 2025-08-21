@@ -30,4 +30,8 @@ public class CompleteRequest {
     @NotNull
     @Positive
     private BigDecimal expectedAmount; // 서버 검증용
+
+    private Long reservationId;
+
+    private String portonePaymentId;
 }

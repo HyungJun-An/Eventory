@@ -36,4 +36,11 @@ public class Payment {
     @CreationTimestamp
     @Column(name = "paid_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
     private LocalDateTime paidAt;
+
+    // ★ PortOne 결제 식별자 (브라우저 SDK에서 받은 paymentId)
+    @Column(name = "portone_payment_id", length = 64, unique = true)
+    private String portonePaymentId;
+
+    // 편의 메서드
+    public void markRefunded() { this.status = PaymentStatus.REFUNDED; }
 }
