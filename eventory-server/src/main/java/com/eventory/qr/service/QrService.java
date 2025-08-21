@@ -29,6 +29,7 @@ public class QrService {
                 .orElseThrow(() -> new IllegalArgumentException("예약 없음: " + reservationId));
         // 이미 발급되어 있으면 재사용(재발송만 수행)
         QrCode qr = qrCodeRepository.findByReservation(res).orElse(null);
+
         if (qr == null) {
             long exp = calcExpoExpireEpoch(res.getExpo());
             String token = QrTokenUtil.buildToken(res.getReservationId(), res.getCode(), exp, props.getSecret());

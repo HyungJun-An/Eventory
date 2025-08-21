@@ -42,8 +42,8 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private static final String BLACKLIST_KEY = "blacklist:access:";
 //    private static final String REFRESH_KEY_FMT = "refresh:%s:%s";
 
-    private static final String USER_TYPE_SYSTEM_ADMIN = "1";
-    private static final String USER_TYPE_EXPO_ADMIN = "2";
+//    private static final String USER_TYPE_SYSTEM_ADMIN = "1";
+//    private static final String USER_TYPE_EXPO_ADMIN = "2";
 
     @Value("${jwt.refresh-token-validity}")
     private long refreshTtlMs;
@@ -104,12 +104,12 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     public void logoutSystemAdmin(String accessToken) {
-        logoutByType(accessToken, USER_TYPE_SYSTEM_ADMIN ); // 1 = systemAdmin
+        logoutByType(accessToken, "ROLE_SYSTEM_ADMIN" ); // 1 = systemAdmin
     }
 
     @Override
     public void logoutExpoAdmin(String accessToken) {
-        logoutByType(accessToken, USER_TYPE_EXPO_ADMIN ); // 2 = expoAdmin
+        logoutByType(accessToken, "ROLE_EXPO_ADMIN" ); // 2 = expoAdmin
     }
 
     private void logoutByType(String accessToken, String requiredType) {
@@ -121,11 +121,18 @@ public class AdminAuthServiceImpl implements AdminAuthService {
             throw new IllegalStateException("해당 관리자 권한 전용 로그아웃 API임");
         }
 
+        // ② TTL이 0이어도 최소 60초 블랙리스트 등록(운영상 안전)
         long remainingMs = jwtTokenProvider.getRemainingValidity(accessToken);
-        if (remainingMs > 0) {
+        long blacklistTtl = remainingMs > 0 ? remainingMs : 60_000L;
+
+        try {
             redisTemplate.opsForValue().set(BLACKLIST_KEY + accessToken, role, Duration.ofMillis(remainingMs));
+        } finally {
+            if (userId != null) {
+                // ② 저장/삭제 통일: tokenStore로 삭제 (역인덱스까지 함께 정리되는 구현을 권장)
+                redisTemplate.delete(refreshKey(Long.valueOf(userId)));
+            }
         }
-        redisTemplate.delete(refreshKey(Long.valueOf(userId)));
     }
 
     // ===============================================================================

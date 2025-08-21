@@ -83,7 +83,6 @@ public class AuthController {
     @Operation(security = { @SecurityRequirement(name = "bearerAuth") })
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(@RequestHeader(value = "Authorization", required = false) String authHeader) {
-        System.out.println("⭐authHeader : " + authHeader);
         if (!StringUtils.hasText(authHeader) || !authHeader.startsWith("Bearer ")) {
             throw new CustomException(CustomErrorCode.INVALID_ACCESS_TOKEN);
         }

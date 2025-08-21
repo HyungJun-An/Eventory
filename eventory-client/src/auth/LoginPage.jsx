@@ -18,11 +18,11 @@ const endpointMap = {
     SYSTEM_ADMIN: "/admin/sys/login",
 };
 
-// 로그인 후 이동 경로(임시)
+// 로그인 후 이동 경로
 const redirectMap = {
     USER: "/",
     EXPO_ADMIN: "/admin/dashboard",
-    SYSTEM_ADMIN: "/sys/dashboard",
+    SYSTEM_ADMIN: "/sys/expos",
 };
 
 export default function LoginPage() {
