@@ -59,7 +59,8 @@ const RevenueSalesChart = ({ expoId }) => {
       <div className="group-19">
         <div className="text-wrapper-25">환불 비율</div>
 
-        <PieChart width={200} height={200}>
+        <div className="group-20">
+          <PieChart width={200} height={200}>
           <Pie
             data={refundChartData}
             cx="50%"
@@ -76,6 +77,7 @@ const RevenueSalesChart = ({ expoId }) => {
           <Tooltip formatter={(value, name) => [`${value}건`, name]} />
           <Legend />
         </PieChart>
+        </div>
         
       </div>
 

@@ -117,7 +117,7 @@ const RefundElement = ({ expoId, status }) => {
       </div>
 
       {refunds.length === 0 && (
-        <div className="text-wrapper-17">환불 내역이 없습니다.</div>
+        <div className="text-wrapper-27">환불 내역이 없습니다.</div>
       )}
 
       {refunds.map((refund, index) => (
