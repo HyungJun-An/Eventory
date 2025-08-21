@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import api from "../api/axiosInstance";
 import WebsiteLogos from "./WebsiteLogos";
 import "../assets/css/Header.css";
 import LogoutButton from "./LogoutButton";
 
 const Header = ({ expoId, setExpoId }) => {
+  const location = useLocation();
   const [expos, setExpos] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -12,6 +14,27 @@ const Header = ({ expoId, setExpoId }) => {
   const [profileData, setProfileData] = useState(null);
   const profileMenuRef = useRef(null);
   const profileButtonRef = useRef(null);
+
+  const getTitle = () => {
+    switch (location.pathname) {
+      case "/admin/dashboard":
+        return "대시보드";
+      case "/admin/reservation":
+        return "예약 관리";
+      case "/admin/contents":
+        return "콘텐츠 관리";
+      case "/admin/booth":
+        return "부스 관리";
+      case "/admin/sales":
+        return "매출 분석";
+      case "/admin/payment":
+        return "정산 관리";
+      case "/admin/refund":
+        return "환불 처리";
+      default:
+        return "대시보드"; // 기본값
+    }
+  };
 
   const fetchExpos = async () => {
     try {
@@ -74,7 +97,7 @@ const Header = ({ expoId, setExpoId }) => {
       <div className="overlap">
         <div className="group-2">
           <div className="div-wrapper">
-            <div className="text-wrapper-7">대시보드</div>
+            <div className="text-wrapper-7">{getTitle()}</div>
           </div>
 
           <div className="logo">
