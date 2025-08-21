@@ -18,6 +18,11 @@ management:
     health:
       show-details: always
 
+qr:
+  secret: ${QR_HMAC_SECRET:change-me}
+  mail-from: no-reply@eventory.example
+  issuer: Eventory
+
 spring:
   servlet:
     multipart:
@@ -27,6 +32,16 @@ spring:
     host: 124.62.17.42
     port: 6380
 #    password:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: coachofgi@gmail.com
+    password: ektaggdttjocmund
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+  jackson:
+    time-zone: Asia/Seoul
 
   datasource:
     url: jdbc:mysql://192.168.0.17/Eventory
@@ -51,7 +66,6 @@ logging:
 
 jwt:
   secret: F4y6UozXgQIUW0NmQ2DI71Zbr1FQnFFu
-#  expiration: 3600000 # 1시간
   access-token-validity: 900000      # 15분
   refresh-token-validity: 604800000  # 7일
 
