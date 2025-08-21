@@ -6,6 +6,8 @@ import PaymentPage from './expoAdmin/PaymentPage';
 import RefundPage from './expoAdmin/RefundPage';
 import AdminLayout from './expoAdmin/sections/AdminLayout';
 import Dashboard from './expoAdmin/DashboardPage';
+import Reservation from './expoAdmin/ReservationPage';
+import QRCheckIn from './expoAdmin/QRCheckInPage';
 import LoginPage from './auth/LoginPage';
 import RegisterPage from './auth/UserRegistration';
 import { UserMainPage } from './user/userMain';
@@ -33,6 +35,24 @@ function App() {
             </AdminLayout>
           }
         />
+        <Route
+          path="/admin/reservation"
+          element={
+            <AdminLayout>
+              <QRCheckIn />
+            </AdminLayout>
+          }
+        />
+
+        <Route
+          path="/admin/reservation/list"
+          element={
+            <AdminLayout>
+              <Reservation />
+            </AdminLayout>
+          }
+        />
+        
         <Route
           path="/admin/sales"
           element={

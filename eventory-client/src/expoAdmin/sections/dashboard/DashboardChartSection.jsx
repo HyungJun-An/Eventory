@@ -297,7 +297,6 @@ function DashboardChartSection({ expoId: expoIdProp }) {
     <div className="dashboard-chart">
       <div className="chart-section">
         {/* Bar Chart - Reservation Status */}
-        <div className="bar-chart-container">
           <div className="chart-card">
             <div className="chart-header">
               <h2 className="chart-title">예약 현황</h2>
@@ -376,10 +375,8 @@ function DashboardChartSection({ expoId: expoIdProp }) {
               )}
             </div>
           </div>
-        </div>
 
         {/* Pie Chart - Ticket Type Ratio */}
-        <div className="pie-chart-container">
           <div className="chart-card">
             <h2 className="chart-title">티켓 종류별 예약 비율</h2>
 
@@ -429,7 +426,6 @@ function DashboardChartSection({ expoId: expoIdProp }) {
               </div>
             )}
           </div>
-        </div>
       </div>
     </div>
   );

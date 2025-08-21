@@ -14,6 +14,7 @@
     "@portone/browser-sdk": "^0.0.24",
     "antd": "^5.27.1",
     "axios": "^1.11.0",
+    "lucide-react": "^0.540.0",
     "qs": "^6.14.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

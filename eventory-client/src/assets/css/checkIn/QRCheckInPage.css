@@ -1,0 +1,199 @@
+/* QR Check-in Container */
+.qr-checkin-container {
+  padding: 1rem;
+  background-color: #f7f8fc;
+  min-height: 100vh;
+}
+
+@media (min-width: 1024px) {
+  .qr-checkin-container {
+    padding: 2rem;
+  }
+}
+
+/* Main Wrapper */
+.qr-checkin-wrapper {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Title Section */
+.title-section {
+  text-align: center;
+  margin-bottom: 3rem;
+    /* [CHANGED] 2) 카드와의 간격 줄이기 (모바일) */
+  margin-bottom: 1.5rem; /* [CHANGED] */
+}
+
+@media (min-width: 1024px) {
+  .title-section {
+    /* [CHANGED] 데스크톱 간격도 과도하므로 축소 */
+    margin-bottom: 48px; /* [CHANGED] 120px → 48px */
+  }
+}
+
+.main-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #343C6A;
+  line-height: 42px;
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 1024px) {
+  .main-title {
+    font-size: 28px;
+  }
+}
+
+.subtitle {
+  color: #718ebf;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  padding: 0 1rem;
+    /* [CHANGED] 1) 항상 한 줄로 보이도록 */
+  white-space: nowrap;       /* [CHANGED] 줄바꿈 방지 */
+  overflow: hidden;          /* [CHANGED] 영역 초과 시 숨김 */
+}
+
+@media (min-width: 1024px) {
+  .subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* Scanner Card */
+.scanner-card {
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .scanner-card {
+    padding: 3rem;
+    margin-bottom: 4rem;
+  }
+}
+
+.scanner-content {
+  text-align: center;
+}
+
+/* Camera Icon */
+.camera-icon-container {
+  width: 6rem;
+  height: 6rem;
+  background-color: #f7f8fc;
+  border-radius: 20px;
+  margin: 0 auto 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .camera-icon-container {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+.camera-icon {
+  width: 3rem;
+  height: 3rem;
+}
+
+@media (min-width: 1024px) {
+  .camera-icon {
+    width: 3.75rem;
+    height: 3.75rem;
+  }
+}
+
+/* Scanner Text Content */
+.scanner-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #343C6A;
+  margin-bottom: 0.75rem;
+  line-height: 27px;
+}
+
+@media (min-width: 1024px) {
+  .scanner-title {
+    font-size: 1.125rem;
+    margin-bottom: 1.25rem;
+  }
+}
+
+.scanner-description {
+  font-size: 0.75rem;
+  color: #718ebf;
+  line-height: 21px;
+  padding: 0 0.5rem;
+}
+
+@media (min-width: 1024px) {
+  .scanner-description {
+    font-size: 0.875rem;
+  }
+}
+
+/* [CHANGED] 3) 설명 문구를 두 줄로 강제 */
+.scanner-description .desc-line1,
+.scanner-description .desc-line2 {
+  display: block; /* [CHANGED] 각 줄을 블록으로 → 줄바꿈 보장 */
+}
+
+.scanner-description .desc-line1 {
+  margin-bottom: 0.3rem; /* [추가] 첫 줄과 두 번째 줄 사이 간격 */
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Start Camera Button */
+.start-camera-btn {
+  width: 100%;
+  height: 60px;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 15px;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.start-camera-btn:hover {
+  background-color: #1814f3;
+}
+
+/* Reservation List Button */
+.reservation-list-btn {
+  width: 100%;
+  height: 60px;
+  background-color: #ffbb38;
+  color: #374151;
+  border-radius: 15px;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.reservation-list-btn:hover {
+  background-color: #dda809;
+}

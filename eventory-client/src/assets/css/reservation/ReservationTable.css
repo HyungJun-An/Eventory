@@ -1,0 +1,258 @@
+/* Container Styles */
+.reservation-table-container {
+  width: 100%;
+  max-width: 1110px;
+  background-color: white;
+  border-radius: 25px;
+  padding: 16px;
+}
+
+@media (min-width: 1024px) {
+  .reservation-table-container {
+    padding: 30px;
+  }
+}
+
+/* Table Header Styles */
+.table-header {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .table-header {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #E6EFF5;
+  }
+}
+
+.header-cell {
+  color: #718EBF;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Table Body Styles */
+.table-body {
+  margin-top: 0;
+}
+
+/* Desktop Row Styles */
+.desktop-row {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .desktop-row {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 16px;
+    padding: 16px 0;
+    align-items: center;
+  }
+}
+
+.table-cell {
+  color: #232323;
+  font-size: 17px;
+}
+
+/* Ticket Type Styles */
+.ticket-type.ticket-free {
+  color: #FFC107;
+  font-weight: 600;
+  white-space: nowrap; /* 줄바꿈 방지 */
+}
+
+/* Status Styles */
+.status-cell {
+  font-weight: 500;
+}
+
+.status-completed {
+  color: #007BFF;
+}
+
+.status-pending {
+  color: #FE5C73;
+}
+
+/* Button Base Styles */
+.btn {
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-sm {
+  height: 37px;
+  padding: 0 16px;
+  font-size: 16px;
+}
+
+.btn-default {
+  background-color: #007BFF;
+  color: white;
+}
+
+.btn-default:hover {
+  background-color: #0056b3;
+}
+
+.btn-secondary {
+  background-color: #D9D9D9;
+  color: white;
+  border: 0;
+}
+
+.btn-outline {
+  background-color: white;
+  color: #232323;
+  border: 1px solid #232323;
+}
+
+.btn-outline:hover {
+  background-color: #f8f9fa;
+}
+
+/* Action Button Styles */
+.action-btn {
+  width: 100%;
+  max-width: 120px;
+}
+
+.btn-disabled {
+  background-color: #D9D9D9;
+  color: white;
+  border: 0;
+  cursor: not-allowed;
+}
+
+.btn-checkin {
+  background-color: white;
+  color: #232323;
+  border: 1px solid #232323;
+}
+
+.btn-checkin:hover {
+  background-color: #f8f9fa;
+}
+
+.btn-cancel {
+  background-color: white;
+  color: #232323;
+  border: 1px solid #232323;
+}
+
+.btn-cancel:hover {
+  background-color: #f8f9fa;
+}
+
+/* Mobile Card Styles */
+.mobile-card {
+  display: block;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+@media (min-width: 1024px) {
+  .mobile-card {
+    display: none;
+  }
+}
+
+.mobile-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobile-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-label {
+  color: #718EBF;
+  font-size: 14px;
+}
+
+.mobile-value {
+  color: #232323;
+}
+
+.mobile-name {
+  font-weight: 500;
+}
+
+.mobile-status {
+  font-weight: 500;
+}
+
+.mobile-actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.mobile-btn {
+  flex: 1;
+  border-radius: 9999px;
+  height: 37px;
+}
+
+.mobile-btn-checkin {
+  background-color: #D9D9D9;
+  color: white;
+}
+
+.mobile-btn-cancel {
+  background-color: white;
+  color: #232323;
+  border: 1px solid #232323;
+}
+
+.mobile-btn-cancel:hover {
+  background-color: #f8f9fa;
+}
+
+/* Row Divider */
+.row-divider {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .row-divider {
+    display: block;
+    border-bottom: 1px solid #F2F4F7;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .reservation-table-container {
+    padding: 12px;
+  }
+  
+  .mobile-card {
+    margin-bottom: 12px;
+  }
+  
+  .mobile-row {
+    font-size: 14px;
+  }
+  
+  .mobile-label {
+    font-size: 13px;
+  }
+}
