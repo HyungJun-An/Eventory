@@ -74,7 +74,7 @@ const Header = ({ expoId, setExpoId }) => {
       <div className="overlap">
         <div className="group-2">
           <div className="div-wrapper">
-            <div className="text-wrapper-7">대시보드</div>
+            <div className="text-wrapper-7"></div>
           </div>
 
           <div className="logo">
