@@ -18,9 +18,9 @@ const mockReservations = [
     phone: "010-2345-6789",
     reservationNumber: "R2025080002",
     ticketType: "유료",
-    reservationDate: "2025-08-02",
+    reservationDate: "2025-08-01",
     entryStatus: "입장완료",
-    checkinTime: "2025-08-08 15:15",
+    checkinTime: "2025-08-17 15:15",
   },
   {
     id: "3",
@@ -30,7 +30,7 @@ const mockReservations = [
     ticketType: "무료",
     reservationDate: "2025-08-03",
     entryStatus: "입장완료",
-    checkinTime: "2025-08-08 16:20",
+    checkinTime: "2025-08-18 16:20",
   },
   {
     id: "4",
@@ -40,7 +40,7 @@ const mockReservations = [
     ticketType: "유료",
     reservationDate: "2025-08-04",
     entryStatus: "입장완료",
-    checkinTime: "2025-08-08 13:45",
+    checkinTime: "2025-08-18 13:45",
   },
   {
     id: "5",
@@ -50,7 +50,7 @@ const mockReservations = [
     ticketType: "유료",
     reservationDate: "2025-08-05",
     entryStatus: "입장완료",
-    checkinTime: "2025-08-08 17:10",
+    checkinTime: "2025-08-16 17:10",
   },
   {
     id: "6",
@@ -58,7 +58,7 @@ const mockReservations = [
     phone: "010-6789-0123",
     reservationNumber: "R2025080006",
     ticketType: "유료",
-    reservationDate: "2025-08-06",
+    reservationDate: "2025-08-05",
     entryStatus: "미입장",
     checkinTime: "-",
   },
@@ -68,9 +68,9 @@ const mockReservations = [
     phone: "010-7890-1234",
     reservationNumber: "R2025080007",
     ticketType: "무료",
-    reservationDate: "2025-08-07",
+    reservationDate: "2025-08-05",
     entryStatus: "입장완료",
-    checkinTime: "2025-08-08 18:25",
+    checkinTime: "2025-08-18 11:25",
   },
   {
     id: "8",
@@ -78,9 +78,9 @@ const mockReservations = [
     phone: "010-8901-2345",
     reservationNumber: "R2025080008",
     ticketType: "유료",
-    reservationDate: "2025-08-08",
+    reservationDate: "2025-08-06",
     entryStatus: "입장완료",
-    checkinTime: "2025-08-08 11:50",
+    checkinTime: "2025-08-18 11:50",
   },
   {
     id: "9",
@@ -88,7 +88,7 @@ const mockReservations = [
     phone: "010-9012-3456",
     reservationNumber: "R2025080009",
     ticketType: "유료",
-    reservationDate: "2025-08-09",
+    reservationDate: "2025-08-08",
     entryStatus: "미입장",
     checkinTime: "-",
   },
@@ -98,7 +98,7 @@ const mockReservations = [
     phone: "010-0123-4567",
     reservationNumber: "R2025080010",
     ticketType: "유료",
-    reservationDate: "2025-08-10",
+    reservationDate: "2025-08-08",
     entryStatus: "미입장",
     checkinTime: "-",
   },
@@ -108,9 +108,9 @@ const mockReservations = [
     phone: "010-1122-3344",
     reservationNumber: "R2025080011",
     ticketType: "유료",
-    reservationDate: "2025-08-11",
+    reservationDate: "2025-08-09",
     entryStatus: "입장완료",
-    checkinTime: "2025-08-08 20:05",
+    checkinTime: "2025-08-16 12:05",
   },
   {
     id: "12",
@@ -118,9 +118,9 @@ const mockReservations = [
     phone: "010-2233-4455",
     reservationNumber: "R2025080012",
     ticketType: "유료",
-    reservationDate: "2025-08-12",
+    reservationDate: "2025-08-09",
     entryStatus: "입장완료",
-    checkinTime: "2025-08-08 09:30",
+    checkinTime: "2025-08-16 09:30",
   },
   {
     id: "13",
@@ -128,9 +128,9 @@ const mockReservations = [
     phone: "010-3344-5566",
     reservationNumber: "R2025080013",
     ticketType: "유료",
-    reservationDate: "2025-08-13",
+    reservationDate: "2025-08-09",
     entryStatus: "입장완료",
-    checkinTime: "2025-08-08 21:20",
+    checkinTime: "2025-08-18 15:20",
   },
   {
     id: "14",
@@ -138,7 +138,7 @@ const mockReservations = [
     phone: "010-4455-6677",
     reservationNumber: "R2025080014",
     ticketType: "유료",
-    reservationDate: "2025-08-14",
+    reservationDate: "2025-08-10",
     entryStatus: "미입장",
     checkinTime: "-",
   },
@@ -148,9 +148,9 @@ const mockReservations = [
     phone: "010-5566-7788",
     reservationNumber: "R2025080015",
     ticketType: "유료",
-    reservationDate: "2025-08-15",
+    reservationDate: "2025-08-11",
     entryStatus: "입장완료",
-    checkinTime: "2025-08-08 22:10",
+    checkinTime: "2025-08-17 16:10",
   },
   {
     id: "16",
@@ -158,9 +158,9 @@ const mockReservations = [
     phone: "010-6677-8899",
     reservationNumber: "R2025080016",
     ticketType: "유료",
-    reservationDate: "2025-08-16",
+    reservationDate: "2025-08-11",
     entryStatus: "입장완료",
-    checkinTime: "2025-08-08 07:15",
+    checkinTime: "2025-08-18 10:15",
   },
   {
     id: "17",
@@ -168,7 +168,7 @@ const mockReservations = [
     phone: "010-7788-9900",
     reservationNumber: "R2025080017",
     ticketType: "무료",
-    reservationDate: "2025-08-17",
+    reservationDate: "2025-08-12",
     entryStatus: "미입장",
     checkinTime: "-",
   },
@@ -178,7 +178,7 @@ const mockReservations = [
     phone: "010-8899-0011",
     reservationNumber: "R2025080018",
     ticketType: "유료",
-    reservationDate: "2025-08-18",
+    reservationDate: "2025-08-13",
     entryStatus: "미입장",
     checkinTime: "-",
   },
@@ -188,9 +188,9 @@ const mockReservations = [
     phone: "010-9900-1122",
     reservationNumber: "R2025080019",
     ticketType: "유료",
-    reservationDate: "2025-08-19",
+    reservationDate: "2025-08-13",
     entryStatus: "입장완료",
-    checkinTime: "2025-08-09 00:25",
+    checkinTime: "2025-08-18 09:25",
   },
   {
     id: "20",
@@ -198,9 +198,9 @@ const mockReservations = [
     phone: "010-0011-2233",
     reservationNumber: "R2025080020",
     ticketType: "유료",
-    reservationDate: "2025-08-20",
+    reservationDate: "2025-08-15",
     entryStatus: "입장완료",
-    checkinTime: "2025-08-09 01:10",
+    checkinTime: "2025-08-17 13:10",
   },
 ];
 
@@ -212,7 +212,15 @@ const Button = ({ variant = 'default', size = 'default', className = '', childre
   );
 };
 
-function ReservationTable() {
+// [CHANGED] activeFilter를 받아서 필터링 적용
+function ReservationTable({ activeFilter = 'all' }) { // [CHANGED]
+  // [ADDED] 탭 → 한국어 상태 매핑 및 필터링 로직
+  const filteredReservations = mockReservations.filter((r) => { // [ADDED]
+    if (activeFilter === 'entered') return r.entryStatus === '입장완료';
+    if (activeFilter === 'not-entered') return r.entryStatus === '미입장';
+    return true; // 'all'
+  });
+
   return (
     <div className="reservation-table-container">
       {/* Table Header */}
@@ -230,7 +238,8 @@ function ReservationTable() {
 
       {/* Table Rows */}
       <div className="table-body">
-        {mockReservations.map((reservation, index) => (
+        {/* [CHANGED] mockReservations → filteredReservations 로 대체 */}
+        {filteredReservations.map((reservation, index) => ( // [CHANGED]
           <div key={reservation.id}>
             {/* Desktop Layout */}
             <div className="table-row desktop-row">
@@ -297,7 +306,8 @@ function ReservationTable() {
               </div>
             </div>
 
-            {index < mockReservations.length - 1 && <div className="row-divider"></div>}
+            {/* [CHANGED] 구분선 조건도 filtered 기준으로 계산 */}
+            {index < filteredReservations.length - 1 && <div className="row-divider"></div>} {/* [CHANGED] */}
           </div>
         ))}
       </div>

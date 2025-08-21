@@ -23,8 +23,7 @@ const DashboardPage = ({ expoId: expoIdProp }) => {
           <main className="main-content">
             <div className="content-padding">
               <p style={{ padding: "16px" }}>
-                유효한 박람회 ID가 없습니다. 경로 예:{" "}
-                <code>/admin/expos/1/dashboard</code>
+                박람회를 선택해주세요.
               </p>
             </div>
           </main>
