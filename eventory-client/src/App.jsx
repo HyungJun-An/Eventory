@@ -15,6 +15,7 @@ import RegisterCompany from "./user/RegisterCompany";
 import RegisterCustomer from "./user/RegisterCustomer";
 import ExpoManagerManagement from "./systemAdmin/ExpoManagerManagement";
 import SysDashboard from "./systemAdmin/SysDashboard";
+import AdminSidebar from "./systemAdmin/AdminSidebar";
 
 function App() {
   return (
@@ -73,6 +74,7 @@ function App() {
           path="/sys/dashboard"
           element={<AdminLayout>{<SysDashboard />}</AdminLayout>}
         />
+        <Route path="/sys/sidebar" element={<AdminSidebar></AdminSidebar>} />
       </Routes>
     </BrowserRouter>
   );

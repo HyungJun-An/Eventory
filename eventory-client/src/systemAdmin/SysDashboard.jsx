@@ -19,197 +19,62 @@ import {
   Bar,
 } from "recharts";
 
-const data = [
-  {
-    date: "2024-12-20",
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    date: "2024-12-21",
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    date: "2024-12-22",
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    date: "2024-12-23",
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    date: "2025-01-01",
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    date: "2025-01-02",
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    // the data of the first day of each month must exist
-    date: "2025-03-01",
-    name: "Page D",
-    // uv: 2000,
-  },
-  {
-    date: "2025-03-02",
-    name: "Page E",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-];
-
-function RevenueChart() {
-  return (
-    <LineChart
-      width={1200}
-      height={300}
-      data={data}
-      margin={{
-        top: 20,
-        right: 30,
-        left: 20,
-        bottom: 5,
-      }}
-    >
-      <XAxis
-        dataKey={"date"}
-        axisLine={false}
-        tickLine={false}
-        tick={{ fontSize: 11 }}
-        tickFormatter={(dateString) => {
-          const date = new Date(dateString);
-          const day = date.getDate();
-          console.log(day);
-
-          if (day === 1) {
-            return `${date.getFullYear()} ${date.getMonth() + 1}`;
-          }
-          return "";
-        }}
-      />
-      <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 11 }} />
-      <CartesianGrid strokeDasharray="3 3" vertical={false} />
-
-      <Line
-        stroke="#007BFF"
-        connectNulls
-        dataKey="uv"
-        strokeWidth={3}
-        type="monotone"
-        dot={false}
-      />
-    </LineChart>
-  );
-}
-
-function ReserveChart() {
-  return (
-    <BarChart
-      width={600}
-      height={300}
-      data={data}
-      margin={{
-        top: 20,
-        right: 30,
-        left: 20,
-        bottom: 5,
-      }}
-    >
-      <XAxis
-        dataKey={"date"}
-        axisLine={false}
-        tickLine={false}
-        tick={{ fontSize: 11 }}
-        tickFormatter={(dateString) => {
-          const date = new Date(dateString);
-          const day = date.getDate();
-          console.log(day);
-
-          if (day === 1) {
-            return `${date.getFullYear()} ${date.getMonth() + 1}`;
-          }
-          return "";
-        }}
-      />
-      <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 11 }} />
-      <CartesianGrid strokeDasharray="3 3" vertical={false} />
-      <Bar
-        // connectNulls
-        fill="#007BFF"
-        dataKey="uv"
-        strokeWidth={3}
-        type="monotone"
-        dot={false}
-      />
-    </BarChart>
-  );
-}
-
 export const SysDashboard = ({ onClose, id, manager }) => {
   const [chartData, setChartData] = useState([
     {
+      date: "2024-12-20",
       name: "Page A",
       uv: 4000,
       pv: 2400,
       amt: 2400,
     },
     {
+      date: "2024-12-21",
+      // name: "Page A",
+      uv: 4000,
+      // pv: 2400,
+      // amt: 2400,
+    },
+    {
+      date: "2024-12-22",
+      name: "Page A",
+      uv: 4000,
+      pv: 2400,
+      amt: 2400,
+    },
+    {
+      date: "2024-12-23",
+      name: "Page A",
+      uv: 4000,
+      pv: 2400,
+      amt: 2400,
+    },
+    {
+      date: "2025-01-01",
+      name: "Page A",
+      // uv: 4000,
+    },
+    {
+      date: "2025-01-02",
       name: "Page B",
       uv: 3000,
       pv: 1398,
       amt: 2210,
     },
     {
-      name: "Page C",
+      // the data of the first day of each month must exist
+      date: "2025-03-01",
+      name: "Page D",
+      // uv: 2000,
+    },
+    {
+      date: "2025-03-02",
+      name: "Page E",
       uv: 2000,
       pv: 9800,
       amt: 2290,
     },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
   ]);
-
   const [chartViewMode, setChartViewMode] = useState("월별");
   const items = [
     {
@@ -226,6 +91,19 @@ export const SysDashboard = ({ onClose, id, manager }) => {
     },
   ];
 
+  async function fetChChartData() {
+    try {
+      // Chart Data API
+      // setChartData();
+    } catch (error) {}
+  }
+
+  useEffect(() => {
+    fetChChartData();
+  }, [chartViewMode]);
+
+  const handleChartModeChange = (e) => {};
+
   const handleMenuClick = (e) => {
     setChartViewMode(e.key);
   };
@@ -233,6 +111,136 @@ export const SysDashboard = ({ onClose, id, manager }) => {
     items,
     onClick: handleMenuClick,
   };
+
+  function RevenueChart() {
+    return (
+      <LineChart
+        width={1200}
+        height={300}
+        data={chartData}
+        margin={{
+          top: 20,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+      >
+        <XAxis
+          dataKey={"date"}
+          axisLine={false}
+          tickLine={false}
+          tick={{ fontSize: 11 }}
+          tickFormatter={(dateString) => {
+            const date = new Date(dateString);
+            const day = date.getDate();
+            console.log(day);
+
+            if (day === 1) {
+              return `${date.getFullYear()} ${date.getMonth() + 1}`;
+            }
+            return "";
+          }}
+        />
+        <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 11 }} />
+        <CartesianGrid strokeDasharray="3 3" vertical={false} />
+
+        <Line
+          stroke="#007BFF"
+          connectNulls
+          dataKey="uv"
+          strokeWidth={3}
+          type="monotone"
+          dot={false}
+        />
+      </LineChart>
+    );
+  }
+
+  function ReserveChart() {
+    return (
+      <BarChart
+        width={600}
+        height={300}
+        data={chartData}
+        margin={{
+          top: 20,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+      >
+        <XAxis
+          dataKey={"date"}
+          axisLine={false}
+          tickLine={false}
+          tick={{ fontSize: 11 }}
+          tickFormatter={(dateString) => {
+            const date = new Date(dateString);
+            const day = date.getDate();
+            console.log(day);
+
+            if (day === 1) {
+              return `${date.getFullYear()} ${date.getMonth() + 1}`;
+            }
+            return "";
+          }}
+        />
+        <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 11 }} />
+        <CartesianGrid strokeDasharray="3 3" vertical={false} />
+        <Bar
+          // connectNulls
+          fill="#007BFF"
+          dataKey="uv"
+          strokeWidth={3}
+          type="monotone"
+          dot={false}
+        />
+      </BarChart>
+    );
+  }
+
+  function VisitorChart() {
+    return (
+      <BarChart
+        width={600}
+        height={300}
+        data={chartData}
+        margin={{
+          top: 20,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+      >
+        <XAxis
+          dataKey={"date"}
+          axisLine={false}
+          tickLine={false}
+          tick={{ fontSize: 11 }}
+          tickFormatter={(dateString) => {
+            const date = new Date(dateString);
+            const day = date.getDate();
+            console.log(day);
+
+            if (day === 1) {
+              return `${date.getFullYear()} ${date.getMonth() + 1}`;
+            }
+            return "";
+          }}
+        />
+        <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 11 }} />
+        <CartesianGrid strokeDasharray="3 3" vertical={false} />
+        <Bar
+          // connectNulls
+          fill="#007BFF"
+          dataKey="uv"
+          strokeWidth={3}
+          type="monotone"
+          dot={false}
+        />
+      </BarChart>
+    );
+  }
   return (
     <>
       <div className="wrapper">
@@ -259,7 +267,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
               </div>
             </div>
             <div className="card">
-              <img src={"../../public/totalAmount.png"} />
+              <img src={"../../public/reservationCount.png"} />
               <div>
                 <div style={{ fontSize: "1.2rem", color: "#718EBF" }}>
                   누적 예약 수
@@ -270,7 +278,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
               </div>
             </div>
             <div className="card">
-              <img src={"../../public/totalAmount.png"} />
+              <img src={"../../public/visitorCount.png"} />
               <div>
                 <div style={{ fontSize: "1.2rem", color: "#718EBF" }}>
                   전체 방문자 수
@@ -281,7 +289,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
               </div>
             </div>
             <div className="card">
-              <img src={"../../public/totalAmount.png"} />
+              <img src={"../../public/newUserCount.png"} />
               <div>
                 <div style={{ fontSize: "1.2rem", color: "#718EBF" }}>
                   신규 가입자 수
@@ -357,7 +365,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
               display: "flex",
               flexDirection: "row",
               gap: "1vw",
-              marginTop: "2vh",
+              marginTop: "4vh",
             }}
           >
             <div>
@@ -395,7 +403,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
                   marginTop: "1vh",
                 }}
               >
-                <ReserveChart></ReserveChart>
+                <VisitorChart></VisitorChart>
               </div>
             </div>
           </div>
