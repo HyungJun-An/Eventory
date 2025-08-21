@@ -6,6 +6,15 @@
   margin-right: 6vw;
   margin-top: 13vh;
 }
+
+.wrapper1 {
+  background-color: #f5f7fa;
+  width: 100vw;
+  height: 100vh;
+  /* margin-left: 15vw; */
+  margin-right: 6vw;
+  margin-top: 13vh;
+}
 .statusButtonGroup {
   background-color: white;
 }

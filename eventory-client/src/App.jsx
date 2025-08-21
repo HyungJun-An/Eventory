@@ -64,7 +64,8 @@ function App() {
         </Route>
         <Route
           path="/sys/expos"
-          element={<AdminLayout>{<SysExpoList />}</AdminLayout>}
+          // element={<AdminLayout>{<SysExpoList />}</AdminLayout>}
+          element={<SysExpoList></SysExpoList>}
         />
         <Route
           path="/sys/manage"
