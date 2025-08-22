@@ -8,10 +8,10 @@
 ## 🌟 프로젝트 소개
 
 ### ✅ 제작 목표
-웹서비스 기반(웹,모바일)  다수의 박람회/행사를 **통합적**으로 관리·홍보·예약·결제·입장검수까지  
-한 번에 처리할 수 있는 SaaS형 예약 관리 플랫폼을 구축
-
-행사 운영자의 **업무 효율성 향상**, 참가자 **예약 경험 개선**, **유료 VIP 배너 광고 수익 창출**, **정산 및 통계 자동화**
+- 웹서비스 기반(웹,모바일)  다수의 박람회/행사를 **통합적**으로 관리·홍보·예약·결제·입장검수까지 한번에 처리할 수 있는 SaaS형 예약 관리 플랫폼을 구축
+- 예약 데이터 누락과 중복 문제를 해결하고 QR기반 입장 전자티켓 시스템으로 **현장 입장 효율 극대화**
+- VIP 배너 광고 및 결제 연동 기능을 통해 추가 수익 모델 제공
+- 관리자별 권한 위임과 **자동화된 통계**, **정산 기능**으로 운영 효율성 향상
 
 ---
 
@@ -44,11 +44,23 @@
     - 로그/보안 (접속 로그)
 
 - **기술 스택**
-    - Spring Boot + Spring Security
-    - Layered Architecture (Controller/Service/Repository/DTO/Entity)
-    - MySQL 기반 DB
-    - GitHub 기반 협업
-
+    - 백앤드
+    	- Spring Boot, Spring Security(JWT)
+    	- Vaildation
+    	- JPA(JPA Repository)
+    	- Lombok
+    - 프론트(반응형 웹)
+    	- React: SPA 구성
+    	- React Router
+    	- Axios
+    - DevOps
+    	- 배포: Jenkins
+    	- 서버: Nginx, CentOS9
+    	- Monitoring: Grafana
+    - Etc
+    	- IntelliJ
+    	- VSCode
+    	- Jira
 ---
 
 ## 💡 아이디어 착안
@@ -72,15 +84,14 @@
 ---
 ## 🗣️ 프로젝트 발표 영상 & 발표 문서
 
-> ### 🗓️ 2025.00-.00 - 2025.00.00
-> ### [📺 발표 영상 링크]()
-> ### [📑 발표 PPT 링크]()
+> ### 🗓️ 2025.07.22 - 2025.08.22
+> ### [📑 발표 PPT 링크](https://www.canva.com/design/DAGwnXnEw_0/so20uik4ndPi_55Dts-m0w/edit)
 
 ---
 
 ## 🖥️ 서비스 소개
-|                                                                                                             메인 화면 1                                                                                                            |                                                                                                             메인 화면 2                                                                                                            |                                                                                                           소셜 로그인 1                                                                                                          |                                                                                                            마이페이지 1                                                                                                           |
-| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|회원가입/로그인/로그아웃|박람회 관리자|시스템 관리자 |회계 관리자|
+|:-:|:-:|:-:|:-:|
 | <img src="https://lh6.googleusercontent.com/M7RxaY_ZsF5sQcqiIOafdBGHuVGqKrQ0c07hzOtLgkhxYTK-aRKWdhkMfi8DaoZxyDWLZKhdUEDKBIEpETcm2_sH5JdW69mrOXzASMQYHFEiaP0QbgCEHa5bnKzITG-v9ztn0QfbCeZtznJ8q-SDo2qoEA=s2048" alt="MainPage1"> | <img src="https://lh6.googleusercontent.com/WSSZM-N1tpBvXui0ivLMaSJv5u-Jn8oUNXik40GOW7thMqmNdMPrjfO4-halmEZ80GuBBlI5ENm8TtDovjSOMRqHE6Z5w7F5yYxdplO643k3wfhyW4wT0IUT15Rv6kk_FAnST07-50NOOeXHjRfjh6dEBA=s2048" alt="MainPage2"> | <img src="https://lh6.googleusercontent.com/LgLnyK4xbij_SmBQd_9b-zKL7NjFBceXLFr97o-S9z4JMw7bZaO4E9W5SbwJn_xOAVu4xCk9Se0eqShfP8YkzkaL-QilqVa6LRaQEQ5h4PHLZOgmT8ZByBV-eEIZEr9D3I1mB6qu5nhIehup3910FytnrQ=s2048" alt="Login1"> | <img src="https://lh5.googleusercontent.com/KRfPZ8P2TzvLBeHAcApzzHDn6xbkCYp8Z9sDmWSifQNwQwfC7HAjczd-KHVs5dGbKhi2AO5O3A8wd8mewcze3TKb_yM9y5-PHQVE7axz5HVdWsI1alg2-qatjn7G2c0Y6Fx786KMjoiIULFLpCoQx6HWJA=s2048" alt="MyPage1"> |
 
 
@@ -105,9 +116,7 @@
   <br>
 
   <img src="https://img.shields.io/badge/axios-6935D3?style=for-the-badge&logo=axios&logoColor=white">
-  <img src="https://img.shields.io/badge/styled Components-E9568E?style=for-the-badge&logo=styledComponents&logoColor=white">
-  <img src="https://img.shields.io/badge/redux toolkit-66459B?style=for-the-badge&logo=redux&logoColor=white">
-  <img src="https://img.shields.io/badge/npm-ED1C24?style=for-the-badge&logo=npm&logoColor=white">
+
 
   <br>
 </div>
@@ -120,7 +129,6 @@
   <br>
 
   <img src="https://img.shields.io/badge/spring Boot-6DB33F?style=for-the-badge&logo=springBoot&logoColor=white">
-  <img src="https://img.shields.io/badge/fly way-ED1C24?style=for-the-badge&logo=flyway&logoColor=white">
   <img src="https://img.shields.io/badge/linux-FCC624?style=for-the-badge&logo=linux&logoColor=black"> 
   <img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
   <br>
@@ -136,18 +144,15 @@
 
 ## :busts_in_silhouette: 팀 동료
 
-### FE
 
-| <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@GithubID</b></sub></a><br/> | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@GithubID</b></sub></a><br/> | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@GithubID</b></sub></a><br/> | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/111436967?v=4" width=100px/><br/><sub><b>@GithubID</b></sub></a><br/> |
-|:----------------------------------:|:----------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------:|
-|                홍길동                 |    김00     |                                                                            강00                                                                            |    송00     |
+| <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@hyojin0911</b></sub></a><br/> | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@ehayng1</b></sub></a><br/> | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@HyungJun-An</b></sub></a><br/> |
+|:-:|:-:|:-:|
+|전효진|      정현해   |  안형준  |
 
-
-### BE
 
 | <a href=https://github.com/ddolly518/><img src="https://avatars.githubusercontent.com/u/80440158?v=4" width=100px/><br/><sub><b>@ddolly518</b></sub></a><br/> | <a href=https://github.com/dokdokee><img src="https://avatars.githubusercontent.com/u/203818385?v=4" width=100px/><br/><sub><b>@dokdokee</b></sub></a><br/> | <a href=https://github.com/yujineeo/><img src="https://avatars.githubusercontent.com/u/200905114?v=4" width=100px/><br/><sub><b>@yujineeo</b></sub></a><br/> | <a href=https://github.com/Seungmi97/><img src="https://avatars.githubusercontent.com/u/132995507?v=4" width=100px/><br/><sub><b>@Seungmi97</b></sub></a><br/> |
-|:----------------------------------:|:----------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------:|
-|                강민서                 |    신드보라     |                                                                            김유진                                                                            |    황승미     |
+|:-:|:--:|:-:|:-:|
+|강민서|신드보라|김유진|황승미|
 
 
 ## 📑 프로젝트 규칙
@@ -211,9 +216,6 @@
 
 
 > FE
-> - styled-Component 변수명 S + 변수명 (ex. Swrap)
-> - styled-Component는 return문 위에 작성
-> - 크게는 styled-Component, 그 안에서 className 사용
 > - Event handler 사용 (ex. handle ~)
 > - export방식 (ex. export default ~)
 > - 화살표 함수 사용
@@ -224,12 +226,10 @@
 
 
 ## :clipboard: Documents
-> [📜 API 명세서 예시](https://docs.google.com/spreadsheets/d/1utipxj0PCM7cDAgiXP1EOu6pdmhNR-IkrVWJD_GMxtg/edit?usp=sharing)
+> [📜 API 명세서](https://drive.google.com/file/d/1VH5oC8MFKSEarmj2d_eHJL5Icms8dmsS/view?usp=drive_link)
 >
-> [📜 요구사항 정의서 예시](https://docs.google.com/spreadsheets/d/1utipxj0PCM7cDAgiXP1EOu6pdmhNR-IkrVWJD_GMxtg/edit?gid=611143583#gid=611143583)
+> [📜 요구사항 정의서](https://drive.google.com/file/d/18s4sGzEGSrEV-ZW630Z5Q3S5_eNCvL2r/view?usp=drive_link)
 >
-> [📜 ERD 예시](https://www.erdcloud.com/)
+> [📜 ERD](https://www.erdcloud.com/d/3gSWctyeNQzkj2T34)
 >
-> [📜 테이블 명세서 예시](https://docs.google.com/spreadsheets/d/1utipxj0PCM7cDAgiXP1EOu6pdmhNR-IkrVWJD_GMxtg/edit?gid=95563668#gid=95563668)
->
-> [📜 화면 정의서 예시]([https://docs.google.com/spreadsheets/d/1vud5xV8rB9Y6akOIma49hSzdZsoj8DVG0-fYE4NdP_g/edit?usp=sharing](https://docs.google.com/spreadsheets/d/1utipxj0PCM7cDAgiXP1EOu6pdmhNR-IkrVWJD_GMxtg/edit?gid=400714320#gid=400714320)
+> [📜 테이블 명세서](https://docs.google.com/document/d/1UG5nslO348ICNDzciaVzA64GYAqA9z5-/edit?usp=drive_link&ouid=103327323946421895739&rtpof=true&sd=true)
