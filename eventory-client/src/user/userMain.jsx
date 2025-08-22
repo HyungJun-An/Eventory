@@ -1,5 +1,6 @@
 // src/user/userMain.jsx
 import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api/axiosInstance";
 import BannerCarousel from "./sections/BannerCarousel";
 import ExpoCardList from "../components/ExpoCardList";
@@ -9,6 +10,8 @@ import banner1 from '../assets/demo/busanExpo.jpg';
 import banner2 from '../assets/demo/start_up.png';
 import banner3 from '../assets/demo/game.jpg';
 
+import {DEFAULT_EXPO_IMAGE, SUWON_CAMP_POSTER,SUWON_CAMP_POSTER_ID, SUWON_CAMP_TITLE,SUWON_CAMP_LOCATION} from "../constants/images";
+
 import HeroSection from "./sections/HeroSection";
 import Footer from "./sections/Footer";
 
@@ -16,9 +19,22 @@ export const UserMainPage = () => {
   const [expos, setExpos] = useState([]);
   const [loading, setLoading] = useState(true);
   // const base = import.meta.env.BASE_URL;
+  const nav = useNavigate();
 
   // Banner images (public/demo/*)
   const bannerImages = [banner1, banner2, banner3];
+
+  // 수원 Expo
+const isSuwonCampExpo = (raw) => {
+  const id = raw.id ?? raw.expoId ?? raw.expo_id;
+  if (SUWON_CAMP_POSTER_ID && String(id) === String(SUWON_CAMP_POSTER_ID)) return true;
+
+  // 제목으로도 보수적으로 매칭 (공백/대소문자 무시 + 한/영 혼용)
+  const key = (raw.title ?? raw.expoName ?? "").replace(/\s+/g, "").toLowerCase();
+  return key.includes("수원") && (key.includes("gocaf") || key.includes("고카프") || key.includes("캠핑"));
+};
+
+
 
 useEffect(() => {
   let mounted = true;
@@ -37,21 +53,29 @@ useEffect(() => {
       const list = Array.isArray(data) ? data : data?.items || [];
 
       // 2) 키 이름 정규화 (서버/데모/기존 UI 키 전부 흡수)
-      const normalized = list.map(x => ({
-        id: x.id ?? x.expoId,                                    // id 통일
-        title: x.title ?? x.expoName,                             // 제목 통일
-        imageUrl: x.imageUrl ?? x.image_url ?? x.thumbnailUrl,    // 이미지 통일
-        startDate: x.startDate ?? x.start_date,                   // 시작일 통일
-        endDate: x.endDate ?? x.end_date,                         // 종료일 통일
-        location: x.location,
-        categories: x.categories ?? x.categoryNames ?? [],
-      }));
+ const normalized = list.map(x => {
+   const id       = x.id ?? x.expoId ?? x.expo_id;
+   const titleRaw = x.title ?? x.expoName ?? "";
+   const isSuwon  = isSuwonCampExpo({ ...x, id, title: titleRaw });
+
+   return {
+     id,
+     //  수원 25gocaf면 제목/장소/이미지 오버라이드
+     title:    isSuwon ? SUWON_CAMP_TITLE    : titleRaw,
+     location: isSuwon ? SUWON_CAMP_LOCATION : (x.location ?? ""),
+     imageUrl: (isSuwon ? SUWON_CAMP_POSTER : null)
+               ?? x.imageUrl ?? x.image_url ?? x.thumbnailUrl ?? DEFAULT_EXPO_IMAGE,
+     startDate: x.startDate ?? x.start_date,
+     endDate:   x.endDate   ?? x.end_date,
+     categories: x.categories ?? x.categoryNames ?? [],
+   };
+ });
 
       // 3) 빈 배열이면 데모로 대체
       setExpos(normalized.length > 0 ? normalized : demo.map(d => ({
         id: d.id,
         title: d.title,
-        imageUrl: d.image_url,
+        imageUrl: d.image_url ?? DEFAULT_EXPO_IMAGE,
         startDate: d.start_date,
         endDate: d.end_date,
         location: d.location,
@@ -181,7 +205,10 @@ useEffect(() => {
           <ExpoCardList
             title="Time is Running Out!"
             items={currentExpos}
-            onItemClick={(expo) => console.log("click expo", expo)}
+            onItemClick={(expo) => {
+       const id = expo?.id ?? expo?.expoId;
+       if (id) nav(`/expos/${id}`);
+     }}
           />
         </div>
 
@@ -266,7 +293,10 @@ useEffect(() => {
   <ExpoCardList
     title="Upcoming Expos"
     items={upcomingExpos}
-    onItemClick={(expo) => console.log("click expo", expo)}
+    onItemClick={(expo) => {
+       const id = expo?.id ?? expo?.expoId;
+       if (id) nav(`/expos/${id}`);
+     }}
   />
 ) : (
   <div className="expo-empty">No upcoming expos right now.</div>
