@@ -19,7 +19,7 @@ import {
   Bar,
 } from "recharts";
 import { getChart, getStats } from "../api/sysDashboardApi";
-import AdminSidebar from "./adminSidebar";
+import AdminSidebar from "./AdminSidebar";
 
 export const SysDashboard = ({ onClose, id, manager }) => {
   const [paymentData, setPaymentData] = useState([
@@ -83,7 +83,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
     totalPaymentAmount: 0,
     totalReservationCount: 0,
     totalCheckInCount: 0,
-    totalNewUser: 0,
+    todayNewUser: 0,
   });
   const [chartViewMode, setChartViewMode] = useState("monthly");
   const items = [
@@ -144,7 +144,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
       <LineChart
         width={1200}
         height={300}
-        data={reservationData}
+        data={paymentData}
         margin={{
           top: 20,
           right: 30,
@@ -324,7 +324,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
                     신규 가입자 수
                   </div>
                   <div style={{ fontSize: "1.5rem", fontWeight: "600" }}>
-                    {stats.totalNewUser}
+                    {stats.todayNewUser}
                   </div>
                 </div>
               </div>
