@@ -120,11 +120,13 @@ export const SysDashboard = ({ onClose, id, manager }) => {
     async function fetchData() {
       try {
         let tempChartData = await getChart(chartViewMode);
+        console.log("data: ", tempChartData);
         setPaymentData(tempChartData.paymentList);
         setReservationData(tempChartData.reservationList);
         setCheckInData(tempChartData.checkInList);
       } catch (error) {}
     }
+    console.log("chart mode change: ", chartViewMode);
     fetchData();
   }, [chartViewMode]);
 
@@ -144,7 +146,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
       <LineChart
         width={1200}
         height={300}
-        data={reservationData}
+        data={paymentData}
         margin={{
           top: 20,
           right: 30,
