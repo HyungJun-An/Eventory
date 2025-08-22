@@ -1,6 +1,11 @@
 server:
   port: 8080
 
+qr:
+  secret: ${QR_HMAC_SECRET:change-me}
+  mail-from: no-reply@eventory.example
+  issuer: Eventory
+
 management:
   endpoints:
     web:
@@ -18,7 +23,16 @@ spring:
   redis:
     host: 124.62.17.42
     port: 6380
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: coachofgi@gmail.com
+    password: ektaggdttjocmund
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+  jackson:
+    time-zone: Asia/Seoul
 
   datasource:
     url: jdbc:mysql://127.0.0.1:3307/Eventory
@@ -40,6 +54,8 @@ logging:
     org.springframework.boot.actuate.endpoint: TRACE
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.mail: DEBUG
+    com.sun.mail: DEBUG
 
 jwt:
   secret: F4y6UozXgQIUW0NmQ2DI71Zbr1FQnFFu
@@ -60,5 +76,5 @@ portone:
   webhook-secret: ${PORTONE_WEBHOOK_SECRET:whsec_+EMFLQUMun7Wu0Vg6XTVpFVG69KNdRgP52uD9lk/f8g=}
   # KG이니시스
   store-id: ${PORTONE_STORE_ID:store-422148d1-ed84-41f1-a064-2d7cb82ca08c}
-  channel-key: ${PORTONE_CHANNEL_KEY:channel-key-0c25fd05-bc9f-4f12-bfc3-f871a6bdef64}
+  channel-key: ${PORTONE_CHANNEL_KEY:channel-key-0c25fd05-bc9f-4f12-bfc3-f871a6bdef64}       # 원인 파악 후 내리자
 

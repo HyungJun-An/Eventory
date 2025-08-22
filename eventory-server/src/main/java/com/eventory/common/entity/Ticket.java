@@ -1,20 +1,19 @@
 package com.eventory.common.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "ticket")
 @Table(name = "ticket")
 @EntityListeners(AuditingEntityListener.class)
+@Builder
 public class Ticket {
 
     @Id
@@ -27,7 +26,7 @@ public class Ticket {
     private QrCode qrCode;
 
     @Column(name = "status", nullable = false)
-    private boolean status;
+    private boolean status; // false=미사용, true=사용(체크인)
 
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)

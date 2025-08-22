@@ -126,8 +126,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 // 6) 클레임에서 식별자/역할 추출
             String role = jwtTokenProvider.getRoleFromToken(token); // 예: ROLE_EXPO_ADMIN
             Long userId = jwtTokenProvider.getUserIdFromToken(token);
-            System.out.println("⭐ Jwt필터 " + role);
-
 
 // 7) 역할별 엔티티 로딩 → CustomUserPrincipal 구성 → SecurityContext에 설정
             UsernamePasswordAuthenticationToken authentication = null;

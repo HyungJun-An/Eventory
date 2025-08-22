@@ -36,9 +36,10 @@ public class SecurityConfig {
                         // 인증 없이 접근 허용
                         .requestMatchers(
                                 "/api/admin/login", "/api/admin/sys/login", "/api/auth/login",
-                                "/api/auth/register", "/api/admin/refresh", "/api/auth/refresh",
+                                "/api/admin/logout", "/api/admin/sys/logout", "/api/auth/logout",
+                                "/api/auth/signup", "/api/admin/refresh", "/api/auth/refresh",
                                 "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**",
-                                "/webjars/**", "/favicon.ico", "/error",
+                                "/webjars/**", "/favicon.ico", "/error", "/api/checkin/**",
                                 "/api/user/expos", "/api/user/expos/**",
                                 "/session/**", "/actuator/**"
                         ).permitAll()
@@ -47,9 +48,6 @@ public class SecurityConfig {
                         // 박람회 신청 엔드포인트 POST는 공개 허용
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/admin/expos").permitAll()
                         .requestMatchers("/api/auth/me").authenticated() // me는 인증만 필요
-                        // 로그아웃은 인증 필요 (화이트리스트/permitAll 금지)
-                        .requestMatchers("/api/admin/sys/logout").authenticated()
-                        .requestMatchers("/api/admin/logout").authenticated()
                         // 관리자 전용 도메인
                         .requestMatchers("/api/sys/expos/**").hasRole("SYSTEM_ADMIN")
 //                        .requestMatchers("/api/admin/expo/**").hasRole("EXPO_ADMIN")

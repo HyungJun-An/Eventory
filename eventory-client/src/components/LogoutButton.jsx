@@ -19,6 +19,7 @@ const LogoutButton = () => {
     const { logoutLocal } = useAuth();
 
     const handleLogout = async () => {
+
         try {
             const target = localStorage.getItem("loginTarget");
             const { at, rt } = tokenKeyMap[target] || tokenKeyMap.USER;
@@ -40,7 +41,8 @@ const LogoutButton = () => {
 
             await api.post(endpoint, { refreshToken: refresh }, {
                 withCredentials: true,
-                headers: { "Content-Type": "application/json" }
+                headers: { "Content-Type": "application/json" },
+                 ...(token ? { Authorization: `Bearer ${token}` } : {}) // 명시적으로 AccessToken 헤더 추가
             });
 
         } catch (err) {
@@ -50,6 +52,9 @@ const LogoutButton = () => {
             }
         } finally {
             logoutLocal();
+            // 로컬 토큰 정리(관리자 키 포함)
+            localStorage.removeItem("adminAccessToken");
+            localStorage.removeItem("adminRefreshToken");
             navigate("/login", { replace: true });
         }
     };
