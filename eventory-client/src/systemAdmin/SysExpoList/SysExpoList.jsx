@@ -8,6 +8,7 @@ import RejectModal from "../RejectModal";
 import SysAdminButton from "../../components/SysAdminButton";
 import Divider from "../../components/Divider";
 import AdminSidebar from "../AdminSidebar";
+import SysHeader from "../SysHeader";
 
 export const SysExpoList = () => {
   const [statusFilter, setStatusFilter] = useState("ALL");
@@ -218,6 +219,7 @@ export const SysExpoList = () => {
 
   return (
     <>
+      <SysHeader></SysHeader>
       {contextHolder}
       <div className="wrapper1">
         <div style={{ display: "flex", flexDirection: "row" }}>

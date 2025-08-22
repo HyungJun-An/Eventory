@@ -20,6 +20,7 @@ import {
 } from "recharts";
 import { getChart, getStats } from "../api/sysDashboardApi";
 import AdminSidebar from "./adminSidebar";
+import SysHeader from "./SysHeader";
 
 export const SysDashboard = ({ onClose, id, manager }) => {
   const [paymentData, setPaymentData] = useState([
@@ -272,6 +273,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
   }
   return (
     <>
+      <SysHeader></SysHeader>
       <div className="wrapper1">
         <div style={{ display: "flex", flexDirection: "row" }}>
           <AdminSidebar></AdminSidebar>

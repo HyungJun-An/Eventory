@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import api from "../api/axiosInstance";
-import WebsiteLogos from "./WebsiteLogos";
+import WebsiteLogos from "../components/WebsiteLogos";
 import "../assets/css/Header.css";
-import LogoutButton from "./LogoutButton";
+import LogoutButton from "../components/LogoutButton";
 
-const Header = ({ expoId, setExpoId }) => {
+const SysHeader = ({ expoId, setExpoId }) => {
   const location = useLocation();
   const [expos, setExpos] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -277,4 +277,4 @@ const Header = ({ expoId, setExpoId }) => {
   );
 };
 
-export default Header;
+export default SysHeader;
