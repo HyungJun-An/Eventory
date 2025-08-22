@@ -51,7 +51,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/sys/logout").authenticated()
                         .requestMatchers("/api/admin/logout").authenticated()
                         // 관리자 전용 도메인
-                        .requestMatchers("/api/sys/expos/**").hasRole("SYSTEM_ADMIN")
+//                        .requestMatchers("/api/sys/expos/**").hasRole("SYSTEM_ADMIN")
+                        .requestMatchers("/api/sys/**").permitAll()
 //                        .requestMatchers("/api/admin/expo/**").hasRole("EXPO_ADMIN")
                         .requestMatchers("/api/admin/**").hasRole("EXPO_ADMIN")
                         // 나머지 전부 보호

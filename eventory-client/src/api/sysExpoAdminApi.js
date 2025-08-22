@@ -1,5 +1,5 @@
 // src/api/sysExpoAdminApi.js
-const API_BASE_URL = "http://localhost:8080/api/sys/admins"; // mock server 또는 실제 API 주소
+const API_BASE_URL = "/api/sys/admins"; // mock server 또는 실제 API 주소
 
 // 모든 박람회 관리자 리스트 불러오기
 export async function getManagers(keyword, page, size) {

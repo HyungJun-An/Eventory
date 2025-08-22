@@ -14,7 +14,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     List<Payment> findAllByStatus(PaymentStatus status);
     
     // 일별
-    @Query(value = "SELECT DATE(p.paid_at) AS date, SUM(p.amount) AS value " +
+    @Query(value = "SELECT DATE(p.paid_at) AS date, SUM(p.amount) AS uv " +
             "FROM payment p " +
             "GROUP BY DATE(p.paid_at)",
             nativeQuery = true)
@@ -22,7 +22,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
 
 	// 주별
-    @Query(value = "SELECT YEARWEEK(p.paid_at, 1) AS date, SUM(p.amount) AS value " +
+    @Query(value = "SELECT YEARWEEK(p.paid_at, 1) AS date, SUM(p.amount) AS uv " +
             "FROM payment p " +
             "GROUP BY YEARWEEK(p.paid_at, 1) " +
             "ORDER BY date",
@@ -31,7 +31,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
 
 	// 월별
-	@Query(value = "SELECT DATE_FORMAT(p.paid_at, '%Y-%m') AS date, SUM(p.amount) AS value " +
+	@Query(value = "SELECT DATE_FORMAT(p.paid_at, '%Y-%m') AS date, SUM(p.amount) AS uv " +
             "FROM payment p " +
             "GROUP BY DATE_FORMAT(p.paid_at, '%Y-%m') " +
             "ORDER BY date",

@@ -270,7 +270,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     }
     
     // 일별
-    @Query(value = "SELECT DATE(r.created_at) AS date, COUNT(*) AS value " +
+    @Query(value = "SELECT DATE(r.created_at) AS date, COUNT(*) AS uv " +
             "FROM reservation r " +
             "GROUP BY DATE(r.created_at)",
             nativeQuery = true)
@@ -278,7 +278,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
 
 	// 주별
-    @Query(value = "SELECT YEARWEEK(r.created_at, 1) AS date, COUNT(*) AS value " +
+    @Query(value = "SELECT YEARWEEK(r.created_at, 1) AS date, COUNT(*) AS uv " +
             "FROM reservation r " +
             "GROUP BY YEARWEEK(r.created_at, 1) " +
             "ORDER BY date",
@@ -287,7 +287,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
 
 	// 월별
-	@Query(value = "SELECT DATE_FORMAT(r.created_at, '%Y-%m') AS date, COUNT(*) AS value " +
+	@Query(value = "SELECT DATE_FORMAT(r.created_at, '%Y-%m') AS date, COUNT(*) AS uv " +
             "FROM reservation r " +
             "GROUP BY DATE_FORMAT(r.created_at, '%Y-%m') " +
             "ORDER BY date",

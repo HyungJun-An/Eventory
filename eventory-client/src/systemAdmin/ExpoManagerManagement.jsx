@@ -9,7 +9,7 @@ import SysAdminButton from "../components/SysAdminButton";
 import ExpoDetailModal from "./ExpoDetailModal";
 import { getManagers } from "../api/sysExpoAdminApi";
 import ManagerInfoEditModal from "./managerInfoEditModal";
-import AdminSidebar from "./adminSidebar";
+import AdminSidebar from "./AdminSidebar";
 import SysHeader from "./SysHeader";
 
 export const ExpoManagerManagement = () => {
@@ -122,7 +122,7 @@ export const ExpoManagerManagement = () => {
           {manager.email}
         </div>
         <div>{manager.createdAt.slice(0, 10)}</div>
-        <div>{manager.lastAppliedAt.slice(0, 10)}</div>
+        <div>{manager.lastAppliedAt? manager.lastAppliedAt.slice(0, 10) : ""}</div>
         <SysAdminButton
           onClick={() => {
             setShowModal(true);

@@ -106,7 +106,10 @@ export const AdminSidebar = () => {
         </div>
         <div
           className="sidebarMenu"
-          onClick={() => setActiveTab("expoManagement")}
+          onClick={() => {
+            setActiveTab("expoManagement");
+            navigate("/sys/expos", { replace: true });
+          }}
         >
           <div
             style={{

@@ -21,7 +21,7 @@ public interface CheckInLogRepository extends JpaRepository<CheckInLog, Long> {
     Long countCheckedInByExpoId(@Param("expoId") Long expoId);
 
     // 일별
-    @Query(value = "SELECT DATE(c.time) AS date, COUNT(*) AS value " +
+    @Query(value = "SELECT DATE(c.time) AS date, COUNT(*) AS uv " +
             "FROM checkin_log c " +
             "GROUP BY DATE(c.time)",
             nativeQuery = true)
@@ -29,7 +29,7 @@ public interface CheckInLogRepository extends JpaRepository<CheckInLog, Long> {
 
 
 	// 주별
-    @Query(value = "SELECT YEARWEEK(c.time, 1) AS date, COUNT(*) AS value " +
+    @Query(value = "SELECT YEARWEEK(c.time, 1) AS date, COUNT(*) AS uv " +
             "FROM checkin_log c " +
             "GROUP BY YEARWEEK(c.time, 1) " +
             "ORDER BY date",
@@ -38,7 +38,7 @@ public interface CheckInLogRepository extends JpaRepository<CheckInLog, Long> {
 
 
 	// 월별
-	@Query(value = "SELECT DATE_FORMAT(c.time, '%Y-%m') AS date, COUNT(*) AS value " +
+	@Query(value = "SELECT DATE_FORMAT(c.time, '%Y-%m') AS date, COUNT(*) AS uv " +
             "FROM checkin_log c " +
             "GROUP BY DATE_FORMAT(c.time, '%Y-%m') " +
             "ORDER BY date",

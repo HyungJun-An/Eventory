@@ -1,5 +1,5 @@
 // src/api/sysDashboardApi.js
-const API_BASE_URL = "http://localhost:8080/api/sys"; // mock server 또는 실제 API 주소
+const API_BASE_URL = "/api/sys"; // mock server 또는 실제 API 주소
 
 // 종합 통계 불러오기
 export async function getStats() {
