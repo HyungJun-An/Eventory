@@ -80,10 +80,10 @@ export const SysDashboard = ({ onClose, id, manager }) => {
   const [reservationData, setReservationData] = useState([{}]);
   const [checkInData, setCheckInData] = useState([{}]);
   const [stats, setStats] = useState({
-    totalAmount: 0,
-    reserveCount: 0,
-    visitorCount: 0,
-    newUser: 0,
+    totalPaymentAmount: 0,
+    totalReservationCount: 0,
+    totalCheckInCount: 0,
+    totalNewUser: 0,
   });
   const [chartViewMode, setChartViewMode] = useState("monthly");
   const items = [
@@ -106,7 +106,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
     async function fetchData() {
       try {
         let statsData = await getStats();
-        // setStats(statsData.)
+        setStats(statsData);
         let tempChartData = await getChart();
         setPaymentData(tempChartData.paymentList);
         setReservationData(tempChartData.reservationList);
@@ -285,13 +285,12 @@ export const SysDashboard = ({ onClose, id, manager }) => {
             >
               <div className="card">
                 <img src={"../../public/totalAmount.png"} />
-
                 <div>
                   <div style={{ fontSize: "1.2rem", color: "#718EBF" }}>
                     총 결제금액
                   </div>
                   <div style={{ fontSize: "1.5rem", fontWeight: "600" }}>
-                    {stats.totalAmount}
+                    {stats.totalPaymentAmount}
                   </div>
                 </div>
               </div>
@@ -303,7 +302,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
                   </div>
                   <div style={{ fontSize: "1.5rem", fontWeight: "600" }}>
                     {/* 1,250 */}
-                    {stats.visitorCount}
+                    {stats.totalReservationCount}
                   </div>
                 </div>
               </div>
@@ -314,7 +313,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
                     전체 방문자 수
                   </div>
                   <div style={{ fontSize: "1.5rem", fontWeight: "600" }}>
-                    {stats.visitorCount}
+                    {stats.totalCheckInCount}
                   </div>
                 </div>
               </div>
@@ -325,7 +324,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
                     신규 가입자 수
                   </div>
                   <div style={{ fontSize: "1.5rem", fontWeight: "600" }}>
-                    {stats.newUser}
+                    {stats.totalNewUser}
                   </div>
                 </div>
               </div>
