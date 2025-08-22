@@ -1,0 +1,8 @@
+.sidebarMenu {
+  display: flex;
+  flex-direction: row;
+  gap: 1vw;
+  align-items: center;
+  padding: 0rem 2rem 0rem 0rem;
+  cursor: pointer;
+}

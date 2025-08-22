@@ -49,7 +49,8 @@ public class SecurityConfig {
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/admin/expos").permitAll()
                         .requestMatchers("/api/auth/me").authenticated() // me는 인증만 필요
                         // 관리자 전용 도메인
-                        .requestMatchers("/api/sys/expos/**").hasRole("SYSTEM_ADMIN")
+//                        .requestMatchers("/api/sys/expos/**").hasRole("SYSTEM_ADMIN")
+                        .requestMatchers("/api/sys/**").permitAll()
 //                        .requestMatchers("/api/admin/expo/**").hasRole("EXPO_ADMIN")
                         .requestMatchers("/api/admin/**").hasRole("EXPO_ADMIN")
                         // 나머지 전부 보호

@@ -1,30 +1,32 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./assets/css/App.css";
 
-import RevenuePage from './expoAdmin/RevenuePage';
-import PaymentPage from './expoAdmin/PaymentPage';
-import RefundPage from './expoAdmin/RefundPage';
-import AdminLayout from './expoAdmin/sections/AdminLayout';
-import Dashboard from './expoAdmin/DashboardPage';
-import Reservation from './expoAdmin/ReservationPage';
-import QRCheckIn from './expoAdmin/QRCheckInPage';
-import LoginPage from './auth/LoginPage';
-import RegisterPage from './auth/UserRegistration';
-import { UserMainPage } from './user/userMain';
-import MainLayout from './components/MainLayout';
-import RegisterCompany from './auth/RegisterCompany';
-import RegisterCustomer from './auth/RegisterCustomer';
-import PaymentCheckout from './payment/PaymentCheckout';
-import { PaymentRedirect } from './payment/PaymentRedirect';
+import RevenuePage from "./expoAdmin/RevenuePage";
+import PaymentPage from "./expoAdmin/PaymentPage";
+import RefundPage from "./expoAdmin/RefundPage";
+import AdminLayout from "./expoAdmin/sections/AdminLayout";
+import Dashboard from "./expoAdmin/DashboardPage";
+import Reservation from "./expoAdmin/ReservationPage";
+import QRCheckIn from "./expoAdmin/QRCheckInPage";
+import LoginPage from "./auth/LoginPage";
+import RegisterPage from "./auth/UserRegistration";
+import { UserMainPage } from "./user/userMain";
+import MainLayout from "./components/MainLayout";
+import RegisterCompany from "./auth/RegisterCompany";
+import RegisterCustomer from "./auth/RegisterCustomer";
+import PaymentCheckout from "./payment/PaymentCheckout";
+import { PaymentRedirect } from "./payment/PaymentRedirect";
 import ReservationDetail from "./payment/TestReservationDetail";
 import CompanyProfile from "./companyUser/Profile";
 import BoothList from "./companyUser/BoothList";
 import BoothEdit from "./companyUser/BoothEdit";
 import ExpoDetail from "./user/ExpoDetail";
 
-import ContentPage from './expoAdmin/ContentPage';
+import ContentPage from "./expoAdmin/ContentPage";
 import { SysExpoList } from "./systemAdmin/SysExpoList";
 import ExpoManagerManagement from "./systemAdmin/ExpoManagerManagement";
+import SysDashboard from "./systemAdmin/SysDashboard";
+import AdminSidebar from "./systemAdmin/AdminSidebar";
 
 function App() {
   return (
@@ -101,7 +103,10 @@ function App() {
           <Route path="/register/customer" element={<RegisterCustomer />} />
           <Route path="/payment" element={<PaymentCheckout />} />
           <Route path="/payment/redirect" element={<PaymentRedirect />} />
-          <Route path="/payment/reservation/:id" element={<ReservationDetail />} />
+          <Route
+            path="/payment/reservation/:id"
+            element={<ReservationDetail />}
+          />
           {/* company user 영역 추가 */}
           <Route path="/company/profile" element={<CompanyProfile />} />
           <Route path="/company/booths" element={<BoothList />} />
@@ -112,12 +117,20 @@ function App() {
         </Route>
         <Route
           path="/sys/expos"
-          element={<AdminLayout>{<SysExpoList />}</AdminLayout>}
+          // element={<AdminLayout>{<SysExpoList />}</AdminLayout>}
+          element={<SysExpoList></SysExpoList>}
         />
         <Route
           path="/sys/manage"
-          element={<AdminLayout>{<ExpoManagerManagement />}</AdminLayout>}
+          // element={<AdminLayout>{<ExpoManagerManagement />}</AdminLayout>}
+          element={<ExpoManagerManagement></ExpoManagerManagement>}
         />
+        <Route
+          path="/sys/dashboard"
+          // element={<AdminLayout>{<SysDashboard />}</AdminLayout>}
+          element={<SysDashboard></SysDashboard>}
+        />
+        <Route path="/sys/sidebar" element={<AdminSidebar></AdminSidebar>} />
       </Routes>
     </BrowserRouter>
   );

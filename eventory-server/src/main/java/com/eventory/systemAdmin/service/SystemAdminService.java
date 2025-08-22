@@ -1,24 +1,38 @@
 package com.eventory.systemAdmin.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.eventory.auth.repository.UserRepository;
 import com.eventory.common.entity.Expo;
 import com.eventory.common.entity.ExpoAdmin;
 import com.eventory.common.entity.ExpoCategory;
 import com.eventory.common.entity.ExpoStatus;
+import com.eventory.common.entity.Payment;
+import com.eventory.common.entity.PaymentStatus;
 import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
+import com.eventory.common.repository.CheckInLogRepository;
 import com.eventory.common.repository.ExpoAdminRepository;
 import com.eventory.common.repository.ExpoCategoryRepository;
 import com.eventory.common.repository.ExpoRepository;
+import com.eventory.common.repository.PaymentRepository;
+import com.eventory.common.repository.ReservationRepository;
 import com.eventory.expoAdmin.dto.ManagerRequestDto;
+import com.eventory.systemAdmin.dto.ChartResponseDto;
 import com.eventory.systemAdmin.dto.ExpoStatusRequestDto;
+import com.eventory.systemAdmin.dto.SysChartResponseDto;
 import com.eventory.systemAdmin.dto.SysExpoAdminResponseDto;
 import com.eventory.systemAdmin.dto.SysExpoResponseDto;
+import com.eventory.systemAdmin.dto.SysStatResponseDto;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +45,10 @@ public class SystemAdminService {
 	private final ExpoCategoryRepository expoCategoryRepository;
 	private final ExpoAdminRepository expoAdminRepository;
 	private final BCryptPasswordEncoder passwordEncoder;
+	private final PaymentRepository paymentRepository;
+	private final ReservationRepository reservationRepository;
+	private final CheckInLogRepository checkInLogRepository;
+	private final UserRepository userRepository;
 
 	public Page<SysExpoResponseDto> findAllSysExpoPages(String status, String title, int page, int size) {
 		
@@ -143,6 +161,48 @@ public class SystemAdminService {
 		
 		expoAdminRepository.deleteById(adminId);
 	}
-	
+
+	public SysStatResponseDto findSysStat() {
+		
+		List<Payment> paymentList = paymentRepository.findAllByStatus(PaymentStatus.PAID);
+		Long totalPaymentAmount = paymentList.stream().mapToLong(p -> p.getAmount().longValue()).sum();
+		Long totalReservationCount = reservationRepository.count();
+		Long totalCheckInCount = checkInLogRepository.count();
+		Long todayNewUser = userRepository.countByCreatedAtBetween(LocalDate.now().atStartOfDay(), LocalDate.now().plusDays(1).atStartOfDay().minusNanos(1));
+		
+		return SysStatResponseDto.builder()
+						  .totalPaymentAmount(totalPaymentAmount)
+						  .totalReservationCount(totalReservationCount)
+						  .totalCheckInCount(totalCheckInCount)
+						  .todayNewUser(todayNewUser)
+						  .build();
+	}
+
+	public SysChartResponseDto findChart(String period) {
+		
+		List<ChartResponseDto> paymentList = null;
+		List<ChartResponseDto> reservationList = null;
+		List<ChartResponseDto> checkInList = null;
+		
+		if(period.equals("monthly")) {
+			paymentList = paymentRepository.countMonthlyPayments();
+			reservationList = reservationRepository.countMonthlyReservations();
+			checkInList = checkInLogRepository.countMonthlyCheckIn();
+		} else if(period.equals("weekly")) {
+			paymentList = paymentRepository.countWeeklyPayments();
+			reservationList = reservationRepository.countWeeklyReservations();
+			checkInList = checkInLogRepository.countWeeklyCheckIn();
+		} else {
+			paymentList = paymentRepository.countDailyPayments();
+			reservationList = reservationRepository.countDailyReservations();
+			checkInList = checkInLogRepository.countDailyCheckIn();
+		}
+				
+		return SysChartResponseDto.builder()
+								  .paymentList(paymentList)
+								  .reservationList(reservationList)
+								  .checkInList(checkInList)
+								  .build();
+	}
 	
 }

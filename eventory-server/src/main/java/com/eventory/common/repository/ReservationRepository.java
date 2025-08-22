@@ -1,6 +1,8 @@
 package com.eventory.common.repository;
 
 import com.eventory.common.entity.Reservation;
+import com.eventory.systemAdmin.dto.ChartResponseDto;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -266,5 +268,30 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
         Integer getCheckedCount();
         LocalDateTime getLastCheckinAt();
     }
+    
+    // 일별
+    @Query(value = "SELECT DATE(r.created_at) AS date, COUNT(*) AS uv " +
+            "FROM reservation r " +
+            "GROUP BY DATE(r.created_at)",
+            nativeQuery = true)
+    List<ChartResponseDto> countDailyReservations();
+
+
+	// 주별
+    @Query(value = "SELECT YEARWEEK(r.created_at, 1) AS date, COUNT(*) AS uv " +
+            "FROM reservation r " +
+            "GROUP BY YEARWEEK(r.created_at, 1) " +
+            "ORDER BY date",
+            nativeQuery = true)
+    List<ChartResponseDto> countWeeklyReservations();
+
+
+	// 월별
+	@Query(value = "SELECT DATE_FORMAT(r.created_at, '%Y-%m') AS date, COUNT(*) AS uv " +
+            "FROM reservation r " +
+            "GROUP BY DATE_FORMAT(r.created_at, '%Y-%m') " +
+            "ORDER BY date",
+            nativeQuery = true)
+	List<ChartResponseDto> countMonthlyReservations();
 
 }

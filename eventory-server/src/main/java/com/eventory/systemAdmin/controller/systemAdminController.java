@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eventory.expoAdmin.dto.ManagerRequestDto;
 import com.eventory.systemAdmin.dto.ExpoStatusRequestDto;
+import com.eventory.systemAdmin.dto.SysChartResponseDto;
 import com.eventory.systemAdmin.dto.SysExpoAdminResponseDto;
 import com.eventory.systemAdmin.dto.SysExpoResponseDto;
+import com.eventory.systemAdmin.dto.SysStatResponseDto;
 import com.eventory.systemAdmin.service.SystemAdminService;
 
 import lombok.RequiredArgsConstructor;
@@ -71,5 +73,15 @@ public class systemAdminController {
 	public ResponseEntity<?> deleteExpoAdmin(@PathVariable Long adminId){
 		systemAdminService.deleteExpoAdmin(adminId);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/stats")
+	public ResponseEntity<SysStatResponseDto> findSysStat(){
+		return ResponseEntity.ok(systemAdminService.findSysStat());
+	}
+	
+	@GetMapping("/chart")
+	public ResponseEntity<SysChartResponseDto> findChart(@RequestParam String period){
+		return ResponseEntity.ok(systemAdminService.findChart(period));
 	}
 }
