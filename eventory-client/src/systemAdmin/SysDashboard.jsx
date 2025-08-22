@@ -20,6 +20,7 @@ import {
 } from "recharts";
 import { getChart, getStats } from "../api/sysDashboardApi";
 import AdminSidebar from "./AdminSidebar";
+import SysHeader from "./SysHeader";
 
 export const SysDashboard = ({ onClose, id, manager }) => {
   const [paymentData, setPaymentData] = useState([
@@ -120,11 +121,13 @@ export const SysDashboard = ({ onClose, id, manager }) => {
     async function fetchData() {
       try {
         let tempChartData = await getChart(chartViewMode);
+        console.log("data: ", tempChartData);
         setPaymentData(tempChartData.paymentList);
         setReservationData(tempChartData.reservationList);
         setCheckInData(tempChartData.checkInList);
       } catch (error) {}
     }
+    console.log("chart mode change: ", chartViewMode);
     fetchData();
   }, [chartViewMode]);
 
@@ -270,6 +273,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
   }
   return (
     <>
+      <SysHeader></SysHeader>
       <div className="wrapper1">
         <div style={{ display: "flex", flexDirection: "row" }}>
           <AdminSidebar></AdminSidebar>

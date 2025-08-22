@@ -10,6 +10,7 @@ import ExpoDetailModal from "./ExpoDetailModal";
 import { getManagers } from "../api/sysExpoAdminApi";
 import ManagerInfoEditModal from "./managerInfoEditModal";
 import AdminSidebar from "./adminSidebar";
+import SysHeader from "./SysHeader";
 
 export const ExpoManagerManagement = () => {
   const [firstPage, setFirstPage] = useState(1);
@@ -137,6 +138,7 @@ export const ExpoManagerManagement = () => {
   ));
   return (
     <>
+      <SysHeader></SysHeader>
       {showModal && (
         <ExpoDetailModal
           closeModal={() => setShowModal(false)}

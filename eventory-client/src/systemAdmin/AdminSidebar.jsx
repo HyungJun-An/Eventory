@@ -114,16 +114,14 @@ export const AdminSidebar = () => {
               width: "0.4rem",
             }}
           >
-            {currentUrl == "expoManagement" && (
-              <ActiveTabIndicator></ActiveTabIndicator>
-            )}
+            {currentUrl == "expos" && <ActiveTabIndicator></ActiveTabIndicator>}
             {/* {activeTab == "expoManagement" && (
               <ActiveTabIndicator></ActiveTabIndicator>
             )} */}
           </div>
           <FontAwesomeIcon
             style={{
-              color: currentUrl == "expoManagement" ? "#007BFF" : "#B1B1B1",
+              color: currentUrl == "expos" ? "#007BFF" : "#B1B1B1",
               fontSize: "1.9rem",
               marginLeft: "0.5rem",
             }}
@@ -131,7 +129,7 @@ export const AdminSidebar = () => {
           />
           <div
             style={{
-              color: currentUrl == "expoManagement" ? "#007BFF" : "#B1B1B1",
+              color: currentUrl == "expos" ? "#007BFF" : "#B1B1B1",
               fontSize: "1.2rem",
               fontWeight: "500",
             }}
