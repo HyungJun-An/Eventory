@@ -9,9 +9,15 @@ import {
   faChartSimple,
   faChartLine,
 } from "@fortawesome/free-solid-svg-icons";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const AdminSidebar = () => {
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState("");
+  const navigate = useNavigate();
+  const currentUrl = location.pathname.split("/")[2];
+  // console.log(location.pathname.split("/")[2]);
   return (
     <>
       <div
@@ -22,20 +28,29 @@ export const AdminSidebar = () => {
           backgroundColor: "white",
         }}
       >
-        <div className="sidebarMenu" onClick={() => setActiveTab("dashboard")}>
+        <div
+          className="sidebarMenu"
+          onClick={() => {
+            setActiveTab("dashboard");
+            navigate("/sys/dashboard", { replace: true });
+          }}
+        >
           <div
             style={{
               height: "5rem",
               width: "0.4rem",
             }}
           >
-            {activeTab == "dashboard" && (
+            {currentUrl == "dashboard" && (
               <ActiveTabIndicator></ActiveTabIndicator>
             )}
+            {/* {activeTab == "dashboard" && (
+              <ActiveTabIndicator></ActiveTabIndicator>
+            )} */}
           </div>
           <FontAwesomeIcon
             style={{
-              color: activeTab == "dashboard" ? "#007BFF" : "#B1B1B1",
+              color: currentUrl == "dashboard" ? "#007BFF" : "#B1B1B1",
               fontSize: "1.9rem",
               marginLeft: "0.5rem",
             }}
@@ -43,7 +58,7 @@ export const AdminSidebar = () => {
           />
           <div
             style={{
-              color: activeTab == "dashboard" ? "#007BFF" : "#B1B1B1",
+              color: currentUrl == "dashboard" ? "#007BFF" : "#B1B1B1",
               fontSize: "1.2rem",
               fontWeight: "500",
             }}
@@ -53,7 +68,10 @@ export const AdminSidebar = () => {
         </div>
         <div
           className="sidebarMenu"
-          onClick={() => setActiveTab("managerManagement")}
+          onClick={() => {
+            setActiveTab("managerManagement");
+            navigate("/sys/manage", { replace: true });
+          }}
         >
           <div
             style={{
@@ -61,13 +79,16 @@ export const AdminSidebar = () => {
               width: "0.4rem",
             }}
           >
-            {activeTab == "managerManagement" && (
+            {currentUrl == "manage" && (
               <ActiveTabIndicator></ActiveTabIndicator>
             )}
+            {/* {activeTab == "managerManagement" && (
+              <ActiveTabIndicator></ActiveTabIndicator>
+            )} */}
           </div>
           <FontAwesomeIcon
             style={{
-              color: activeTab == "managerManagement" ? "#007BFF" : "#B1B1B1",
+              color: currentUrl == "manage" ? "#007BFF" : "#B1B1B1",
               fontSize: "1.9rem",
               marginLeft: "0.5rem",
             }}
@@ -75,7 +96,7 @@ export const AdminSidebar = () => {
           />
           <div
             style={{
-              color: activeTab == "managerManagement" ? "#007BFF" : "#B1B1B1",
+              color: currentUrl == "manage" ? "#007BFF" : "#B1B1B1",
               fontSize: "1.2rem",
               fontWeight: "500",
             }}
@@ -93,13 +114,16 @@ export const AdminSidebar = () => {
               width: "0.4rem",
             }}
           >
-            {activeTab == "expoManagement" && (
+            {currentUrl == "expoManagement" && (
               <ActiveTabIndicator></ActiveTabIndicator>
             )}
+            {/* {activeTab == "expoManagement" && (
+              <ActiveTabIndicator></ActiveTabIndicator>
+            )} */}
           </div>
           <FontAwesomeIcon
             style={{
-              color: activeTab == "expoManagement" ? "#007BFF" : "#B1B1B1",
+              color: currentUrl == "expoManagement" ? "#007BFF" : "#B1B1B1",
               fontSize: "1.9rem",
               marginLeft: "0.5rem",
             }}
@@ -107,7 +131,7 @@ export const AdminSidebar = () => {
           />
           <div
             style={{
-              color: activeTab == "expoManagement" ? "#007BFF" : "#B1B1B1",
+              color: currentUrl == "expoManagement" ? "#007BFF" : "#B1B1B1",
               fontSize: "1.2rem",
               fontWeight: "500",
             }}
@@ -125,13 +149,16 @@ export const AdminSidebar = () => {
               width: "0.4rem",
             }}
           >
-            {activeTab == "bannerManagement" && (
+            {currentUrl == "bannerManagement" && (
               <ActiveTabIndicator></ActiveTabIndicator>
             )}
+            {/* {activeTab == "bannerManagement" && (
+              <ActiveTabIndicator></ActiveTabIndicator>
+            )} */}
           </div>
           <FontAwesomeIcon
             style={{
-              color: activeTab == "bannerManagement" ? "#007BFF" : "#B1B1B1",
+              color: currentUrl == "bannerManagement" ? "#007BFF" : "#B1B1B1",
               fontSize: "1.9rem",
               marginLeft: "0.5rem",
             }}
@@ -139,7 +166,7 @@ export const AdminSidebar = () => {
           />
           <div
             style={{
-              color: activeTab == "bannerManagement" ? "#007BFF" : "#B1B1B1",
+              color: currentUrl == "bannerManagement" ? "#007BFF" : "#B1B1B1",
               fontSize: "1.2rem",
               fontWeight: "500",
             }}

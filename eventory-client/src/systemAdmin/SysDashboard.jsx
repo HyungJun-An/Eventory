@@ -18,9 +18,11 @@ import {
   BarChart,
   Bar,
 } from "recharts";
+import { getChart, getStats } from "../api/sysDashboardApi";
+import AdminSidebar from "./adminSidebar";
 
 export const SysDashboard = ({ onClose, id, manager }) => {
-  const [chartData, setChartData] = useState([
+  const [paymentData, setPaymentData] = useState([
     {
       date: "2024-12-20",
       name: "Page A",
@@ -75,6 +77,14 @@ export const SysDashboard = ({ onClose, id, manager }) => {
       amt: 2290,
     },
   ]);
+  const [reservationData, setReservationData] = useState([{}]);
+  const [checkInData, setCheckInData] = useState([{}]);
+  const [stats, setStats] = useState({
+    totalAmount: 0,
+    reserveCount: 0,
+    visitorCount: 0,
+    newUser: 0,
+  });
   const [chartViewMode, setChartViewMode] = useState("월별");
   const items = [
     {
@@ -91,16 +101,31 @@ export const SysDashboard = ({ onClose, id, manager }) => {
     },
   ];
 
-  async function fetchChartData() {
-    try {
-      // Chart Data API
-      // setChartData();
-    } catch (error) {}
-  }
-
   useEffect(() => {
-    fetchChartData();
-  }, [chartViewMode]);
+    // initial fetch
+    async function fetchData() {
+      try {
+        let statsData = await getStats();
+        // setStats(statsData.)
+        let tempChartData = await getChart();
+        setPaymentData(tempChartData.paymentList);
+        setReservationData(tempChartData.reservationList);
+        setCheckInData(tempChartData.checkInList);
+      } catch (error) {}
+    }
+    fetchData();
+  }, []);
+
+  // async function fetchChartData() {
+  //   try {
+  //     // Chart Data API
+  //     // setChartData();
+  //   } catch (error) {}
+  // }
+
+  // useEffect(() => {
+  //   fetchChartData();
+  // }, [chartViewMode]);
 
   const handleChartModeChange = (e) => {};
 
@@ -117,7 +142,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
       <LineChart
         width={1200}
         height={300}
-        data={chartData}
+        data={reservationData}
         margin={{
           top: 20,
           right: 30,
@@ -161,7 +186,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
       <BarChart
         width={600}
         height={300}
-        data={chartData}
+        data={reservationData}
         margin={{
           top: 20,
           right: 30,
@@ -204,7 +229,7 @@ export const SysDashboard = ({ onClose, id, manager }) => {
       <BarChart
         width={600}
         height={300}
-        data={chartData}
+        data={checkInData}
         margin={{
           top: 20,
           right: 30,
@@ -243,167 +268,173 @@ export const SysDashboard = ({ onClose, id, manager }) => {
   }
   return (
     <>
-      <div className="wrapper">
-        <div
-          style={{ marginTop: "5vh", marginLeft: "3vw", marginRight: "3vw" }}
-        >
+      <div className="wrapper1">
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <AdminSidebar></AdminSidebar>
           <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "1.5vw",
-            }}
+            style={{ marginTop: "5vh", marginLeft: "3vw", marginRight: "3vw" }}
           >
-            <div className="card">
-              <img src={"../../public/totalAmount.png"} />
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, 1fr)",
+                gap: "1.5vw",
+              }}
+            >
+              <div className="card">
+                <img src={"../../public/totalAmount.png"} />
 
-              <div>
-                <div style={{ fontSize: "1.2rem", color: "#718EBF" }}>
-                  총 결제금액
+                <div>
+                  <div style={{ fontSize: "1.2rem", color: "#718EBF" }}>
+                    총 결제금액
+                  </div>
+                  <div style={{ fontSize: "1.5rem", fontWeight: "600" }}>
+                    {stats.totalAmount}
+                  </div>
                 </div>
-                <div style={{ fontSize: "1.5rem", fontWeight: "600" }}>
-                  150,000
+              </div>
+              <div className="card">
+                <img src={"../../public/reservationCount.png"} />
+                <div>
+                  <div style={{ fontSize: "1.2rem", color: "#718EBF" }}>
+                    누적 예약 수
+                  </div>
+                  <div style={{ fontSize: "1.5rem", fontWeight: "600" }}>
+                    {/* 1,250 */}
+                    {stats.visitorCount}
+                  </div>
+                </div>
+              </div>
+              <div className="card">
+                <img src={"../../public/visitorCount.png"} />
+                <div>
+                  <div style={{ fontSize: "1.2rem", color: "#718EBF" }}>
+                    전체 방문자 수
+                  </div>
+                  <div style={{ fontSize: "1.5rem", fontWeight: "600" }}>
+                    {stats.visitorCount}
+                  </div>
+                </div>
+              </div>
+              <div className="card">
+                <img src={"../../public/newUserCount.png"} />
+                <div>
+                  <div style={{ fontSize: "1.2rem", color: "#718EBF" }}>
+                    신규 가입자 수
+                  </div>
+                  <div style={{ fontSize: "1.5rem", fontWeight: "600" }}>
+                    {stats.newUser}
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="card">
-              <img src={"../../public/reservationCount.png"} />
+            {/* 버튼 3개 */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                marginTop: "3vh",
+                gap: "1vw",
+              }}
+            >
               <div>
-                <div style={{ fontSize: "1.2rem", color: "#718EBF" }}>
-                  누적 예약 수
-                </div>
-                <div style={{ fontSize: "1.5rem", fontWeight: "600" }}>
-                  1,250
-                </div>
+                <Dropdown menu={menuProps}>
+                  <Button
+                    style={{
+                      padding: "1.4rem",
+                    }}
+                  >
+                    <Space style={{ paddingLeft: "2rem" }}>
+                      {chartViewMode}
+                      <DownOutlined style={{ paddingLeft: "2rem" }} />
+                    </Space>
+                  </Button>
+                </Dropdown>
+              </div>
+              <div>
+                <SysAdminButton
+                  text={"CSV 다운로드"}
+                  textColor={"#007BFF"}
+                  borderColor={"#007BFF"}
+                  borderRadius="0.4rem"
+                  padding="0.8rem 2rem"
+                ></SysAdminButton>
+              </div>
+              <div>
+                <SysAdminButton
+                  text={"엑셀 다운로드"}
+                  textColor={"#28A745"}
+                  borderColor={"#28A745"}
+                  borderRadius="0.4rem"
+                  padding="0.8rem 2rem"
+                ></SysAdminButton>
               </div>
             </div>
-            <div className="card">
-              <img src={"../../public/visitorCount.png"} />
-              <div>
-                <div style={{ fontSize: "1.2rem", color: "#718EBF" }}>
-                  전체 방문자 수
-                </div>
-                <div style={{ fontSize: "1.5rem", fontWeight: "600" }}>
-                  1,189
-                </div>
-              </div>
+            <div
+              style={{
+                justifySelf: "start",
+                fontWeight: 700,
+                fontSize: "1.3rem",
+              }}
+            >
+              전체 수익 내역
             </div>
-            <div className="card">
-              <img src={"../../public/newUserCount.png"} />
-              <div>
-                <div style={{ fontSize: "1.2rem", color: "#718EBF" }}>
-                  신규 가입자 수
-                </div>
-                <div style={{ fontSize: "1.5rem", fontWeight: "600" }}>150</div>
-              </div>
+            {/* 차트 */}
+            <div
+              style={{
+                backgroundColor: "white",
+                marginTop: "1vh",
+                borderRadius: "1rem",
+              }}
+            >
+              <RevenueChart></RevenueChart>
             </div>
-          </div>
-          {/* 버튼 3개 */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-end",
-              marginTop: "3vh",
-              gap: "1vw",
-            }}
-          >
-            <div>
-              <Dropdown menu={menuProps}>
-                <Button
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "1vw",
+                marginTop: "4vh",
+              }}
+            >
+              <div>
+                <div
                   style={{
-                    padding: "1.4rem",
+                    fontWeight: 700,
+                    fontSize: "1.3rem",
                   }}
                 >
-                  <Space style={{ paddingLeft: "2rem" }}>
-                    {chartViewMode}
-                    <DownOutlined style={{ paddingLeft: "2rem" }} />
-                  </Space>
-                </Button>
-              </Dropdown>
-            </div>
-            <div>
-              <SysAdminButton
-                text={"CSV 다운로드"}
-                textColor={"#007BFF"}
-                borderColor={"#007BFF"}
-                borderRadius="0.4rem"
-                padding="0.8rem 2rem"
-              ></SysAdminButton>
-            </div>
-            <div>
-              <SysAdminButton
-                text={"엑셀 다운로드"}
-                textColor={"#28A745"}
-                borderColor={"#28A745"}
-                borderRadius="0.4rem"
-                padding="0.8rem 2rem"
-              ></SysAdminButton>
-            </div>
-          </div>
-          <div
-            style={{
-              justifySelf: "start",
-              fontWeight: 700,
-              fontSize: "1.3rem",
-            }}
-          >
-            전체 수익 내역
-          </div>
-          {/* 차트 */}
-          <div
-            style={{
-              backgroundColor: "white",
-              marginTop: "1vh",
-              borderRadius: "1rem",
-            }}
-          >
-            <RevenueChart></RevenueChart>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: "1vw",
-              marginTop: "4vh",
-            }}
-          >
-            <div>
-              <div
-                style={{
-                  fontWeight: 700,
-                  fontSize: "1.3rem",
-                }}
-              >
-                예약 현황
+                  예약 현황
+                </div>
+                <div
+                  style={{
+                    backgroundColor: "white",
+                    borderRadius: "1rem",
+                    marginTop: "1vh",
+                  }}
+                >
+                  <ReserveChart></ReserveChart>
+                </div>
               </div>
-              <div
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "1rem",
-                  marginTop: "1vh",
-                }}
-              >
-                <ReserveChart></ReserveChart>
-              </div>
-            </div>
-            <div>
-              <div
-                style={{
-                  fontWeight: 700,
-                  fontSize: "1.3rem",
-                }}
-              >
-                방문 현황
-              </div>
-              <div
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "1rem",
-                  marginTop: "1vh",
-                }}
-              >
-                <VisitorChart></VisitorChart>
+              <div>
+                <div
+                  style={{
+                    fontWeight: 700,
+                    fontSize: "1.3rem",
+                  }}
+                >
+                  방문 현황
+                </div>
+                <div
+                  style={{
+                    backgroundColor: "white",
+                    borderRadius: "1rem",
+                    marginTop: "1vh",
+                  }}
+                >
+                  <VisitorChart></VisitorChart>
+                </div>
               </div>
             </div>
           </div>
