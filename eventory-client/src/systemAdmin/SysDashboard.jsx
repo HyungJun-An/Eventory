@@ -85,19 +85,19 @@ export const SysDashboard = ({ onClose, id, manager }) => {
     visitorCount: 0,
     newUser: 0,
   });
-  const [chartViewMode, setChartViewMode] = useState("월별");
+  const [chartViewMode, setChartViewMode] = useState("monthly");
   const items = [
     {
       label: "월별",
-      key: "월별",
+      key: "monthly",
     },
     {
       label: "주별",
-      key: "주별",
+      key: "weekly",
     },
     {
       label: "일별",
-      key: "일별",
+      key: "daily",
     },
   ];
 
@@ -116,22 +116,24 @@ export const SysDashboard = ({ onClose, id, manager }) => {
     fetchData();
   }, []);
 
-  // async function fetchChartData() {
-  //   try {
-  //     // Chart Data API
-  //     // setChartData();
-  //   } catch (error) {}
-  // }
-
-  // useEffect(() => {
-  //   fetchChartData();
-  // }, [chartViewMode]);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        let tempChartData = await getChart(chartViewMode);
+        setPaymentData(tempChartData.paymentList);
+        setReservationData(tempChartData.reservationList);
+        setCheckInData(tempChartData.checkInList);
+      } catch (error) {}
+    }
+    fetchData();
+  }, [chartViewMode]);
 
   const handleChartModeChange = (e) => {};
 
   const handleMenuClick = (e) => {
     setChartViewMode(e.key);
   };
+
   const menuProps = {
     items,
     onClick: handleMenuClick,
@@ -346,7 +348,11 @@ export const SysDashboard = ({ onClose, id, manager }) => {
                     }}
                   >
                     <Space style={{ paddingLeft: "2rem" }}>
-                      {chartViewMode}
+                      {chartViewMode == "daily"
+                        ? "일별"
+                        : chartViewMode == "monthly"
+                        ? "월별"
+                        : "주별"}
                       <DownOutlined style={{ paddingLeft: "2rem" }} />
                     </Space>
                   </Button>
