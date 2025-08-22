@@ -50,8 +50,6 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + accessTokenValidityInMs);
 
-        System.out.println("⭐" + role);
-
         return Jwts.builder()
                 .setSubject(String.valueOf(userId))
                 .claim("role", role)
@@ -63,7 +61,6 @@ public class JwtTokenProvider {
 
     // 관리자 토큰: role + userType 클레임 포함
     public String createAccessTokenWithRole(Long adminId, String role) {
-        System.out.println("⭐"  + role);
         Date now = new Date();
         Date exp = new Date(now.getTime() + accessTokenValidityInMs);
         return Jwts.builder()

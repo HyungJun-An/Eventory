@@ -20,6 +20,7 @@ import ReservationDetail from "./payment/TestReservationDetail";
 import CompanyProfile from "./companyUser/Profile";
 import BoothList from "./companyUser/BoothList";
 import BoothEdit from "./companyUser/BoothEdit";
+import ExpoDetail from "./user/ExpoDetail";
 
 import ContentPage from "./expoAdmin/ContentPage";
 import { SysExpoList } from "./systemAdmin/SysExpoList";
@@ -111,6 +112,8 @@ function App() {
           <Route path="/company/booths" element={<BoothList />} />
           <Route path="/company/booths/new" element={<BoothEdit />} />
           <Route path="/company/booths/:boothId/edit" element={<BoothEdit />} />
+          {/* 사용자 상세 페이지 */}
+          <Route path="/expos/:expoId" element={<ExpoDetail />} />
         </Route>
         <Route
           path="/sys/expos"

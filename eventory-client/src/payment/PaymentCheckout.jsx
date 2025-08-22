@@ -9,21 +9,18 @@ import { useNavigate } from "react-router-dom"; //⭐ 추가
 import * as PortOne from "@portone/browser-sdk/v2";
 
 export default function PaymentCheckout() {
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  const navigate = useNavigate(); //⭐ 추가
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState('');
+    const navigate = useNavigate(); // 추가
 
-  // 데모 입력값(실제론 장바구니/선택 정보로 구성)
-  const demoReq = useMemo(
-    () => ({
-      userId: 3,
-      expoId: 3,
-      people: 1,
-      orderName: "Eventory 입장권(1인)",
-      totalAmount: 1000, // KRW는 정수 금액
-    }),
-    []
-  );
+    // 데모 입력값(실제론 장바구니/선택 정보로 구성)
+    const demoReq = useMemo(() => ({
+        userId: 11,
+        expoId: 3,
+        people: 1,
+        orderName: 'Eventory 입장권(1인)',
+        totalAmount: 1000, // KRW는 정수 금액
+    }), []);
 
   const handlePay = useCallback(async () => {
     setLoading(true);
