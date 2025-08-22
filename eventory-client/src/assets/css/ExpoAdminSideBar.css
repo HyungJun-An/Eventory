@@ -1,7 +1,6 @@
 /* 사이드바 고정 + 메인 콘텐츠 간격 조정 */
 .expoadmin-sideBar {
   position:absolute;
-  width: 18vw;
   top: 10vh;
   height: 100vh;
   left: 0;

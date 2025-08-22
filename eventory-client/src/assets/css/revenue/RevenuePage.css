@@ -28,7 +28,7 @@
 .revenue-page .rectangle-24 {
   background-color: #e6eff5;
   height: 1px;
-  left: 250px;
+
   position: absolute;
   top: 100px;
   width: 1190px;
@@ -46,8 +46,7 @@
 .revenue-page .overlap-5 {
   background-color: #f4f6f9;
   height: 923px;
-  left: 250px;
   position: absolute;
-  top: 101px;
+  top: 0px;
   width: 1190px;
 }
