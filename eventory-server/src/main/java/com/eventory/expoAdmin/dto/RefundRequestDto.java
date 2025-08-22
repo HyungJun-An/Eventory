@@ -1,0 +1,19 @@
+package com.eventory.expoAdmin.dto;
+
+import com.eventory.common.entity.RefundStatus;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+@AllArgsConstructor
+public class RefundRequestDto {
+
+    @NotNull
+    private RefundStatus status;
+
+    private String reason;
+}

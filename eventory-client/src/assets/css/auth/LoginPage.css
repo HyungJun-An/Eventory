@@ -1,0 +1,274 @@
+.login-page {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.login-page .root {
+  padding-bottom: 0px;
+}
+
+.login-page .body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  height: 100%;
+}
+
+.login-page .layout {
+  min-height: 100vh;
+  background-color: #f6f6f6;
+}
+
+.login-page .login-screen {
+  background-color: #f6f6f6;
+  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
+  font-family: "Inter", Helvetica;
+}
+
+
+/* Main Content */
+.login-page {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: calc(100vh - 80px);
+  /* 헤더 높이 뺀 나머지 */
+  box-sizing: border-box;
+  flex: 1;
+  overflow: hidden;
+  /* 스크롤 생기는 것 방지 */
+}
+
+/*.login-page .login-section {
+  background-color: white;
+  flex: 1;
+  min-width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  box-sizing: border-box;
+}*/
+.login-page .login-section {
+  display: flex;
+  flex-direction: column;   /* ← 추가 */
+  align-items: center;      /* 가운데 정렬 유지 */
+  justify-content: center;
+  padding: 60px;
+  background-color: white;
+  flex: 1;
+  min-width: 400px;
+  box-sizing: border-box;
+}
+
+.login-page .login-form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.login-page .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.login-page .form-label {
+  color: #222222;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.login-page .input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid #6a6a6a;
+  border-radius: 16px;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.login-page .input-icon {
+  height: 20px;
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.login-page .form-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #505050;
+  background: transparent;
+  min-width: 0;
+}
+
+.login-page .form-input::placeholder {
+  color: #505050;
+}
+
+.login-page .input-icon-right {
+  height: 24px;
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.login-page .form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.login-page .remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #858585;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.login-page .remember-me input[type="checkbox"] {
+  display: none;
+}
+
+.login-page .checkbox-custom {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #858585;
+  border-radius: 8px;
+  display: inline-block;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.login-page .remember-me input[type="checkbox"]:checked+.checkbox-custom {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.login-page .remember-me input[type="checkbox"]:checked+.checkbox-custom::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 10px;
+}
+
+.login-page .forgot-password {
+  color: #222222;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.login-page .forgot-password:hover {
+  text-decoration: underline;
+}
+
+.login-page .form-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.login-page .login-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.login-page .signup-link {
+  text-align: center;
+  font-size: 16px;
+  line-height: 16px;
+}
+
+.login-page .signup-text {
+  color: #4f4f4f;
+}
+
+.login-page .signup-link-text {
+  color: #212121;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.login-page .signup-link-text:hover {
+  text-decoration: underline;
+}
+
+/* Welcome Section */
+.login-page .welcome-section {
+  flex: 1;
+  min-width: 400px;
+  background: url('https://c.animaapp.com/me2azzmxxO3KsY/img/frame-1171279137.png') center/cover;
+  position: relative;
+}
+
+.login-page .welcome-overlay {
+  background-color: rgba(20, 22, 76, 0.51);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  box-sizing: border-box;
+}
+
+.login-page .welcome-content {
+  text-align: center;
+  color: white;
+}
+
+.login-page .welcome-title {
+  font-size: 32px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.login-page .welcome-subtitle {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+/* 탭 컨테이너를 폼과 같은 폭(최대 400px)으로 중앙정렬 */
+.login-target-tabs.center-tabs {
+  display: flex;
+  justify-content: center;  /* 중앙 정렬 */
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;   /* ← 폼(.login-form)과 동일 */
+  margin: 0 auto 20px;  /* 로그인 폼과 간격 */
+}
+
+.tab-btn {
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.2;
+  border: none;
+  background: #f3f3f3;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.tab-btn.active {
+  background: #007bff;
+  color: white;
+}

@@ -1,0 +1,71 @@
+.booth-list {
+  padding: 24px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.booth-list .bl-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.booth-list .bl-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+.booth-list .bl-primary {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  background: #111;
+  color: #fff;
+  cursor: pointer;
+}
+.booth-list .bl-error {
+  color: #c0392b;
+  margin-bottom: 12px;
+}
+.booth-list .bl-empty {
+  padding: 16px;
+  color: #666;
+}
+.booth-list .bl-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+.booth-list .bl-card {
+  padding: 14px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.booth-list .bl-row {
+  display: grid;
+  gap: 4px;
+}
+.booth-list .bl-name {
+  font-weight: 600;
+}
+.booth-list .bl-meta {
+  color: #666;
+  font-size: 13px;
+}
+.booth-list .bl-dot {
+  margin: 0 6px;
+}
+.booth-list .bl-actions {
+  display: flex;
+  gap: 8px;
+}
+.booth-list .bl-link {
+  text-decoration: none;
+  color: #111;
+  border: 1px solid #111;
+  border-radius: 8px;
+  padding: 6px 10px;
+}

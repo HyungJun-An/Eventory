@@ -1,0 +1,108 @@
+/* Pagination Container */
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+/* Navigation Buttons (Previous/Next) */
+.pagination-nav-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #007BFF;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.pagination-nav-button:hover {
+  color: rgba(0, 123, 255, 0.8);
+  background: transparent;
+}
+
+/* Chevron Icons */
+.chevron-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+/* Navigation Text */
+.nav-text {
+  font-size: 15px;
+  font-weight: 500;
+  display: none;
+}
+
+/* Page Numbers Container */
+.page-numbers {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Active Page */
+.page-active {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #007BFF;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-text-active {
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* Page Buttons */
+.page-button {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  color: #007BFF;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.page-button:hover {
+  color: rgba(0, 123, 255, 0.8);
+  background: transparent;
+}
+
+.page-text {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* Hidden on small screens */
+.page-button-hidden {
+  display: none;
+}
+
+/* Media Queries */
+@media (min-width: 640px) {
+  .nav-text {
+    display: inline;
+  }
+  
+  .page-button-hidden {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .pagination-container {
+    gap: 1.5rem;
+  }
+}

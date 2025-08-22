@@ -1,63 +1,68 @@
-import React from "react";
-import Element from "./sections/PaymentElement";
-import Group from "./sections/Group";
-import GroupWrapper from "./sections/PaymentGroupWrapper";
-import Header from "./sections/Header";
-import View from "./sections/PaymentView";
-import "../assets/css/PaymentPage.css";
+import React, { useEffect, useState } from "react";
+import api from "../api/axiosInstance";
+import Element from "./sections/payment/PaymentElement";
+import Group from "./sections/payment/PaymentGroup";
+import SalesStats from "./sections/payment/PaymentSalesStats";
+import "../assets/css/payment/PaymentPage.css";
 
-const PaymentPage = () => {
+const pageSize = 7;
+
+const PaymentPage = ({ expoId }) => {
+  const [payments, setPayments] = useState([]);
+  const [page, setPage] = useState(0); // 0부터 시작
+  const [totalPages, setTotalPages] = useState(1); // 총 페이지 수
+
+  useEffect(() => {
+
+    if (!expoId) return;
+
+    const fetchPayments = async () => {
+      
+      try {
+        const res = await api.get(`/admin/expos/${expoId}/payment`, {
+          params: { page, size: pageSize },
+        });
+        setPayments(res.data.content);
+        setTotalPages(res.data.totalPages);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchPayments();
+  }, [expoId, page]);
+
   return (
-    <div className="screen" data-model-id="11051:2424">
+    <div className="payment-page" data-model-id="11051:2424">
       <div className="overlap-wrapper-2">
         <div className="overlap-4">
-          <Group />
           <div className="overlap-5">
             <div className="rectangle-10" />
-
             <div className="rectangle-11" />
-
-            <Header />
           </div>
 
           <div className="overlap-6">
             <div className="text-wrapper-31">결제 내역 관리</div>
 
-            <div className="view-2">
-              <div className="group-15">
-                <div className="text-wrapper-32">Next</div>
+            {/*<button
+              onClick={() => page > 0 && setPage(page - 1)}
+              disabled={page === 0}
+            >
+              Previous
+            </button>
+            <button
+              onClick={() => page + 1 < totalPages && setPage(page + 1)}
+              disabled={page + 1 >= totalPages}
+            >
+              Next
+            </button>*/}
 
-                <img
-                  className="vector-2"
-                  alt="Vector"
-                  src="https://c.animaapp.com/mdwrr278Hhu1fG/img/vector-2.svg"
-                />
-              </div>
-
-              <div className="group-16">
-                <div className="text-wrapper-33">Previous</div>
-
-                <img
-                  className="vector-3"
-                  alt="Vector"
-                  src="https://c.animaapp.com/mdwrr278Hhu1fG/img/vector-2-1.svg"
-                />
-              </div>
-
-              <div className="text-wrapper-34">3</div>
-
-              <div className="text-wrapper-35">4</div>
-
-              <div className="overlap-group-3">
-                <div className="text-wrapper-36">1</div>
-              </div>
-
-              <div className="text-wrapper-37">2</div>
-            </div>
-
-            <Element />
-            <View />
-            <GroupWrapper />
+            {expoId && (
+              <>
+                <SalesStats expoId={expoId} />
+                <Group expoId={expoId} />
+                <Element payments={payments} page={page} pageSize={pageSize} />
+              </>
+            )}
           </div>
         </div>
       </div>

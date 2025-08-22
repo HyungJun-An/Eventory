@@ -1,0 +1,125 @@
+.sales-stats {
+  height: 120px;
+  left: 40px;
+  position: absolute;
+  top: 30px;
+  width: 1110px;
+}
+
+.sales-stats .group-10 {
+  background-color: #ffffff;
+  border-radius: 25px;
+  height: 120px;
+  left: 760px;
+  position: absolute;
+  top: 0;
+  width: 350px;
+}
+
+.sales-stats .group-11 {
+  height: 70px;
+  left: 78px;
+  position: relative;
+  top: 25px;
+  width: 168px;
+}
+
+.sales-stats .group-12 {
+  height: 51px;
+  left: 85px;
+  position: absolute;
+  top: 10px;
+  width: 87px;
+}
+
+.sales-stats .text-wrapper-22 {
+  color: #343a40;
+  font-family: var(--heading-four-semibold-20p-font-family);
+  font-size: var(--heading-four-semibold-20p-font-size);
+  font-style: var(--heading-four-semibold-20p-font-style);
+  font-weight: var(--heading-four-semibold-20p-font-weight);
+  left: 0;
+  letter-spacing: var(--heading-four-semibold-20p-letter-spacing);
+  line-height: var(--heading-four-semibold-20p-line-height);
+  position: absolute;
+  top: 27px;
+  white-space: nowrap;
+}
+
+.sales-stats .text-wrapper-23 {
+  color: #343a40b2;
+  font-family: "Inter", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+}
+
+.sales-stats .group-13 {
+  height: 70px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 70px;
+}
+
+.sales-stats .group-14 {
+  background-color: #ffffff;
+  border-radius: 25px;
+  height: 120px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 350px;
+}
+
+.sales-stats .group-15 {
+  height: 70px;
+  left: 48px;
+  position: relative;
+  top: 25px;
+  width: 179px;
+}
+
+.sales-stats .group-16 {
+  height: 51px;
+  left: 85px;
+  position: absolute;
+  top: 10px;
+  width: 98px;
+}
+
+.sales-stats .text-wrapper-24 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 20px;
+  font-weight: 600;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 27px;
+  white-space: nowrap;
+}
+
+.sales-stats .group-17 {
+  background-color: #ffffff;
+  border-radius: 25px;
+  height: 120px;
+  left: 380px;
+  position: absolute;
+  top: 0;
+  width: 350px;
+}
+
+.sales-stats .group-18 {
+  height: 70px;
+  left: 44px;
+  position: relative;
+  top: 25px;
+  width: 168px;
+}

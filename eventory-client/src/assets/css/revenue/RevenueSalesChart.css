@@ -1,0 +1,482 @@
+.sales-chart {
+  height: 357px;
+  left: 40px;
+  position: absolute;
+  top: 526px;
+  width: 1110px;
+}
+
+.sales-chart .group-19 {
+  background-color: #ffffff;
+  border-radius: 25px;
+  height: 357px;
+  left: 760px;
+  position: absolute;
+  top: 0;
+  width: 352px;
+}
+
+.sales-chart .text-wrapper-25 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 22px;
+  font-weight: 600;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+}
+
+.sales-chart .group-20 {
+  height: 310px;
+  left: 80px;
+  position: absolute;
+  top: 80px;
+  width: 350px;
+}
+
+.sales-chart .group-21 {
+  height: 357px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 732px;
+}
+
+.sales-chart .group-22 {
+  background-color: #ffffff;
+  border-radius: 25px;
+  height: 316px;
+  left: 0;
+  position: absolute;
+  top: 41px;
+  width: 730px;
+}
+
+.sales-chart .group-23 {
+  height: 269px;
+  left: 30px;
+  position: relative;
+  top: 24px;
+  width: 672px;
+}
+
+.sales-chart .element {
+  color: transparent;
+  font-family: "Inter", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+  width: 355px;
+}
+
+.sales-chart .span {
+  color: #343a40b2;
+}
+
+.sales-chart .text-wrapper-26 {
+  color: #343a40;
+}
+
+.sales-chart .group-24 {
+  height: 228px;
+  left: 0;
+  position: absolute;
+  top: 40px;
+  width: 684px;
+}
+
+.sales-chart .group-25 {
+  height: 203px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 70px;
+}
+
+.sales-chart .rectangle-8 {
+  background-color: #007bff;
+  border-radius: 10px;
+  height: 117px;
+  left: 0;
+  position: absolute;
+  top: 86px;
+  width: 30px;
+}
+
+.sales-chart .rectangle-9 {
+  background-color: #ffc107;
+  border-radius: 10px;
+  height: 203px;
+  left: 40px;
+  position: absolute;
+  top: 0;
+  width: 30px;
+}
+
+.sales-chart .group-26 {
+  height: 162px;
+  left: 100px;
+  position: absolute;
+  top: 42px;
+  width: 70px;
+}
+
+.sales-chart .rectangle-10 {
+  background-color: #007bff;
+  border-radius: 10px;
+  height: 92px;
+  left: 0;
+  position: absolute;
+  top: 69px;
+  width: 30px;
+}
+
+.sales-chart .rectangle-11 {
+  background-color: #ffc107;
+  border-radius: 10px;
+  height: 162px;
+  left: 40px;
+  position: absolute;
+  top: 0;
+  width: 30px;
+}
+
+.sales-chart .group-27 {
+  height: 121px;
+  left: 200px;
+  position: absolute;
+  top: 83px;
+  width: 70px;
+}
+
+.sales-chart .rectangle-12 {
+  background-color: #007bff;
+  border-radius: 10px;
+  height: 89px;
+  left: 0;
+  position: absolute;
+  top: 32px;
+  width: 30px;
+}
+
+.sales-chart .rectangle-13 {
+  background-color: #ffc107;
+  border-radius: 10px;
+  height: 121px;
+  left: 40px;
+  position: absolute;
+  top: 0;
+  width: 30px;
+}
+
+.sales-chart .group-28 {
+  height: 184px;
+  left: 300px;
+  position: absolute;
+  top: 19px;
+  width: 70px;
+}
+
+.sales-chart .rectangle-14 {
+  background-color: #007bff;
+  border-radius: 10px;
+  height: 184px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 30px;
+}
+
+.sales-chart .rectangle-15 {
+  background-color: #ffc107;
+  border-radius: 10px;
+  height: 107px;
+  left: 40px;
+  position: absolute;
+  top: 77px;
+  width: 30px;
+}
+
+.sales-chart .group-29 {
+  height: 186px;
+  left: 400px;
+  position: absolute;
+  top: 17px;
+  width: 70px;
+}
+
+.sales-chart .rectangle-16 {
+  background-color: #007bff;
+  border-radius: 10px;
+  height: 130px;
+  left: 0;
+  position: absolute;
+  top: 56px;
+  width: 30px;
+}
+
+.sales-chart .rectangle-17 {
+  background-color: #ffc107;
+  border-radius: 10px;
+  height: 186px;
+  left: 40px;
+  position: absolute;
+  top: 0;
+  width: 30px;
+}
+
+.sales-chart .group-30 {
+  height: 137px;
+  left: 500px;
+  position: absolute;
+  top: 66px;
+  width: 70px;
+}
+
+.sales-chart .rectangle-18 {
+  background-color: #007bff;
+  border-radius: 10px;
+  height: 137px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 30px;
+}
+
+.sales-chart .rectangle-19 {
+  background-color: #ffc107;
+  border-radius: 10px;
+  height: 91px;
+  left: 40px;
+  position: absolute;
+  top: 46px;
+  width: 30px;
+}
+
+.sales-chart .group-31 {
+  height: 188px;
+  left: 600px;
+  position: absolute;
+  top: 16px;
+  width: 70px;
+}
+
+.sales-chart .rectangle-20 {
+  background-color: #007bff;
+  border-radius: 10px;
+  height: 155px;
+  left: 0;
+  position: absolute;
+  top: 32px;
+  width: 30px;
+}
+
+.sales-chart .rectangle-21 {
+  background-color: #ffc107;
+  border-radius: 10px;
+  height: 188px;
+  left: 40px;
+  position: absolute;
+  top: 0;
+  width: 30px;
+}
+
+.sales-chart .text-wrapper-27 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-weight: 400;
+  left: 24px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 214px;
+  white-space: nowrap;
+  width: 22px;
+}
+
+.sales-chart .text-wrapper-28 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-weight: 400;
+  left: 122px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 214px;
+  white-space: nowrap;
+  width: 26px;
+}
+
+.sales-chart .text-wrapper-29 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-weight: 400;
+  left: 221px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 214px;
+  white-space: nowrap;
+  width: 29px;
+}
+
+.sales-chart .text-wrapper-30 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-weight: 400;
+  left: 323px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 214px;
+  white-space: nowrap;
+  width: 25px;
+}
+
+.sales-chart .text-wrapper-31 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-weight: 400;
+  left: 522px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 214px;
+  white-space: nowrap;
+  width: 26px;
+}
+
+.sales-chart .text-wrapper-32 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-weight: 400;
+  left: 627px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 214px;
+  white-space: nowrap;
+  width: 17px;
+}
+
+.sales-chart .text-wrapper-33 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-weight: 400;
+  left: 420px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 214px;
+  white-space: nowrap;
+  width: 30px;
+}
+
+.sales-chart .group-32 {
+  height: 17px;
+  left: 507px;
+  position: absolute;
+  top: 0;
+  width: 163px;
+}
+
+.sales-chart .group-33 {
+  height: 17px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 73px;
+}
+
+.sales-chart .rectangle-22 {
+  background-color: #007bff;
+  border-radius: 5px;
+  box-shadow: inset 0px 0px 15px #11338480;
+  height: 13px;
+  left: 0;
+  position: absolute;
+  top: 2px;
+  width: 15px;
+}
+
+.sales-chart .text-wrapper-34 {
+  color: #343a40b2;
+  font-family: "Inter", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 25px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+  width: 46px;
+}
+
+.sales-chart .group-34 {
+  height: 17px;
+  left: 91px;
+  position: absolute;
+  top: 0;
+  width: 74px;
+}
+
+.sales-chart .rectangle-23 {
+  background-color: #ffc107;
+  border-radius: 5px;
+  box-shadow: inset 0px 0px 15px #ac0c6b80;
+  height: 13px;
+  left: 0;
+  position: absolute;
+  top: 2px;
+  width: 15px;
+}
+
+.sales-chart .text-wrapper-35 {
+  color: #343a40b2;
+  font-family: "Inter", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 25px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+  width: 47px;
+}
+
+.sales-chart .text-wrapper-36 {
+  color: #343a40;
+  font-family: "Inter", Helvetica;
+  font-size: 22px;
+  font-weight: 600;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+  width: 255px;
+}
