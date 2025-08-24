@@ -79,20 +79,20 @@
 ---
 ## :link: 배포 링크
 
-> ### [⛪ 배포 링크 예시](https:www.naver.com)
+> ### [⛪ 배포 링크 예시]([https:www.naver.com](https://eventory.kro.kr/))
 
 ---
 ## 🗣️ 프로젝트 발표 영상 & 발표 문서
 
 > ### 🗓️ 2025.07.22 - 2025.08.22
-> ### [📑 발표 PPT 링크](https://www.canva.com/design/DAGwnXnEw_0/so20uik4ndPi_55Dts-m0w/edit)
+> ### [📑 발표 PPT 링크]([https://www.canva.com/design/DAGwnXnEw_0/so20uik4ndPi_55Dts-m0w/edit](https://drive.google.com/file/d/1mODzmx6smgVfJd3GPuKUPLyLqkMi7hPl/view?usp=sharing))
 
 ---
 
 ## 🖥️ 서비스 소개
-|회원가입/로그인/로그아웃|박람회 관리자|시스템 관리자 |회계 관리자|
+|회원관리|박람회 관리자|시스템 관리자|회계 관리자|
 |:-:|:-:|:-:|:-:|
-| <img src="https://lh6.googleusercontent.com/M7RxaY_ZsF5sQcqiIOafdBGHuVGqKrQ0c07hzOtLgkhxYTK-aRKWdhkMfi8DaoZxyDWLZKhdUEDKBIEpETcm2_sH5JdW69mrOXzASMQYHFEiaP0QbgCEHa5bnKzITG-v9ztn0QfbCeZtznJ8q-SDo2qoEA=s2048" alt="MainPage1"> | <img src="https://lh6.googleusercontent.com/WSSZM-N1tpBvXui0ivLMaSJv5u-Jn8oUNXik40GOW7thMqmNdMPrjfO4-halmEZ80GuBBlI5ENm8TtDovjSOMRqHE6Z5w7F5yYxdplO643k3wfhyW4wT0IUT15Rv6kk_FAnST07-50NOOeXHjRfjh6dEBA=s2048" alt="MainPage2"> | <img src="https://lh6.googleusercontent.com/LgLnyK4xbij_SmBQd_9b-zKL7NjFBceXLFr97o-S9z4JMw7bZaO4E9W5SbwJn_xOAVu4xCk9Se0eqShfP8YkzkaL-QilqVa6LRaQEQ5h4PHLZOgmT8ZByBV-eEIZEr9D3I1mB6qu5nhIehup3910FytnrQ=s2048" alt="Login1"> | <img src="https://lh5.googleusercontent.com/KRfPZ8P2TzvLBeHAcApzzHDn6xbkCYp8Z9sDmWSifQNwQwfC7HAjczd-KHVs5dGbKhi2AO5O3A8wd8mewcze3TKb_yM9y5-PHQVE7axz5HVdWsI1alg2-qatjn7G2c0Y6Fx786KMjoiIULFLpCoQx6HWJA=s2048" alt="MyPage1"> |
+| [![서비스 시연영상](https://drive.google.com/uc?export=view&id=1GCkL__lqzfPjL1xaaY71jYZ8OTcwhNSK)](https://drive.google.com/file/d/1eLHfJEUvovg0fQdMdXxzu8Jwee6sY7YA/view?usp=sharing) | [![서비스 시연영상](https://drive.google.com/uc?export=view&id=1OqocDALiCZu2ExV_9qnVpUwSQ1UsNUUT)](https://drive.google.com/file/d/1vz3zlMTOwsNRL9A5jN_DLSUV_lmW3el1/view?usp=sharing) | [![서비스 시연영상](https://drive.google.com/uc?export=view&id=1tje0MuWcBHJV_9n5h3JN5rPztlxHaJx_)](https://drive.google.com/file/d/1fqULcJI4dqJ0Y9RafRFFuvxY25l9Jd5q/view?usp=sharing) | [![서비스 시연영상](https://drive.google.com/uc?export=view&id=1ETPnOTlvvBM55CG0NK2pVWZxCZ1AO2JB)](https://drive.google.com/file/d/1dTlY-o2fiIAVx0Od4Xf6AfrZlDNxg04D/view?usp=sharing) |
 
 
 ## 🧰 사용 스택
@@ -145,14 +145,14 @@
 ## :busts_in_silhouette: 팀 동료
 
 
-| <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@hyojin0911</b></sub></a><br/> | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@ehayng1</b></sub></a><br/> | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@HyungJun-An</b></sub></a><br/> |
+| <a href=https://github.com/ddolly518/><img src="https://avatars.githubusercontent.com/u/80440158?v=4" width=100px/><br/><sub><b>@ddolly518</b></sub></a><br/> | <a href=https://github.com/yujineeo/><img src="https://avatars.githubusercontent.com/u/200905114?v=4" width=100px/><br/><sub><b>@yujineeo</b></sub></a><br/> | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@HyungJun-An</b></sub></a><br/> |
 |:-:|:-:|:-:|
-|전효진|      정현해   |  안형준  |
+|강민서|김유진|안형준|
 
 
-| <a href=https://github.com/ddolly518/><img src="https://avatars.githubusercontent.com/u/80440158?v=4" width=100px/><br/><sub><b>@ddolly518</b></sub></a><br/> | <a href=https://github.com/dokdokee><img src="https://avatars.githubusercontent.com/u/203818385?v=4" width=100px/><br/><sub><b>@dokdokee</b></sub></a><br/> | <a href=https://github.com/yujineeo/><img src="https://avatars.githubusercontent.com/u/200905114?v=4" width=100px/><br/><sub><b>@yujineeo</b></sub></a><br/> | <a href=https://github.com/Seungmi97/><img src="https://avatars.githubusercontent.com/u/132995507?v=4" width=100px/><br/><sub><b>@Seungmi97</b></sub></a><br/> |
-|:-:|:--:|:-:|:-:|
-|강민서|신드보라|김유진|황승미|
+| <a href=https://github.com/Seungmi97/><img src="https://avatars.githubusercontent.com/u/132995507?v=4" width=100px/><br/><sub><b>@Seungmi97</b></sub></a><br/> | <a href=https://github.com/dokdokee><img src="https://avatars.githubusercontent.com/u/203818385?v=4" width=100px/><br/><sub><b>@dokdokee</b></sub></a><br/> | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@hyojin0911</b></sub></a><br/> | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@ehayng1</b></sub></a><br/> | 
+|:-:|:-:|:-:|:-:|
+|황승미|신드보라|전효진|정현해|
 
 
 ## 📑 프로젝트 규칙
@@ -197,13 +197,6 @@
 > - [ ] CONF: 빌드, 환경 설정
 > - [ ] CHORE: 기타 작업
 
-> ### Description
-> * 구체적인 작업 내용을 작성해주세요.
-> * 이미지를 별도로 첨부하면 더 좋습니다 👍
-
-> ### Discussion
-> * 추후 논의할 점에 대해 작성해주세요.
-
 ### Code Convention
 >BE
 > - 패키지명 전체 소문자
@@ -222,7 +215,7 @@
 
 ### Communication Rules
 > - Discord 활용
-> - 정기 회의 00시 ~ 00시
+> - 정기 회의 16시 ~ 18시
 
 
 ## :clipboard: Documents
@@ -232,4 +225,4 @@
 >
 > [📜 ERD](https://www.erdcloud.com/d/3gSWctyeNQzkj2T34)
 >
-> [📜 테이블 명세서](https://docs.google.com/document/d/1UG5nslO348ICNDzciaVzA64GYAqA9z5-/edit?usp=drive_link&ouid=103327323946421895739&rtpof=true&sd=true)
+> [📜 테이블 명세서](https://docs.google.com/document/d/1ummW42XzfPVniaVZmWB1yjw-2XAU-Cf1/edit?usp=sharing&ouid=108605614740878450335&rtpof=true&sd=true)
