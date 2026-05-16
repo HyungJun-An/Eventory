@@ -2,8 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Dropdown, Button, Space } from "antd";
 import { DownOutlined, UserOutlined } from "@ant-design/icons";
-import "../assets/css/systemAdmin/systemAdmin.css";
-import "../assets/css/systemAdmin/sysDashboard.css";
+import "../assets/css/systemAdmin/SystemAdmin.css";
+import "../assets/css/systemAdmin/SysDashboard.css";
 import totalAmount from "../../public/totalAmount.png";
 import SysAdminButton from "../components/SysAdminButton";
 import {

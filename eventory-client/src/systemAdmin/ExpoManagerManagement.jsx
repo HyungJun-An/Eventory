@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import "../assets/css/systemAdmin/systemAdmin.css";
+import "../assets/css/systemAdmin/SystemAdmin.css";
 import "../assets/css/systemAdmin/ExpoManagerManagement.css";
 
 import { Button, message } from "antd";
@@ -8,7 +8,7 @@ import Divider from "../components/Divider";
 import SysAdminButton from "../components/SysAdminButton";
 import ExpoDetailModal from "./ExpoDetailModal";
 import { getManagers } from "../api/sysExpoAdminApi";
-import ManagerInfoEditModal from "./managerInfoEditModal";
+import ManagerInfoEditModal from "./ManagerInfoEditModal";
 import AdminSidebar from "./AdminSidebar";
 import SysHeader from "./SysHeader";
 
@@ -22,22 +22,6 @@ export const ExpoManagerManagement = () => {
   const [searchText, setSearchText] = useState("");
   const [showManagerEditModal, setShowManagerEditModal] = useState(false);
   const [managers, setManagers] = useState([
-    {
-      id: 1,
-      name: "Admin One",
-      phone: "010-1234-5678",
-      email: "admin1@example.com",
-      createdAt: "2025-08-08T15:28:37",
-      lastAppliedAt: "2025-08-15T18:26:37",
-    },
-    {
-      id: 2,
-      name: "adminUser",
-      phone: "010-1234-5678",
-      email: "admin@admin.com",
-      createdAt: "2025-08-13T10:59:47",
-      lastAppliedAt: "2025-08-08T15:28:37",
-    },
   ]);
 
   useEffect(() => {
@@ -92,6 +76,7 @@ export const ExpoManagerManagement = () => {
         className=" managerTable-row"
         style={{
           alignItems: "center",
+          color: "black",
         }}
       >
         <div

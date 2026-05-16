@@ -38,7 +38,7 @@ public class SecurityConfig {
                                 "/api/admin/login", "/api/admin/sys/login", "/api/auth/login",
                                 "/api/admin/logout", "/api/admin/sys/logout", "/api/auth/logout",
                                 "/api/auth/signup", "/api/admin/refresh", "/api/auth/refresh",
-                                "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**",
+                                "/swagger-ui.html", "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**",
                                 "/webjars/**", "/favicon.ico", "/error", "/api/checkin/**",
                                 "/api/user/expos", "/api/user/expos/**",
                                 "/session/**", "/actuator/**"

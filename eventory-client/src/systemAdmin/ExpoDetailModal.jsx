@@ -11,27 +11,6 @@ export const ExpoDetailModal = ({ id = 1, closeModal, openRejectNoti }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPagesize] = useState(10);
   const [expos, setExpos] = useState([
-    {
-      id: 1,
-      title: "서울 IT 박람회",
-      category: "IT",
-      createdAt: "2025-08-08T15:28:37",
-      status: "PENDING",
-    },
-    {
-      id: 2,
-      title: "헬스케어 박람회",
-      category: "Healthcare",
-      createdAt: "2025-08-08T15:28:37",
-      status: "APPROVED",
-    },
-    {
-      id: 3,
-      title: " 박람회",
-      category: "Healthcare",
-      createdAt: "2025-08-08T15:28:37",
-      status: "REJECTED",
-    },
   ]);
 
   useEffect(() => {

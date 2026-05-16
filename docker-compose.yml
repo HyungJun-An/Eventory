@@ -1,6 +1,21 @@
-version: '3.8'
-
 services:
+  eventory-db:
+    image: mysql:8.0
+    container_name: eventory-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_DATABASE: Eventory
+      MYSQL_USER: EventoryUser
+      MYSQL_PASSWORD: "1234"
+    ports:
+      - "3307:3306"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uEventoryUser", "-p1234"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
   eventory-server:
     build:
       context: ./eventory-server
@@ -9,6 +24,16 @@ services:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:mysql://eventory-db:3306/Eventory
+      - SPRING_DATASOURCE_USERNAME=EventoryUser
+      - SPRING_DATASOURCE_PASSWORD=1234
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+    depends_on:
+      eventory-db:
+        condition: service_healthy
+      redis:
+        condition: service_started
     restart: unless-stopped
 
   eventory-client:

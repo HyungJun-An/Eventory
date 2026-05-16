@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { notification } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
-import "../../assets/css/systemAdmin/systemAdmin.css";
+import "../../assets/css/systemAdmin/SystemAdmin.css";
 import { getExpos, approveExpo, rejectExpo } from "../../api/sysExpoApi";
 import RejectModal from "../RejectModal";
 import SysAdminButton from "../../components/SysAdminButton";
@@ -13,27 +13,6 @@ import SysHeader from "../SysHeader";
 export const SysExpoList = () => {
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [expos, setExpos] = useState([
-    {
-      id: 1,
-      title: "서울 IT 박람회",
-      category: "IT",
-      createdAt: "2025-08-08T15:28:37",
-      status: "PENDING",
-    },
-    {
-      id: 2,
-      title: "헬스케어 박람회",
-      category: "Healthcare",
-      createdAt: "2025-08-08T15:28:37",
-      status: "APPROVED",
-    },
-    {
-      id: 3,
-      title: " 박람회",
-      category: "Healthcare",
-      createdAt: "2025-08-08T15:28:37",
-      status: "REJECTED",
-    },
   ]);
   const [firstPage, setFirstPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -164,6 +143,7 @@ export const SysExpoList = () => {
             className=" expoTable-row"
             style={{
               alignItems: "center",
+              color: "black",
             }}
           >
             <div style={{ justifySelf: "start" }}>{expo.title}</div>

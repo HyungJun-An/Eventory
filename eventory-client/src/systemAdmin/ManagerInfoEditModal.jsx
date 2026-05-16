@@ -15,6 +15,7 @@ export const ManagerInfoEditModal = ({ onClose, id, manager }) => {
     // save API
     updateManager(manager.id, name, phone, email);
     onClose();
+    location.reload();
   };
 
   const handleDelete = () => {

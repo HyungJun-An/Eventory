@@ -26,7 +26,7 @@ public class ExpoAdmin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long expoAdminId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id", nullable = false)
     private UserType type;
 

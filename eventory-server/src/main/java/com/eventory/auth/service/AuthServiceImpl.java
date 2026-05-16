@@ -96,8 +96,8 @@ public class AuthServiceImpl implements AuthService {
             throw new CustomException(CustomErrorCode.INVALID_PASSWORD);
         }
 
-        // AccessToken, RefreshToken 생성 후
-        String accessToken = jwtTokenProvider.createAccessToken(user.getUserId(), user.getUserType().getName());
+        // AccessToken, RefreshToken 생성 후 (role은 ROLE_ 접두사 포함)
+        String accessToken = jwtTokenProvider.createAccessToken(user.getUserId(), "ROLE_" + user.getUserType().getName());
         String refreshToken = UUID.randomUUID().toString();
 
         // Redis 저장 (7일)
