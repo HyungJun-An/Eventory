@@ -1,5 +1,7 @@
 package com.eventory.common.entity;
 
+import com.eventory.common.exception.CustomErrorCode;
+import com.eventory.common.exception.CustomException;
 import com.eventory.expoAdmin.dto.ExpoUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -80,6 +82,18 @@ public class Expo {
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
+    // 수용 인원 관리 — 동시성 제어 핵심 필드
+    @Column(name = "max_capacity", nullable = false)
+    private int maxCapacity;
+
+    @Column(name = "reserved_count", nullable = false)
+    private int reservedCount = 0;
+
+    // 낙관적 락: UPDATE 충돌 시 OptimisticLockException 발생
+    @Version
+    @Column(name = "version")
+    private Long version;
+
     @OneToMany(mappedBy = "expo", fetch = FetchType.LAZY)
     private List<ExpoCategory> expoCategories = new ArrayList<>();
 
@@ -103,6 +117,17 @@ public class Expo {
     public void reject(String reason) {
     	this.status = ExpoStatus.REJECTED;
     	this.reason = reason;
+    }
+
+    public void increaseReservedCount(int people) {
+        if (this.reservedCount + people > this.maxCapacity) {
+            throw new CustomException(CustomErrorCode.EXPO_CAPACITY_EXCEEDED);
+        }
+        this.reservedCount += people;
+    }
+
+    public void decreaseReservedCount(int people) {
+        this.reservedCount = Math.max(0, this.reservedCount - people);
     }
   
     public void updateExpo(ExpoUpdateRequestDto requestDto) {

@@ -2,6 +2,8 @@ package com.eventory.payment.service;
 
 import com.eventory.auth.repository.UserRepository;
 import com.eventory.common.entity.*;
+import com.eventory.common.exception.CustomErrorCode;
+import com.eventory.common.exception.CustomException;
 import com.eventory.common.repository.ExpoRepository;
 import com.eventory.common.repository.PaymentRepository;
 import com.eventory.common.repository.ReservationRepository;
@@ -76,13 +78,17 @@ public class PaymentServiceImpl implements PaymentService {
 
         // ID만으로 프록시 참조 얻기 (즉시 쿼리 안 나감, 접근 시/flush 시 검증)
         User userRef = userRepository.getReferenceById(req.getUserId());
-        Expo expoRef = expoRepository.getReferenceById(req.getExpoId());
+
+        // 비관적 락으로 Expo 조회 — 동시 예약 중복 방지
+        Expo expo = expoRepository.findByIdWithLock(req.getExpoId())
+                .orElseThrow(() -> new CustomException(CustomErrorCode.EXPO_NOT_FOUND));
+        expo.increaseReservedCount(req.getPeople()); // 정원 초과 시 EXPO_CAPACITY_EXCEEDED
 
         // 3) reservation 생성 (결제 성공 시점에만 생성)
         String reservationCode = generateReservationCode();
         Reservation savedRes = reservationRepository.save(Reservation.builder()
                 .user(userRef)
-                .expo(expoRef)
+                .expo(expo)
                 .payment(savedPay)
                 .status(ReservationStatus.RESERVED)
                 .code(reservationCode)
@@ -128,6 +134,12 @@ public class PaymentServiceImpl implements PaymentService {
         // 3-4) 로컬 상태 반영
         pay.markRefunded();
         res.setStatus(ReservationStatus.CANCELLED);
+
+        // 비관적 락으로 Expo 재조회 후 예약 인원 감소
+        Expo expo = expoRepository.findByIdWithLock(res.getExpo().getExpoId())
+                .orElseThrow(() -> new IllegalStateException("Expo 없음"));
+        expo.decreaseReservedCount(res.getPeople());
+
         reservationRepository.save(res);
         paymentRepository.save(pay);
     }

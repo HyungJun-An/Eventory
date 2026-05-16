@@ -43,6 +43,7 @@ public enum CustomErrorCode {
 	EXPO_NOT_FOUND(HttpStatus.NOT_FOUND, "E002", "박람회가 존재하지 않습니다"),
 	HANDLED_EXPO(HttpStatus.BAD_REQUEST, "E003", "이미 처리된 박람회입니다"),
 	REASON_REQUIRED(HttpStatus.BAD_REQUEST, "E004", "거절 사유가 필요합니다"),
+	EXPO_CAPACITY_EXCEEDED(HttpStatus.CONFLICT, "E005", "박람회 수용 인원이 초과되었습니다"),
 
     // 박람회 관리자 D
     INVALID_PERIOD(HttpStatus.BAD_REQUEST, "D001", "유효하지 않은 통계 기간입니다."),
