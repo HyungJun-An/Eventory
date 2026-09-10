@@ -1,13 +1,16 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./assets/css/App.css";
 
-import RevenuePage from "./expoAdmin/RevenuePage";
-import PaymentPage from "./expoAdmin/PaymentPage";
-import RefundPage from "./expoAdmin/RefundPage";
-import AdminLayout from "./expoAdmin/sections/AdminLayout";
+import AdminLayout from "./expoAdmin/layout/AdminLayout";
+import { useAdminExpo } from "./expoAdmin/layout/useAdminExpo";
 import Dashboard from "./expoAdmin/DashboardPage";
-import Reservation from "./expoAdmin/ReservationPage";
-import QRCheckIn from "./expoAdmin/QRCheckInPage";
+import QrCheckinPage from "./expoAdmin/pages/QrCheckinPage";
+import ReservationListPage from "./expoAdmin/pages/ReservationListPage";
+import BoothManagePage from "./expoAdmin/pages/BoothManagePage";
+import ContentEditPage from "./expoAdmin/pages/ContentEditPage";
+import SalesPage from "./expoAdmin/pages/SalesPage";
+import PaymentListPage from "./expoAdmin/pages/PaymentListPage";
+import RefundListPage from "./expoAdmin/pages/RefundListPage";
 import LoginPage from "./auth/LoginPage";
 import RegisterPage from "./auth/UserRegistration";
 import { UserMainPage } from "./user/userMain";
@@ -22,11 +25,16 @@ import BoothList from "./companyUser/BoothList";
 import BoothEdit from "./companyUser/BoothEdit";
 import ExpoDetail from "./user/ExpoDetail";
 
-import ContentPage from "./expoAdmin/ContentPage";
 import { SysExpoList } from "./systemAdmin/SysExpoList";
 import ExpoManagerManagement from "./systemAdmin/ExpoManagerManagement";
 import SysDashboard from "./systemAdmin/SysDashboard";
 import AdminSidebar from "./systemAdmin/AdminSidebar";
+
+// 기존 대시보드 컴포넌트는 expoId 를 props 로 받으므로 레이아웃의 선택 박람회를 연결해준다
+function DashboardRoute() {
+  const { expoId } = useAdminExpo();
+  return <Dashboard expoId={expoId} />;
+}
 
 function App() {
   return (
@@ -34,65 +42,18 @@ function App() {
       future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
     >
       <Routes>
-        {/******************* 어드민 영역 ***********************/}
-        <Route
-          path="/admin/dashboard"
-          element={
-            <AdminLayout>
-              <Dashboard />
-            </AdminLayout>
-          }
-        />
-        <Route
-          path="/admin/reservation"
-          element={
-            <AdminLayout>
-              <QRCheckIn />
-            </AdminLayout>
-          }
-        />
-
-        <Route
-          path="/admin/reservation/list"
-          element={
-            <AdminLayout>
-              <Reservation />
-            </AdminLayout>
-          }
-        />
-
-        <Route
-          path="/admin/sales"
-          element={
-            <AdminLayout>
-              <RevenuePage />
-            </AdminLayout>
-          }
-        />
-        <Route
-          path="/admin/payment"
-          element={
-            <AdminLayout>
-              <PaymentPage />
-            </AdminLayout>
-          }
-        />
-        <Route
-          path="/admin/refund"
-          element={
-            <AdminLayout>
-              <RefundPage />
-            </AdminLayout>
-          }
-        />
-        <Route
-          path="/admin/contents"
-          element={
-            <AdminLayout>
-              <ContentPage />
-            </AdminLayout>
-          }
-        />
+        {/******************* 박람회관리자 영역 (공통 레이아웃 + 선택 박람회 공유) ***********************/}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Navigate to="dashboard" replace />} />
+          <Route path="dashboard" element={<DashboardRoute />} />
+          <Route path="reservation" element={<QrCheckinPage />} />
+          <Route path="reservation/list" element={<ReservationListPage />} />
+          <Route path="booth" element={<BoothManagePage />} />
+          <Route path="contents" element={<ContentEditPage />} />
+          <Route path="sales" element={<SalesPage />} />
+          <Route path="payment" element={<PaymentListPage />} />
+          <Route path="refund" element={<RefundListPage />} />
+        </Route>
 
         {/****************** 일반 사용자 영역 ********************/}
         <Route element={<MainLayout />}>
@@ -117,17 +78,14 @@ function App() {
         </Route>
         <Route
           path="/sys/expos"
-          // element={<AdminLayout>{<SysExpoList />}</AdminLayout>}
           element={<SysExpoList></SysExpoList>}
         />
         <Route
           path="/sys/manage"
-          // element={<AdminLayout>{<ExpoManagerManagement />}</AdminLayout>}
           element={<ExpoManagerManagement></ExpoManagerManagement>}
         />
         <Route
           path="/sys/dashboard"
-          // element={<AdminLayout>{<SysDashboard />}</AdminLayout>}
           element={<SysDashboard></SysDashboard>}
         />
         <Route path="/sys/sidebar" element={<AdminSidebar></AdminSidebar>} />
