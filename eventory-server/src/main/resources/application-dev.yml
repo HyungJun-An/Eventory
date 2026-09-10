@@ -6,6 +6,10 @@ qr:
   mail-from: no-reply@eventory.example
   issuer: Eventory
 
+eventory:
+  seed:
+    enabled: true   # 기동 시 db/demo-data.sql 실행 (expo 테이블이 비어 있을 때만)
+
 management:
   endpoints:
     web:

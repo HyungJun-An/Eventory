@@ -29,6 +29,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=1234
       - SPRING_REDIS_HOST=redis
       - SPRING_REDIS_PORT=6379
+      - EVENTORY_SEED_ENABLED=true   # 데모 데이터 자동 입력 (실서비스 배포 시 제거)
     depends_on:
       eventory-db:
         condition: service_healthy
