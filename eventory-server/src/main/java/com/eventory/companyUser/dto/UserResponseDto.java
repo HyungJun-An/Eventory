@@ -1,6 +1,5 @@
 package com.eventory.companyUser.dto;
 
-import com.eventory.common.entity.UserType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,9 +19,7 @@ public class UserResponseDto {
     @Positive
     private Long userId;
 
-    @NotNull
-    private UserType userType;
-
+    // userType(지연 로딩 엔티티)는 직렬화 오류(500)를, password 는 해시 노출을 일으켜 응답에서 제외한다
     @NotBlank
     private String customerId;
 
@@ -31,9 +28,6 @@ public class UserResponseDto {
 
     @NotBlank
     private String email;
-
-    @NotBlank
-    private String password;
 
     @NotBlank
     private String phone;

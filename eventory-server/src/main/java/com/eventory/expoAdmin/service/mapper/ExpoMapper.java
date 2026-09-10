@@ -135,7 +135,6 @@ public class ExpoMapper {
     public ManagerResponseDto toManagerResponseDto(ExpoAdmin expoAdmin) {
         return ManagerResponseDto.builder()
                 .expoAdminId(expoAdmin.getExpoAdminId())
-                .password(expoAdmin.getPassword())
                 .name(expoAdmin.getName())
                 .email(expoAdmin.getEmail())
                 .phone(expoAdmin.getPhone())

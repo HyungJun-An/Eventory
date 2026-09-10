@@ -43,11 +43,9 @@ public class CompanyMapper {
     public UserResponseDto toUserResponseDto(User user) {
         return UserResponseDto.builder()
                 .userId(user.getUserId())
-                .userType(user.getUserType())
                 .customerId(user.getCustomerId())
                 .name(user.getName())
                 .email(user.getEmail())
-                .password(user.getPassword())
                 .phone(user.getPhone())
                 .companyNameKr(user.getCompanyNameKr())
                 .companyNameEng(user.getCompanyNameEng())

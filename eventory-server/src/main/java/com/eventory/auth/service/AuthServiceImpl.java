@@ -119,7 +119,8 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.MEMBER_NOT_EXIST));
 
-        String newAccess = jwtTokenProvider.createAccessToken(user.getUserId(), user.getUserType().getName());
+        // 로그인과 동일하게 ROLE_ 접두사 필수 (누락 시 재발급 직후부터 모든 요청 403)
+        String newAccess = jwtTokenProvider.createAccessToken(user.getUserId(), "ROLE_" + user.getUserType().getName());
         // 회전 정책(권장): 기존 refresh 삭제 후 새로 발급
         String newRefresh = UUID.randomUUID().toString();
 

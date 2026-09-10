@@ -10,7 +10,8 @@ import java.util.concurrent.TimeUnit;
 public class RedisTokenStore implements TokenStore {
     private final StringRedisTemplate redis;
 
-    private static final String KEY_BLACKLIST = "blacklist:";  // blacklist:<access>
+    // JwtAuthenticationFilter.BLACKLIST_PREFIX 와 반드시 같아야 한다 (다르면 로그아웃한 토큰이 계속 통과됨)
+    private static final String KEY_BLACKLIST = "blacklist:access:";  // blacklist:access:<access>
     private static final String KEY_REFRESH = "refresh:user:"; // refresh:user:<userId>
     private static final String KEY_USER_BY_REFRESH = "user:refresh:";// user:refresh:<refresh> -> <userId>
 
