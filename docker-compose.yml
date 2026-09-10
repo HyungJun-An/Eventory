@@ -43,6 +43,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    depends_on:
+      - eventory-server   # Nginx가 기동 시 upstream(eventory-server) 이름을 해석하므로 먼저 떠 있어야 함
     restart: always
 
   redis:

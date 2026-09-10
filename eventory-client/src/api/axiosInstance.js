@@ -3,17 +3,17 @@ import qs from "qs";
 
 /**
  * 공통 Axios 인스턴스 (Vite + React, JS 버전)
- * - baseURL: /api(prod) | http://localhost:8080/api(dev)
+ * - baseURL: 항상 상대경로 /api (같은 origin으로 요청 → CORS 불필요)
+ *   · 개발(npm run dev): vite.config.js 프록시가 백엔드로 전달
+ *   · Docker/운영: Nginx(default.conf)가 백엔드로 전달
  * - withCredentials: true (HttpOnly RefreshToken 쿠키 사용 전제)
  * - 요청 시 AccessToken 자동 부착(localStorage)
  * - 401이면 RefreshToken으로 1회 자동 재발급 후 원요청 재시도
  * - 동시 401 단일 재발급 보장 (Promise 직렬화)
  */
 
-const mode = import.meta.env.VITE_MODE;
-
 export const api = axios.create({
-    baseURL: mode === "prod" ? "https://eventory.kro.kr:8080/api" : "http://localhost:8080/api",
+    baseURL: "/api",
     withCredentials: true,
     paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
 });
