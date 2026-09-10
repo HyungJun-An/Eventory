@@ -17,12 +17,12 @@ public interface SalesAdminService {
     List<Map<String, Object>> findYearlySales(Long expoAdminId, Long expoId);
     List<Map<String, Object>> findMonthlySales(Long expoAdminId, Long expoId);
     List<Map<String, Object>> findDailySales(Long expoAdminId, Long expoId);
-    List<RefundResponseDto> findAllRefunds(Long expoAdminId, Long expoId, String status, Integer page, Integer size);
+    Page<RefundResponseDto> findAllRefunds(Long expoAdminId, Long expoId, String status, Integer page, Integer size);
 
     Page<PaymentResponseDto> findAllPayments(CustomUserPrincipal expoAdmin, Long expoId, String reservationCode, LocalDate startDate, LocalDate endDate, Integer page, Integer size);
     List<PaymentResponseDto> findAllPayments(CustomUserPrincipal expoAdmin, Long expoId);
 
-    void updateRefundStatus(Long refundId, RefundRequestDto request);
+    void updateRefundStatus(Long expoAdminId, Long refundId, RefundRequestDto request);
 
     Resource downloadPaymentsExcel(List<PaymentResponseDto> paymentResponseDto);
 }

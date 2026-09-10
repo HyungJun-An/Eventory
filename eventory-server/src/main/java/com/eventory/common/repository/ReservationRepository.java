@@ -66,14 +66,15 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     SELECT r
     FROM reservation r
     WHERE r.expo.expoId = :expoId
-      AND (:code IS NULL OR r.code = :code)
-      AND (:startDate IS NULL OR r.payment.paidAt >= :startDate)
-      AND (:endDate IS NULL OR r.payment.paidAt <= :endDate)
+      AND (:code IS NULL OR r.code LIKE CONCAT('%', :code, '%'))
+      AND (:startAt IS NULL OR r.payment.paidAt >= :startAt)
+      AND (:endAt IS NULL OR r.payment.paidAt < :endAt)
+    ORDER BY r.payment.paidAt DESC
     """)
     Page<Reservation> findByExpoIdAndReservationCode(@Param("expoId") Long expoId,
                                                      @Param("code") String code,
-                                                     @Param("startDate") LocalDate startDate,
-                                                     @Param("endDate") LocalDate endDate,
+                                                     @Param("startAt") LocalDateTime startAt,
+                                                     @Param("endAt") LocalDateTime endAt,
                                                      Pageable pageable);
 
     @Query("""

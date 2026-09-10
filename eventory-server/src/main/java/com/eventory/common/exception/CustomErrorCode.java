@@ -37,6 +37,12 @@ public enum CustomErrorCode {
     NOT_FOUND_REFUND(HttpStatus.NOT_FOUND, "R004", "환불 정보가 없습니다."),
     NOT_FOUND_REASON(HttpStatus.BAD_REQUEST, "R005", "반려 사유가 누락되었습니다."),
     EXCEL_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "R006", "엑셀 생성에 실패했습니다."),
+    ALREADY_CHECKED_IN(HttpStatus.CONFLICT, "R007", "이미 입장 처리된 예약입니다."),
+    RESERVATION_CANCELLED(HttpStatus.CONFLICT, "R008", "취소된 예약입니다."),
+    QR_NOT_ISSUED(HttpStatus.NOT_FOUND, "R009", "QR이 발급되지 않은 예약입니다."),
+    REFUND_ALREADY_HANDLED(HttpStatus.CONFLICT, "R010", "이미 처리된 환불 요청입니다."),
+    PAYMENT_CANCEL_FAILED(HttpStatus.BAD_GATEWAY, "R011", "결제사 환불 처리에 실패했습니다. 잠시 후 다시 시도해주세요."),
+    RESERVATION_NOT_IN_EXPO(HttpStatus.BAD_REQUEST, "R012", "해당 박람회의 예약이 아닙니다."),
 
 	// 박람회 E
 	CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "E001", "카테고리가 존재하지 않습니다"),

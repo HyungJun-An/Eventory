@@ -12,7 +12,10 @@ import com.eventory.payment.dto.*;
 import com.eventory.qr.service.QrService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,9 +23,16 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
+    // 데모 데이터(db/demo-data.sql)의 결제는 실제 PG 결제가 아니므로 환불 시 PortOne 호출을 건너뛴다
+    private static final String DEMO_PAYMENT_PREFIX = "seed_";
+
+    @Value("${eventory.seed.enabled:false}")
+    private boolean demoDataEnabled;
+
     private final PortOneProperties props;
     private final PortOneClient portOne;
     private final PaymentRepository paymentRepository;
@@ -114,7 +124,7 @@ public class PaymentServiceImpl implements PaymentService {
     public void refund(Long reservationId, String reason) {
         // 3-1) 예약/결제 로드
         Reservation res = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new IllegalArgumentException("예약 없음"));
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_RESERVATION));
         Payment pay = paymentRepository.findById(res.getPayment().getPaymentId())
                 .orElseThrow(() -> new IllegalStateException("결제 없음"));
 
@@ -128,8 +138,7 @@ public class PaymentServiceImpl implements PaymentService {
             throw new IllegalStateException("portonePaymentId 미저장 — 결제 완료 저장 로직 확인 필요");
 
         // 3-3) 전액 환불(취소) 호출 — 부분 환불은 cancelAmount 조정하면 됨
-        PortOneCancelRequest cancelReq = new PortOneCancelRequest(pay.getAmount(), reason);
-        portOne.cancelPayment(portonePaymentId, cancelReq).block();
+        cancelAtPortOne(portonePaymentId, new PortOneCancelRequest(pay.getAmount(), reason));
 
         // 3-4) 로컬 상태 반영
         pay.markRefunded();
@@ -142,6 +151,21 @@ public class PaymentServiceImpl implements PaymentService {
 
         reservationRepository.save(res);
         paymentRepository.save(pay);
+    }
+
+    /** PortOne 결제 취소. PG 오류는 원인 로그를 남기고 명확한 에러 코드로 변환한다 */
+    private void cancelAtPortOne(String portonePaymentId, PortOneCancelRequest cancelReq) {
+        if (demoDataEnabled && portonePaymentId.startsWith(DEMO_PAYMENT_PREFIX)) {
+            log.info("[Refund] 데모 결제 건이라 PortOne 취소 호출을 건너뜀: {}", portonePaymentId);
+            return;
+        }
+        try {
+            portOne.cancelPayment(portonePaymentId, cancelReq).block();
+        } catch (WebClientResponseException e) {
+            log.error("[Refund] PortOne 취소 실패 paymentId={} status={} body={}",
+                    portonePaymentId, e.getStatusCode(), e.getResponseBodyAsString());
+            throw new CustomException(CustomErrorCode.PAYMENT_CANCEL_FAILED);
+        }
     }
 
     private String generateReservationCode() {
