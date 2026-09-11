@@ -264,18 +264,8 @@ public class SalesAdminServiceImpl implements SalesAdminService {
         // 최근 요청이 위로 오도록 정렬, 페이지 정보(totalPages 등)를 함께 내려 프론트 페이지 이동에 사용
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
 
-        // 특정 박람회(expoId)에 해당하는 결제 조회
-        List<Long> paymentIds = reservationRepository.findPaymentIdsByExpoId(expoId);
-        if (paymentIds.isEmpty()) {
-            return Page.empty(pageable);
-        }
-
-        RefundStatus targetStatus = parseRefundStatus(status); // null = 전체
-        Page<Refund> refunds = (targetStatus == null)
-                ? refundRepository.findByPayment_PaymentIdIn(paymentIds, pageable)
-                : refundRepository.findByPayment_PaymentIdInAndStatus(paymentIds, targetStatus, pageable);
-
-        return refunds.map(expoMapper::toRefundResponseDto);
+        // 환불·결제·예약을 조인해 화면에 필요한 값만 한 번에 조회 (기존: 결제 id 전체 IN 조회 + 행마다 예약 재조회 N+1)
+        return refundRepository.findRefundRowsByExpoId(expoId, parseRefundStatus(status), pageable); // status null = 전체
     }
 
     private RefundStatus parseRefundStatus(String status) {

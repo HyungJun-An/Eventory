@@ -1,7 +1,9 @@
 package com.eventory.systemAdmin.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -20,7 +22,6 @@ import com.eventory.auth.tokenStore.TokenStore;
 import com.eventory.common.entity.Expo;
 import com.eventory.common.entity.ExpoAdmin;
 import com.eventory.common.entity.ExpoStatus;
-import com.eventory.common.entity.Payment;
 import com.eventory.common.entity.PaymentStatus;
 import com.eventory.common.entity.SystemAdmin;
 import com.eventory.common.exception.CustomErrorCode;
@@ -32,6 +33,7 @@ import com.eventory.common.repository.PaymentRepository;
 import com.eventory.common.repository.ReservationRepository;
 import com.eventory.expoAdmin.dto.ManagerRequestDto;
 import com.eventory.systemAdmin.dto.AdminCredentialDto;
+import com.eventory.systemAdmin.dto.AdminLastExpoDto;
 import com.eventory.systemAdmin.dto.ChartResponseDto;
 import com.eventory.systemAdmin.dto.ExpoApprovalResponseDto;
 import com.eventory.systemAdmin.dto.ExpoStatusRequestDto;
@@ -178,10 +180,12 @@ public class SystemAdminService {
 			expoAdminPage = expoAdminRepository.findAll(pageable);
 		}
 
-		return expoAdminPage.map(admin -> {
-			Expo lastExpo = expoRepository.findFirstByExpoAdminOrderByCreatedAtDesc(admin).orElse(null);
-			return SysExpoAdminResponseDto.from(admin, lastExpo != null ? lastExpo.getCreatedAt() : null);
-		});
+		// 기존: 관리자마다 마지막 박람회를 1번씩 조회 (N+1) → 페이지 전체를 GROUP BY 쿼리 1번으로
+		Map<Long, LocalDateTime> lastApplied = expoAdminPage.isEmpty() ? Map.of()
+				: expoRepository.findLastCreatedAtByAdmins(expoAdminPage.getContent()).stream()
+						.collect(Collectors.toMap(AdminLastExpoDto::adminId, AdminLastExpoDto::lastCreatedAt));
+
+		return expoAdminPage.map(admin -> SysExpoAdminResponseDto.from(admin, lastApplied.get(admin.getExpoAdminId())));
 	}
 
 	public Page<SysExpoResponseDto> findExpoByExpoAdminPages(Long adminId, int page, int size) {
@@ -236,8 +240,8 @@ public class SystemAdminService {
 
 	public SysStatResponseDto findSysStat() {
 
-		List<Payment> paymentList = paymentRepository.findAllByStatus(PaymentStatus.PAID);
-		Long totalPaymentAmount = paymentList.stream().mapToLong(p -> p.getAmount().longValue()).sum();
+		// 기존: PAID 결제 전체를 엔티티로 불러와 자바에서 합산 (결제 건수만큼 메모리·전송량 증가) → DB 에서 SUM
+		Long totalPaymentAmount = paymentRepository.sumAmountByStatus(PaymentStatus.PAID).longValue();
 		Long totalReservationCount = reservationRepository.count();
 		Long totalCheckInCount = checkInLogRepository.count();
 		Long todayNewUser = userRepository.countByCreatedAtBetween(LocalDate.now().atStartOfDay(), LocalDate.now().plusDays(1).atStartOfDay().minusNanos(1));

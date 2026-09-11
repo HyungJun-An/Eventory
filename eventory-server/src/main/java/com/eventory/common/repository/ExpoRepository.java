@@ -15,6 +15,10 @@ import org.springframework.stereotype.Repository;
 
 import jakarta.persistence.QueryHint;
 
+import com.eventory.systemAdmin.dto.AdminLastExpoDto;
+import org.springframework.data.repository.query.Param;
+
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +42,11 @@ public interface ExpoRepository extends JpaRepository<Expo, Long> {
 	Page<Expo> findByExpoAdmin(ExpoAdmin expoAdmin, Pageable pageable);
 
 	boolean existsByExpoAdmin(ExpoAdmin expoAdmin);
+
+	// 관리자 목록 한 페이지의 "마지막 박람회 신청 시각"을 한 번에 조회 (기존: 관리자마다 1번씩 조회하는 N+1)
+	@Query("SELECT new com.eventory.systemAdmin.dto.AdminLastExpoDto(e.expoAdmin.expoAdminId, MAX(e.createdAt)) " +
+			"FROM expo e WHERE e.expoAdmin IN :admins GROUP BY e.expoAdmin.expoAdminId")
+	List<AdminLastExpoDto> findLastCreatedAtByAdmins(@Param("admins") Collection<ExpoAdmin> admins);
 	
 	Page<Expo> findByStatus(ExpoStatus status, Pageable pageable);
 	

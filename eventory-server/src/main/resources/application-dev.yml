@@ -53,6 +53,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        # 지연 로딩 연관(카테고리·담당 관리자 등)을 행마다 조회하지 않고 IN 쿼리로 묶어 N+1 방지
+        default_batch_fetch_size: 100
 
 logging:
   level:
