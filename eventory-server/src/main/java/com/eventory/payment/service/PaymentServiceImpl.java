@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -43,6 +44,9 @@ public class PaymentServiceImpl implements PaymentService {
     private static final int MAX_PEOPLE = 10;
     // 데모 데이터(db/demo-data.sql)의 결제는 실제 PG 결제가 아니므로 환불 시 PortOne 호출을 건너뛴다
     private static final String DEMO_PAYMENT_PREFIX = "seed_";
+    // 다른 요청이 결제를 확정하는 중일 때 기다리는 최대 시간 (PortOne 조회 + 예약 저장이 보통 1초 이내)
+    private static final Duration AWAIT_PROCESSING = Duration.ofSeconds(5);
+    private static final long AWAIT_POLL_MS = 200;
 
     @Value("${eventory.seed.enabled:false}")
     private boolean demoDataEnabled;
@@ -121,37 +125,89 @@ public class PaymentServiceImpl implements PaymentService {
         // 주문을 원자적으로 꺼내 한 요청만 처리한다. 이미 처리된 결제면 같은 결과를 돌려준다(멱등).
         PendingPayment order = pendingPayments.take(paymentId).orElse(null);
         if (order == null) {
-            return findCompleted(userId, paymentId);
+            return awaitCompleted(userId, paymentId);
         }
         if (!order.userId().equals(userId)) {
-            pendingPayments.save(order);
+            pendingPayments.restore(order);
             throw new CustomException(CustomErrorCode.ACCESS_DENIED);
         }
+        return confirm(order);
+    }
 
-        PortOnePaymentResponse pay;
+    @Override
+    public void completeByWebhook(String paymentId) {
+        if (reservationRepository.findByPayment_PortonePaymentId(paymentId).isPresent()) {
+            log.info("[Webhook] 이미 확정된 결제 paymentId={}", paymentId);
+            return;
+        }
+        // 결제 완료 요청이 이미 주문을 가져갔거나(처리 중) 만료된 경우 → 웹훅은 할 일이 없다
+        PendingPayment order = pendingPayments.take(paymentId).orElse(null);
+        if (order == null) {
+            log.info("[Webhook] 대기 주문 없음(처리 중·만료·우리 주문 아님) paymentId={}", paymentId);
+            return;
+        }
         try {
-            pay = fetchPayment(paymentId);
+            confirm(order);
+            log.info("[Webhook] 결제 완료 요청 없이 웹훅으로 예약 확정 paymentId={}", paymentId);
         } catch (CustomException e) {
-            pendingPayments.save(order); // 조회 실패는 일시적일 수 있으므로 재시도 가능하게 되돌려 둔다
-            throw e;
+            if (e.getErrorCode() == CustomErrorCode.PAYMENT_LOOKUP_FAILED) {
+                throw e; // 일시적 조회 실패 → 5xx 응답으로 PortOne 재전송을 받는다 (주문은 복구돼 있음)
+            }
+            log.warn("[Webhook] 예약 확정 실패 paymentId={} code={}", paymentId, e.getErrorCode());
         }
+    }
 
-        if (!"PAID".equalsIgnoreCase(pay.getStatus())) {
-            throw new CustomException(CustomErrorCode.PAYMENT_NOT_PAID);
-        }
-        BigDecimal paid = pay.getAmount() != null ? pay.getAmount().getTotal() : null;
-        if (paid == null || order.amount().compareTo(paid) != 0) {
-            cancelSafely(paymentId, paid, "결제 금액 불일치로 자동 취소");
-            throw new CustomException(CustomErrorCode.PAYMENT_AMOUNT_MISMATCH);
-        }
-
+    /**
+     * 주문을 가져간 쪽이 수행하는 결제 확정: PortOne 재조회 → PAID·금액 검증 → 예약 확정.
+     * 결제는 승인됐는데 이후 단계가 실패하면 PG 결제를 자동 취소한다 (보상 트랜잭션).
+     */
+    private CompleteResponse confirm(PendingPayment order) {
+        String paymentId = order.paymentId();
         try {
-            return completion.complete(order, pay);
-        } catch (RuntimeException e) {
-            // 결제는 승인됐는데 예약 확정 실패(정원 초과 등) → DB 는 롤백됐으므로 PG 결제를 자동 취소
-            cancelSafely(paymentId, order.amount(), "예약 처리 실패로 자동 취소");
-            throw e;
+            PortOnePaymentResponse pay;
+            try {
+                pay = fetchPayment(paymentId);
+            } catch (CustomException e) {
+                pendingPayments.restore(order); // 조회 실패는 일시적일 수 있으므로 재시도 가능하게 되돌려 둔다
+                throw e;
+            }
+
+            if (!"PAID".equalsIgnoreCase(pay.getStatus())) {
+                throw new CustomException(CustomErrorCode.PAYMENT_NOT_PAID);
+            }
+            BigDecimal paid = pay.getAmount() != null ? pay.getAmount().getTotal() : null;
+            if (paid == null || order.amount().compareTo(paid) != 0) {
+                cancelSafely(paymentId, paid, "결제 금액 불일치로 자동 취소");
+                throw new CustomException(CustomErrorCode.PAYMENT_AMOUNT_MISMATCH);
+            }
+
+            try {
+                return completion.complete(order, pay);
+            } catch (RuntimeException e) {
+                // 결제는 승인됐는데 예약 확정 실패(정원 초과 등) → DB 는 롤백됐으므로 PG 결제를 자동 취소
+                cancelSafely(paymentId, order.amount(), "예약 처리 실패로 자동 취소");
+                throw e;
+            }
+        } finally {
+            pendingPayments.finish(paymentId);
         }
+    }
+
+    /**
+     * 주문이 없을 때: 다른 요청(주로 웹훅)이 처리 중이면 끝날 때까지 잠시 기다렸다가 결과를 돌려준다.
+     * 웹훅이 결제 완료 요청보다 먼저 도착하는 경우 사용자가 "결제 정보 없음" 오류를 보지 않게 하기 위함.
+     */
+    private CompleteResponse awaitCompleted(Long userId, String paymentId) {
+        long deadline = System.currentTimeMillis() + AWAIT_PROCESSING.toMillis();
+        while (pendingPayments.isProcessing(paymentId) && System.currentTimeMillis() < deadline) {
+            try {
+                Thread.sleep(AWAIT_POLL_MS);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
+        return findCompleted(userId, paymentId);
     }
 
     /** 이미 완료된 결제의 결과 조회 (완료 요청 중복, 모바일 리디렉션 재진입 대비) */

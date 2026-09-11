@@ -12,6 +12,8 @@ public interface PaymentService {
     ReadyResponse ready(Long userId, ReadyRequest req);
 
     CompleteResponse complete(Long userId, String paymentId);
+    /** 웹훅(Transaction.Paid)으로 결제 확정 — 결제 완료 요청이 오지 않은 경우의 보조 경로, 멱등 */
+    void completeByWebhook(String paymentId);
 
     /** 사용자 본인 예약 환불 (소유자·입장 여부 확인) */
     void refundByUser(Long userId, Long reservationId, String reason);
