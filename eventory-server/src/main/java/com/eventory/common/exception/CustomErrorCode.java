@@ -43,6 +43,9 @@ public enum CustomErrorCode {
     REFUND_ALREADY_HANDLED(HttpStatus.CONFLICT, "R010", "이미 처리된 환불 요청입니다."),
     PAYMENT_CANCEL_FAILED(HttpStatus.BAD_GATEWAY, "R011", "결제사 환불 처리에 실패했습니다. 잠시 후 다시 시도해주세요."),
     RESERVATION_NOT_IN_EXPO(HttpStatus.BAD_REQUEST, "R012", "해당 박람회의 예약이 아닙니다."),
+    INVALID_EXPO_STATUS(HttpStatus.BAD_REQUEST, "E007", "승인(APPROVED) 또는 반려(REJECTED)만 선택할 수 있습니다."),
+    EXPO_ADMIN_HAS_EXPOS(HttpStatus.CONFLICT, "D008", "담당 박람회가 있는 관리자는 삭제할 수 없습니다."),
+    EXPO_ADMIN_NOT_ACTIVATED(HttpStatus.BAD_REQUEST, "D009", "승인된 박람회가 없어 아직 활성화되지 않은 계정입니다."),
 
 	// 박람회 E
 	CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "E001", "카테고리가 존재하지 않습니다"),

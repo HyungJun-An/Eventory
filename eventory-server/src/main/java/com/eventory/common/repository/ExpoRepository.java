@@ -36,6 +36,8 @@ public interface ExpoRepository extends JpaRepository<Expo, Long> {
     Optional<Expo> findFirstByExpoAdminOrderByCreatedAtDesc(ExpoAdmin expoAdmin);
 
 	Page<Expo> findByExpoAdmin(ExpoAdmin expoAdmin, Pageable pageable);
+
+	boolean existsByExpoAdmin(ExpoAdmin expoAdmin);
 	
 	Page<Expo> findByStatus(ExpoStatus status, Pageable pageable);
 	
