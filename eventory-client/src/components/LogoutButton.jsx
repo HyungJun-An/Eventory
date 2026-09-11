@@ -11,7 +11,8 @@ const parseJwtRole = t => { try { return JSON.parse(atob(t.split('.')[1]))?.role
 const tokenKeyMap = {
     USER: { at: "accessToken", rt: "refreshToken" },
     EXPO_ADMIN: { at: "adminAccessToken", rt: "adminRefreshToken" },
-    SYSTEM_ADMIN: { at: "adminAccessToken", rt: "adminRefreshToken" },
+    // 시스템관리자는 별도 키에 저장한다 (axiosInstance 와 동일) — 기존에는 박람회관리자 키를 읽어 서버 로그아웃이 누락됐다
+    SYSTEM_ADMIN: { at: "sysAdminAccessToken", rt: "sysAdminRefreshToken" },
 };
 
 const LogoutButton = () => {
@@ -53,8 +54,7 @@ const LogoutButton = () => {
         } finally {
             logoutLocal();
             // 로컬 토큰 정리(관리자 키 포함)
-            localStorage.removeItem("adminAccessToken");
-            localStorage.removeItem("adminRefreshToken");
+            ["adminAccessToken", "adminRefreshToken", "sysAdminAccessToken", "sysAdminRefreshToken"].forEach((k) => localStorage.removeItem(k));
             navigate("/login", { replace: true });
         }
     };
