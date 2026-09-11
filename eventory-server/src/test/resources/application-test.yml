@@ -1,0 +1,25 @@
+# 테스트 전용 설정 (@ActiveProfiles("test")) — dev/prod 설정과 .env 없이도 실행되도록 필요한 값만 둔다
+jwt:
+  secret: test-jwt-secret-test-jwt-secret-0123456789abcdef
+  access-token-validity: 900000
+  refresh-token-validity: 604800000
+
+qr:
+  secret: test-qr-secret
+  issuer: Eventory
+
+eventory:
+  seed:
+    enabled: false
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+logging:
+  level:
+    org.hibernate.SQL: WARN
+    org.hibernate.tool.schema: ERROR   # create-drop 이 없는 테이블을 먼저 DROP 하며 남기는 경고 숨김
+    org.testcontainers: INFO
