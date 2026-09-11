@@ -3,7 +3,7 @@ server:
   ssl:
     enabled: true
     key-store: classpath:keystore.p12
-    key-store-password: 1234
+    key-store-password: ${SSL_KEYSTORE_PASSWORD}
     key-store-type: PKCS12
     key-alias: my-ssl-cert
     protocol: TLS
@@ -19,7 +19,7 @@ management:
       show-details: always
 
 qr:
-  secret: ${QR_HMAC_SECRET:change-me}
+  secret: ${QR_HMAC_SECRET}   # QR 토큰 HMAC 서명키 (기본값 change-me 로는 누구나 입장 QR 위조 가능)
   mail-from: ${MAIL_FROM:}   # 비우면 메일 계정(MAIL_USERNAME) 주소로 발송
   issuer: Eventory
 
@@ -48,7 +48,7 @@ spring:
     url: jdbc:mysql://192.168.0.17/Eventory
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: EventoryUser
-    password: 1234
+    password: ${DB_PASSWORD}
 
   jpa:
     hibernate:
@@ -66,7 +66,8 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
 jwt:
-  secret: F4y6UozXgQIUW0NmQ2DI71Zbr1FQnFFu
+  # 서명키는 환경변수로만 주입 (없으면 기동 실패). 기존 키는 git 이력에 남아 있어 폐기하고 새로 발급함
+  secret: ${JWT_SECRET}
   access-token-validity: 900000      # 15분
   refresh-token-validity: 604800000  # 7일
 
@@ -80,7 +81,7 @@ springdoc:
 
 portone:
   api-base-url: https://api.portone.io
-  # 결제 키는 코드에 두지 않고 환경변수로만 주입한다 (루트 .env, 템플릿은 .env)
+  # 결제 키는 코드에 두지 않고 환경변수로만 주입한다 (루트 .env, 템플릿은 .env.example)
   v2-secret: ${PORTONE_V2_SECRET:}
   webhook-secret: ${PORTONE_WEBHOOK_SECRET:}
   store-id: ${PORTONE_STORE_ID:}

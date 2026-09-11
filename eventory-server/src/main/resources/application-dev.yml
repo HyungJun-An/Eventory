@@ -2,7 +2,7 @@ server:
   port: 8080
 
 qr:
-  secret: ${QR_HMAC_SECRET:change-me}
+  secret: ${QR_HMAC_SECRET}   # QR 토큰 HMAC 서명키 (기본값 change-me 로는 누구나 입장 QR 위조 가능)
   mail-from: ${MAIL_FROM:}   # 비우면 메일 계정(MAIL_USERNAME) 주소로 발송
   issuer: Eventory
 
@@ -30,7 +30,7 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    # 메일 계정은 환경변수로만 주입한다 (IDE 실행 시 Run Configuration 의 Environment variables 에 설정)
+    # 메일 계정은 환경변수로만 주입한다 (로컬 실행 시 루트 .env 를 자동으로 읽는다)
     username: ${MAIL_USERNAME:}
     password: ${MAIL_PASSWORD:}
     properties:
@@ -43,7 +43,7 @@ spring:
     url: jdbc:mysql://127.0.0.1:3307/Eventory
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: EventoryUser
-    password: 1234
+    password: ${DB_PASSWORD}
 
   jpa:
     hibernate:
@@ -63,7 +63,8 @@ logging:
     com.sun.mail: DEBUG
 
 jwt:
-  secret: F4y6UozXgQIUW0NmQ2DI71Zbr1FQnFFu
+  # 서명키는 환경변수로만 주입 (없으면 기동 실패). 로컬 실행 시 루트 .env 를 자동으로 읽는다 (application.yml)
+  secret: ${JWT_SECRET}
   access-token-validity: 900000      # 15분
   refresh-token-validity: 604800000  # 7일
 
@@ -77,7 +78,7 @@ springdoc:
 
 portone:
   api-base-url: https://api.portone.io
-  # 결제 키는 코드에 두지 않고 환경변수로만 주입한다 (IDE 실행 시 Run Configuration 의 Environment variables 에 설정)
+  # 결제 키는 코드에 두지 않고 환경변수로만 주입한다 (로컬 실행 시 루트 .env 를 자동으로 읽는다)
   v2-secret: ${PORTONE_V2_SECRET:}
   webhook-secret: ${PORTONE_WEBHOOK_SECRET:}
   store-id: ${PORTONE_STORE_ID:}

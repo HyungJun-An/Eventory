@@ -1,3 +1,9 @@
 spring:
   profiles:
     active: dev
+  # 로컬 실행(IDE·mvn spring-boot:run) 시 루트 .env 를 설정으로 읽는다 (KEY=VALUE 형식이라 properties 로 해석 가능)
+  # docker 에서는 파일이 없으므로 optional 로 무시되고, compose 가 넘긴 환경변수를 쓴다
+  config:
+    import:
+      - optional:file:.env[.properties]
+      - optional:file:../.env[.properties]

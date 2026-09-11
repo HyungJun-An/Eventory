@@ -2,16 +2,18 @@ services:
   eventory-db:
     image: mysql:8.0
     container_name: eventory-db
+    # 비밀번호는 루트 .env 에서 읽는다 (없으면 compose 가 바로 오류로 멈춤 — .env.example 참고)
     environment:
-      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?.env 에 DB_ROOT_PASSWORD 를 설정하세요}
       MYSQL_DATABASE: Eventory
       MYSQL_USER: EventoryUser
-      MYSQL_PASSWORD: "1234"
+      MYSQL_PASSWORD: ${DB_PASSWORD:?.env 에 DB_PASSWORD 를 설정하세요}
     ports:
       - "3307:3306"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uEventoryUser", "-p1234"]
+      # $$ → 컨테이너 안의 환경변수로 해석 (compose 파일에 비밀번호를 쓰지 않기 위함)
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uEventoryUser -p$$MYSQL_PASSWORD"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -26,11 +28,15 @@ services:
       - SPRING_PROFILES_ACTIVE=prod
       - SPRING_DATASOURCE_URL=jdbc:mysql://eventory-db:3306/Eventory
       - SPRING_DATASOURCE_USERNAME=EventoryUser
-      - SPRING_DATASOURCE_PASSWORD=1234
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD:?.env 에 DB_PASSWORD 를 설정하세요}
       - SPRING_REDIS_HOST=redis
       - SPRING_REDIS_PORT=6379
       - EVENTORY_SEED_ENABLED=true   # 데모 데이터 자동 입력 (실서비스 배포 시 제거)
-      # PortOne 결제 키 — 루트 .env 에서 읽는다 (.env 참고, 실제 값은 커밋 금지). .env 가 없으면 빈 값
+      # 서버 시크릿 — 루트 .env 에서 읽고, 없으면 compose 가 기동 전에 멈춘다
+      - JWT_SECRET=${JWT_SECRET:?.env 에 JWT_SECRET 을 설정하세요}
+      - QR_HMAC_SECRET=${QR_HMAC_SECRET:?.env 에 QR_HMAC_SECRET 을 설정하세요}
+      - SSL_KEYSTORE_PASSWORD=${SSL_KEYSTORE_PASSWORD:?.env 에 SSL_KEYSTORE_PASSWORD 를 설정하세요}
+      # PortOne 결제 키 — 루트 .env 에서 읽는다 (.env.example 참고, 실제 값은 커밋 금지). .env 가 없으면 빈 값
       - PORTONE_STORE_ID=${PORTONE_STORE_ID:-}
       - PORTONE_CHANNEL_KEY=${PORTONE_CHANNEL_KEY:-}
       - PORTONE_V2_SECRET=${PORTONE_V2_SECRET:-}
