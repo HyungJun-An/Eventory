@@ -30,6 +30,16 @@ services:
       - SPRING_REDIS_HOST=redis
       - SPRING_REDIS_PORT=6379
       - EVENTORY_SEED_ENABLED=true   # 데모 데이터 자동 입력 (실서비스 배포 시 제거)
+      # PortOne 결제 키 — 루트 .env 에서 읽는다 (.env 참고, 실제 값은 커밋 금지). .env 가 없으면 빈 값
+      - PORTONE_STORE_ID=${PORTONE_STORE_ID:-}
+      - PORTONE_CHANNEL_KEY=${PORTONE_CHANNEL_KEY:-}
+      - PORTONE_V2_SECRET=${PORTONE_V2_SECRET:-}
+      - PORTONE_WEBHOOK_SECRET=${PORTONE_WEBHOOK_SECRET:-}
+      - PORTONE_CHANNEL_TYPE=${PORTONE_CHANNEL_TYPE:-TOSSPAY}   # 채널 종류 (TOSSPAY | KAKAOPAY | TOSSPAYMENTS_CARD | INICIS_CARD)
+      # QR 메일 발송 계정 (Gmail + 앱 비밀번호) — 루트 .env 에서 읽는다. MAIL_FROM 을 비우면 MAIL_USERNAME 사용
+      - MAIL_USERNAME=${MAIL_USERNAME:-}
+      - MAIL_PASSWORD=${MAIL_PASSWORD:-}
+      - MAIL_FROM=${MAIL_FROM:-}
     depends_on:
       eventory-db:
         condition: service_healthy

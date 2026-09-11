@@ -20,7 +20,7 @@ management:
 
 qr:
   secret: ${QR_HMAC_SECRET:change-me}
-  mail-from: no-reply@eventory.example
+  mail-from: ${MAIL_FROM:}   # 비우면 메일 계정(MAIL_USERNAME) 주소로 발송
   issuer: Eventory
 
 spring:
@@ -35,8 +35,9 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: coachofgi@gmail.com
-    password: ektaggdttjocmund
+    # 메일 계정은 코드에 두지 않고 환경변수로만 주입한다 (루트 .env — Gmail 주소 + 앱 비밀번호)
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
@@ -79,9 +80,11 @@ springdoc:
 
 portone:
   api-base-url: https://api.portone.io
-  v2-secret: ${PORTONE_V2_SECRET:c5MSq0aZdgwXtuBfyDABbirsLnZDW7Id4lRe9JFGOxSDilH3tLJcc3EYylYKSgttsgIQ8VYIm8GWZKaB}
-  webhook-secret: ${PORTONE_WEBHOOK_SECRET:whsec_+EMFLQUMun7Wu0Vg6XTVpFVG69KNdRgP52uD9lk/f8g=}
-  # KG이니시스
-  store-id: ${PORTONE_STORE_ID:store-422148d1-ed84-41f1-a064-2d7cb82ca08c}
-  channel-key: ${PORTONE_CHANNEL_KEY:channel-key-0c25fd05-bc9f-4f12-bfc3-f871a6bdef64}
+  # 결제 키는 코드에 두지 않고 환경변수로만 주입한다 (루트 .env, 템플릿은 .env)
+  v2-secret: ${PORTONE_V2_SECRET:}
+  webhook-secret: ${PORTONE_WEBHOOK_SECRET:}
+  store-id: ${PORTONE_STORE_ID:}
+  channel-key: ${PORTONE_CHANNEL_KEY:}
+  # 채널 종류(PG·결제수단) → 결제창 파라미터 전략 선택: TOSSPAY | KAKAOPAY | TOSSPAYMENTS_CARD | INICIS_CARD
+  channel-type: ${PORTONE_CHANNEL_TYPE:TOSSPAY}
 
