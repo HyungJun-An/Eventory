@@ -6,27 +6,41 @@ import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.common.repository.ExpoRepository;
 import com.eventory.common.repository.PaymentRepository;
+import com.eventory.common.repository.RefundRepository;
 import com.eventory.common.repository.ReservationRepository;
 import com.eventory.config.PortOneProperties;
+import com.eventory.payment.channel.Buyer;
+import com.eventory.payment.channel.PaymentChannelRegistry;
+import com.eventory.payment.channel.PaymentChannelStrategy;
+import com.eventory.payment.channel.PaymentMethodParams;
 import com.eventory.payment.dto.*;
-import com.eventory.qr.service.QrService;
-import jakarta.transaction.Transactional;
+import com.eventory.payment.order.PendingPayment;
+import com.eventory.payment.order.PendingPaymentStore;
+import com.eventory.qr.service.CheckinService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.util.UUID;
 
+/**
+ * 결제 흐름 조율 (ready → PG 결제창 → complete, 환불).
+ * - 금액·사용자·박람회는 서버가 ready 에서 확정해 Redis 에 보관하고, complete 에서 PortOne 실제 결제와 대조한다.
+ * - 결제 승인 후 예약 확정이 실패하면 PG 결제를 자동 취소한다 (보상 트랜잭션).
+ * - 결제창 파라미터(결제수단 등)는 PaymentChannelStrategy 가 결정한다.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
+
+    private static final String CURRENCY = "CURRENCY_KRW";
+    private static final int MAX_PEOPLE = 10;
     // 데모 데이터(db/demo-data.sql)의 결제는 실제 PG 결제가 아니므로 환불 시 PortOne 호출을 건너뛴다
     private static final String DEMO_PAYMENT_PREFIX = "seed_";
 
@@ -35,118 +49,192 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PortOneProperties props;
     private final PortOneClient portOne;
+    private final PaymentChannelRegistry channels;
+    private final PendingPaymentStore pendingPayments;
+    private final ReservationCompletionService completion;
+    private final CheckinService checkinService;
     private final PaymentRepository paymentRepository;
     private final ReservationRepository reservationRepository;
+    private final RefundRepository refundRepository;
     private final UserRepository userRepository;
     private final ExpoRepository expoRepository;
-    private final QrService qrService;
 
-    public ReadyResponse ready(ReadyRequest req, String baseRedirectUrl) {
-        // 실제 서비스에서는 서버에서 금액 재계산하여 req.totalAmount와 비교/대체 권장
-        // 총 길이 <= 32 (권장 30~32), 40 넘지 않게만 보장하면 됨
-        final String paymentId = "p_" + UUID.randomUUID().toString().replace("-", "").substring(0, 30);
-        final String redirectUrl = baseRedirectUrl + "/payment/redirect"; // 프론트 라우트
+    @Override
+    public PaymentChannelInfo currentChannel() {
+        PaymentChannelStrategy channel = channels.current();
+        return new PaymentChannelInfo(channel.type().name(), channel.type().getLabel());
+    }
+
+    // ───────────────────────── 결제 준비 ─────────────────────────
+
+    @Override
+    public ReadyResponse ready(Long userId, ReadyRequest req) {
+        Expo expo = expoRepository.findById(req.getExpoId())
+                .orElseThrow(() -> new CustomException(CustomErrorCode.EXPO_NOT_FOUND));
+        validateReservable(expo, req.getPeople());
+        User buyer = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.MEMBER_NOT_EXIST));
+
+        // 금액은 서버가 계산한다 (기존: 클라이언트가 보낸 금액을 그대로 사용 → 금액 조작 가능)
+        BigDecimal amount = expo.getPrice().multiply(BigDecimal.valueOf(req.getPeople()));
+        String paymentId = "pay_" + UUID.randomUUID().toString().replace("-", "");
+        String orderName = expo.getTitle() + " 입장권 " + req.getPeople() + "매";
+        pendingPayments.save(new PendingPayment(paymentId, userId, expo.getExpoId(), req.getPeople(), amount, orderName));
+
+        PaymentChannelStrategy channel = channels.current();
+        PaymentMethodParams method = channel.methodParams(new Buyer(buyer.getName(), buyer.getEmail(), buyer.getPhone()));
 
         return ReadyResponse.builder()
                 .paymentId(paymentId)
                 .storeId(props.getStoreId())
                 .channelKey(props.getChannelKey())
-                .orderName(req.getOrderName())
-                .totalAmount(req.getTotalAmount())
-                .currency("CURRENCY_KRW")
-                .payMethod("CARD")
-                .redirectUrl(redirectUrl)
+                .orderName(orderName)
+                .totalAmount(amount)
+                .currency(CURRENCY)
+                .payMethod(method.payMethod())
+                .easyPay(method.easyPay())
+                .customer(method.customer())
+                .channelLabel(channel.type().getLabel())
                 .build();
     }
 
-    @Transactional
-    public CompleteResponse complete(CompleteRequest req) {
-        // 1) PortOne 결제내역 단건조회
-        PortOnePaymentResponse pay = portOne.getPayment(req.getPaymentId()).block();
-        if (pay == null) throw new IllegalStateException("PortOne 응답이 비어있음");
-
-        BigDecimal paid = pay.getAmount().getTotal();
-        if (paid == null || req.getExpectedAmount().compareTo(paid) != 0) {
-            throw new IllegalStateException("결제 금액 불일치 — 위변조 가능성");
+    private void validateReservable(Expo expo, int people) {
+        boolean open = expo.getStatus() == ExpoStatus.APPROVED
+                && Boolean.TRUE.equals(expo.getVisibility())
+                && !expo.getEndDate().isBefore(LocalDate.now());
+        if (!open) {
+            throw new CustomException(CustomErrorCode.EXPO_NOT_RESERVABLE);
         }
+        if (people < 1 || people > MAX_PEOPLE) {
+            throw new CustomException(CustomErrorCode.INVALID_INPUT);
+        }
+        // 결제창을 띄우기 전에 걸러 불필요한 결제·자동취소를 줄인다 (최종 보장은 complete 의 비관적 락)
+        if (expo.getReservedCount() + people > expo.getMaxCapacity()) {
+            throw new CustomException(CustomErrorCode.EXPO_CAPACITY_EXCEEDED);
+        }
+    }
+
+    // ───────────────────────── 결제 완료 ─────────────────────────
+
+    @Override
+    public CompleteResponse complete(Long userId, String paymentId) {
+        // 주문을 원자적으로 꺼내 한 요청만 처리한다. 이미 처리된 결제면 같은 결과를 돌려준다(멱등).
+        PendingPayment order = pendingPayments.take(paymentId).orElse(null);
+        if (order == null) {
+            return findCompleted(userId, paymentId);
+        }
+        if (!order.userId().equals(userId)) {
+            pendingPayments.save(order);
+            throw new CustomException(CustomErrorCode.ACCESS_DENIED);
+        }
+
+        PortOnePaymentResponse pay;
+        try {
+            pay = fetchPayment(paymentId);
+        } catch (CustomException e) {
+            pendingPayments.save(order); // 조회 실패는 일시적일 수 있으므로 재시도 가능하게 되돌려 둔다
+            throw e;
+        }
+
         if (!"PAID".equalsIgnoreCase(pay.getStatus())) {
-            throw new IllegalStateException("결제 상태가 PAID가 아님: " + pay.getStatus());
+            throw new CustomException(CustomErrorCode.PAYMENT_NOT_PAID);
+        }
+        BigDecimal paid = pay.getAmount() != null ? pay.getAmount().getTotal() : null;
+        if (paid == null || order.amount().compareTo(paid) != 0) {
+            cancelSafely(paymentId, paid, "결제 금액 불일치로 자동 취소");
+            throw new CustomException(CustomErrorCode.PAYMENT_AMOUNT_MISMATCH);
         }
 
-        // 2) payment 저장 (결제수단 표준화)
-        String payMethodRaw = pay.getPaymentMethod() != null ? pay.getPaymentMethod().getMethod() : null; // e.g. CARD / TRANSFER / EASY_PAY ...
-        String easyPayProvider = (pay.getEasyPay() != null) ? pay.getEasyPay().getProvider() : null; // e.g. KAKAOPAY / TOSSPAY / NAVERPAY ...
-        String method = mapMethod(payMethodRaw, easyPayProvider);
+        try {
+            return completion.complete(order, pay);
+        } catch (RuntimeException e) {
+            // 결제는 승인됐는데 예약 확정 실패(정원 초과 등) → DB 는 롤백됐으므로 PG 결제를 자동 취소
+            cancelSafely(paymentId, order.amount(), "예약 처리 실패로 자동 취소");
+            throw e;
+        }
+    }
 
-        Payment savedPay = paymentRepository.save(Payment.builder()
-                .amount(paid)
-                .method(method)
-                .status(PaymentStatus.PAID)
-                .paidAt(LocalDateTime.now())
-                .portonePaymentId(req.getPaymentId()) // 포트원 자체 결제 id 저장
-                .build());
-
-        // ID만으로 프록시 참조 얻기 (즉시 쿼리 안 나감, 접근 시/flush 시 검증)
-        User userRef = userRepository.getReferenceById(req.getUserId());
-
-        // 비관적 락으로 Expo 조회 — 동시 예약 중복 방지
-        Expo expo = expoRepository.findByIdWithLock(req.getExpoId())
-                .orElseThrow(() -> new CustomException(CustomErrorCode.EXPO_NOT_FOUND));
-        expo.increaseReservedCount(req.getPeople()); // 정원 초과 시 EXPO_CAPACITY_EXCEEDED
-
-        // 3) reservation 생성 (결제 성공 시점에만 생성)
-        String reservationCode = generateReservationCode();
-        Reservation savedRes = reservationRepository.save(Reservation.builder()
-                .user(userRef)
-                .expo(expo)
-                .payment(savedPay)
-                .status(ReservationStatus.RESERVED)
-                .code(reservationCode)
-                .people(req.getPeople())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .build());
-
-        // 4) QR 발급 & 메일 발송 트리거 → 별도 서비스에서 구현 예정
-        qrService.issueAndSend(savedRes.getReservationId());
-
+    /** 이미 완료된 결제의 결과 조회 (완료 요청 중복, 모바일 리디렉션 재진입 대비) */
+    private CompleteResponse findCompleted(Long userId, String paymentId) {
+        Reservation reservation = reservationRepository.findByPayment_PortonePaymentId(paymentId)
+                .filter(r -> r.getUser().getUserId().equals(userId))
+                .orElseThrow(() -> new CustomException(CustomErrorCode.PAYMENT_ORDER_NOT_FOUND));
         return CompleteResponse.builder()
-                .paymentPk(savedPay.getPaymentId())
-                .reservationPk(savedRes.getReservationId())
-                .status("PAID")
-                .reservationCode(reservationCode)
-                .reservationId(savedRes.getReservationId())   // 프론트에서 navigate할 때 사용
-                .portonePaymentId(req.getPaymentId())         // PortOne 결제 건 ID (환불 시 사용)
+                .paymentPk(reservation.getPayment().getPaymentId())
+                .reservationPk(reservation.getReservationId())
+                .reservationId(reservation.getReservationId())
+                .reservationCode(reservation.getCode())
+                .status(reservation.getPayment().getStatus().name())
+                .portonePaymentId(paymentId)
                 .build();
     }
 
+    private PortOnePaymentResponse fetchPayment(String paymentId) {
+        try {
+            PortOnePaymentResponse pay = portOne.getPayment(paymentId).block();
+            if (pay == null) throw new CustomException(CustomErrorCode.PAYMENT_LOOKUP_FAILED);
+            return pay;
+        } catch (WebClientResponseException e) {
+            log.error("[Payment] PortOne 결제 조회 실패 paymentId={} status={} body={}",
+                    paymentId, e.getStatusCode(), e.getResponseBodyAsString());
+            throw new CustomException(CustomErrorCode.PAYMENT_LOOKUP_FAILED);
+        }
+    }
+
+    /** 보상 취소 — 실패해도 원래 오류를 가리지 않도록 로그만 남긴다 (운영자가 수동 환불할 수 있게 ERROR 로그) */
+    private void cancelSafely(String paymentId, BigDecimal amount, String reason) {
+        try {
+            cancelAtPortOne(paymentId, new PortOneCancelRequest(amount, reason));
+            log.warn("[Payment] {} paymentId={} amount={}", reason, paymentId, amount);
+        } catch (Exception e) {
+            log.error("[Payment] 자동 취소 실패 — 수동 환불 필요 paymentId={} amount={}", paymentId, amount, e);
+        }
+    }
+
+    // ───────────────────────── 환불 ─────────────────────────
+
+    /** 사용자 본인 환불 — 소유자·입장 여부를 확인하고 전액 환불 + 환불 이력 기록 */
+    @Override
     @Transactional
-    public void refund(Long reservationId, String reason) {
-        // 3-1) 예약/결제 로드
+    public void refundByUser(Long userId, Long reservationId, String reason) {
         Reservation res = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_RESERVATION));
-        Payment pay = paymentRepository.findById(res.getPayment().getPaymentId())
-                .orElseThrow(() -> new IllegalStateException("결제 없음"));
+        if (!res.getUser().getUserId().equals(userId)) {
+            throw new CustomException(CustomErrorCode.ACCESS_DENIED);
+        }
+        if (res.getStatus() == ReservationStatus.CANCELLED) {
+            throw new CustomException(CustomErrorCode.RESERVATION_CANCELLED);
+        }
+        if (checkinService.isCheckedIn(res)) {
+            throw new CustomException(CustomErrorCode.ALREADY_CHECKED_IN);
+        }
+        refund(reservationId, reason);
+        refundRepository.save(Refund.approvedOf(res.getPayment(), reason));
+    }
 
+    /** 전액 환불 (PG 취소 → 결제 REFUNDED, 예약 CANCELLED, 정원 복구). 권한 확인은 호출하는 쪽 책임 */
+    @Override
+    @Transactional
+    public void refund(Long reservationId, String reason) {
+        Reservation res = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_RESERVATION));
+        Payment pay = res.getPayment();
         if (pay.getStatus() == PaymentStatus.REFUNDED) {
             return; // 이미 환불된 결제는 멱등 처리
         }
 
-        // 3-2) PortOne paymentId 확보(★ DB에 저장된 값 사용)
         String portonePaymentId = pay.getPortonePaymentId();
-        if (portonePaymentId == null || portonePaymentId.isBlank())
+        if (portonePaymentId == null || portonePaymentId.isBlank()) {
             throw new IllegalStateException("portonePaymentId 미저장 — 결제 완료 저장 로직 확인 필요");
-
-        // 3-3) 전액 환불(취소) 호출 — 부분 환불은 cancelAmount 조정하면 됨
+        }
         cancelAtPortOne(portonePaymentId, new PortOneCancelRequest(pay.getAmount(), reason));
 
-        // 3-4) 로컬 상태 반영
         pay.markRefunded();
         res.setStatus(ReservationStatus.CANCELLED);
 
         // 비관적 락으로 Expo 재조회 후 예약 인원 감소
         Expo expo = expoRepository.findByIdWithLock(res.getExpo().getExpoId())
-                .orElseThrow(() -> new IllegalStateException("Expo 없음"));
+                .orElseThrow(() -> new CustomException(CustomErrorCode.EXPO_NOT_FOUND));
         expo.decreaseReservedCount(res.getPeople());
 
         reservationRepository.save(res);
@@ -166,40 +254,5 @@ public class PaymentServiceImpl implements PaymentService {
                     portonePaymentId, e.getStatusCode(), e.getResponseBodyAsString());
             throw new CustomException(CustomErrorCode.PAYMENT_CANCEL_FAILED);
         }
-    }
-
-    private String generateReservationCode() {
-        String date = OffsetDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        return "RES-" + date + "-" + UUID.randomUUID().toString().substring(0, 6);
-    }
-
-    /**
-     * PortOne 응답(payMethod + easyPay.provider)을 우리 표기 문자열로 매핑
-     * - 간편결제(EASY_PAY)는 provider 기준으로 세분화 저장(KakaoPay, TossPay 등)
-     * - 일반수단은 표준 라벨로 통일하여 저장
-     */
-    private String mapMethod(String payMethod, String easyPayProvider) {
-        String methodUpper = payMethod == null ? "" : payMethod.trim().toUpperCase();
-        // 간편결제 분기: EASY_PAY + provider
-        if ("EASY_PAY".equals(methodUpper)) {
-            String provider = easyPayProvider == null ? "" : easyPayProvider.trim().toUpperCase();
-            return switch (provider) {
-                case "KAKAOPAY" -> "KakaoPay";
-                case "TOSSPAY" -> "TossPay";
-                case "NAVERPAY" -> "NaverPay";
-                case "APPLEPAY" -> "ApplePay";
-                case "SAMSUNGPAY" -> "SamsungPay";
-                default -> "EasyPay"; // 알 수 없는 간편결제 제공사
-            };
-        }
-
-        // 일반 결제수단 매핑
-        return switch (methodUpper) {
-            case "CARD" -> "Credit Card"; // 신용/체크카드
-            case "TRANSFER" -> "Bank Transfer"; // 계좌이체
-            case "VBANK", "VIRTUAL_ACCOUNT" -> "Virtual Account"; // 가상계좌
-            case "PHONE" -> "Mobile Phone"; // 휴대폰 결제
-            default -> "UNKNOWN"; // 마지막 안전망
-        };
     }
 }

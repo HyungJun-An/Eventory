@@ -1,125 +1,214 @@
-// PortOne v2 브라우저 SDK 기반 결제창 호출 컴포넌트
-// - KG이니시스 채널(channelKey) 사용
-// - 모바일 리디렉션 대비 redirectUrl 사용
-// - 결제 완료 후 /api/payments/complete 호출로 서버 검증
+// 예매·결제 화면
+// - 박람회 상세의 [예약하기] → /payment?expoId={id}
+// - 결제창 파라미터(payMethod 등)는 서버의 결제 채널 전략이 정해 내려준다 → PG를 바꿔도 이 화면은 그대로
+// - PC: 결제창 응답을 받아 바로 완료 처리 / 모바일: 결제 후 /payment/redirect 로 돌아와 완료 처리
 
-import React, { useCallback, useMemo, useState } from "react";
-import { postReady, postComplete } from "../api/paymentApi";
-import { useNavigate } from "react-router-dom"; //⭐ 추가
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import * as PortOne from "@portone/browser-sdk/v2";
+import api from "../api/axiosInstance";
+import { getPaymentChannel, postComplete, postReady } from "../api/paymentApi";
+import { DEFAULT_EXPO_IMAGE } from "../constants/images";
+import "../assets/css/payment/Checkout.css";
+
+const MAX_PEOPLE = 10;
+const krw = (v) => `${Number(v ?? 0).toLocaleString("ko-KR")}원`;
+const errorText = (e, fallback) => e?.response?.data?.message || fallback;
+
+// 결제는 참관객·참가업체 계정만 가능 (관리자 토큰으로는 결제 API 가 403)
+const isUserLoggedIn = () => {
+  try {
+    return Boolean(localStorage.getItem("accessToken")) && (localStorage.getItem("loginTarget") ?? "USER") === "USER";
+  } catch {
+    return false;
+  }
+};
 
 export default function PaymentCheckout() {
-    const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState('');
-    const navigate = useNavigate(); // 추가
+  const [params] = useSearchParams();
+  const expoId = params.get("expoId");
+  const navigate = useNavigate();
+  const loggedIn = isUserLoggedIn();
 
-    // 데모 입력값(실제론 장바구니/선택 정보로 구성)
-    const demoReq = useMemo(() => ({
-        userId: 11,
-        expoId: 3,
-        people: 1,
-        orderName: 'Eventory 입장권(1인)',
-        totalAmount: 1000, // KRW는 정수 금액
-    }), []);
+  const [expo, setExpo] = useState(null);
+  const [loadError, setLoadError] = useState("");
+  const [channel, setChannel] = useState(null);
+  const [people, setPeople] = useState(1);
+  const [paying, setPaying] = useState(false);
+  const [error, setError] = useState("");
 
-  const handlePay = useCallback(async () => {
-    setLoading(true);
-    setMessage("결제 준비 중...");
+  useEffect(() => {
+    if (!expoId) return;
+    api
+      .get(`/user/expos/${expoId}`)
+      .then((r) => setExpo(r.data))
+      .catch((e) => setLoadError(errorText(e, "박람회 정보를 불러오지 못했습니다.")));
+  }, [expoId]);
+
+  useEffect(() => {
+    if (!loggedIn) return;
+    getPaymentChannel()
+      .then(setChannel)
+      .catch(() => setChannel(null));
+  }, [loggedIn]);
+
+  const maxPeople = expo ? Math.max(0, Math.min(MAX_PEOPLE, expo.remainingCapacity)) : MAX_PEOPLE;
+
+  // 잔여석이 선택 인원보다 적으면 맞춰 줄인다
+  useEffect(() => {
+    setPeople((p) => Math.min(Math.max(1, p), Math.max(1, maxPeople)));
+  }, [maxPeople]);
+
+  const pay = async () => {
+    setError("");
+    setPaying(true);
     try {
-      // 1) 서버에 결제 준비 요청하여 paymentId / storeId / channelKey 수신
-      const ready = await postReady(demoReq);
-      // ready: { paymentId, storeId, channelKey, orderName, totalAmount, currency, payMethod, redirectUrl }
-
-      setMessage("결제창 호출 중...");
-
-      // 2) PortOne 결제창 호출
-      //    - KG이니시스 사용 시 channelKey에 이니시스 채널 키 지정
-      //    - 필수 구매자 정보(KG이니시스: fullName, phoneNumber, email) 전달 권장
+      const ready = await postReady({ expoId: Number(expoId), people });
       const response = await PortOne.requestPayment({
         storeId: ready.storeId,
         channelKey: ready.channelKey,
         paymentId: ready.paymentId,
         orderName: ready.orderName,
         totalAmount: Number(ready.totalAmount),
-        currency: ready.currency ?? "KRW",
-        payMethod: ready.payMethod ?? "CARD",
-        redirectUrl: ready.redirectUrl, // 모바일 리디렉션 대비
-        customer: {
-          fullName: "정현해",
-          phoneNumber: "01059504782",
-          email: "coachofgi@gmail.com",
-        },
+        currency: ready.currency,
+        payMethod: ready.payMethod,
+        ...(ready.easyPay ? { easyPay: ready.easyPay } : {}),
+        ...(ready.customer ? { customer: ready.customer } : {}),
+        redirectUrl: `${window.location.origin}/payment/redirect`, // 모바일은 결제 후 이 주소로 돌아온다
       });
 
-      // 리디렉션 방식이 아닌 경우(PC IFRAME/POPUP 등)엔 여기서 응답을 받음
-      // response: { transactionType: 'PAYMENT', txId, paymentId, code?, message? }
-      if (response?.code) {
-        // 결제창 단계 오류
-        throw new Error(
-          `결제창 오류(${response.code}): ${response.message ?? "원인 미상"}`
-        );
+      if (!response) return; // 리디렉션 방식이면 페이지가 이동하므로 여기로 오지 않는다
+      if (response.code) {
+        // 사용자가 결제창을 닫은 경우도 여기로 온다
+        setError(response.message || "결제가 취소되었습니다.");
+        return;
       }
 
-      // 3) 결제 성공 시 서버 확정 처리(금액/상태 검증 및 DB 반영)
-      setMessage("서버로 결제 완료 검증 중...");
-      const complete = await postComplete({
-        paymentId: ready.paymentId,
-        userId: demoReq.userId,
-        expoId: demoReq.expoId,
-        people: demoReq.people,
-        orderName: ready.orderName,
-        expectedAmount: ready.totalAmount,
-      });
-
-      //⭐ 응답에서 예약 id, 코드, 상태, portonePaymentId 꺼내기
-      const reservationId = complete.reservationId;
-      const portonePaymentId = complete.portonePaymentId;
-      const reservationCode = complete.reservationCode;
-
-      setMessage(`결제 성공! 예약번호: ${reservationId}`);
-      alert(`결제 성공! 예약번호: ${reservationId}`);
-
-      //⭐ 예약 상세 페이지로 이동하면서 state로 값 전달
-      navigate(`/payment/reservation/${reservationId}`, {
+      const done = await postComplete(response.paymentId ?? ready.paymentId);
+      navigate(`/payment/reservation/${done.reservationId}`, {
+        replace: true,
         state: {
-          reservationId,
-          reservationCode,
-          paymentStatus: complete.status,
-          portonePaymentId,
+          reservationId: done.reservationId,
+          reservationCode: done.reservationCode,
+          paymentStatus: done.status,
+          expoTitle: expo.title,
+          people,
+          amount: ready.totalAmount,
         },
       });
     } catch (e) {
-      console.error(e);
-      setMessage(e.message ?? "결제 실패함.");
+      setError(errorText(e, e?.message || "결제 처리 중 오류가 발생했습니다."));
     } finally {
-      setLoading(false);
+      setPaying(false);
     }
-  }, [demoReq, navigate]);
+  };
+
+  if (!expoId) {
+    return (
+      <div className="co-page">
+        <div className="co-card co-empty">
+          예매할 박람회를 먼저 선택해주세요. <Link to="/">박람회 둘러보기</Link>
+        </div>
+      </div>
+    );
+  }
+  if (loadError) {
+    return (
+      <div className="co-page">
+        <div className="co-card co-empty">
+          {loadError} <Link to="/">메인으로</Link>
+        </div>
+      </div>
+    );
+  }
+  if (!expo) {
+    return (
+      <div className="co-page">
+        <div className="co-card co-empty">불러오는 중…</div>
+      </div>
+    );
+  }
+
+  const soldOut = maxPeople === 0;
+  const total = Number(expo.price) * people;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
-      <div className="w-full max-w-lg rounded-2xl shadow-lg bg-white p-6 space-y-4">
-        <h1 className="text-2xl font-bold">Eventory 결제 데모 (KG이니시스)</h1>
-        <p className="text-sm text-gray-600">
-          테스트 결제 금액: {demoReq.totalAmount.toLocaleString()}원
-        </p>
+    <div className="co-page">
+      <h1 className="co-title">예매하기</h1>
+      <div className="co-grid">
+        <section className="co-card co-expo">
+          <img
+            className="co-poster"
+            src={expo.imageUrl || DEFAULT_EXPO_IMAGE}
+            alt={expo.title}
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = DEFAULT_EXPO_IMAGE;
+            }}
+          />
+          <div className="co-expo__info">
+            <h2>{expo.title}</h2>
+            <dl className="co-dl">
+              <dt>일정</dt>
+              <dd>
+                {expo.startDate} ~ {expo.endDate}
+              </dd>
+              <dt>장소</dt>
+              <dd>{expo.location}</dd>
+              <dt>입장료</dt>
+              <dd>1인 {krw(expo.price)}</dd>
+              <dt>잔여석</dt>
+              <dd>{soldOut ? "매진" : `${expo.remainingCapacity.toLocaleString("ko-KR")}석`}</dd>
+            </dl>
+          </div>
+        </section>
 
-        <button
-          onClick={handlePay}
-          disabled={loading}
-          className="w-full rounded-2xl py-3 font-semibold shadow hover:shadow-md transition disabled:opacity-50 bg-black text-white"
-        >
-          {loading ? "진행 중..." : "결제하기"}
-        </button>
+        <aside className="co-card co-summary">
+          <h3>주문 정보</h3>
+          <div className="co-row">
+            <span>인원</span>
+            <div className="co-stepper">
+              <button type="button" onClick={() => setPeople((p) => p - 1)} disabled={people <= 1 || paying} aria-label="인원 줄이기">
+                −
+              </button>
+              <span aria-live="polite">{people}명</span>
+              <button type="button" onClick={() => setPeople((p) => p + 1)} disabled={people >= maxPeople || paying} aria-label="인원 늘리기">
+                +
+              </button>
+            </div>
+          </div>
+          <div className="co-row">
+            <span>1인 가격</span>
+            <span>{krw(expo.price)}</span>
+          </div>
+          <div className="co-row">
+            <span>결제수단</span>
+            <span>{channel?.label ?? (loggedIn ? "확인 중…" : "-")}</span>
+          </div>
+          <div className="co-total">
+            <span>총 결제 금액</span>
+            <strong>{krw(total)}</strong>
+          </div>
 
-        <div className="text-sm text-gray-700 whitespace-pre-line min-h-[2.5rem]">
-          {message}
-        </div>
-
-        {/*                 <div className="text-xs text-gray-500"> */}
-        {/*                     * 모바일 환경에서는 리디렉션 후 돌아오면 <code>/payment/redirect</code> 라우트에서 */}
-        {/*                     <code>paymentId</code>를 서버로 전달하여 <code>/api/payments/complete</code> 호출해야 함. */}
-        {/*                 </div> */}
+          {loggedIn ? (
+            <button type="button" className="co-pay" onClick={pay} disabled={paying || soldOut}>
+              {soldOut ? "매진" : paying ? "결제 진행 중…" : `${krw(total)} 결제하기`}
+            </button>
+          ) : (
+            <>
+              <p className="co-hint">결제하려면 참관객 계정으로 로그인해주세요.</p>
+              <Link to="/login" className="co-pay co-pay--link">
+                로그인하기
+              </Link>
+            </>
+          )}
+          {error && (
+            <p className="co-error" role="alert">
+              {error}
+            </p>
+          )}
+          <p className="co-hint">결제가 끝나면 입장 QR이 가입한 이메일로 발송됩니다. 입장 전까지 전액 환불할 수 있습니다.</p>
+        </aside>
       </div>
     </div>
   );

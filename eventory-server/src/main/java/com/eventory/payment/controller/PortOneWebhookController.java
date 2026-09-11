@@ -48,7 +48,7 @@ public class PortOneWebhookController {
         BigDecimal amount = pay.getAmount().getTotal();
         Payment saved = paymentRepository.save(Payment.builder()
                 .amount(amount)
-                .method(pay.getPaymentMethod() != null ? pay.getPaymentMethod().getMethod() : "UNKNOWN")
+                .method(pay.getMethod() != null ? pay.getMethod().getType() : "UNKNOWN")
                 .status(PaymentStatus.PAID)
                 .paidAt(LocalDateTime.now())
                 .build());

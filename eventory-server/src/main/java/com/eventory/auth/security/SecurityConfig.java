@@ -43,8 +43,10 @@ public class SecurityConfig {
                                 "/api/user/expos", "/api/user/expos/**",
                                 "/session/**", "/actuator/**"
                         ).permitAll()
-                        // 웹훅 및 결제 콜백 엔드포인트 공개 허용
-                        .requestMatchers("/api/portone-webhook", "/api/payments/complete", "/api/payment/**").permitAll()
+                        // PortOne 웹훅은 PortOne 서버가 호출하므로 공개
+                        .requestMatchers("/api/portone-webhook").permitAll()
+                        // 결제·환불은 로그인한 참관객·참가업체만 (기존: 전부 공개 → 비로그인 결제 확정·타인 예약 환불 가능)
+                        .requestMatchers("/api/payment/**").hasAnyRole("GENERAL_USER", "COMPANY_USER")
                         // 박람회 신청 엔드포인트 POST는 공개 허용
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/admin/expos").permitAll()
                         .requestMatchers("/api/auth/me").authenticated() // me는 인증만 필요
