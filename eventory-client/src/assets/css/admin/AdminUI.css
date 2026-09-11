@@ -383,7 +383,9 @@ body.adm-body > #root {
 .adm-kpi__icon--red { background: #fee2e2; color: #b91c1c; }
 .adm-kpi__icon--violet { background: #ede9fe; color: #6d28d9; }
 .adm-kpi__label { font-size: 13px; color: var(--adm-muted); }
-.adm-kpi__value { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; }
+/* 큰 금액(21,822,000원)이 좁은 카드에서 "원"만 줄바꿈되지 않도록 한 줄 유지 + 폭에 따라 글자 크기 축소 */
+.adm-kpi > div { min-width: 0; }
+.adm-kpi__value { font-size: clamp(17px, 1.45vw, 21px); font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; }
 
 .adm-chart { height: 280px; }
 
@@ -828,6 +830,46 @@ textarea.adm-input { resize: vertical; line-height: 1.6; }
 .adm-content .dashboard-stats .text-content { align-items: flex-start; justify-content: center; gap: 2px; margin: 0; text-align: left; }
 .adm-content .dashboard-stats .title { margin: 0; font-size: 13px; font-weight: 500; color: var(--adm-muted); }
 .adm-content .dashboard-stats .value { margin: 0; font-size: 22px; font-weight: 700; color: var(--adm-text); }
+
+/* ---------- 시스템관리자: 심사 모달 · 발급 계정 ---------- */
+/* KPI 4개 고정 (auto-fit 은 폭에 따라 3+1 로 어색하게 줄바꿈됨) */
+.adm-kpis--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.adm-kpis--4 .adm-kpi { padding: 16px; gap: 12px; }
+@media (max-width: 1100px) { .adm-kpis--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .adm-kpis--4 { grid-template-columns: 1fr; } }
+
+.adm-cell-sub { margin-top: 3px; font-size: 12.5px; color: var(--adm-muted); }
+.adm-menu__info { display: grid; gap: 2px; padding: 8px 12px 6px; }
+.adm-menu__info strong { font-size: 14px; color: var(--adm-text); }
+.adm-menu__info span { font-size: 12px; color: var(--adm-muted); word-break: break-all; }
+
+.adm-modal--wide { max-width: 760px; }
+.adm-modal__body--scroll { max-height: 70vh; overflow-y: auto; }
+
+.adm-review { display: grid; grid-template-columns: 180px 1fr; gap: 20px; }
+.adm-review__poster { width: 100%; aspect-ratio: 8 / 11; border-radius: 12px; object-fit: cover; background: #f1f5f9; }
+.adm-review__desc { margin: 14px 0 0; padding: 12px 14px; border-radius: 10px; background: #f8fafc; font-size: 13.5px; line-height: 1.7; color: #334155; }
+.adm-review__section { margin-top: 18px; }
+.adm-review__section h4 { margin: 0 0 8px; font-size: 13px; font-weight: 700; color: #334155; }
+
+.adm-cred { display: grid; gap: 10px; margin: 6px 0 14px; }
+.adm-cred__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--adm-border);
+  border-radius: 10px;
+  background: #f8fafc;
+}
+.adm-cred__row span { font-size: 12.5px; color: var(--adm-muted); }
+.adm-cred__row code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 15px; font-weight: 700; color: var(--adm-text); word-break: break-all; }
+.adm-cred__warn { margin: 0; font-size: 12.5px; color: #b45309; }
+
+@media (max-width: 700px) {
+  .adm-review { grid-template-columns: 1fr; }
+}
 
 /* ---------- 반응형 ---------- */
 @media (max-width: 1200px) {

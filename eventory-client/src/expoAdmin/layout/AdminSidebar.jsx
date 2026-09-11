@@ -2,7 +2,8 @@ import { NavLink } from "react-router-dom";
 import { BarChart3, FileText, LayoutDashboard, RotateCcw, ScanLine, Store, Users, Wallet } from "lucide-react";
 import logo from "../../assets/demo/eventory_bluewriting.png";
 
-const NAV = [
+// 박람회관리자 메뉴 (기본값). 시스템관리자 레이아웃은 nav prop 으로 다른 메뉴를 넘긴다
+export const EXPO_ADMIN_NAV = [
   {
     group: "운영",
     items: [
@@ -23,16 +24,16 @@ const NAV = [
   },
 ];
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ nav = EXPO_ADMIN_NAV, homePath = "/admin/dashboard", tag = "Admin" }) {
   return (
     <aside className="adm-sidebar">
-      <NavLink to="/admin/dashboard" className="adm-sidebar__brand" aria-label="Eventory 관리자 홈">
+      <NavLink to={homePath} className="adm-sidebar__brand" aria-label="Eventory 관리자 홈">
         <img src={logo} alt="Eventory" />
-        <span className="adm-sidebar__tag">Admin</span>
+        <span className="adm-sidebar__tag">{tag}</span>
       </NavLink>
 
       <nav className="adm-nav" aria-label="관리자 메뉴">
-        {NAV.map((section) => (
+        {nav.map((section) => (
           <div key={section.group} className="adm-nav__section">
             <div className="adm-nav__label">{section.group}</div>
             {section.items.map(({ to, label, icon: Icon, end }) => (

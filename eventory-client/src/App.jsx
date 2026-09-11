@@ -25,10 +25,10 @@ import BoothList from "./companyUser/BoothList";
 import BoothEdit from "./companyUser/BoothEdit";
 import ExpoDetail from "./user/ExpoDetail";
 
-import { SysExpoList } from "./systemAdmin/SysExpoList";
-import ExpoManagerManagement from "./systemAdmin/ExpoManagerManagement";
-import SysDashboard from "./systemAdmin/SysDashboard";
-import AdminSidebar from "./systemAdmin/AdminSidebar";
+import SysLayout from "./systemAdmin/layout/SysLayout";
+import SysDashboardPage from "./systemAdmin/pages/SysDashboardPage";
+import SysExpoApprovalPage from "./systemAdmin/pages/SysExpoApprovalPage";
+import SysExpoAdminPage from "./systemAdmin/pages/SysExpoAdminPage";
 
 // 기존 대시보드 컴포넌트는 expoId 를 props 로 받으므로 레이아웃의 선택 박람회를 연결해준다
 function DashboardRoute() {
@@ -76,19 +76,13 @@ function App() {
           {/* 사용자 상세 페이지 */}
           <Route path="/expos/:expoId" element={<ExpoDetail />} />
         </Route>
-        <Route
-          path="/sys/expos"
-          element={<SysExpoList></SysExpoList>}
-        />
-        <Route
-          path="/sys/manage"
-          element={<ExpoManagerManagement></ExpoManagerManagement>}
-        />
-        <Route
-          path="/sys/dashboard"
-          element={<SysDashboard></SysDashboard>}
-        />
-        <Route path="/sys/sidebar" element={<AdminSidebar></AdminSidebar>} />
+        {/******************* 시스템관리자 영역 (박람회관리자와 같은 레이아웃·스타일) ***********************/}
+        <Route path="/sys" element={<SysLayout />}>
+          <Route index element={<Navigate to="dashboard" replace />} />
+          <Route path="dashboard" element={<SysDashboardPage />} />
+          <Route path="expos" element={<SysExpoApprovalPage />} />
+          <Route path="manage" element={<SysExpoAdminPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
