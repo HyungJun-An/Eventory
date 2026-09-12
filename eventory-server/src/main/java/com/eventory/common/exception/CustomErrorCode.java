@@ -47,6 +47,7 @@ public enum CustomErrorCode {
     PAYMENT_NOT_PAID(HttpStatus.BAD_REQUEST, "R014", "결제가 완료되지 않았습니다."),
     PAYMENT_AMOUNT_MISMATCH(HttpStatus.BAD_REQUEST, "R015", "결제 금액이 주문 금액과 달라 결제를 자동 취소했습니다."),
     PAYMENT_LOOKUP_FAILED(HttpStatus.BAD_GATEWAY, "R016", "결제사 결제 조회에 실패했습니다. 잠시 후 다시 시도해주세요."),
+    RESERVATION_BUSY(HttpStatus.CONFLICT, "R017", "예약 요청이 몰려 처리하지 못했습니다. 결제는 자동 취소되었으니 잠시 후 다시 시도해주세요."),
     EXPO_NOT_RESERVABLE(HttpStatus.BAD_REQUEST, "E006", "현재 예약할 수 없는 박람회입니다."),
     INVALID_EXPO_STATUS(HttpStatus.BAD_REQUEST, "E007", "승인(APPROVED) 또는 반려(REJECTED)만 선택할 수 있습니다."),
     EXPO_ADMIN_HAS_EXPOS(HttpStatus.CONFLICT, "D008", "담당 박람회가 있는 관리자는 삭제할 수 없습니다."),

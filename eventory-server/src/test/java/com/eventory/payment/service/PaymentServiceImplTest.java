@@ -27,6 +27,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
@@ -101,6 +102,18 @@ class PaymentServiceImplTest {
             when(portOne.cancelPayment(eq(PAYMENT_ID), any())).thenReturn(Mono.empty());
 
             assertError(() -> service.complete(BUYER, PAYMENT_ID), CustomErrorCode.EXPO_CAPACITY_EXCEEDED);
+            assertThat(cancelledAmount()).isEqualByComparingTo(PRICE);
+        }
+
+        @Test
+        @DisplayName("정원 락을 3초 안에 얻지 못하면 PG 결제를 자동 취소하고 '요청이 몰림'(R017)으로 응답한다")
+        void lockTimeout_cancelsAtPg() {
+            givenOrder();
+            givenPortOne("PAID", PRICE);
+            when(completion.complete(eq(order), any())).thenThrow(new CannotAcquireLockException("Lock wait timeout exceeded"));
+            when(portOne.cancelPayment(eq(PAYMENT_ID), any())).thenReturn(Mono.empty());
+
+            assertError(() -> service.complete(BUYER, PAYMENT_ID), CustomErrorCode.RESERVATION_BUSY);
             assertThat(cancelledAmount()).isEqualByComparingTo(PRICE);
         }
 

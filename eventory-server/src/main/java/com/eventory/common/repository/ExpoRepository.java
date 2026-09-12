@@ -26,6 +26,8 @@ import java.util.Optional;
 public interface ExpoRepository extends JpaRepository<Expo, Long> {
 
     // 결제 완료/환불 시 동시성 제어용 — SELECT FOR UPDATE
+    // 락 대기 상한: MySQL 에서는 아래 힌트가 무시되므로(생성 SQL 에 반영 안 됨) application.yml 의
+    // innodb_lock_wait_timeout(3초)으로 제한한다. 힌트는 이를 지원하는 DB(Oracle·PostgreSQL 등) 대비로 유지
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @QueryHints(@QueryHint(name = "jakarta.persistence.lock.timeout", value = "3000"))
     @Query("SELECT e FROM expo e WHERE e.expoId = :expoId")

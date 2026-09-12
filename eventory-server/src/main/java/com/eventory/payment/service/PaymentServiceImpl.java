@@ -20,6 +20,7 @@ import com.eventory.qr.service.CheckinService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -186,6 +187,10 @@ public class PaymentServiceImpl implements PaymentService {
             } catch (RuntimeException e) {
                 // 결제는 승인됐는데 예약 확정 실패(정원 초과 등) → DB 는 롤백됐으므로 PG 결제를 자동 취소
                 cancelSafely(paymentId, order.amount(), "예약 처리 실패로 자동 취소");
+                if (e instanceof PessimisticLockingFailureException) {
+                    // 정원 행 락을 3초(innodb_lock_wait_timeout) 안에 얻지 못함 — 500 대신 재시도 안내
+                    throw new CustomException(CustomErrorCode.RESERVATION_BUSY);
+                }
                 throw e;
             }
         } finally {

@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Propagation;
@@ -84,6 +85,46 @@ class ExpoReservationConcurrencyTest {
         assertThat(r.success.get() + r.optimisticConflict.get()).isEqualTo(THREADS);
         assertThat(reservedCount(expoId)).isEqualTo(r.success.get());
         print("낙관적 락만 / 남은 100석", r);
+    }
+
+    @Test
+    @DisplayName("락을 오래 잡고 있으면 뒤 요청은 3초 안에 락 타임아웃으로 실패한다 (기존: JPA 힌트 무시로 최대 50초 대기)")
+    void lockWaitIsBoundedTo3Seconds() throws Exception {
+        Long expoId = saveExpo(100, 0);
+        CountDownLatch locked = new CountDownLatch(1);
+        ExecutorService pool = Executors.newSingleThreadExecutor();
+        Future<?> holder = pool.submit(() -> inTransaction(tx -> {
+            expoRepository.findByIdWithLock(expoId).orElseThrow(); // 행 락 획득
+            locked.countDown();
+            sleep(6_000);                                          // 6초 동안 락 점유
+        }));
+        locked.await();
+
+        long start = System.nanoTime();
+        Exception failure = null;
+        try {
+            reserveWithLock(expoId);
+        } catch (Exception e) {
+            failure = e;
+        }
+        long waitedMs = (System.nanoTime() - start) / 1_000_000;
+        holder.get();
+        pool.shutdown();
+        System.out.printf("[락 타임아웃] 앞 트랜잭션 6초 점유 / 뒤 요청 대기 %dms / 결과: %s%n",
+                waitedMs, failure == null ? "락 획득 후 성공" : failure.getClass().getSimpleName());
+
+        // innodb_lock_wait_timeout = 3 → 약 3초 후 PessimisticLockingFailureException (Spring 이 MySQL 1205 오류를 변환)
+        assertThat(failure).isInstanceOf(PessimisticLockingFailureException.class);
+        assertThat(waitedMs).isBetween(2_500L, 5_000L);
+        assertThat(reservedCount(expoId)).isZero();
+    }
+
+    private static void sleep(long ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     // ─── 시나리오 실행 ───

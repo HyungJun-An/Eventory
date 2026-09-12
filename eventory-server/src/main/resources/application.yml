@@ -7,3 +7,9 @@ spring:
     import:
       - optional:file:.env[.properties]
       - optional:file:../.env[.properties]
+  datasource:
+    hikari:
+      # 행 락 대기 상한 3초 (MySQL 기본 50초).
+      # JPA 힌트 jakarta.persistence.lock.timeout 은 Hibernate MySQL 방언이 SQL 에 반영하지 않아
+      # "SELECT ... FOR UPDATE" 가 최대 50초 대기했다 → 커넥션 생성 시 세션 변수로 제한한다.
+      connection-init-sql: SET SESSION innodb_lock_wait_timeout = 3
