@@ -1,5 +1,116 @@
 # Eventory 트러블슈팅 & 성능 개선 기록
 
+> 구현 곳곳의 선택 이유·대안·한계(왜 Lua 스크립트인가, 왜 AFTER_COMMIT인가 등)는 `docs/TECH-DECISIONS.md`에 따로 정리했다.
+
+---
+
+## [2026-09-12] 비관적 락 타임아웃 힌트가 MySQL에서 무시됨 — 최대 50초 대기
+
+### 문제 발견 배경
+
+기술 선택 문서를 쓰면서 락 설정을 다시 확인했다. 2026-05-16에 "`lock.timeout = 3000ms`로 설정해 락 대기가 3초를 초과하면 즉시 예외"라고 기록했지만, 이를 실제로 측정한 적은 없었다.
+
+### 근본 원인 분석
+
+Testcontainers(MySQL 8.0)에서 앞 트랜잭션이 행 락을 6초 동안 잡고 있을 때, 뒤 트랜잭션의 `findByIdWithLock()`이 얼마나 기다리는지 측정했다.
+
+```
+Hibernate: select ... from expo e1_0 where e1_0.expo_id=? for update     ← 타임아웃 절이 없다
+[락 타임아웃] 앞 트랜잭션 6초 점유 / 뒤 요청 대기 6046ms / 결과: 락 획득 후 성공
+```
+
+Hibernate MySQL 방언은 `jakarta.persistence.lock.timeout` 힌트를 SQL에 반영하지 않았다. 실제 상한은 InnoDB 기본값 `innodb_lock_wait_timeout = 50`초였다. 인기 박람회에 결제가 몰리면 요청 스레드와 DB 커넥션이 최대 50초씩 묶여, 커넥션 풀이 고갈되고 결제와 무관한 API까지 멈출 수 있는 상태였다.
+
+### 정량적 분석
+
+| 지표 | 수정 전 | 수정 후 |
+|---|---|---|
+| 뒤 요청의 락 대기 (앞 트랜잭션 6초 점유) | 6,046ms 후 락 획득 | **3,031ms 후 예외** |
+| 이론상 최대 대기 | 50초 (InnoDB 기본값) | **3초** |
+| 대기 초과 시 응답 | (50초 후) 500 | 409 `R017` + PG 결제 자동 취소 |
+| 앱 DB 커넥션의 세션 값 | 50 | 3 (커넥션 10개 전부 확인) |
+
+### 해결 방법
+
+커넥션을 만들 때 세션 변수를 설정해 앱의 모든 커넥션에 적용했다.
+
+```yaml
+spring:
+  datasource:
+    hikari:
+      connection-init-sql: SET SESSION innodb_lock_wait_timeout = 3
+```
+
+대기가 3초를 넘으면 MySQL 1205 오류가 나고, Spring이 이를 `PessimisticLockingFailureException`으로 변환한다. 결제 확정 로직은 이 예외를 받으면 PG 결제를 자동 취소하고, 500 대신 "요청이 몰려 처리하지 못했다"(R017, 409)로 응답한다. 이 동작은 `ExpoReservationConcurrencyTest.lockWaitIsBoundedTo3Seconds`와 `PaymentServiceImplTest.lockTimeout_cancelsAtPg`로 고정했다.
+
+JPA 힌트는 이를 지원하는 DB(Oracle, PostgreSQL 등)를 대비해 남겨 두되, MySQL에서는 무시된다고 주석을 달았다.
+
+### 선택 근거
+
+> `NOWAIT`(즉시 실패)는 잠깐 줄 서면 처리될 요청까지 실패시킨다. 쿼리마다 `SET SESSION`을 호출하는 방식은 누락 위험이 있고, MySQL 서버 설정은 앱 밖에 흩어진다. 커넥션 초기화 SQL은 모든 커넥션에 일관되게 적용되고 설정이 코드와 함께 버전 관리된다.
+
+> 교훈: 설정 "값"을 넣은 것과 설정이 "동작"하는 것은 다르다. 락·타임아웃처럼 DB 방언에 따라 달라지는 설정은 실제 DB에서 측정해야 한다. H2로 테스트했다면 이 문제를 발견할 수 없었다.
+
+---
+
+## [2026-09-12] 시스템관리자 로그인 불가 — 역할별 토큰 저장 키 불일치
+
+### 문제
+
+시스템관리자로 로그인하면 알림 없이 다시 로그인 화면으로 돌아왔다. 로그인 API는 200을 반환했다.
+
+### 원인
+
+토큰 저장 키가 네 곳에 각자 정의되어 있었고, 서로 달랐다.
+
+| 위치 | 시스템관리자 토큰 처리 |
+|---|---|
+| `LoginPage.jsx` | `adminAccessToken`(박람회관리자 키)에 저장 |
+| `AuthContext.login()` | 역할과 무관하게 `accessToken`(참관객 키)에도 저장 |
+| `axiosInstance.js` | `sysAdminAccessToken`에서 읽음 → **없음** |
+| `LogoutButton.jsx` | (이전 수정으로) `sysAdminAccessToken`에서 읽음 |
+
+`/api/sys/**` 요청에 토큰이 붙지 않아 403이 나고, axios가 재발급을 시도했지만 `sysAdminRefreshToken`도 없어 `/login`으로 되돌렸다.
+
+**그동안 드러나지 않은 이유**: `/api/sys/**`는 인증 없이 열려 있었고, 옛 시스템관리자 화면은 토큰 없이 `fetch`로 호출했다. 토큰이 필요 없었기 때문에 저장 키가 틀려도 동작했다. 2026-09-11에 시스템관리자 API에 인증을 적용하면서 숨어 있던 버그가 드러났다. 당시 브라우저 검증은 토큰을 localStorage에 직접 넣고 진행해, "로그인 화면이 토큰을 어디에 저장하는가"라는 경로를 건너뛰었다.
+
+### 수정
+
+`auth/tokenKeys.js` 한 파일에 역할별 저장 키·재발급 URL·로그아웃 경로를 정의하고, 네 곳 모두 이 파일만 쓰게 바꿨다.
+
+```js
+export const TOKEN_KEYS = {
+  USER:         { access: "accessToken",         refresh: "refreshToken",         refreshUrl: "/api/auth/refresh" },
+  EXPO_ADMIN:   { access: "adminAccessToken",    refresh: "adminRefreshToken",    refreshUrl: "/api/admin/refresh" },
+  SYSTEM_ADMIN: { access: "sysAdminAccessToken", refresh: "sysAdminRefreshToken", refreshUrl: "/api/admin/sys/refresh" },
+};
+```
+
+로그인할 때는 다른 역할의 토큰을 먼저 모두 지운다. 여러 역할의 토큰이 남아 있으면 요청에 어떤 토큰이 붙을지 예측하기 어렵다. 실제 로그인 화면으로 시스템관리자·박람회관리자에 로그인해, 역할별 키에만 토큰이 저장되고 대시보드 API가 정상 응답하는 것을 확인했다.
+
+### 추가로 발견: 로그아웃 직후 도착한 응답이 페이지를 강제 새로고침
+
+검증 스크립트가 대시보드 차트를 불러오는 도중에 로그아웃을 누르자, 화면이 `/login?reason=refreshFail`로 새로고침됐다.
+
+```
+로그아웃 → 서버: AccessToken 블랙리스트 등록 / 브라우저: 토큰 삭제
+        → 아직 대기 중이던 차트 요청 3건이 401 로 도착
+        → axios 인터셉터가 재발급 시도 → 리프레시 토큰 없음 → localStorage.clear() + 페이지 새로고침
+```
+
+인터셉터가 "로그아웃된 뒤 도착한 응답"과 "토큰이 만료된 응답"을 구분하지 못한 것이 원인이었다. 요청에 실어 보낸 토큰과 지금 저장된 토큰을 비교하도록 바꿨다.
+
+| 보낸 토큰 | 저장된 토큰 | 판단 | 처리 |
+|---|---|---|---|
+| 있음 | 없음 | 로그아웃 뒤 도착한 응답 | 조용히 실패 (재발급·새로고침 안 함) |
+| 있음 | 있음, 다름 | 그사이 다른 요청이 재발급함 | 새 토큰으로 한 번만 재시도 |
+| 있음 | 있음, 같음 | 토큰 만료 | 기존대로 재발급 후 재시도 |
+| 없음 | — | 비로그인 사용자 | 기존대로 로그인 화면 안내 |
+
+### 교훈
+
+> 인증을 강화하는 변경은 실제 로그인 화면부터 API 호출까지 이어서 검증해야 한다. 같은 개념(역할별 토큰 키)이 여러 파일에 복제되어 있으면 한 곳만 고쳐도 나머지와 어긋난다. 이런 값은 한 곳에 정의한다.
+
 ---
 
 ## [2026-09-11] 프론트엔드 번들 785kB 단일 파일 — 라우트 단위 코드 분할
@@ -647,6 +758,8 @@ Optional<Expo> findByIdWithLock(Long expoId);
 ```
 
 `lock.timeout = 3000ms`로 설정해 락 대기가 3초를 초과하면 즉시 예외를 발생시킨다. 이를 통해 서버 자원이 무한 대기 스레드에 묶이는 것을 방지한다.
+
+> **정정 (2026-09-12)**: 측정해 보니 이 힌트는 Hibernate MySQL 방언에서 SQL에 반영되지 않아, 실제로는 InnoDB 기본값인 50초까지 대기했다. 지금은 커넥션 초기화 SQL(`innodb_lock_wait_timeout = 3`)로 제한한다. 맨 위 [2026-09-12] 항목 참고.
 
 #### 3. PaymentServiceImpl — 락 적용
 
