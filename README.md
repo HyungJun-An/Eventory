@@ -31,8 +31,10 @@
 
 ## 🖥️ 서비스 화면
 
-| 참관객 — 예매·결제 (토스페이) | 박람회관리자 — 대시보드 |
+| 참관객 — 메인 (박람회 목록) | 참관객 — 박람회 상세 |
 |:---:|:---:|
+| <img src="docs/images/main.png" alt="메인 화면"> | <img src="docs/images/expo-detail.png" alt="박람회 상세"> |
+| **참관객 — 예매·결제 (토스페이)** | **박람회관리자 — 대시보드** |
 | <img src="docs/images/checkout.png" alt="예매·결제"> | <img src="docs/images/admin-dashboard.png" alt="박람회관리자 대시보드"> |
 | **박람회관리자 — 예약자 명단 (수동 체크인·취소)** | **시스템관리자 — 플랫폼 대시보드** |
 | <img src="docs/images/admin-reservations.png" alt="예약자 명단"> | <img src="docs/images/sys-dashboard.png" alt="플랫폼 대시보드"> |
