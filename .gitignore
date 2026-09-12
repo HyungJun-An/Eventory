@@ -54,6 +54,8 @@ CLAUDE.md
 *.gif
 *.pdf
 시연영상/
+# 단, README 에 쓰는 화면 캡처는 저장소에 포함 (위 *.png 규칙의 예외)
+!docs/images/*.png
 
 ### Claude Code 작업 디렉터리 ###
 .playwright-mcp/
