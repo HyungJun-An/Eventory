@@ -1,41 +1,29 @@
 package com.eventory.expoAdmin.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+/** 박람회 담당자 정보 응답 — 비밀번호(해시 포함)는 절대 내려주지 않는다 */
 @Getter
 @Builder
 @AllArgsConstructor
 public class ManagerResponseDto {
 
-    @NotNull
-    @Positive
     private Long expoAdminId;
 
-    @NotBlank
-    private String password;
-
-    @NotBlank
     private String name;
 
-    @NotBlank
     private String email;
 
-    @NotBlank
     private String phone;
 
-    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
-    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 }

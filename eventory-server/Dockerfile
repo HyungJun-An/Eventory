@@ -11,7 +11,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # 2) Run stage
-FROM openjdk:21-jdk
+FROM amazoncorretto:21
 
 WORKDIR /app
 

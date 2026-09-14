@@ -1,42 +1,55 @@
-// 모바일 리디렉션 복귀 처리 전용
-// - 결제 리디렉션 복귀 URL로 설정: {BASE}/payment/redirect
-// - 쿼리스트링이나 세션/스토리지에 저장해 둔 paymentId를 꺼내 서버 완료 검증 호출
+// 모바일 결제 리디렉션 복귀 처리 (/payment/redirect?paymentId=...&code=...&message=...)
+// - 주문 정보(박람회·인원·금액)는 서버가 결제 준비 때 저장해 두었으므로 paymentId 만으로 완료 처리한다
+//   (기존: sessionStorage 에 값이 없어 userId=1, expoId=101 같은 임의값으로 완료를 시도)
 
-import React, { useEffect, useState } from 'react';
-import { postComplete } from '../api/paymentApi';
+import { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { postComplete } from "../api/paymentApi";
+import "../assets/css/payment/Checkout.css";
 
 export function PaymentRedirect() {
-  const [msg, setMsg] = useState('결제 결과 확인 중...');
+  const navigate = useNavigate();
+  const started = useRef(false); // StrictMode 이중 실행 방지 (서버도 멱등 처리하지만 불필요한 요청을 막는다)
+  const [message, setMessage] = useState("결제 결과를 확인하는 중입니다…");
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      try {
-        // 1) paymentId 확보
-        const url = new URL(window.location.href);
-        const paymentId = url.searchParams.get('paymentId') || sessionStorage.getItem('paymentId');
-        if (!paymentId) throw new Error('paymentId 없음');
+    if (started.current) return;
+    started.current = true;
 
-        // 2) 서버 완료 검증 호출(프로젝트에 맞게 userId/expoId/people를 보존·복원)
-        const userId = Number(sessionStorage.getItem('userId')) || 1;
-        const expoId = Number(sessionStorage.getItem('expoId')) || 101;
-        const people = Number(sessionStorage.getItem('people')) || 1;
-        const orderName = sessionStorage.getItem('orderName') || 'Eventory 입장권(1인)';
-        const expectedAmount = Number(sessionStorage.getItem('expectedAmount')) || 1000;
+    const params = new URLSearchParams(window.location.search);
+    const paymentId = params.get("paymentId");
+    const code = params.get("code");
 
-        const res = await postComplete({ paymentId, userId, expoId, people, orderName, expectedAmount });
-        setMsg(`결제 성공! 예약번호: ${res.reservationCode}`);
-      } catch (e) {
-        console.error(e);
-        setMsg(e.message ?? '결제 검증 실패함.');
-      }
-    })();
-  }, []);
+    if (code) {
+      setFailed(true);
+      setMessage(params.get("message") || "결제가 취소되었습니다.");
+      return;
+    }
+    if (!paymentId) {
+      setFailed(true);
+      setMessage("결제 정보가 없습니다.");
+      return;
+    }
+
+    postComplete(paymentId)
+      .then((done) =>
+        navigate(`/payment/reservation/${done.reservationId}`, {
+          replace: true,
+          state: { reservationId: done.reservationId, reservationCode: done.reservationCode, paymentStatus: done.status },
+        })
+      )
+      .catch((e) => {
+        setFailed(true);
+        setMessage(e?.response?.data?.message || "결제 확인에 실패했습니다.");
+      });
+  }, [navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-8">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow p-6 text-center">
-        <h2 className="text-xl font-semibold mb-2">결제 결과</h2>
-        <p className="text-gray-700">{msg}</p>
+    <div className="co-page co-page--narrow">
+      <div className="co-card co-empty">
+        <p>{message}</p>
+        {failed && <Link to="/">메인으로 돌아가기</Link>}
       </div>
     </div>
   );

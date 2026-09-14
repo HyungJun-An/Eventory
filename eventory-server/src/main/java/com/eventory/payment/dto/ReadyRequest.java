@@ -1,28 +1,23 @@
 package com.eventory.payment.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
 
-import java.math.BigDecimal;
-
+/**
+ * 결제 준비 요청 — 무엇을 몇 명 예매할지만 받는다.
+ * 결제자(JWT)와 금액(가격 × 인원)은 서버가 정하므로 클라이언트에서 받지 않는다.
+ */
 @Getter
 @Setter
 public class ReadyRequest {
     @NotNull
-    private Long userId;
-
-    @NotNull
     private Long expoId;
 
-    @NotNull @Positive
+    @NotNull
+    @Min(1)
+    @Max(10)
     private Integer people;
-
-    @NotBlank
-    private String orderName;
-
-    @NotNull @Positive
-    private BigDecimal totalAmount; // 서버에서도 최종 재계산 권장
 }

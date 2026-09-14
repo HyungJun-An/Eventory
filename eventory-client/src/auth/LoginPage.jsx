@@ -22,7 +22,7 @@ const endpointMap = {
 const redirectMap = {
     USER: "/",
     EXPO_ADMIN: "/admin/dashboard",
-    SYSTEM_ADMIN: "/sys/expos",
+    SYSTEM_ADMIN: "/sys/dashboard",
 };
 
 export default function LoginPage() {
@@ -63,16 +63,8 @@ export default function LoginPage() {
             const refreshToken = res?.data?.refreshToken || null;
             if (!accessToken) throw new Error("토큰이 없습니다");
 
-            // ⭐ 관리자/일반 구분해서 저장 키 다르게
-            if (loginTarget === "EXPO_ADMIN" || loginTarget === "SYSTEM_ADMIN") {
-            localStorage.setItem("adminAccessToken", accessToken);
-            if (refreshToken) localStorage.setItem("adminRefreshToken", refreshToken);
-            } else {
-            localStorage.setItem("accessToken", accessToken);
-            if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
-            }
-
-            // 전역 상태 갱신
+            // 역할별 키에 저장 + 전역 상태 갱신 (저장 키는 auth/tokenKeys.js 한 곳에서 관리)
+            // 기존: 시스템관리자 토큰을 박람회관리자 키에 저장해 /api/sys 요청에 토큰이 붙지 않았다
             login({ accessToken, refreshToken, target: loginTarget });
 
             // 대상별 리다이렉트 (기존 경로 사용)

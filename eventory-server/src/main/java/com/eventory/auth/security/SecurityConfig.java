@@ -37,20 +37,22 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/admin/login", "/api/admin/sys/login", "/api/auth/login",
                                 "/api/admin/logout", "/api/admin/sys/logout", "/api/auth/logout",
-                                "/api/auth/signup", "/api/admin/refresh", "/api/auth/refresh",
-                                "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**",
+                                "/api/auth/signup", "/api/admin/refresh", "/api/admin/sys/refresh", "/api/auth/refresh",
+                                "/swagger-ui.html", "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**",
                                 "/webjars/**", "/favicon.ico", "/error", "/api/checkin/**",
                                 "/api/user/expos", "/api/user/expos/**",
                                 "/session/**", "/actuator/**"
                         ).permitAll()
-                        // 웹훅 및 결제 콜백 엔드포인트 공개 허용
-                        .requestMatchers("/api/portone-webhook", "/api/payments/complete", "/api/payment/**").permitAll()
+                        // PortOne 웹훅은 PortOne 서버가 호출하므로 공개
+                        .requestMatchers("/api/portone-webhook").permitAll()
+                        // 결제·환불은 로그인한 참관객·참가업체만 (기존: 전부 공개 → 비로그인 결제 확정·타인 예약 환불 가능)
+                        .requestMatchers("/api/payment/**").hasAnyRole("GENERAL_USER", "COMPANY_USER")
                         // 박람회 신청 엔드포인트 POST는 공개 허용
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/admin/expos").permitAll()
                         .requestMatchers("/api/auth/me").authenticated() // me는 인증만 필요
                         // 관리자 전용 도메인
-//                        .requestMatchers("/api/sys/expos/**").hasRole("SYSTEM_ADMIN")
-                        .requestMatchers("/api/sys/**").permitAll()
+                        // 시스템관리자 API (기존: 전부 공개 → 누구나 박람회 승인·관리자 삭제 가능)
+                        .requestMatchers("/api/sys/**").hasRole("SYSTEM_ADMIN")
 //                        .requestMatchers("/api/admin/expo/**").hasRole("EXPO_ADMIN")
                         .requestMatchers("/api/admin/**").hasRole("EXPO_ADMIN")
                         // 나머지 전부 보호

@@ -22,9 +22,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
 
-    private UserRepository userRepository;
-    private CompanyMapper companyMapper;
-    private BoothRepository boothRepository;
+    // final 이어야 @RequiredArgsConstructor 가 생성자 주입 대상으로 잡는다 (누락 시 전부 null → NPE)
+    private final UserRepository userRepository;
+    private final CompanyMapper companyMapper;
+    private final BoothRepository boothRepository;
 
     // 부스 신청
     @Override

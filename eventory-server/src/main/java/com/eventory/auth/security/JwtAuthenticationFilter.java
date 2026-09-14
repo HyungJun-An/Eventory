@@ -8,6 +8,7 @@ import com.eventory.common.exception.CustomErrorCode;
 import com.eventory.common.exception.CustomException;
 import com.eventory.common.repository.ExpoAdminRepository;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -151,6 +152,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     CustomUserPrincipal.authoritiesOf("ROLE_SYSTEM_ADMIN")))
                             .orElse(null);
                     break;
+                case "ROLE_COMPANY_USER":
+                    // 참가업체도 user 테이블을 쓰지만 권한은 COMPANY_USER 로 부여해야 한다 (누락 시 참가업체 API 전부 403)
+                    authentication = userRepository.findById(userId)
+                            .map(u -> new UsernamePasswordAuthenticationToken(
+                                    new CustomUserPrincipal(u.getUserId(), u.getCustomerId(), "ROLE_COMPANY_USER",
+                                            CustomUserPrincipal.authoritiesOf("ROLE_COMPANY_USER")),
+                                    null,
+                                    CustomUserPrincipal.authoritiesOf("ROLE_COMPANY_USER")))
+                            .orElse(null);
+                    break;
                 default:
                     authentication = null; // 알 수 없는 권한이면 인증 미설정
             }
@@ -162,15 +173,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
 
-// 8) 다음 필터로 진행
-            filterChain.doFilter(request, response);
-
-
         } catch (ExpiredJwtException e) {
             unauthorized(response, "Expired token");
-        } catch (Exception e) {
+            return;
+        } catch (JwtException | IllegalArgumentException e) {
             unauthorized(response, "Unauthorized token");
+            return;
         }
+
+// 8) 다음 필터로 진행 — 반드시 try 밖에서 호출한다.
+//    try 안에 두면 컨트롤러·서비스에서 난 예외까지 잡혀 전부 401 "Unauthorized token"으로 둔갑하고,
+//    프론트는 토큰 만료로 오인해 재발급·강제 로그아웃을 시도한다.
+        filterChain.doFilter(request, response);
     }
 
     private void unauthorized(HttpServletResponse response, String message) throws IOException {
