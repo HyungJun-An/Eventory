@@ -13,21 +13,32 @@
 - 참관객의 **예약 경험 개선** (간편결제, 결제 즉시 QR 입장권 메일 발송)
 - 플랫폼 운영사의 **행사 호스팅·권한 위임** (박람회 승인 시 박람회관리자 계정 발급)
 
+> **프로젝트 진행 단계**
+> | 단계 | 기간 | 브랜치 | 참여 | 내용 |
+> |---|---|---|---|---|
+> | 1단계 팀 프로젝트 | 2025.07.25 ~ 2025.08.24 | [`main`](https://github.com/HyungJun-An/Eventory/tree/main) | 팀 | 역할별 기능 구현 (PR 87건) |
+> | 2단계 개인 리팩터링 | 2026.05 ~ 2026.09 | [`refactor/backend-quality`](https://github.com/HyungJun-An/Eventory/compare/main...refactor/backend-quality) | 안형준 단독 | 보안 취약점 수정, 결제 정합성, 관리자 화면 재작성, 성능 개선, 테스트·CI |
+>
+> 자세한 구분은 [팀 구성과 기여](#team)를 참고하세요.
+
 ---
 
 ## 📌 목차
 
-1. [서비스 화면](#-서비스-화면)
-2. [주요 기능](#-주요-기능)
-3. [아키텍처](#-아키텍처)
-4. [기술 스택](#-기술-스택)
-5. [기술적 도전과 해결](#-기술적-도전과-해결)
-6. [실행 방법](#-실행-방법)
-7. [프로젝트 구조](#-프로젝트-구조)
-8. [문서](#-문서)
-9. [팀 동료](#busts_in_silhouette-팀-동료) · [프로젝트 규칙](#-프로젝트-규칙)
+1. [서비스 화면](#screens)
+2. [주요 기능](#features)
+3. [아키텍처](#architecture)
+4. [기술 스택](#tech-stack)
+5. [기술적 도전과 해결](#challenges)
+6. [실행 방법](#getting-started)
+7. [프로젝트 구조](#structure)
+8. [문서](#docs)
+9. [팀 구성과 기여](#team)
+10. [프로젝트 규칙](#rules)
 
 ---
+
+<a id="screens"></a>
 
 ## 🖥️ 서비스 화면
 
@@ -41,20 +52,27 @@
 | **시스템관리자 — 박람회 신청 심사** | **시스템관리자 — 박람회관리자 관리** |
 | <img src="docs/images/sys-review.png" alt="박람회 신청 심사"> | <img src="docs/images/sys-manage.png" alt="박람회관리자 관리"> |
 
-<sub>화면의 이름·연락처는 데모 데이터로 생성한 가상의 값입니다.</sub>
+<sub>화면의 이름·연락처는 데모 데이터로 생성한 가상의 값입니다. 관리자 화면은 2단계에서 다시 만든 화면입니다.</sub>
 
 ---
+
+<a id="features"></a>
 
 ## ⚙️ 주요 기능
 
+★ 표시는 2단계 개인 리팩터링에서 새로 구현하거나 다시 구현한 기능입니다.
+
 | 역할 | 기능 |
 |---|---|
-| **참관객** | 박람회 목록·상세, 회원가입·로그인, 간편결제(PortOne V2), 예매 완료 & **QR 입장권 메일 발송**, 환불 요청 |
+| **참관객** | 박람회 목록·상세, 회원가입·로그인, ★간편결제(PortOne V2 · 채널별 결제 방식 전환), 예매 완료 & ★QR 입장권 메일 발송(커밋 후 비동기), 환불 요청 |
 | **참가업체** | 부스 신청·수정, 신청 상태(승인·대기·반려) 확인, 업체 프로필 |
-| **박람회관리자** | 대시보드(예약·입장 추이), 예약자 명단(검색·수동 체크인·예약 취소), **현장 QR 체크인**(카메라 스캔·직접 입력), 부스 심사, 콘텐츠 수정, 매출 분석, 정산 내역 엑셀 다운로드, 환불 승인·반려(실제 PG 취소 연동) |
-| **시스템관리자** | 플랫폼 대시보드(결제·예약·입장 KPI, CSV), 박람회 개최 신청 심사(승인 시 박람회관리자 계정 발급), 박람회관리자 계정 관리(정보 수정·임시 비밀번호 재발급) |
+| **박람회관리자** | 대시보드(예약·입장 추이), 예약자 명단(검색 · ★수동 체크인 · ★예약 취소), ★현장 QR 체크인(카메라 스캔·직접 입력), ★부스 심사, 콘텐츠 수정, 매출 분석, 정산 내역 엑셀 다운로드, 환불 승인·반려(★실제 PG 취소 연동) |
+| **시스템관리자** | 플랫폼 대시보드(결제·예약·입장 KPI, ★CSV), 박람회 개최 신청 심사(★심사 화면 · ★승인 시 발급 계정 1회 표시), 박람회관리자 계정 관리(정보 수정 · ★임시 비밀번호 재발급) |
+| **공통** | ★역할별 리프레시 토큰(권한 상승 차단), ★서버 기동 시 데모 데이터 자동 입력 |
 
 ---
+
+<a id="architecture"></a>
 
 ## 🏗️ 아키텍처
 
@@ -98,6 +116,8 @@ sequenceDiagram
 
 ---
 
+<a id="tech-stack"></a>
+
 ## 🧰 기술 스택
 
 | 구분 | 사용 기술 |
@@ -111,9 +131,11 @@ sequenceDiagram
 
 ---
 
+<a id="challenges"></a>
+
 ## 🔧 기술적 도전과 해결
 
-자세한 원인 분석과 측정 과정은 [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md), 선택 이유·대안·한계는 [`docs/TECH-DECISIONS.md`](docs/TECH-DECISIONS.md)에 정리했습니다.
+2단계 개인 리팩터링에서 해결한 문제들입니다. 원인 분석과 측정 과정은 [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md), 선택 이유·대안·한계는 [`docs/TECH-DECISIONS.md`](docs/TECH-DECISIONS.md)에 정리했습니다.
 
 | 주제 | 문제 | 해결 | 결과 |
 |---|---|---|---|
@@ -127,6 +149,8 @@ sequenceDiagram
 | **테스트** | 테스트 0개 | 위험 영역부터 단위·통합 테스트, CI | **43개**, 실제 MySQL·Redis 컨테이너로 검증 |
 
 ---
+
+<a id="getting-started"></a>
 
 ## 🚀 실행 방법
 
@@ -180,6 +204,8 @@ JAVA_HOME=$(/usr/libexec/java_home -v 21) mvn test   # Docker 필요 (Testcontai
 
 ---
 
+<a id="structure"></a>
+
 ## 📁 프로젝트 구조
 
 ```
@@ -199,6 +225,8 @@ eventory-client/          React 19 + Vite
 ```
 
 ---
+
+<a id="docs"></a>
 
 ## 📚 문서
 
@@ -222,23 +250,39 @@ eventory-client/          React 19 + Vite
 
 ---
 
-## :busts_in_silhouette: 팀 동료
+<a id="team"></a>
 
-### FE
+## 👥 팀 구성과 기여
 
-| <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@GithubID</b></sub></a><br/> | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@GithubID</b></sub></a><br/> | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/93540726?v=4" width=100px/><br/><sub><b>@GithubID</b></sub></a><br/> | <a href=https://github.com/><img src="https://avatars.githubusercontent.com/u/111436967?v=4" width=100px/><br/><sub><b>@GithubID</b></sub></a><br/> |
-|:----------------------------------:|:----------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------:|
-|                홍길동                 |    김00     |                                                                            강00                                                                            |    송00     |
+### 1단계 — 팀 프로젝트 (2025.07.25 ~ 2025.08.24 · [`main`](https://github.com/HyungJun-An/Eventory/tree/main))
 
+역할(참관객·참가업체·박람회관리자·시스템관리자)별로 기능을 나눠 구현하고, 기능 브랜치 → `dev` → `main` 흐름의 PR 87건으로 협업했습니다.
 
-### BE
+| <a href="https://github.com/ddolly518"><img src="https://github.com/ddolly518.png?size=100" width="80"/><br/><sub><b>@ddolly518</b></sub></a><br/>강민서 | <a href="https://github.com/dokdokee"><img src="https://github.com/dokdokee.png?size=100" width="80"/><br/><sub><b>@dokdokee</b></sub></a><br/>신드보라 | <a href="https://github.com/yujineeo"><img src="https://github.com/yujineeo.png?size=100" width="80"/><br/><sub><b>@yujineeo</b></sub></a><br/>김유진 | <a href="https://github.com/Seungmi97"><img src="https://github.com/Seungmi97.png?size=100" width="80"/><br/><sub><b>@Seungmi97</b></sub></a><br/>황승미 |
+|:---:|:---:|:---:|:---:|
+| <a href="https://github.com/HyungJun-An"><img src="https://github.com/HyungJun-An.png?size=100" width="80"/><br/><sub><b>@HyungJun-An</b></sub></a><br/>**안형준** | <a href="https://github.com/gusgo200"><img src="https://github.com/gusgo200.png?size=100" width="80"/><br/><sub><b>@gusgo200</b></sub></a> | <a href="https://github.com/ehayng1"><img src="https://github.com/ehayng1.png?size=100" width="80"/><br/><sub><b>@ehayng1</b></sub></a> | <a href="https://github.com/hyojin0911"><img src="https://github.com/hyojin0911.png?size=100" width="80"/><br/><sub><b>@hyojin0911</b></sub></a> |
 
-| <a href=https://github.com/ddolly518/><img src="https://avatars.githubusercontent.com/u/80440158?v=4" width=100px/><br/><sub><b>@ddolly518</b></sub></a><br/> | <a href=https://github.com/dokdokee><img src="https://avatars.githubusercontent.com/u/203818385?v=4" width=100px/><br/><sub><b>@dokdokee</b></sub></a><br/> | <a href=https://github.com/yujineeo/><img src="https://avatars.githubusercontent.com/u/200905114?v=4" width=100px/><br/><sub><b>@yujineeo</b></sub></a><br/> | <a href=https://github.com/Seungmi97/><img src="https://avatars.githubusercontent.com/u/132995507?v=4" width=100px/><br/><sub><b>@Seungmi97</b></sub></a><br/> |
-|:----------------------------------:|:----------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------:|
-|                강민서                 |    신드보라     |                                                                            김유진                                                                            |    황승미     |
+**안형준 담당 (1단계)**
+- **개발 환경·인프라**: Redis 컨테이너·Docker 모니터링 환경 구성, Spring Boot HTTPS 전환, 개발/운영 설정 분기(DB·Vite), Swagger 설정
+- **인증 화면**: 로그인 화면, 참관객·참가업체 회원가입 화면과 백엔드 API 연동
+- **박람회관리자**: 관리자 사이드바·헤더 레이아웃과 로그아웃 경로, 콘텐츠 관리(백엔드 + 프론트)
+- **결제 준비**: PortOne 라이브러리 도입
 
+### 2단계 — 개인 리팩터링 (2026.05 ~ 2026.09 · [`refactor/backend-quality`](https://github.com/HyungJun-An/Eventory/compare/main...refactor/backend-quality))
 
-## 📑 프로젝트 규칙
+팀 프로젝트 종료 후 **안형준이 단독으로** 진행했습니다. [기술적 도전과 해결](#challenges)의 모든 항목과 [주요 기능](#features)의 ★ 항목이 이 단계의 작업입니다.
+
+- **보안**: 리프레시 토큰 권한 상승 차단, 시스템관리자 API 인증, 웹훅 서명 검증, 시크릿 `.env` 이전, JWT 필터 버그 수정
+- **결제**: 채널별 Strategy 패턴, 서버 금액 계산, Lua 원자 실행, 보상 트랜잭션, 동시 예약 락과 락 대기 상한, 환불 PG 연동
+- **화면**: 박람회관리자·시스템관리자 화면 재작성, 역할별 토큰 키 단일화, 라우트 단위 코드 분할
+- **성능·품질**: N+1 제거, 테스트 43개(Testcontainers), GitHub Actions CI, 데모 데이터 자동 입력
+- **문서**: README, [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md), [`docs/TECH-DECISIONS.md`](docs/TECH-DECISIONS.md)
+
+---
+
+<a id="rules"></a>
+
+## 📑 프로젝트 규칙 (1단계 팀 규칙)
 
 ### Branch Strategy
 > - main / dev 브랜치 기본 생성
