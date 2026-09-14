@@ -9,15 +9,17 @@
 여러 박람회·행사의 **홍보 → 예약 → 결제 → QR 입장 → 정산**을 하나의 플랫폼에서 처리하는 SaaS형 예약 관리 서비스입니다.
 시스템관리자·박람회관리자·참가업체·참관객, 네 가지 역할이 각자의 화면과 권한으로 같은 데이터를 다룹니다.
 
-- 행사 운영자의 **업무 효율 향상** (예약자 명단, 현장 QR 체크인, 매출·정산 자동화)
-- 참관객의 **예약 경험 개선** (간편결제, 결제 즉시 QR 입장권 메일 발송)
-- 플랫폼 운영사의 **행사 호스팅·권한 위임** (박람회 승인 시 박람회관리자 계정 발급)
+### ✅ 제작 목표
+- 웹서비스 기반(웹, 모바일)으로 다수의 박람회/행사를 **통합적**으로 관리·홍보·예약·결제·입장검수까지 한 번에 처리할 수 있는 SaaS형 예약 관리 플랫폼 구축
+- 예약 데이터 누락과 중복 문제를 해결하고 QR 기반 입장 전자티켓 시스템으로 **현장 입장 효율 극대화**
+- VIP 배너 광고 및 결제 연동 기능을 통해 추가 수익 모델 제공
+- 관리자별 권한 위임과 **자동화된 통계**, **정산 기능**으로 운영 효율성 향상
 
 > **프로젝트 진행 단계**
 > | 단계 | 기간 | 브랜치 | 참여 | 내용 |
 > |---|---|---|---|---|
-> | 1단계 팀 프로젝트 | 2025.07.25 ~ 2025.08.24 | [`main`](https://github.com/HyungJun-An/Eventory/tree/main) | 팀 | 역할별 기능 구현 (PR 87건) |
-> | 2단계 개인 리팩터링 | 2026.05 ~ 2026.09 | [`refactor/backend-quality`](https://github.com/HyungJun-An/Eventory/compare/main...refactor/backend-quality) | 안형준 단독 | 보안 취약점 수정, 결제 정합성, 관리자 화면 재작성, 성능 개선, 테스트·CI |
+> | 1단계 팀 프로젝트 | 2025.07.22 ~ 2025.08.22 | [`main`](https://github.com/HyungJun-An/Eventory/tree/team-final-2025-08) (태그 `team-final-2025-08`) | 팀 6명 | 역할별 기능 구현, 배포·발표 (PR 87건) |
+> | 2단계 개인 리팩터링 | 2026.05 ~ 2026.09 | [`refactor/backend-quality`](https://github.com/HyungJun-An/Eventory/compare/team-final-2025-08...refactor/backend-quality) | 안형준 단독 | 보안 취약점 수정, 결제 정합성, 관리자 화면 재작성, 성능 개선, 테스트·CI |
 >
 > 자세한 구분은 [팀 구성과 기여](#team)를 참고하세요.
 
@@ -26,15 +28,16 @@
 ## 📌 목차
 
 1. [서비스 화면](#screens)
-2. [주요 기능](#features)
-3. [아키텍처](#architecture)
-4. [기술 스택](#tech-stack)
-5. [기술적 도전과 해결](#challenges)
-6. [실행 방법](#getting-started)
-7. [프로젝트 구조](#structure)
-8. [문서](#docs)
-9. [팀 구성과 기여](#team)
-10. [프로젝트 규칙](#rules)
+2. [1단계 발표·시연 영상](#presentation)
+3. [주요 기능](#features)
+4. [아키텍처](#architecture)
+5. [기술 스택](#tech-stack)
+6. [기술적 도전과 해결](#challenges)
+7. [실행 방법](#getting-started)
+8. [프로젝트 구조](#structure)
+9. [문서](#docs)
+10. [팀 구성과 기여](#team)
+11. [프로젝트 규칙](#rules)
 
 ---
 
@@ -52,7 +55,25 @@
 | **시스템관리자 — 박람회 신청 심사** | **시스템관리자 — 박람회관리자 관리** |
 | <img src="docs/images/sys-review.png" alt="박람회 신청 심사"> | <img src="docs/images/sys-manage.png" alt="박람회관리자 관리"> |
 
-<sub>화면의 이름·연락처는 데모 데이터로 생성한 가상의 값입니다. 관리자 화면은 2단계에서 다시 만든 화면입니다.</sub>
+<sub>현재 버전(2단계) 화면입니다. 이름·연락처는 데모 데이터로 생성한 가상의 값입니다.</sub>
+
+---
+
+<a id="presentation"></a>
+
+## 🎬 1단계 발표·시연 영상
+
+> 🗓️ 팀 프로젝트 기간 2025.07.22 ~ 2025.08.22
+>
+> [📑 발표 PPT](https://drive.google.com/file/d/1mODzmx6smgVfJd3GPuKUPLyLqkMi7hPl/view?usp=sharing)
+>
+> 배포: `eventory.kro.kr` (Jenkins · Nginx · CentOS 9) — 프로젝트 종료 후 운영 종료
+
+| 회원관리 | 박람회 관리자 | 시스템 관리자 | 회계 관리자 |
+|:-:|:-:|:-:|:-:|
+| [![회원관리 시연영상](https://drive.google.com/uc?export=view&id=1GCkL__lqzfPjL1xaaY71jYZ8OTcwhNSK)](https://drive.google.com/file/d/1eLHfJEUvovg0fQdMdXxzu8Jwee6sY7YA/view?usp=sharing) | [![박람회 관리자 시연영상](https://drive.google.com/uc?export=view&id=1OqocDALiCZu2ExV_9qnVpUwSQ1UsNUUT)](https://drive.google.com/file/d/1vz3zlMTOwsNRL9A5jN_DLSUV_lmW3el1/view?usp=sharing) | [![시스템 관리자 시연영상](https://drive.google.com/uc?export=view&id=1tje0MuWcBHJV_9n5h3JN5rPztlxHaJx_)](https://drive.google.com/file/d/1fqULcJI4dqJ0Y9RafRFFuvxY25l9Jd5q/view?usp=sharing) | [![회계 관리자 시연영상](https://drive.google.com/uc?export=view&id=1ETPnOTlvvBM55CG0NK2pVWZxCZ1AO2JB)](https://drive.google.com/file/d/1dTlY-o2fiIAVx0Od4Xf6AfrZlDNxg04D/view?usp=sharing) |
+
+<sub>시연 영상은 1단계 팀 프로젝트 종료 시점의 화면입니다.</sub>
 
 ---
 
@@ -126,8 +147,9 @@ sequenceDiagram
 | **Frontend** | React 19, Vite 7, React Router 7, axios, recharts, lucide-react, PortOne Browser SDK |
 | **Database** | MySQL 8.0, Redis 7 |
 | **외부 연동** | PortOne V2 (토스페이·카카오페이·토스페이먼츠·KG이니시스 채널), Gmail SMTP, ZXing(QR), Apache POI·OpenCSV(엑셀·CSV) |
-| **Infra** | Docker Compose, Nginx |
+| **Infra** | Docker Compose, Nginx (1단계 배포: Jenkins · CentOS 9 · Grafana 모니터링) |
 | **Test · CI** | JUnit 5, Mockito, Testcontainers(MySQL·Redis), JaCoCo, GitHub Actions |
+| **협업** | GitHub(PR 리뷰), Jira, Discord |
 
 ---
 
@@ -230,10 +252,17 @@ eventory-client/          React 19 + Vite
 
 ## 📚 문서
 
+**2단계 (개인 리팩터링)**
 - [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) — 문제 발견 배경 → 근본 원인 → 정량 분석 → 해결 → 선택 근거
 - [`docs/TECH-DECISIONS.md`](docs/TECH-DECISIONS.md) — 구현 선택의 이유·대안·한계 (면접 대비 심화)
 - [`docs/test-scenarios/`](docs/test-scenarios) — 결제·환불·QR 시나리오 테스트 25개
 - API 명세 — 서버 기동 후 Swagger UI
+
+**1단계 (팀 프로젝트 설계 문서)**
+- [📜 API 명세서](https://drive.google.com/file/d/1VH5oC8MFKSEarmj2d_eHJL5Icms8dmsS/view?usp=drive_link)
+- [📜 요구사항 정의서](https://drive.google.com/file/d/18s4sGzEGSrEV-ZW630Z5Q3S5_eNCvL2r/view?usp=drive_link)
+- [📜 ERD](https://www.erdcloud.com/d/3gSWctyeNQzkj2T34)
+- [📜 테이블 명세서](https://docs.google.com/document/d/1ummW42XzfPVniaVZmWB1yjw-2XAU-Cf1/edit?usp=sharing&ouid=108605614740878450335&rtpof=true&sd=true)
 
 ---
 
@@ -245,6 +274,8 @@ eventory-client/          React 19 + Vite
   → **예약 데이터 분산, 중복, 누락 문제**
 - 참가자 확인 및 현장 입장 검수 시 명단 대조에 시간이 많이 걸림
   → **QR 기반 전자 티켓**이 요구됨
+- 행사 노출 경쟁 심화
+  → 플랫폼 내 **VIP 유료 배너 광고 슬롯**을 통한 추가 수익 모델 가능
 - 운영사(전체 관리자)가 여러 박람회를 호스팅하고, 행사진행사(박람회 관리자)에게 개별 권한 위임하는 기능 필요
 - 정산, 통계(예약 수, 결제 금액, 참여자 현황) 자동화 요구 증가
 
@@ -254,13 +285,13 @@ eventory-client/          React 19 + Vite
 
 ## 👥 팀 구성과 기여
 
-### 1단계 — 팀 프로젝트 (2025.07.25 ~ 2025.08.24 · [`main`](https://github.com/HyungJun-An/Eventory/tree/main))
+### 1단계 — 팀 프로젝트 (2025.07.22 ~ 2025.08.22 · 태그 [`team-final-2025-08`](https://github.com/HyungJun-An/Eventory/tree/team-final-2025-08))
 
-역할(참관객·참가업체·박람회관리자·시스템관리자)별로 기능을 나눠 구현하고, 기능 브랜치 → `dev` → `main` 흐름의 PR 87건으로 협업했습니다.
+역할(참관객·참가업체·박람회관리자·시스템관리자)별로 기능을 나눠 구현하고, 기능 브랜치 → `dev` → `main` 흐름의 PR 87건으로 협업했습니다. Jenkins로 배포하고 Grafana로 모니터링했으며, 일정은 Jira로 관리했습니다.
 
 | <a href="https://github.com/HyungJun-An"><img src="https://github.com/HyungJun-An.png?size=100" width="80"/><br/><sub><b>@HyungJun-An</b></sub></a><br/>**안형준** | <a href="https://github.com/ddolly518"><img src="https://github.com/ddolly518.png?size=100" width="80"/><br/><sub><b>@ddolly518</b></sub></a><br/>강민서 | <a href="https://github.com/yujineeo"><img src="https://github.com/yujineeo.png?size=100" width="80"/><br/><sub><b>@yujineeo</b></sub></a><br/>김유진 |
 |:---:|:---:|:---:|
-| <a href="https://github.com/Seungmi97"><img src="https://github.com/Seungmi97.png?size=100" width="80"/><br/><sub><b>@Seungmi97</b></sub></a><br/>황승미 | <a href="https://github.com/hyojin0911"><img src="https://github.com/hyojin0911.png?size=100" width="80"/><br/><sub><b>@hyojin0911</b></sub></a><br/>전효진 | <a href="https://github.com/gusgo200"><img src="https://github.com/gusgo200.png?size=100" width="80"/><br/><sub><b>@gusgo200</b></sub></a><br/><sub>(<a href="https://github.com/ehayng1">@ehayng1</a> 동일인)</sub> |
+| <a href="https://github.com/Seungmi97"><img src="https://github.com/Seungmi97.png?size=100" width="80"/><br/><sub><b>@Seungmi97</b></sub></a><br/>황승미 | <a href="https://github.com/hyojin0911"><img src="https://github.com/hyojin0911.png?size=100" width="80"/><br/><sub><b>@hyojin0911</b></sub></a><br/>전효진 | <a href="https://github.com/ehayng1"><img src="https://github.com/ehayng1.png?size=100" width="80"/><br/><sub><b>@ehayng1</b></sub></a><br/>정현해<br/><sub>(<a href="https://github.com/gusgo200">@gusgo200</a> 동일인)</sub> |
 
 **안형준 담당 (1단계)**
 - **개발 환경·인프라**: Redis 컨테이너·Docker 모니터링 환경 구성, Spring Boot HTTPS 전환, 개발/운영 설정 분기(DB·Vite), Swagger 설정
@@ -268,7 +299,7 @@ eventory-client/          React 19 + Vite
 - **박람회관리자**: 관리자 사이드바·헤더 레이아웃과 로그아웃 경로, 콘텐츠 관리(백엔드 + 프론트)
 - **결제 준비**: PortOne 라이브러리 도입
 
-### 2단계 — 개인 리팩터링 (2026.05 ~ 2026.09 · [`refactor/backend-quality`](https://github.com/HyungJun-An/Eventory/compare/main...refactor/backend-quality))
+### 2단계 — 개인 리팩터링 (2026.05 ~ 2026.09 · [`refactor/backend-quality`](https://github.com/HyungJun-An/Eventory/compare/team-final-2025-08...refactor/backend-quality))
 
 팀 프로젝트 종료 후 **안형준이 단독으로** 진행했습니다. [기술적 도전과 해결](#challenges)의 모든 항목과 [주요 기능](#features)의 ★ 항목이 이 단계의 작업입니다.
 
@@ -324,13 +355,6 @@ eventory-client/          React 19 + Vite
 > - [ ] CONF: 빌드, 환경 설정
 > - [ ] CHORE: 기타 작업
 
-> ### Description
-> * 구체적인 작업 내용을 작성해주세요.
-> * 이미지를 별도로 첨부하면 더 좋습니다 👍
-
-> ### Discussion
-> * 추후 논의할 점에 대해 작성해주세요.
-
 ### Code Convention
 >BE
 > - 패키지명 전체 소문자
@@ -343,12 +367,10 @@ eventory-client/          React 19 + Vite
 
 
 > FE
-> - styled-Component 변수명 S + 변수명 (ex. Swrap)
-> - styled-Component는 return문 위에 작성
-> - 크게는 styled-Component, 그 안에서 className 사용
 > - Event handler 사용 (ex. handle ~)
 > - export방식 (ex. export default ~)
 > - 화살표 함수 사용
 
 ### Communication Rules
 > - Discord 활용
+> - 정기 회의 16시 ~ 18시
