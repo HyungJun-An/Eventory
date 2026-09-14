@@ -258,9 +258,9 @@ eventory-client/          React 19 + Vite
 
 역할(참관객·참가업체·박람회관리자·시스템관리자)별로 기능을 나눠 구현하고, 기능 브랜치 → `dev` → `main` 흐름의 PR 87건으로 협업했습니다.
 
-| <a href="https://github.com/ddolly518"><img src="https://github.com/ddolly518.png?size=100" width="80"/><br/><sub><b>@ddolly518</b></sub></a><br/>강민서 | <a href="https://github.com/dokdokee"><img src="https://github.com/dokdokee.png?size=100" width="80"/><br/><sub><b>@dokdokee</b></sub></a><br/>신드보라 | <a href="https://github.com/yujineeo"><img src="https://github.com/yujineeo.png?size=100" width="80"/><br/><sub><b>@yujineeo</b></sub></a><br/>김유진 | <a href="https://github.com/Seungmi97"><img src="https://github.com/Seungmi97.png?size=100" width="80"/><br/><sub><b>@Seungmi97</b></sub></a><br/>황승미 |
-|:---:|:---:|:---:|:---:|
-| <a href="https://github.com/HyungJun-An"><img src="https://github.com/HyungJun-An.png?size=100" width="80"/><br/><sub><b>@HyungJun-An</b></sub></a><br/>**안형준** | <a href="https://github.com/gusgo200"><img src="https://github.com/gusgo200.png?size=100" width="80"/><br/><sub><b>@gusgo200</b></sub></a> | <a href="https://github.com/ehayng1"><img src="https://github.com/ehayng1.png?size=100" width="80"/><br/><sub><b>@ehayng1</b></sub></a> | <a href="https://github.com/hyojin0911"><img src="https://github.com/hyojin0911.png?size=100" width="80"/><br/><sub><b>@hyojin0911</b></sub></a> |
+| <a href="https://github.com/HyungJun-An"><img src="https://github.com/HyungJun-An.png?size=100" width="80"/><br/><sub><b>@HyungJun-An</b></sub></a><br/>**안형준** | <a href="https://github.com/ddolly518"><img src="https://github.com/ddolly518.png?size=100" width="80"/><br/><sub><b>@ddolly518</b></sub></a><br/>강민서 | <a href="https://github.com/yujineeo"><img src="https://github.com/yujineeo.png?size=100" width="80"/><br/><sub><b>@yujineeo</b></sub></a><br/>김유진 |
+|:---:|:---:|:---:|
+| <a href="https://github.com/Seungmi97"><img src="https://github.com/Seungmi97.png?size=100" width="80"/><br/><sub><b>@Seungmi97</b></sub></a><br/>황승미 | <a href="https://github.com/hyojin0911"><img src="https://github.com/hyojin0911.png?size=100" width="80"/><br/><sub><b>@hyojin0911</b></sub></a><br/>전효진 | <a href="https://github.com/gusgo200"><img src="https://github.com/gusgo200.png?size=100" width="80"/><br/><sub><b>@gusgo200</b></sub></a><br/><sub>(<a href="https://github.com/ehayng1">@ehayng1</a> 동일인)</sub> |
 
 **안형준 담당 (1단계)**
 - **개발 환경·인프라**: Redis 컨테이너·Docker 모니터링 환경 구성, Spring Boot HTTPS 전환, 개발/운영 설정 분기(DB·Vite), Swagger 설정
