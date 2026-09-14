@@ -1,22 +1,15 @@
 package com.eventory.expoAdmin.service.mapper;
 
 import com.eventory.common.entity.*;
-import com.eventory.common.exception.CustomErrorCode;
-import com.eventory.common.exception.CustomException;
-import com.eventory.common.repository.ReservationRepository;
 import com.eventory.common.repository.ReservationRepository.ReservationRowProjection;
 import com.eventory.expoAdmin.dto.*;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
+/** 엔티티 → 응답 DTO 변환 (조회는 하지 않는다 — 기존에는 환불 행마다 예약을 조회해 N+1 이 생겼다) */
 @Component
-@AllArgsConstructor
 public class ExpoMapper {
-
-    private final ReservationRepository reservationRepository;
 
     public ExpoResponseDto toExpoResponseDto(Expo expo) {
         return ExpoResponseDto.builder()
@@ -45,25 +38,6 @@ public class ExpoMapper {
                 .reservationCount(statistics.getReservationCount())
                 .paymentTotal(statistics.getPaymentTotal())
                 .refundCount(refundCount)
-                .build();
-    }
-
-    public RefundResponseDto toRefundResponseDto(Refund refund) {
-
-        Payment payment = refund.getPayment();
-
-        Reservation reservation = reservationRepository
-                .findByPayment_PaymentId(payment.getPaymentId())
-                .orElseThrow(() -> new CustomException(CustomErrorCode.NOT_FOUND_RESERVATION));
-
-        return RefundResponseDto.builder()
-                .refundId(refund.getRefundId())
-                .code(reservation.getCode())
-                .method(payment.getMethod())
-                .amount(payment.getAmount())
-                .paidAt(payment.getPaidAt())
-                .reason(refund.getReason())
-                .status(refund.getStatus())
                 .build();
     }
 
@@ -135,7 +109,6 @@ public class ExpoMapper {
     public ManagerResponseDto toManagerResponseDto(ExpoAdmin expoAdmin) {
         return ManagerResponseDto.builder()
                 .expoAdminId(expoAdmin.getExpoAdminId())
-                .password(expoAdmin.getPassword())
                 .name(expoAdmin.getName())
                 .email(expoAdmin.getEmail())
                 .phone(expoAdmin.getPhone())

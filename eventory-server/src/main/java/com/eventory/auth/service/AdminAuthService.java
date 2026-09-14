@@ -8,5 +8,6 @@ public interface AdminAuthService {
     LoginResponse loginExpoAdmin(LoginRequest request);
     void logoutSystemAdmin(String accessToken);
     void logoutExpoAdmin(String accessToken);
-    LoginResponse refreshAccessToken(String refreshToken);
+    LoginResponse refreshExpoAdmin(String refreshToken);
+    LoginResponse refreshSystemAdmin(String refreshToken);
 }

@@ -4,11 +4,13 @@ import com.eventory.common.entity.*;
 import com.eventory.common.repository.*;
 import com.eventory.qr.util.QrImageUtil;
 import com.eventory.qr.util.QrTokenUtil;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.time.*;
@@ -22,28 +24,36 @@ public class QrService {
     private final TicketRepository ticketRepository;
     private final JavaMailSender mailSender;
 
-    /** 결제 완료 직후 호출: QR 생성, 저장, 메일 발송 */
-    @Transactional
-    public void issueAndSend(Long reservationId) {
-        Reservation res = reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new IllegalArgumentException("예약 없음: " + reservationId));
-        // 이미 발급되어 있으면 재사용(재발송만 수행)
-        QrCode qr = qrCodeRepository.findByReservation(res).orElse(null);
+    // Gmail SMTP 는 로그인 계정 주소로만 발송하므로 보내는 주소(qr.mail-from)가 비어 있으면 계정 주소를 쓴다
+    @Value("${spring.mail.username:}")
+    private String mailUsername;
 
-        if (qr == null) {
+    /** 결제 완료 트랜잭션 안에서 호출: QR 토큰·티켓 발급 (이미 발급돼 있으면 재사용) */
+    @Transactional
+    public QrCode issue(Reservation res) {
+        return qrCodeRepository.findByReservation(res).orElseGet(() -> {
             long exp = calcExpoExpireEpoch(res.getExpo());
             String token = QrTokenUtil.buildToken(res.getReservationId(), res.getCode(), exp, props.getSecret());
             if (token.length() > 255) throw new IllegalStateException("QR 데이터 길이 초과");
 
-            qr = new QrCode();
+            QrCode qr = new QrCode();
             qr.setReservation(res);
             qr.setData(token);
             qr.setStatus(QrCodeStatus.PENDING);
-            qr = qrCodeRepository.save(qr);
+            QrCode saved = qrCodeRepository.save(qr);
 
-            ticketRepository.save(Ticket.builder().qrCode(qr).status(false).build());
-        }
-        // 메일 발송
+            ticketRepository.save(Ticket.builder().qrCode(saved).status(false).build());
+            return saved;
+        });
+    }
+
+    /** QR 입장권 메일 발송 — 예약 커밋 이후 별도 스레드에서 호출된다 (TicketMailListener) */
+    @Transactional(readOnly = true)
+    public void sendTicketMail(Long reservationId) {
+        Reservation res = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new IllegalArgumentException("예약 없음: " + reservationId));
+        QrCode qr = qrCodeRepository.findByReservation(res)
+                .orElseThrow(() -> new IllegalStateException("QR 미발급: " + reservationId));
         byte[] png = QrImageUtil.toPng(qr.getData(), 320);
         sendMailWithInlineImage(res, png);
     }
@@ -60,7 +70,8 @@ public class QrService {
         try {
             var msg = mailSender.createMimeMessage();
             var helper = new MimeMessageHelper(msg, true, StandardCharsets.UTF_8.name());
-            helper.setFrom(props.getMailFrom(), props.getIssuer());
+            String from = StringUtils.hasText(props.getMailFrom()) ? props.getMailFrom() : mailUsername;
+            helper.setFrom(from, props.getIssuer());
             helper.setTo(res.getUser().getEmail());
             helper.setSubject("[" + res.getExpo().getTitle() + "] 모바일 입장권 (QR)");
 

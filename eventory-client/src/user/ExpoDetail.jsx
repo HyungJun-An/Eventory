@@ -57,7 +57,8 @@ const normalize = (x) => {
     startDate: x.startDate ?? x.start_date,
     endDate:   x.endDate   ?? x.end_date,
     timeText:  x.timeText  ?? "10:30 ~ 18:00",
-    priceText: x.priceText ?? "입장료 7,000원",
+    // 상세 API 의 실제 가격 사용 (기존: 값이 없으면 "입장료 7,000원" 고정 문구 표시)
+    priceText: x.price != null ? `입장료 ${Number(x.price).toLocaleString("ko-KR")}원` : (x.priceText ?? "입장료 정보 없음"),
     categories: x.categories ?? x.categoryNames ?? [],
     description: x.description ?? "",
     host: x.host ?? "주최처 정보 미입력",

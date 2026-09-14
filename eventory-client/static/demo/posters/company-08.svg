@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400" font-family="Pretendard, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+  <rect width="400" height="400" rx="48" fill="#a16207"/>
+  <circle cx="320" cy="80" r="120" fill="#fff" fill-opacity="0.12"/>
+  <text x="200" y="220" text-anchor="middle" font-size="140" font-weight="800" fill="#fff" letter-spacing="-4">CG</text>
+  <text x="200" y="320" text-anchor="middle" font-size="34" font-weight="700" fill="#fff" fill-opacity="0.9">캠프그라운드</text>
+</svg>

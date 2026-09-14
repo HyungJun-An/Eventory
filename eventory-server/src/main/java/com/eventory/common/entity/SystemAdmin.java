@@ -17,7 +17,7 @@ public class SystemAdmin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long systemAdminId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id", nullable = false)
     private UserType type;
 

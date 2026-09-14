@@ -37,12 +37,28 @@ public enum CustomErrorCode {
     NOT_FOUND_REFUND(HttpStatus.NOT_FOUND, "R004", "환불 정보가 없습니다."),
     NOT_FOUND_REASON(HttpStatus.BAD_REQUEST, "R005", "반려 사유가 누락되었습니다."),
     EXCEL_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "R006", "엑셀 생성에 실패했습니다."),
+    ALREADY_CHECKED_IN(HttpStatus.CONFLICT, "R007", "이미 입장 처리된 예약입니다."),
+    RESERVATION_CANCELLED(HttpStatus.CONFLICT, "R008", "취소된 예약입니다."),
+    QR_NOT_ISSUED(HttpStatus.NOT_FOUND, "R009", "QR이 발급되지 않은 예약입니다."),
+    REFUND_ALREADY_HANDLED(HttpStatus.CONFLICT, "R010", "이미 처리된 환불 요청입니다."),
+    PAYMENT_CANCEL_FAILED(HttpStatus.BAD_GATEWAY, "R011", "결제사 환불 처리에 실패했습니다. 잠시 후 다시 시도해주세요."),
+    RESERVATION_NOT_IN_EXPO(HttpStatus.BAD_REQUEST, "R012", "해당 박람회의 예약이 아닙니다."),
+    PAYMENT_ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "R013", "결제 정보를 찾을 수 없거나 만료되었습니다. 다시 결제해주세요."),
+    PAYMENT_NOT_PAID(HttpStatus.BAD_REQUEST, "R014", "결제가 완료되지 않았습니다."),
+    PAYMENT_AMOUNT_MISMATCH(HttpStatus.BAD_REQUEST, "R015", "결제 금액이 주문 금액과 달라 결제를 자동 취소했습니다."),
+    PAYMENT_LOOKUP_FAILED(HttpStatus.BAD_GATEWAY, "R016", "결제사 결제 조회에 실패했습니다. 잠시 후 다시 시도해주세요."),
+    RESERVATION_BUSY(HttpStatus.CONFLICT, "R017", "예약 요청이 몰려 처리하지 못했습니다. 결제는 자동 취소되었으니 잠시 후 다시 시도해주세요."),
+    EXPO_NOT_RESERVABLE(HttpStatus.BAD_REQUEST, "E006", "현재 예약할 수 없는 박람회입니다."),
+    INVALID_EXPO_STATUS(HttpStatus.BAD_REQUEST, "E007", "승인(APPROVED) 또는 반려(REJECTED)만 선택할 수 있습니다."),
+    EXPO_ADMIN_HAS_EXPOS(HttpStatus.CONFLICT, "D008", "담당 박람회가 있는 관리자는 삭제할 수 없습니다."),
+    EXPO_ADMIN_NOT_ACTIVATED(HttpStatus.BAD_REQUEST, "D009", "승인된 박람회가 없어 아직 활성화되지 않은 계정입니다."),
 
 	// 박람회 E
 	CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "E001", "카테고리가 존재하지 않습니다"),
 	EXPO_NOT_FOUND(HttpStatus.NOT_FOUND, "E002", "박람회가 존재하지 않습니다"),
 	HANDLED_EXPO(HttpStatus.BAD_REQUEST, "E003", "이미 처리된 박람회입니다"),
 	REASON_REQUIRED(HttpStatus.BAD_REQUEST, "E004", "거절 사유가 필요합니다"),
+	EXPO_CAPACITY_EXCEEDED(HttpStatus.CONFLICT, "E005", "박람회 수용 인원이 초과되었습니다"),
 
     // 박람회 관리자 D
     INVALID_PERIOD(HttpStatus.BAD_REQUEST, "D001", "유효하지 않은 통계 기간입니다."),

@@ -45,3 +45,18 @@ eventory-client/.screen-graph.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+### 문서·미디어 (로컬 전용) ###
+CLAUDE.md
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.pdf
+시연영상/
+# 단, README 에 쓰는 화면 캡처는 저장소에 포함 (위 *.png 규칙의 예외)
+!docs/images/*.png
+
+### Claude Code 작업 디렉터리 ###
+.playwright-mcp/
+.omc/

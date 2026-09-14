@@ -8,6 +8,8 @@ import com.eventory.auth.repository.UserRepository;
 import com.eventory.auth.repository.UserTypeRepository;
 
 import com.eventory.auth.security.JwtTokenProvider;
+import com.eventory.auth.tokenStore.AccountType;
+import com.eventory.auth.tokenStore.RefreshTokenOwner;
 import com.eventory.auth.tokenStore.TokenStore;
 import com.eventory.common.entity.User;
 import com.eventory.common.entity.UserType;
@@ -96,12 +98,12 @@ public class AuthServiceImpl implements AuthService {
             throw new CustomException(CustomErrorCode.INVALID_PASSWORD);
         }
 
-        // AccessToken, RefreshToken 생성 후
-        String accessToken = jwtTokenProvider.createAccessToken(user.getUserId(), user.getUserType().getName());
+        // AccessToken, RefreshToken 생성 후 (role은 ROLE_ 접두사 포함)
+        String accessToken = jwtTokenProvider.createAccessToken(user.getUserId(), "ROLE_" + user.getUserType().getName());
         String refreshToken = UUID.randomUUID().toString();
 
         // Redis 저장 (7일)
-        tokenStore.saveRefreshToken(user.getUserId(), refreshToken, Duration.ofDays(7).toMillis());
+        tokenStore.saveRefreshToken(AccountType.USER, user.getUserId(), refreshToken, Duration.ofDays(7).toMillis());
 
         return new LoginResponse(accessToken, refreshToken);
     }
@@ -110,21 +112,21 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LoginResponse refreshAccessToken(String refreshToken) {
         // 1. 토큰 유효성 확인 : JWT 파싱 금지. UUID이므로 Redis로만 검증
-        Long userId = tokenStore.findUserIdByRefresh(refreshToken);
-        if (userId == null) {
-            throw new CustomException(CustomErrorCode.INVALID_REFRESH_TOKEN);
-        }
+        // 참관객·참가업체(USER) 토큰만 허용 — 관리자 리프레시 토큰으로 사용자 토큰을 받는 것도 차단
+        RefreshTokenOwner owner = tokenStore.findOwner(refreshToken)
+                .filter(o -> o.type() == AccountType.USER)
+                .orElseThrow(() -> new CustomException(CustomErrorCode.INVALID_REFRESH_TOKEN));
 
         // 사용자 조회로 role 확보
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(owner.id())
                 .orElseThrow(() -> new CustomException(CustomErrorCode.MEMBER_NOT_EXIST));
 
-        String newAccess = jwtTokenProvider.createAccessToken(user.getUserId(), user.getUserType().getName());
+        // 로그인과 동일하게 ROLE_ 접두사 필수 (누락 시 재발급 직후부터 모든 요청 403)
+        String newAccess = jwtTokenProvider.createAccessToken(user.getUserId(), "ROLE_" + user.getUserType().getName());
         // 회전 정책(권장): 기존 refresh 삭제 후 새로 발급
         String newRefresh = UUID.randomUUID().toString();
 
-        tokenStore.deleteByRefresh(refreshToken);
-        tokenStore.saveRefreshToken(user.getUserId(), newRefresh, Duration.ofDays(7).toMillis());
+        tokenStore.saveRefreshToken(AccountType.USER, user.getUserId(), newRefresh, Duration.ofDays(7).toMillis()); // 이전 토큰은 폐기됨
 
         return new LoginResponse(newAccess, newRefresh);
     }
@@ -154,6 +156,6 @@ public class AuthServiceImpl implements AuthService {
 
         // 5) 블랙리스트 등록 & RefreshToken 제거
         tokenStore.blacklistAccessToken(accessToken, ttl); // 해당 AccessToken 재사용 차단
-        tokenStore.deleteRefreshToken(userId); // 해당 유저의 RefreshToken 제거
+        tokenStore.deleteRefreshToken(AccountType.USER, userId); // 해당 유저의 RefreshToken 제거
     }
 }

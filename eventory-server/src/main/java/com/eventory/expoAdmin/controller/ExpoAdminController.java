@@ -8,6 +8,7 @@ import com.eventory.common.repository.ExpoRepository;
 import com.eventory.expoAdmin.dto.*;
 import com.eventory.expoAdmin.service.*;
 import com.eventory.expoAdmin.web.FileResponseUtils;
+import com.eventory.qr.dto.CheckinResult;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,6 +34,7 @@ public class ExpoAdminController {
     private final ExpoInfoService expoInfoService;
     private final BoothService boothService;
     private final ContentsAdminService contentsAdminService;
+    private final ReservationAdminService reservationAdminService;
 
     // 박람회 신청
     @PostMapping("/expos")
@@ -53,8 +55,8 @@ public class ExpoAdminController {
     public ResponseEntity<ContentsResponseDto> findExpoContents(
             @AuthenticationPrincipal CustomUserPrincipal expoAdmin,
             @PathVariable Long expoId) {
-        Long adminId = (expoAdmin != null) ? expoAdmin.getId() : null;
-        ContentsResponseDto contentsResponseDto = contentsAdminService.findExpoContents(adminId);
+        // 기존에는 관리자 id 를 박람회 id 자리에 넘겨 엉뚱한 박람회를 조회했다
+        ContentsResponseDto contentsResponseDto = contentsAdminService.findExpoContents(expoAdmin.getId(), expoId);
         return ResponseEntity.ok(contentsResponseDto);
     }
     // 누적 매출, 총 결제 건수, 총 환불 건수
@@ -114,7 +116,7 @@ public class ExpoAdminController {
 
     // 환불 요청 관리, 환불 대기 관리, 환불 승인 관리
     @GetMapping("/expos/{expoId}/refund")
-    public ResponseEntity<List<RefundResponseDto>> findAllRefunds(
+    public ResponseEntity<Page<RefundResponseDto>> findAllRefunds(
             @AuthenticationPrincipal CustomUserPrincipal expoAdmin,
             @PathVariable Long expoId,
             @RequestParam(required = false) String status,
@@ -123,15 +125,15 @@ public class ExpoAdminController {
 
         Long expoAdminId = expoAdmin.getId();
 
-        List<RefundResponseDto> refundResponseDto = salesAdminService.findAllRefunds(expoAdminId, expoId, status, page, size);
+        Page<RefundResponseDto> refundResponseDto = salesAdminService.findAllRefunds(expoAdminId, expoId, status, page, size);
 
         return ResponseEntity.ok(refundResponseDto);
     }
 
     // 환불 상태 변경
     @PatchMapping("/refund/{refundId}")
-    public ResponseEntity<Void> updateRefundStatus(@PathVariable Long refundId, @Valid @RequestBody RefundRequestDto request) {
-        salesAdminService.updateRefundStatus(refundId, request);
+    public ResponseEntity<Void> updateRefundStatus(@AuthenticationPrincipal CustomUserPrincipal expoAdmin, @PathVariable Long refundId, @Valid @RequestBody RefundRequestDto request) {
+        salesAdminService.updateRefundStatus(expoAdmin.getId(), refundId, request);
         return ResponseEntity.ok().build();
     }
 
@@ -274,5 +276,23 @@ public class ExpoAdminController {
         Long expoAdminId = expoAdmin.getId();
         ReservationListResponseDto list = expoAdminService.findReservationList(expoAdminId, expoId, requestDto);
         return ResponseEntity.ok(list);
+    }
+
+    // 예약자 수동 체크인 (QR 없이 예약자 명단에서 입장 처리)
+    @PatchMapping("/expos/{expoId}/reservations/{reservationId}/checkin")
+    public ResponseEntity<CheckinResult> checkInReservation(@AuthenticationPrincipal CustomUserPrincipal expoAdmin,
+                                                            @PathVariable Long expoId,
+                                                            @PathVariable Long reservationId) {
+        return ResponseEntity.ok(reservationAdminService.checkIn(expoAdmin.getId(), expoId, reservationId));
+    }
+
+    // 예약 취소 (전액 환불 + 환불 이력 기록)
+    @PostMapping("/expos/{expoId}/reservations/{reservationId}/cancel")
+    public ResponseEntity<Void> cancelReservation(@AuthenticationPrincipal CustomUserPrincipal expoAdmin,
+                                                  @PathVariable Long expoId,
+                                                  @PathVariable Long reservationId,
+                                                  @Valid @RequestBody ReservationCancelRequestDto requestDto) {
+        reservationAdminService.cancel(expoAdmin.getId(), expoId, reservationId, requestDto.reason());
+        return ResponseEntity.ok().build();
     }
 }

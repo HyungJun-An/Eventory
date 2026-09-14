@@ -7,7 +7,8 @@ export const SUWON_CAMP_POSTER =
 
 // (선택) 이 박람회의 실제 expoId를 알면 숫자로 넣어두면 더 정확하게 매칭됨.
 // 모르면 그대로 null 두고, 제목 매칭만 사용해도 동작합니다.
-export const SUWON_CAMP_POSTER_ID = 1;
+// 데모 데이터(demo-data.sql)는 박람회마다 포스터가 있으므로 ID 강제 매칭은 끔
+export const SUWON_CAMP_POSTER_ID = null;
 
 export const SUWON_CAMP_TITLE = "2025 수원메쎄 고카프 더 파이널 시즌";
 export const SUWON_CAMP_LOCATION = "수원메쎄 (수원역)";

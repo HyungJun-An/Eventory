@@ -62,18 +62,22 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     Optional<Reservation> findByPayment_PaymentId(Long paymentId);
 
+    // 이미 완료된 결제 조회 (결제 완료 요청이 중복으로 들어온 경우 같은 결과를 돌려주기 위함)
+    Optional<Reservation> findByPayment_PortonePaymentId(String portonePaymentId);
+
     @Query("""
     SELECT r
     FROM reservation r
     WHERE r.expo.expoId = :expoId
-      AND (:code IS NULL OR r.code = :code)
-      AND (:startDate IS NULL OR r.payment.paidAt >= :startDate)
-      AND (:endDate IS NULL OR r.payment.paidAt <= :endDate)
+      AND (:code IS NULL OR r.code LIKE CONCAT('%', :code, '%'))
+      AND (:startAt IS NULL OR r.payment.paidAt >= :startAt)
+      AND (:endAt IS NULL OR r.payment.paidAt < :endAt)
+    ORDER BY r.payment.paidAt DESC
     """)
     Page<Reservation> findByExpoIdAndReservationCode(@Param("expoId") Long expoId,
                                                      @Param("code") String code,
-                                                     @Param("startDate") LocalDate startDate,
-                                                     @Param("endDate") LocalDate endDate,
+                                                     @Param("startAt") LocalDateTime startAt,
+                                                     @Param("endAt") LocalDateTime endAt,
                                                      Pageable pageable);
 
     @Query("""
